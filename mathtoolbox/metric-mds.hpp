@@ -1,5 +1,5 @@
-#ifndef METRIC-MDS_HPP
-#define METRIC-MDS_HPP
+#ifndef METRIC_MDS_HPP
+#define METRIC_MDS_HPP
 
 #include <vector>
 #include <utility>
@@ -59,4 +59,4 @@ namespace mathtoolbox
     }
 }
 
-#endif // METRIC-MDS_HPP
+#endif // METRIC_MDS_HPP

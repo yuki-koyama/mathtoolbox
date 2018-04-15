@@ -12,7 +12,7 @@ namespace mathtoolbox
     // This function computes low-dimensional embedding by using metric multi-dimensional scaling (MDS)
     // - Input:  A distance (dissimilarity) matrix and a target dimension for embedding
     // - Output: A coordinate matrix whose i-th column corresponds to the embedded coordinates of the i-th entry
-    extern inline Eigen::MatrixXd ComputeMetricMDS(const Eigen::MatrixXd& D, unsigned dim);
+    extern inline Eigen::MatrixXd ComputeMetricMds(const Eigen::MatrixXd& D, unsigned dim);
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -43,7 +43,7 @@ namespace mathtoolbox
         }
     }
     
-    inline Eigen::MatrixXd ComputeMetricMDS(const Eigen::MatrixXd& D, unsigned dim)
+    inline Eigen::MatrixXd ComputeMetricMds(const Eigen::MatrixXd& D, unsigned dim)
     {
         assert(D.rows() == D.cols());
         assert(D.rows() >= dim);

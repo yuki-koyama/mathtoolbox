@@ -11,28 +11,28 @@ using Eigen::Map;
 
 namespace mathtoolbox
 {
-    extern VectorXd solveLinearSystem(const MatrixXd& A, const VectorXd& y);
+    extern inline VectorXd SolveLinearSystem(const MatrixXd& A, const VectorXd& y);
     
-    Interpolator::Interpolator(FunctionType functionType, const double epsilon) :
-    functionType(functionType),
+    RbfInterpolation::RbfInterpolation(RbfType rbf_type, double epsilon) :
+    rbf_type(rbf_type),
     epsilon(epsilon)
     {
     }
     
-    void Interpolator::reset()
+    void RbfInterpolation::Reset()
     {
         ys.clear();
         xs.clear();
         w.clear();
     }
     
-    void Interpolator::addCenterPoint(const double y, const vector<double>& x)
+    void RbfInterpolation::AddCenterPoint(double y, const vector<double>& x)
     {
         ys.push_back(y);
         xs.push_back(x);
     }
     
-    void Interpolator::computeWeights(const bool useRegularization, const double lambda)
+    void RbfInterpolation::ComputeWeights(bool use_regularization, double lambda)
     {
         assert(ys.size() == xs.size());
         
@@ -45,13 +45,13 @@ namespace mathtoolbox
         {
             for (int j = 0; j < dim; ++ j)
             {
-                O(i, j) = getRbfValue(xs[i], xs[j]);
+                O(i, j) = GetRbfValue(xs[i], xs[j]);
             }
         }
         
         MatrixXd A;
         VectorXd b;
-        if (useRegularization)
+        if (use_regularization)
         {
             MatrixXd O2 = MatrixXd::Zero(dim * 2, dim);
             for (int i = 0; i < dim; ++ i)
@@ -82,7 +82,7 @@ namespace mathtoolbox
             b = y;
         }
         
-        const VectorXd x = solveLinearSystem(A, b);
+        const VectorXd x = SolveLinearSystem(A, b);
         assert(x.rows() == dim);
         
         w.resize(dim);
@@ -92,7 +92,7 @@ namespace mathtoolbox
         }
     }
     
-    double Interpolator::getInterpolatedValue(const vector<double>& x) const
+    double RbfInterpolation::GetValue(const vector<double>& x) const
     {
         assert(w.size() == xs.size());
         
@@ -101,50 +101,51 @@ namespace mathtoolbox
         double result = 0.0;
         for (int i = 0; i < dim; ++ i)
         {
-            result += w[i] * getRbfValue(x, xs[i]);
+            result += w[i] * GetRbfValue(x, xs[i]);
         }
         
         return result;
     }
     
-    double Interpolator::getRbfValue(const double r) const
+    double RbfInterpolation::GetRbfValue(double r) const
     {
-        double result;
-        switch (functionType)
+        switch (rbf_type)
         {
-            case FunctionType::Gaussian:
-                result = exp(- pow((epsilon * r), 2.0));
-                break;
-            case FunctionType::ThinPlateSpline:
-                result = r * r * log(r);
+            case RbfType::Gaussian:
+            {
+                return std::exp(- std::pow((epsilon * r), 2.0));
+            }
+            case RbfType::ThinPlateSpline:
+            {
+                const double result = r * r * std::log(r);
                 if (isnan(result))
                 {
-                    result = 0.0;
+                    return 0.0;
                 }
-                break;
-            case FunctionType::InverseQuadratic:
-                result = 1.0 / (1.0 + pow((epsilon * r), 2.0));
-                break;
-            case FunctionType::BiharmonicSpline:
-                result = r;
-                break;
-            default:
-                break;
+                return result;
+            }
+            case RbfType::InverseQuadratic:
+            {
+                return 1.0 / (1.0 + std::pow((epsilon * r), 2.0));
+            }
+            case RbfType::BiharmonicSpline:
+            {
+                return r;
+            }
         }
-        return result;
     }
     
-    double Interpolator::getRbfValue(const vector<double>& xi, const vector<double>& xj) const
+    double RbfInterpolation::GetRbfValue(const vector<double>& xi, const vector<double>& xj) const
     {
-        assert (xi.size() == xj.size());
+        assert(xi.size() == xj.size());
         
         const VectorXd xiVec = Map<const VectorXd>(&xi[0], xi.size());
         const VectorXd xjVec = Map<const VectorXd>(&xj[0], xj.size());
         
-        return getRbfValue((xjVec - xiVec).norm());
+        return GetRbfValue((xjVec - xiVec).norm());
     }
     
-    VectorXd solveLinearSystem(const MatrixXd& A, const VectorXd& y)
+    inline VectorXd SolveLinearSystem(const MatrixXd& A, const VectorXd& y)
     {
         FullPivLU<MatrixXd> lu(A);
         return lu.solve(y);

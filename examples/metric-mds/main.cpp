@@ -23,11 +23,14 @@ int main()
     
     // Generate a distance matrix
     MatrixXd D(10, 10);
-    for (unsigned i = 0; i < 10; ++ i) for (unsigned j = i; j < 10; ++ j)
+    for (unsigned i = 0; i < 10; ++ i)
     {
-        const double d = (points[i] - points[j]).squaredNorm();
-        D(i, j) = d;
-        D(j, i) = d;
+        for (unsigned j = i; j < 10; ++ j)
+        {
+            const double d = (points[i] - points[j]).norm();
+            D(i, j) = d;
+            D(j, i) = d;
+        }
     }
     
     // Compute metric MDS (embedding into a 2-dimensional space)

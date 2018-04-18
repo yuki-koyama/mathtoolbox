@@ -18,5 +18,6 @@ install(TARGETS mathtoolbox ARCHIVE DESTINATION lib)
 option(MATHTOOLBOX_BUILD_EXAMPLES "Build example applications" OFF)
 
 if(MATHTOOLBOX_BUILD_EXAMPLES)
+	include_directories(${CMAKE_SOURCE_DIR})
 	add_subdirectory(examples)
 endif()

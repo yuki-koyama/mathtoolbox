@@ -1,2 +1,6 @@
 theme: jekyll-theme-cayman
-extensions: ["no_intra_emphasis", "autolink"]
+markdown: redcarpet
+redcarpet:
+  extensions: ["no_intra_emphasis", "autolink"]
+kramdown:
+  input: GFM

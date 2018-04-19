@@ -8,7 +8,7 @@ A library of mathematical tools (regression, interpolation, dimensionality reduc
 - [`rbf-interpolation`: Radial basis function (RBF) network for interpolation](https://yuki-koyama.github.io/mathtoolbox/docs/rbf-interpolation)
 
 ### Dimensionality Reduction and Low-Dimensional Embedding
-- [`metric-mds`: Metric multi-dimensional scaling (MDS)](https://yuki-koyama.github.io/mathtoolbox/docs/metric-mds)
+- [`classical-mds`: Classical multi-dimensional scaling (MDS)](https://yuki-koyama.github.io/mathtoolbox/docs/classical-mds)
 
 ## Dependency
 

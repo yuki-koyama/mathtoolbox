@@ -1,6 +1,6 @@
-# metric-mds
+# classical-mds
 
-Metric multi-dimensional scaling (MDS).
+Classical multi-dimensional scaling (MDS).
 
 ## Useful Resources
 

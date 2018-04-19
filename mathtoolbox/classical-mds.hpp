@@ -1,5 +1,5 @@
-#ifndef METRIC_MDS_HPP
-#define METRIC_MDS_HPP
+#ifndef CLASSICAL_MDS_HPP
+#define CLASSICAL_MDS_HPP
 
 #include <vector>
 #include <utility>
@@ -9,10 +9,10 @@
 
 namespace mathtoolbox
 {
-    // This function computes low-dimensional embedding by using metric multi-dimensional scaling (MDS)
+    // This function computes low-dimensional embedding by using classical multi-dimensional scaling (MDS)
     // - Input:  A distance (dissimilarity) matrix and a target dimension for embedding
     // - Output: A coordinate matrix whose i-th column corresponds to the embedded coordinates of the i-th entry
-    extern inline Eigen::MatrixXd ComputeMetricMds(const Eigen::MatrixXd& D, unsigned dim);
+    extern inline Eigen::MatrixXd ComputeClassicalMds(const Eigen::MatrixXd& D, unsigned dim);
     
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
@@ -43,7 +43,7 @@ namespace mathtoolbox
         }
     }
     
-    inline Eigen::MatrixXd ComputeMetricMds(const Eigen::MatrixXd& D, unsigned dim)
+    inline Eigen::MatrixXd ComputeClassicalMds(const Eigen::MatrixXd& D, unsigned dim)
     {
         assert(D.rows() == D.cols());
         assert(D.rows() >= dim);
@@ -59,4 +59,4 @@ namespace mathtoolbox
     }
 }
 
-#endif // METRIC_MDS_HPP
+#endif // CLASSICAL_MDS_HPP

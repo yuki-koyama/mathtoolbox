@@ -1,1 +1,1 @@
-add_subdirectory(metric-mds)
+add_subdirectory(classical-mds)

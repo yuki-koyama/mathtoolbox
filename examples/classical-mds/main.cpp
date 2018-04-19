@@ -1,7 +1,7 @@
 #include <vector>
 #include <iostream>
 #include <Eigen/Core>
-#include <mathtoolbox/metric-mds.hpp>
+#include <mathtoolbox/classical-mds.hpp>
 
 using Eigen::VectorXd;
 using Eigen::MatrixXd;
@@ -34,7 +34,7 @@ int main()
     }
     
     // Compute metric MDS (embedding into a 2-dimensional space)
-    const MatrixXd X = mathtoolbox::ComputeMetricMds(D, 2);
+    const MatrixXd X = mathtoolbox::ComputeClassicalMds(D, 2);
     
     // Show the result
     std::cout << X << std::endl;

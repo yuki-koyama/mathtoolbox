@@ -22,7 +22,7 @@ $$
 \mathbf{X} = \begin{bmatrix} \mathbf{x}_1 & \cdots & \mathbf{x}_n \end{bmatrix}.
 $$
 
-If the elements are originally defined in a $$ m' $$-dimensional space ($$ m < m' $$) and Euclidian distance is used for calculating the distance matrix, then this is considered dimensionality reduction (or low-dimensional embedding).
+If the elements are originally defined in an $$ m' $$-dimensional space ($$ m < m' $$) and Euclidian distance is used for calculating the distance matrix, then this is considered dimensionality reduction (or low-dimensional embedding).
 
 ## Useful Resources
 

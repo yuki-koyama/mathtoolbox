@@ -5,7 +5,7 @@ A library of mathematical tools (regression, interpolation, dimensionality reduc
 ## Algorithms
 
 ### Scattered Data Interpolation and Approximation
-- [`rbf-interpolation`: Radial basis function (RBF) network for interpolation](https://yuki-koyama.github.io/mathtoolbox/docs/rbf-interpolation)
+- [`rbf-interpolation`: Radial basis function (RBF) network](https://yuki-koyama.github.io/mathtoolbox/docs/rbf-interpolation)
 
 ### Dimensionality Reduction and Low-Dimensional Embedding
 - [`classical-mds`: Classical multi-dimensional scaling (MDS)](https://yuki-koyama.github.io/mathtoolbox/docs/classical-mds)

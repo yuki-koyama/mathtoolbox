@@ -2,6 +2,12 @@
 
 Classical multi-dimensional scaling (MDS) for dimensionality reduction and low-dimensional embedding.
 
+## Header
+
+```
+#include <mathtoolbox/classical-mds.hpp>
+```
+
 ## Math
 
 Given a distance (or dissimilarity) matrix of $$ n $$ elements

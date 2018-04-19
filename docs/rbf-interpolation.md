@@ -2,6 +2,12 @@
 
 Radial basis function (RBF) network for scattered data interpolation and approximation.
 
+## Header
+
+```
+#include <mathtoolbox/rbf-interpolation.hpp>
+```
+
 ## Math
 
 Given input data:

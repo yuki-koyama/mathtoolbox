@@ -1,6 +1,22 @@
 # rbf-interpolation
 
-Radial basis function (RBF) network for interpolation.
+Radial basis function (RBF) network for scattered data interpolation and approximation.
+
+## Math
+
+Given input data:
+
+$$
+\{ (\mathbf{x}_i, y_i) \}_{i = 1, \ldots, N},
+$$
+
+this technique calculates an interpolated value $$ y $$ for a specified point $$ \mathbf{x} $$ by
+
+$$
+y = f(\mathbf{x}) = \sum_{i = 1}^{N} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} \|),
+$$
+
+where $$ \phi(\cdot) $$ is an RBF and $$ w_1, \cdots, w_N $$ are weights.
 
 ## Useful Resources
 

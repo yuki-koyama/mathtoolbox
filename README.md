@@ -14,6 +14,28 @@ A library of mathematical tools (regression, interpolation, dimensionality reduc
 
 - Eigen <http://eigen.tuxfamily.org/>
 
+## Build and Installation
+
+mathtoolbox uses CMake <https://cmake.org/> for building source codes. This library can be built, for example, by
+```
+git clone https://github.com/yuki-koyama/mathtoolbox.git
+cd mathtoolbox
+mkdir build
+cd build
+cmake ../
+make
+```
+and optionally it can be installed to the system by
+```
+make install
+```
+
+When the CMake parameter `MATHTOOLBOX_BUILD_EXAMPLES` is set `ON`, the example applications are also built. (The default setting is `OFF`.) This is done by, for example,
+```
+cmake ../ -DMATHTOOLBOX_BUILD_EXAMPLES=ON
+make
+```
+
 ## Licensing
 
 The MIT License.

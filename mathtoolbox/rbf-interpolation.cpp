@@ -1,6 +1,5 @@
 #include "rbf-interpolation.hpp"
 #include <cmath>
-#include <Eigen/Core>
 #include <Eigen/LU>
 
 using std::vector;
@@ -19,33 +18,24 @@ namespace mathtoolbox
     {
     }
     
-    void RbfInterpolation::Reset()
+    void RbfInterpolation::SetData(const Eigen::MatrixXd& X, const Eigen::VectorXd& y)
     {
-        ys.clear();
-        xs.clear();
-        w.clear();
-    }
-    
-    void RbfInterpolation::AddCenterPoint(double y, const vector<double>& x)
-    {
-        ys.push_back(y);
-        xs.push_back(x);
+        assert(y.rows() == X.cols());
+        this->X = X;
+        this->y = y;
     }
     
     void RbfInterpolation::ComputeWeights(bool use_regularization, double lambda)
     {
-        assert(ys.size() == xs.size());
-        
-        const int dim = ys.size();
+        const int dim = y.rows();
         
         MatrixXd O = MatrixXd::Zero(dim, dim);
-        VectorXd y = Map<VectorXd>(&ys[0], dim);
         
         for (int i = 0; i < dim; ++ i)
         {
             for (int j = 0; j < dim; ++ j)
             {
-                O(i, j) = GetRbfValue(xs[i], xs[j]);
+                O(i, j) = GetRbfValue(X.col(i), X.col(j));
             }
         }
         
@@ -54,13 +44,7 @@ namespace mathtoolbox
         if (use_regularization)
         {
             MatrixXd O2 = MatrixXd::Zero(dim * 2, dim);
-            for (int i = 0; i < dim; ++ i)
-            {
-                for (int j = 0; j < dim; ++ j)
-                {
-                    O2(i, j) = O(i, j);
-                }
-            }
+            O2.block(0, 0, dim, dim) = O;
             const double coef = 0.5 * lambda;
             for (int i = 0; i < dim; ++ i)
             {
@@ -68,11 +52,8 @@ namespace mathtoolbox
             }
             
             VectorXd y2 = VectorXd::Zero(dim * 2);
-            for (int i = 0; i < dim; ++ i)
-            {
-                y2(i) = y(i);
-            }
-            
+            y2.segment(0, dim) = y;
+
             A = O2.transpose() * O2;
             b = O2.transpose() * y2;
         }
@@ -82,26 +63,17 @@ namespace mathtoolbox
             b = y;
         }
         
-        const VectorXd x = SolveLinearSystem(A, b);
-        assert(x.rows() == dim);
-        
-        w.resize(dim);
-        for (int i = 0; i < dim; ++ i)
-        {
-            w[i] = x(i);
-        }
+        w = SolveLinearSystem(A, b);
     }
     
-    double RbfInterpolation::GetValue(const vector<double>& x) const
+    double RbfInterpolation::GetValue(const VectorXd& x) const
     {
-        assert(w.size() == xs.size());
-        
-        const int dim = w.size();
+        const int dim = w.rows();
         
         double result = 0.0;
         for (int i = 0; i < dim; ++ i)
         {
-            result += w[i] * GetRbfValue(x, xs[i]);
+            result += w(i) * GetRbfValue(x, X.col(i));
         }
         
         return result;
@@ -135,14 +107,10 @@ namespace mathtoolbox
         }
     }
     
-    double RbfInterpolation::GetRbfValue(const vector<double>& xi, const vector<double>& xj) const
+    double RbfInterpolation::GetRbfValue(const VectorXd& xi, const VectorXd& xj) const
     {
-        assert(xi.size() == xj.size());
-        
-        const VectorXd xiVec = Map<const VectorXd>(&xi[0], xi.size());
-        const VectorXd xjVec = Map<const VectorXd>(&xj[0], xj.size());
-        
-        return GetRbfValue((xjVec - xiVec).norm());
+        assert(xi.rows() == xj.rows());
+        return GetRbfValue((xj - xi).norm());
     }
     
     inline VectorXd SolveLinearSystem(const MatrixXd& A, const VectorXd& y)

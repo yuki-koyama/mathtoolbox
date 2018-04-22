@@ -2,6 +2,7 @@
 #define RBF_INTERPOLATION_HPP
 
 #include <vector>
+#include <Eigen/Core>
 
 namespace mathtoolbox
 {
@@ -19,15 +20,14 @@ namespace mathtoolbox
         RbfInterpolation(RbfType rbf_type = RbfType::BiharmonicSpline, double epsilon = 2.0);
         
         // API
-        void   Reset();
-        void   AddCenterPoint(double y, const std::vector<double>& x);
+        void   SetData(const Eigen::MatrixXd& X, const Eigen::VectorXd& y);
         void   ComputeWeights(bool use_regularization = false, double lambda = 0.1);
-        double GetValue(const std::vector<double>& x) const;
+        double GetValue(const Eigen::VectorXd& x) const;
         
         // Getter methods
-        const std::vector<double>&              GetYs() const { return ys; }
-        const std::vector<std::vector<double>>& GetXs() const { return xs; }
-        const std::vector<double>&              GetW()  const { return w;  }
+        const Eigen::VectorXd& GetY() const { return y; }
+        const Eigen::MatrixXd& GetX() const { return X; }
+        const Eigen::VectorXd& GetW() const { return w; }
         
     private:
         
@@ -38,17 +38,17 @@ namespace mathtoolbox
         double epsilon;
         
         // Data points
-        std::vector<double>              ys;
-        std::vector<std::vector<double>> xs;
+        Eigen::MatrixXd X;
+        Eigen::VectorXd y;
         
         // Weights
-        std::vector<double>              w;
+        Eigen::VectorXd w;
         
         // Returns f(r)
         double GetRbfValue(double r) const;
         
         // Returns f(||xj - xi||)
-        double GetRbfValue(const std::vector<double>& xi, const std::vector<double>& xj) const;
+        double GetRbfValue(const Eigen::VectorXd& xi, const Eigen::VectorXd& xj) const;
     };
 }
 

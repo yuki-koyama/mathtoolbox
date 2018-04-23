@@ -60,7 +60,7 @@ $$
 LU decomposition can be used for solving this problem.
 
 ## Usage
-s
+
 First, instantiate the class `RbfInterpolation`. 
 
 Then, set the target scattered data by the method

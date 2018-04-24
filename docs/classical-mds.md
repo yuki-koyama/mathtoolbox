@@ -10,19 +10,28 @@ Classical multi-dimensional scaling (MDS) for dimensionality reduction and low-d
 
 ## Math
 
+### Overview
+
 Given a distance (or dissimilarity) matrix of $$ n $$ elements
 
 $$
-\mathbf{D} \in \mathbb{R}^{n \times n},
+\mathbf{D} \in \mathbb{R}^{n \times n}
 $$
 
-this technique calculates a set of $$ m $$-dimensional coordinates for them:
+and a target dimensionality $$ m $$, this technique calculates a set of $$ m $$-dimensional coordinates for them:
 
 $$
 \mathbf{X} = \begin{bmatrix} \mathbf{x}_1 & \cdots & \mathbf{x}_n \end{bmatrix}.
 $$
 
 If the elements are originally defined in an $$ m' $$-dimensional space ($$ m < m' $$) and Euclidian distance is used for calculating the distance matrix, then this is considered dimensionality reduction (or low-dimensional embedding).
+
+### Usage
+This technique can be calculated by the following function:
+```
+Eigen::MatrixXd ComputeClassicalMds(const Eigen::MatrixXd& D, unsigned dim);
+```
+where `dim` is the target dimensionality for embedding.
 
 ## Useful Resources
 

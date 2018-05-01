@@ -59,6 +59,29 @@ $$
 
 LU decomposition can be used for solving this problem.
 
+## Pre-Computation with Regularization
+
+The original formulation above is not robust (i.e., overfitting can occur) when the data points are dense and noisy. For such scenarios, it is possible to add a *regularization* term into pre-computation. That is, the following minimization problem is solved:
+
+$$
+\min_{\mathbf{w}} \left\{ \| \mathbf{\Phi} \mathbf{w} - \mathbf{y} \|^2 + \lambda \| \mathbf{w} \|^2 \right\}.
+$$
+
+The derivative of this objective function with respect to $$ \mathbf{w} $$ is
+
+$$
+& \frac{\partial}{\partial \mathbf{w}} \left\{ \| \mathbf{\Phi} \mathbf{w} - \mathbf{y} \|^2 + \lambda \| \mathbf{w} \|^2 \right\} \\
+&= \frac{\partial}{\partial \mathbf{w}} \| \mathbf{\Phi} \mathbf{w} - \mathbf{y} \|^2 + \lambda \frac{\partial}{\partial \mathbf{w}} \| \mathbf{w} \|^2 \\
+&= 2 \mathbf{\Phi}^T (\mathbf{\Phi} \mathbf{w} - \mathbf{y}) + 2 \lambda \mathbf{w} \\
+&= 2 \left\{ (\mathbf{\Phi}^T \mathbf{\Phi} + \lambda \mathbf{I}) \mathbf{w} - \mathbf{\Phi}^T \mathbf{y} \right\}.
+$$
+
+Thus, the solution of the above minimization problem can be obtained by solving the below linear system:
+
+$$
+(\mathbf{\Phi}^T \mathbf{\Phi} + \lambda \mathbf{I}) \mathbf{w} = \mathbf{\Phi}^T \mathbf{y}.
+$$
+
 ## Usage
 
 First, instantiate the class `RbfInterpolation`. 

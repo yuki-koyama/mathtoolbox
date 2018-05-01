@@ -54,7 +54,7 @@ $$
 The following linear system is solved for $$ \mathbf{w} $$:
 
 $$
-\mathbf{y} = \mathbf{\Phi} \mathbf{w}.
+\mathbf{\Phi} \mathbf{w} = \mathbf{y}.
 $$
 
 LU decomposition can be used for solving this problem.

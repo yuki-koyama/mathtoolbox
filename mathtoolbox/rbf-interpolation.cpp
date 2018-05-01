@@ -29,39 +29,17 @@ namespace mathtoolbox
     {
         const int dim = y.rows();
         
-        MatrixXd O = MatrixXd::Zero(dim, dim);
-        
+        MatrixXd Phi = MatrixXd::Zero(dim, dim);
         for (int i = 0; i < dim; ++ i)
         {
-            for (int j = 0; j < dim; ++ j)
+            for (int j = i; j < dim; ++ j)
             {
-                O(i, j) = GetRbfValue(X.col(i), X.col(j));
+                Phi(i, j) = Phi(j, i) = GetRbfValue(X.col(i), X.col(j));
             }
         }
         
-        MatrixXd A;
-        VectorXd b;
-        if (use_regularization)
-        {
-            MatrixXd O2 = MatrixXd::Zero(dim * 2, dim);
-            O2.block(0, 0, dim, dim) = O;
-            const double coef = 0.5 * lambda;
-            for (int i = 0; i < dim; ++ i)
-            {
-                O2(i + dim, i) = coef;
-            }
-            
-            VectorXd y2 = VectorXd::Zero(dim * 2);
-            y2.segment(0, dim) = y;
-
-            A = O2.transpose() * O2;
-            b = O2.transpose() * y2;
-        }
-        else
-        {
-            A = O;
-            b = y;
-        }
+        const MatrixXd A = use_regularization ? Phi.transpose() * Phi + lambda * MatrixXd::Identity(dim, dim) : Phi;
+        const VectorXd b = use_regularization ? Phi.transpose() * y : y;
         
         w = SolveLinearSystem(A, b);
     }

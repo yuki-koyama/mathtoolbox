@@ -51,7 +51,7 @@ $$
 Finally, pick up the $$ m $$-largest eigenvalues $$ \mathbf{\Lambda}_m $$ and corresponding eigenvectors $$ \mathbf{V}_m $$, and calculate $$ \mathbf{X} $$ by
 
 $$
-\mathbf{X} = \mathbf{V} \mathbf{\Lambda}^\frac{1}{2}.
+\mathbf{X} = \mathbf{V}_m \mathbf{\Lambda}_m^\frac{1}{2}.
 $$
 
 ### Usage

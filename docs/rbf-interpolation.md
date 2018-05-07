@@ -86,7 +86,13 @@ $$
 
 ## Usage
 
-First, instantiate the class `RbfInterpolation`. 
+First, instantiate the class `RbfInterpolation`. Via the constructor, an RBF can be specified from the following options:
+- `Gaussian`
+- `ThinPlateSpline`
+- `InverseQuadratic`
+- `BiharmonicSpline`
+
+By default, `BiharmonicSpline` (i.e., $$ \phi(x) = \| x \| $$) is chosen.
 
 Then, set the target scattered data by the method
 ```
@@ -116,14 +122,6 @@ Once the above procedures are performed, the instance is ready to calculate inte
 ```
 double GetValue(const Eigen::VectorXd& x) const;
 ```
-
-### Notes
-
-For the RBF,
-$$
-\phi(x) = \| x \|
-$$
-is used by default.
 
 ## Useful Resources
 

@@ -100,7 +100,7 @@ First, instantiate the class `RbfInterpolation`. Via the constructor, an RBF can
 - `InverseQuadratic`
 - `BiharmonicSpline`
 
-By default, `BiharmonicSpline` (i.e., $$ \phi(x) = \| x \| $$) is chosen.
+By default, `ThinPlateSpline` (i.e., $$ \phi(x) = x^2 \log(x) $$) is chosen.
 
 Then, set the target scattered data by the method
 ```
@@ -122,7 +122,7 @@ represents their values.
 
 Next, calculate the weight values by the method:
 ```
-void ComputeWeights(bool use_regularization = false, double lambda = 0.1);
+void ComputeWeights(bool use_regularization = false, double lambda = 0.001);
 ```
 When `use_regularization` is set `true`, the weights are calculated in the manner of scattered data approximation, rather than scattered data interpolation. When the data is noisy, approximation is usually a better choice.
 

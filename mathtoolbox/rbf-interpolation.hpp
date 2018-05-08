@@ -17,11 +17,11 @@ namespace mathtoolbox
     class RbfInterpolation
     {
     public:
-        RbfInterpolation(RbfType rbf_type = RbfType::BiharmonicSpline, double epsilon = 2.0);
+        RbfInterpolation(RbfType rbf_type = RbfType::ThinPlateSpline, double epsilon = 2.0);
         
         // API
         void   SetData(const Eigen::MatrixXd& X, const Eigen::VectorXd& y);
-        void   ComputeWeights(bool use_regularization = false, double lambda = 0.1);
+        void   ComputeWeights(bool use_regularization = false, double lambda = 0.001);
         double GetValue(const Eigen::VectorXd& x) const;
         
         // Getter methods

@@ -2,6 +2,8 @@
 
 A library of mathematical tools (regression, interpolation, dimensionality reduction, clustering, etc.) written in C++11. Eigen <http://eigen.tuxfamily.org/> is used for the interface and internal vector/matrix representation.
 
+![](docs/header.png)
+
 ## Algorithms
 
 ### Scattered Data Interpolation and Approximation

@@ -26,6 +26,8 @@ $$
 
 where $$ \phi(\cdot) $$ is a user-selected RBF and $$ w_1, \cdots, w_n $$ are weights that are calculated in pre-computation.
 
+![](rbf-interpolation/simple-interpolation.png)
+
 ### Pre-Computation
 
 The weight values need to be calculated in pre-computation. Let 
@@ -61,7 +63,11 @@ LU decomposition can be used for solving this problem.
 
 ## Pre-Computation with Regularization
 
-The original formulation above is not robust (i.e., overfitting can occur) when the data points are dense and noisy. For such scenarios, it is possible to add a *regularization* term into pre-computation. That is, the following minimization problem is solved:
+The original formulation above is not robust (i.e., overfitting can occur) when the data points are dense and noisy.
+
+![](rbf-interpolation/without-regularization.png)
+
+For such scenarios, it is possible to add a *regularization* term into pre-computation. That is, the following minimization problem is solved:
 
 $$
 \min_{\mathbf{w}} \left\{ \| \mathbf{\Phi} \mathbf{w} - \mathbf{y} \|^2 + \lambda \| \mathbf{w} \|^2 \right\}.
@@ -83,6 +89,8 @@ Thus, the solution of the above minimization problem can be obtained by solving 
 $$
 (\mathbf{\Phi}^T \mathbf{\Phi} + \lambda \mathbf{I}) \mathbf{w} = \mathbf{\Phi}^T \mathbf{y}.
 $$
+
+![](rbf-interpolation/with-regularization.png)
 
 ## Usage
 

@@ -61,7 +61,7 @@ $$
 
 LU decomposition can be used for solving this problem.
 
-## Pre-Computation with Regularization
+### Pre-Computation with Regularization
 
 The original formulation above is not robust (i.e., overfitting can occur) when the data points are dense and noisy.
 

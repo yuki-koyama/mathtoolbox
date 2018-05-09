@@ -1,6 +1,6 @@
 # rbf-interpolation
 
-Radial basis function (RBF) network for scattered data interpolation and approximation.
+Radial basis function (RBF) network for scattered data interpolation and function approximation.
 
 ## Header
 

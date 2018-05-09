@@ -11,7 +11,7 @@ namespace mathtoolbox
         Gaussian,         // f(r) = exp(-(epsilon * r)^2)
         ThinPlateSpline,  // f(r) = (r^2) * log(r)
         InverseQuadratic, // f(r) = (1 + (epsilon * r)^2)^(-1)
-        BiharmonicSpline, // f(r) = r
+        Linear,           // f(r) = r
     };
     
     class RbfInterpolation

@@ -78,7 +78,7 @@ namespace mathtoolbox
             {
                 return 1.0 / (1.0 + std::pow((epsilon * r), 2.0));
             }
-            case RbfType::BiharmonicSpline:
+            case RbfType::Linear:
             {
                 return r;
             }

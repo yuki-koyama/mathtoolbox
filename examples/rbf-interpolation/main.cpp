@@ -32,10 +32,10 @@ int main()
         X.col(i) = Vector2d(uniform_dist(engine), uniform_dist(engine));
         y(i)     = CalculateFunction(X.col(i)) + noise_intensity * uniform_dist(engine);
     }
-
+    
     // Instantiate the interpolation object
-    mathtoolbox::RbfInterpolation rbf_interpolation(mathtoolbox::RbfType::BiharmonicSpline);
-   
+    mathtoolbox::RbfInterpolation rbf_interpolation;
+    
     // Set data
     rbf_interpolation.SetData(X, y);
     

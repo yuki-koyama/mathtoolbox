@@ -98,7 +98,7 @@ First, instantiate the class `RbfInterpolation`. Via the constructor, an RBF can
 - `Gaussian`
 - `ThinPlateSpline`
 - `InverseQuadratic`
-- `BiharmonicSpline`
+- `Linear`
 
 By default, `ThinPlateSpline` (i.e., $$ \phi(x) = x^2 \log(x) $$) is chosen.
 

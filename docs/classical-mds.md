@@ -1,6 +1,6 @@
 # classical-mds
 
-Classical multi-dimensional scaling (MDS) for dimensionality reduction and low-dimensional embedding.
+Classical multi-dimensional scaling (MDS) for dimensionality reduction and low-dimensional embedding. This is also useful for visualizing the similarities of individual items in a 2-dimensional scattered plot.
 
 ## Header
 

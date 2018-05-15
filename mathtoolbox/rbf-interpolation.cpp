@@ -68,7 +68,7 @@ namespace mathtoolbox
             case RbfType::ThinPlateSpline:
             {
                 const double result = r * r * std::log(r);
-                if (isnan(result))
+                if (std::isnan(result))
                 {
                     return 0.0;
                 }

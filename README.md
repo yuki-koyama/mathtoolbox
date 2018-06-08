@@ -38,6 +38,10 @@ cmake ../ -DMATHTOOLBOX_BUILD_EXAMPLES=ON
 make
 ```
 
+## Projects Using mathtoolbox
+
+- SelPh <https://github.com/yuki-koyama/selph> (for `classical-mds`)
+
 ## Licensing
 
 The MIT License.

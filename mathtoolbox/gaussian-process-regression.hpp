@@ -27,6 +27,11 @@ namespace mathtoolbox
         // Derivative data
         Eigen::MatrixXd K;
         Eigen::MatrixXd K_inv;
+        
+        // Hyperparameters
+        double          s_f_squared;
+        double          s_n_squared;
+        Eigen::VectorXd l;
     };
 }
 

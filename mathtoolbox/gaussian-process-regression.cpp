@@ -67,7 +67,7 @@ namespace mathtoolbox
         const int D = X.rows();
         
         s_f_squared = 0.100;
-        s_n_squared = 0.010;
+        s_n_squared = 0.000;
         l           = VectorXd::Constant(D, 0.10);
         
         K     = CalculateLargeK(X, s_f_squared, s_n_squared, l);

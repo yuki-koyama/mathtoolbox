@@ -22,7 +22,7 @@ namespace
         return s_f_squared * std::exp(- 0.5 * sum);
     }
     
-    VectorXd CalculateLargeK(const MatrixXd& X, const double s_f_squared, const double s_n_squared, const VectorXd& l)
+    MatrixXd CalculateLargeK(const MatrixXd& X, const double s_f_squared, const double s_n_squared, const VectorXd& l)
     {
         const int      N = X.cols();
         const MatrixXd K = [&]()

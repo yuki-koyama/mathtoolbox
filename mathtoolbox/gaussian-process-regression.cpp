@@ -66,12 +66,22 @@ namespace mathtoolbox
     {
         const int D = X.rows();
         
-        s_f_squared = 0.100;
-        s_n_squared = 0.000;
-        l           = VectorXd::Constant(D, 0.10);
+        SetHyperparameters(0.10, 1e-05, VectorXd::Constant(D, 0.10));
         
         K     = CalculateLargeK(X, s_f_squared, s_n_squared, l);
         K_inv = K.inverse();
+    }
+    
+    void GaussianProcessRegression::SetHyperparameters(double s_f_squared, double s_n_squared, const Eigen::VectorXd& l)
+    {
+        this->s_f_squared = s_f_squared;
+        this->s_n_squared = s_n_squared;
+        this->l           = l;
+    }
+    
+    void GaussianProcessRegression::PerformMaximumLikelihood(double s_f_squared, double s_n_squared, const Eigen::VectorXd& l)
+    {
+        // TODO
     }
 
     double GaussianProcessRegression::EstimateY(const VectorXd& x) const

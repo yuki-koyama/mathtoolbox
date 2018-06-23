@@ -14,6 +14,9 @@ namespace mathtoolbox
         double EstimateY(const Eigen::VectorXd& x) const;
         double EstimateS(const Eigen::VectorXd& x) const;
         
+        void SetHyperparameters(double s_f_squared, double s_n_squared, const Eigen::VectorXd& l);
+        void PerformMaximumLikelihood(double s_f_squared, double s_n_squared, const Eigen::VectorXd& l);
+
         // Getter methods
         const Eigen::MatrixXd& GetX() const { return X; }
         const Eigen::VectorXd& GetY() const { return y; }

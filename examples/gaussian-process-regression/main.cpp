@@ -25,10 +25,10 @@ int main(int argc, char** argv)
 {
     // Set a output directory path
     const std::string output_directory_path(argv[1]);
-
+    
     // Generate (and export) scattered data
-    constexpr int    number_of_samples = 6;
-    constexpr double noise_intensity   = 0.0;
+    constexpr int    number_of_samples = 8;
+    constexpr double noise_intensity   = 0.10;
     std::ofstream scattered_data_stream(output_directory_path + "/scattered_data.csv");
     scattered_data_stream << "x,y" << std::endl;
     Eigen::MatrixXd X(1, number_of_samples);
@@ -41,19 +41,21 @@ int main(int argc, char** argv)
         scattered_data_stream << X(0, i) << "," << y(i) << std::endl;
     }
     scattered_data_stream.close();
-   
+    
     // Instantiate the interpolation object
     mathtoolbox::GaussianProcessRegression regressor(X, y);
+    regressor.PerformMaximumLikelihood(0.10, 0.01, Eigen::VectorXd::Constant(1, 0.10));
     
     // Calculate (and export) estimated values
     std::ofstream estimatedd_data_stream(output_directory_path + "/estimated_data.csv");
     estimatedd_data_stream << "x,y,s" << std::endl;
-    for (int i = 0; i <= 100; ++ i)
+    constexpr int resolution = 300;
+    for (int i = 0; i <= resolution; ++ i)
     {
-        const double x = (1.0 / 100.0) * i;
+        const double x = (1.0 / static_cast<double>(resolution)) * i;
         const double y = regressor.EstimateY(Eigen::VectorXd::Constant(1, x));
         const double s = regressor.EstimateS(Eigen::VectorXd::Constant(1, x));
-
+        
         estimatedd_data_stream << x << "," << y << "," << s << std::endl;
     }
     estimatedd_data_stream.close();

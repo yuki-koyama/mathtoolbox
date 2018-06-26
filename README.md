@@ -13,9 +13,11 @@ A library of mathematical tools (regression, interpolation, dimensionality reduc
 ### Dimensionality Reduction and Low-Dimensional Embedding
 - [`classical-mds`: Classical multi-dimensional scaling (MDS)](https://yuki-koyama.github.io/mathtoolbox/docs/classical-mds)
 
-## Dependency
+## Dependencies
 
 - Eigen <http://eigen.tuxfamily.org/>
+- NLopt <https://nlopt.readthedocs.io/> (included as gitsubmodule)
+- nlopt-util <https://github.com/yuki-koyama/nlopt-util> (included as gitsubmodule)
 
 ## Build and Installation
 

@@ -27,7 +27,7 @@ int main(int argc, char** argv)
     const std::string output_directory_path(argv[1]);
     
     // Generate (and export) scattered data
-    constexpr int    number_of_samples = 8;
+    constexpr int    number_of_samples = 10;
     constexpr double noise_intensity   = 0.10;
     std::ofstream scattered_data_stream(output_directory_path + "/scattered_data.csv");
     scattered_data_stream << "x,y" << std::endl;

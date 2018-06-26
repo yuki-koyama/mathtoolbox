@@ -21,8 +21,35 @@ namespace
             }
             return sum;
         }();
-        
         return s_f_squared * std::exp(- 0.5 * sum);
+    }
+    
+    double CalculateArdSquaredExponentialKernelGradientSFSquared(const VectorXd& x_i, const VectorXd& x_j, const double s_f_squared, const VectorXd& l)
+    {
+        const int D = l.rows();
+        return [&]()
+        {
+            double sum = 0.0;
+            for (int i = 0; i < D; ++ i)
+            {
+                sum += (x_i(i) - x_j(i)) * (x_i(i) - x_j(i)) / (l(i) * l(i));
+            }
+            return std::exp(- 0.5 * sum);
+        }();
+    }
+    
+    VectorXd CalculateArdSquaredExponentialKernelGradientL(const VectorXd& x_i, const VectorXd& x_j, const double s_f_squared, const VectorXd& l)
+    {
+        const int D = l.rows();
+        return [&]() -> VectorXd
+        {
+            VectorXd partial_derivative(D);
+            for (int i = 0; i < D; ++ i)
+            {
+                partial_derivative(i) = (x_i(i) - x_j(i)) * (x_i(i) - x_j(i)) / (l(i) * l(i) * l(i));
+            }
+            return CalculateArdSquaredExponentialKernel(x_i, x_j, s_f_squared, l) * partial_derivative;
+        }();
     }
     
     MatrixXd CalculateLargeK(const MatrixXd& X, const double s_f_squared, const double s_n_squared, const VectorXd& l)
@@ -42,19 +69,57 @@ namespace
             }
             return K;
         }();
-        
         return K + s_n_squared * MatrixXd::Identity(N, N);
     }
     
-    MatrixXd CalculateLargeKGradientLI(const MatrixXd& X, const double s_f_squared, const double s_n_squared, const VectorXd& l)
+    MatrixXd CalculateLargeKGradientSFSquared(const MatrixXd& X, const double s_f_squared, const double s_n_squared, const VectorXd& l)
     {
-        return MatrixXd(); // TODO
+        const int N = X.cols();
+        return [&]()
+        {
+            MatrixXd K_gradient_s_f_squared(N, N);
+            for (unsigned i = 0; i < N; ++ i)
+            {
+                for (unsigned j = i; j < N; ++ j)
+                {
+                    const double ard_squared_exponential_kernel_gradient_s_f_squared = CalculateArdSquaredExponentialKernelGradientSFSquared(X.col(i), X.col(j), s_f_squared, l);
+                    K_gradient_s_f_squared(i, j) = ard_squared_exponential_kernel_gradient_s_f_squared;
+                    K_gradient_s_f_squared(j, i) = ard_squared_exponential_kernel_gradient_s_f_squared;
+                }
+            }
+            return K_gradient_s_f_squared;
+        }();
+    }
+    
+    MatrixXd CalculateLargeKGradientSNSquared(const MatrixXd& X, const double s_f_squared, const double s_n_squared, const VectorXd& l)
+    {
+        const int N = X.cols();
+        return MatrixXd::Identity(N, N);
+    }
+    
+    MatrixXd CalculateLargeKGradientLI(const MatrixXd& X, const double s_f_squared, const double s_n_squared, const VectorXd& l, const int index)
+    {
+        const int N = X.cols();
+        return [&]()
+        {
+            MatrixXd K_gradient_l_i(N, N);
+            for (unsigned i = 0; i < N; ++ i)
+            {
+                for (unsigned j = i; j < N; ++ j)
+                {
+                    const VectorXd ard_squared_exponential_kernel_gradient_l = CalculateArdSquaredExponentialKernelGradientL(X.col(i), X.col(j), s_f_squared, l);
+                    K_gradient_l_i(i, j) = ard_squared_exponential_kernel_gradient_l(index);
+                    K_gradient_l_i(j, i) = ard_squared_exponential_kernel_gradient_l(index);
+                }
+            }
+            return K_gradient_l_i;
+        }();
     }
     
     VectorXd CalculateSmallK(const VectorXd& x, const MatrixXd& X, const double s_f_squared, const VectorXd& l)
     {
-        const int      N = X.cols();
-        const VectorXd k = [&]()
+        const int N = X.cols();
+        return [&]()
         {
             VectorXd k(N);
             for (unsigned i = 0; i < N; ++ i)
@@ -63,8 +128,6 @@ namespace
             }
             return k;
         }();
-        
-        return k;
     }
     
     // Equation 5.8
@@ -82,7 +145,6 @@ namespace
         return term1 + term2 + term3;
     }
     
-    // Equation 5.9
     VectorXd CalculateLogLikelihoodGradient(const MatrixXd& X, const VectorXd& y, const double s_f_squared, const double s_n_squared, const VectorXd& l)
     {
         const int D = X.rows();
@@ -92,20 +154,29 @@ namespace
         
         const double log_likeliehood_gradient_s_f_squared = [&]()
         {
-            return 0.0; // TODO
+            // Equation 5.9
+            const MatrixXd K_gradient_s_f_squared = CalculateLargeKGradientSFSquared(X, s_f_squared, s_n_squared, l);
+            const double term1 = + 0.5 * y.transpose() * K_inv * K_gradient_s_f_squared * K_inv * y;
+            const double term2 = - 0.5 * (K_inv * K_gradient_s_f_squared).trace();
+            return term1 + term2;
         }();
-
+        
         const double log_likeliehood_gradient_s_n_squared = [&]()
         {
-            return 0.0; // TODO
+            // Equation 5.9
+            const MatrixXd K_gradient_s_n_squared = CalculateLargeKGradientSNSquared(X, s_f_squared, s_n_squared, l);
+            const double term1 = + 0.5 * y.transpose() * K_inv * K_gradient_s_n_squared * K_inv * y;
+            const double term2 = - 0.5 * (K_inv * K_gradient_s_n_squared).trace();
+            return term1 + term2;
         }();
         
         const VectorXd log_likelihood_gradient_l = [&]()
         {
+            // Equation 5.9
             VectorXd log_likelihood_gradient_l(D);
             for (int i = 0; i < D; ++ i)
             {
-                const MatrixXd K_gradient_l_i = CalculateLargeKGradientLI(X, s_f_squared, s_n_squared, l);
+                const MatrixXd K_gradient_l_i = CalculateLargeKGradientLI(X, s_f_squared, s_n_squared, l, i);
                 const double term1 = + 0.5 * y.transpose() * K_inv * K_gradient_l_i * K_inv * y;
                 const double term2 = - 0.5 * (K_inv * K_gradient_l_i).trace();
                 log_likelihood_gradient_l(i) = term1 + term2;
@@ -170,12 +241,15 @@ namespace mathtoolbox
             const MatrixXd& X = std::get<0>(*static_cast<Data*>(data));
             const VectorXd& y = std::get<1>(*static_cast<Data*>(data));
             
-            const double log_likelihood = CalculateLogLikelihood(X, y, s_f_squared, s_n_squared, l);
-
+            const double   log_likelihood          = CalculateLogLikelihood(X, y, s_f_squared, s_n_squared, l);
+            const VectorXd log_likelihood_gradient = CalculateLogLikelihoodGradient(X, y, s_f_squared, s_n_squared, l);
+            
+            grad = std::vector<double>(log_likelihood_gradient.data(), log_likelihood_gradient.data() + log_likelihood_gradient.rows());
+            
             return log_likelihood;
         };
         
-        const VectorXd x_optimal = nloptutil::compute(x_initial, upper, lower, objective, &data, nlopt::LN_BOBYQA, 1000, 1e-06, 1e-06, true);
+        const VectorXd x_optimal = nloptutil::compute(x_initial, upper, lower, objective, &data, nlopt::LD_LBFGS, 1000, 1e-06, 1e-06, true, true);
         
         s_f_squared = x_optimal[0];
         s_n_squared = x_optimal[1];

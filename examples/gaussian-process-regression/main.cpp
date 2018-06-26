@@ -47,8 +47,8 @@ int main(int argc, char** argv)
     regressor.PerformMaximumLikelihood(0.10, 0.01, Eigen::VectorXd::Constant(1, 0.10));
     
     // Calculate (and export) estimated values
-    std::ofstream estimatedd_data_stream(output_directory_path + "/estimated_data.csv");
-    estimatedd_data_stream << "x,y,s" << std::endl;
+    std::ofstream estimated_data_stream(output_directory_path + "/estimated_data.csv");
+    estimated_data_stream << "x,y,s" << std::endl;
     constexpr int resolution = 300;
     for (int i = 0; i <= resolution; ++ i)
     {
@@ -56,9 +56,9 @@ int main(int argc, char** argv)
         const double y = regressor.EstimateY(Eigen::VectorXd::Constant(1, x));
         const double s = regressor.EstimateS(Eigen::VectorXd::Constant(1, x));
         
-        estimatedd_data_stream << x << "," << y << "," << s << std::endl;
+        estimated_data_stream << x << "," << y << "," << s << std::endl;
     }
-    estimatedd_data_stream.close();
+    estimated_data_stream.close();
     
     return 0;
 }

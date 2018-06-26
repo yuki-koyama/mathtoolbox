@@ -8,7 +8,7 @@ A library of mathematical tools (regression, interpolation, dimensionality reduc
 
 ### Scattered Data Interpolation and Function Approximation
 - [`rbf-interpolation`: Radial basis function (RBF) network](https://yuki-koyama.github.io/mathtoolbox/docs/rbf-interpolation)
-- [`gaussian-process-regression`]: Gaussian process regression (GPR)](https://yuki-koyama.github.io/mathtoolbox/docs/gaussian-process-regression)
+- [`gaussian-process-regression`: Gaussian process regression (GPR)](https://yuki-koyama.github.io/mathtoolbox/docs/gaussian-process-regression)
 
 ### Dimensionality Reduction and Low-Dimensional Embedding
 - [`classical-mds`: Classical multi-dimensional scaling (MDS)](https://yuki-koyama.github.io/mathtoolbox/docs/classical-mds)

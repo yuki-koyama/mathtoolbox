@@ -11,11 +11,13 @@ namespace mathtoolbox
         
         GaussianProcessRegression(const Eigen::MatrixXd& X, const Eigen::VectorXd& y);
         
+        // Estimation methods
         double EstimateY(const Eigen::VectorXd& x) const;
         double EstimateS(const Eigen::VectorXd& x) const;
         
+        // Hyperparameters setup methods
         void SetHyperparameters(double s_f_squared, double s_n_squared, const Eigen::VectorXd& l);
-        void PerformMaximumLikelihood(double s_f_squared, double s_n_squared, const Eigen::VectorXd& l);
+        void PerformMaximumLikelihood(double s_f_squared_initial, double s_n_squared_initial, const Eigen::VectorXd& l_initial);
 
         // Getter methods
         const Eigen::MatrixXd& GetX() const { return X; }

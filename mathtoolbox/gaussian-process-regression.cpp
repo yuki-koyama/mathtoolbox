@@ -46,6 +46,11 @@ namespace
         return K + s_n_squared * MatrixXd::Identity(N, N);
     }
     
+    MatrixXd CalculateLargeKGradientLI(const MatrixXd& X, const double s_f_squared, const double s_n_squared, const VectorXd& l)
+    {
+        return MatrixXd(); // TODO
+    }
+    
     VectorXd CalculateSmallK(const VectorXd& x, const MatrixXd& X, const double s_f_squared, const VectorXd& l)
     {
         const int      N = X.cols();
@@ -75,6 +80,47 @@ namespace
         const double term3 = - 0.5 * N * std::log(2.0 * M_PI);
         
         return term1 + term2 + term3;
+    }
+    
+    // Equation 5.9
+    VectorXd CalculateLogLikelihoodGradient(const MatrixXd& X, const VectorXd& y, const double s_f_squared, const double s_n_squared, const VectorXd& l)
+    {
+        const int D = X.rows();
+        
+        const MatrixXd K     = CalculateLargeK(X, s_f_squared, s_n_squared, l);
+        const MatrixXd K_inv = K.inverse();
+        
+        const double log_likeliehood_gradient_s_f_squared = [&]()
+        {
+            return 0.0; // TODO
+        }();
+
+        const double log_likeliehood_gradient_s_n_squared = [&]()
+        {
+            return 0.0; // TODO
+        }();
+        
+        const VectorXd log_likelihood_gradient_l = [&]()
+        {
+            VectorXd log_likelihood_gradient_l(D);
+            for (int i = 0; i < D; ++ i)
+            {
+                const MatrixXd K_gradient_l_i = CalculateLargeKGradientLI(X, s_f_squared, s_n_squared, l);
+                const double term1 = + 0.5 * y.transpose() * K_inv * K_gradient_l_i * K_inv * y;
+                const double term2 = - 0.5 * (K_inv * K_gradient_l_i).trace();
+                log_likelihood_gradient_l(i) = term1 + term2;
+            }
+            return log_likelihood_gradient_l;
+        }();
+        
+        return [&]()
+        {
+            VectorXd concat(D + 2);
+            concat(0) = log_likeliehood_gradient_s_f_squared;
+            concat(1) = log_likeliehood_gradient_s_n_squared;
+            concat.segment(2, D) = log_likelihood_gradient_l;
+            return concat;
+        }();
     }
 }
 

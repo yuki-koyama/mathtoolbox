@@ -155,24 +155,10 @@ namespace mathtoolbox
             x.segment(2, D) = l_initial;
             return x;
         }();
-        const VectorXd upper = [&D]()
-        {
-            VectorXd x(D + 2);
-            x(0) = 1e+05;
-            x(1) = 1e+05;
-            x.segment(2, D) = VectorXd::Constant(D, 1e+05);
-            return x;
-        }();
-        const VectorXd lower = [&D]()
-        {
-            VectorXd x(D + 2);
-            x(0) = 1e-02;
-            x(1) = 1e-08;
-            x.segment(2, D) = VectorXd::Constant(D, 1e-02);
-            return x;
-        }();
+        const VectorXd upper = VectorXd::Constant(D + 2, 1e+05);
+        const VectorXd lower = VectorXd::Constant(D + 2, 1e-08);
         
-        typedef std::tuple<const MatrixXd&, const VectorXd&> Data;
+        using Data = std::tuple<const MatrixXd&, const VectorXd&>;
         Data data(X, y);
         
         auto objective = [](const std::vector<double>& x, std::vector<double>& grad, void* data)

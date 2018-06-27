@@ -58,9 +58,9 @@ namespace
         const MatrixXd K = [&]()
         {
             MatrixXd K(N, N);
-            for (unsigned i = 0; i < N; ++ i)
+            for (int i = 0; i < N; ++ i)
             {
-                for (unsigned j = i; j < N; ++ j)
+                for (int j = i; j < N; ++ j)
                 {
                     const double value = CalculateArdSquaredExponentialKernel(X.col(i), X.col(j), s_f_squared, l);
                     K(i, j) = value;
@@ -78,9 +78,9 @@ namespace
         return [&]()
         {
             MatrixXd K_gradient_s_f_squared(N, N);
-            for (unsigned i = 0; i < N; ++ i)
+            for (int i = 0; i < N; ++ i)
             {
-                for (unsigned j = i; j < N; ++ j)
+                for (int j = i; j < N; ++ j)
                 {
                     const double ard_squared_exponential_kernel_gradient_s_f_squared = CalculateArdSquaredExponentialKernelGradientSFSquared(X.col(i), X.col(j), s_f_squared, l);
                     K_gradient_s_f_squared(i, j) = ard_squared_exponential_kernel_gradient_s_f_squared;
@@ -103,9 +103,9 @@ namespace
         return [&]()
         {
             MatrixXd K_gradient_l_i(N, N);
-            for (unsigned i = 0; i < N; ++ i)
+            for (int i = 0; i < N; ++ i)
             {
-                for (unsigned j = i; j < N; ++ j)
+                for (int j = i; j < N; ++ j)
                 {
                     const VectorXd ard_squared_exponential_kernel_gradient_l = CalculateArdSquaredExponentialKernelGradientL(X.col(i), X.col(j), s_f_squared, l);
                     K_gradient_l_i(i, j) = ard_squared_exponential_kernel_gradient_l(index);

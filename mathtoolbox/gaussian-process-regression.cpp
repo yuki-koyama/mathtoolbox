@@ -8,7 +8,7 @@ using Eigen::MatrixXd;
 
 namespace
 {
-    // Equation 5.1
+    // Equation 5.1 [Rasmuss and Williams 2006]
     double CalculateArdSquaredExponentialKernel(const VectorXd& x_i, const VectorXd& x_j, const double s_f_squared, const VectorXd& l)
     {
         const int    D   = x_i.rows();
@@ -138,6 +138,7 @@ namespace
         const MatrixXd K     = CalculateLargeK(X, s_f_squared, s_n_squared, l);
         const MatrixXd K_inv = K.inverse();
         
+        // Equation 5.8 [Rasmuss and Williams 2006]
         const double term1 = - 0.5 * y.transpose() * K_inv * y;
         const double term2 = - 0.5 * std::log(K.determinant());
         const double term3 = - 0.5 * N * std::log(2.0 * M_PI);
@@ -154,7 +155,7 @@ namespace
         
         const double log_likeliehood_gradient_s_f_squared = [&]()
         {
-            // Equation 5.9
+            // Equation 5.9 [Rasmuss and Williams 2006]
             const MatrixXd K_gradient_s_f_squared = CalculateLargeKGradientSFSquared(X, s_f_squared, s_n_squared, l);
             const double term1 = + 0.5 * y.transpose() * K_inv * K_gradient_s_f_squared * K_inv * y;
             const double term2 = - 0.5 * (K_inv * K_gradient_s_f_squared).trace();
@@ -163,7 +164,7 @@ namespace
         
         const double log_likeliehood_gradient_s_n_squared = [&]()
         {
-            // Equation 5.9
+            // Equation 5.9 [Rasmuss and Williams 2006]
             const MatrixXd K_gradient_s_n_squared = CalculateLargeKGradientSNSquared(X, s_f_squared, s_n_squared, l);
             const double term1 = + 0.5 * y.transpose() * K_inv * K_gradient_s_n_squared * K_inv * y;
             const double term2 = - 0.5 * (K_inv * K_gradient_s_n_squared).trace();
@@ -172,7 +173,7 @@ namespace
         
         const VectorXd log_likelihood_gradient_l = [&]()
         {
-            // Equation 5.9
+            // Equation 5.9 [Rasmuss and Williams 2006]
             VectorXd log_likelihood_gradient_l(D);
             for (int i = 0; i < D; ++ i)
             {

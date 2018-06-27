@@ -134,8 +134,10 @@ namespace
     {
         const int      N = X.cols();
         const MatrixXd K = CalculateLargeK(X, s_f_squared, s_n_squared, l);
-
+        
         const Eigen::FullPivLU<MatrixXd> lu(K);
+        
+        assert(lu.isInvertible());
         
         const MatrixXd K_inv = lu.inverse();
         const double   K_det = lu.determinant();
@@ -246,6 +248,8 @@ namespace mathtoolbox
             
             const double   log_likelihood          = CalculateLogLikelihood(X, y, s_f_squared, s_n_squared, l);
             const VectorXd log_likelihood_gradient = CalculateLogLikelihoodGradient(X, y, s_f_squared, s_n_squared, l);
+            
+            assert(!grad.empty());
             
             grad = std::vector<double>(log_likelihood_gradient.data(), log_likelihood_gradient.data() + log_likelihood_gradient.rows());
             

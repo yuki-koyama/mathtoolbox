@@ -130,17 +130,19 @@ namespace
         }();
     }
     
-    // Equation 5.8
     double CalculateLogLikelihood(const MatrixXd& X, const VectorXd& y, const double s_f_squared, const double s_n_squared, const VectorXd& l)
     {
-        const int N = X.cols();
+        const int      N = X.cols();
+        const MatrixXd K = CalculateLargeK(X, s_f_squared, s_n_squared, l);
+
+        const Eigen::FullPivLU<MatrixXd> lu(K);
         
-        const MatrixXd K     = CalculateLargeK(X, s_f_squared, s_n_squared, l);
-        const MatrixXd K_inv = K.inverse();
+        const MatrixXd K_inv = lu.inverse();
+        const double   K_det = lu.determinant();
         
         // Equation 5.8 [Rasmuss and Williams 2006]
         const double term1 = - 0.5 * y.transpose() * K_inv * y;
-        const double term2 = - 0.5 * std::log(K.determinant());
+        const double term2 = - 0.5 * std::log(K_det);
         const double term3 = - 0.5 * N * std::log(2.0 * M_PI);
         
         return term1 + term2 + term3;

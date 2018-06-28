@@ -10,9 +10,20 @@ Gaussian process regression (GPR) for scattered data interpolation and function 
 
 ## Math
 
+### Input
+
+$$
+\{ (\mathbf{x}_i, y_i) \}_{i = 1, \ldots, n},
+$$
+
 ### Kernel
 
-ARD is used.
+The automatic relevance determination (ARD) squared exponential kernel is used.
+
+$$
+k(\mathbf{x}_p, \mathbf{x}_q) = \sigma_f^{2} \exp \left( - \frac{1}{2} (\mathbf{x}_p - \mathbf{x}_q)^{T} \text{diag}(\boldsymbol{\ell})^{-2} (\mathbf{x}_p - \mathbf{x}_q) \right) + \sigma_s^{2} \delta_{pq},
+$$
+where $$ \sigma_f^{2} $$, $$ \sigma_n^{2} $$, and $$ \boldsymbold{\ell} $$ are hyperparameters.
 
 ### Hyperparameters
 

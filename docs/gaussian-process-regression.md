@@ -26,11 +26,21 @@ $$
 
 where $$ \sigma_f^{2} $$, $$ \sigma_n^{2} $$, and $$ \boldsymbol{\ell} $$ are hyperparameters.
 
-### Hyperparameters
+### Selecting Hyperparameters
 
 Options:
 - Set manually
-- Determined by the maximum likelihood method
+- Determined by the maximum likelihood estimation
+
+#### Maximum Likelihood Estimation
+
+Let $$ \boldsymbol{\theta} = \begin{bmatrix} \sigma_{f}^{2} & \sigma_{n}^{2} & \boldsymbol{\ell}^T \end{bmatrix}^T \in \mathbb{R}^{D + 2} $$. In this approach, the hyperparameters are determined by solving
+
+$$
+\boldsymbol{\theta}^\text{ML} = \mathop{\rm arg~max}\limits_{\boldsymbol{\theta}} p(\mathbf{y} \mid \mathbf{X}, \mathbf{\theta}).
+$$
+
+This maximization problem is solved by the L-BFGS method (a gradient-based local optimization algorithm) from the NLopt library <https://nlopt.readthedocs.io/>.
 
 ## Useful Resources
 

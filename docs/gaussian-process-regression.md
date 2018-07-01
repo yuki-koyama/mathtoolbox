@@ -16,7 +16,7 @@ $$
 \{ (\mathbf{x}_i, y_i) \}_{i = 1, \ldots, n},
 $$
 
-### Kernel
+### Coveriance Function
 
 The automatic relevance determination (ARD) squared exponential kernel is used.
 
@@ -25,6 +25,14 @@ k(\mathbf{x}_p, \mathbf{x}_q) = \sigma_f^{2} \exp \left( - \frac{1}{2} (\mathbf{
 $$
 
 where $$ \sigma_f^{2} $$, $$ \sigma_n^{2} $$, and $$ \boldsymbol{\ell} $$ are hyperparameters.
+
+### Mean Function
+
+A constant-value function is used.
+
+$$
+m(\mathbf{x}) = 0
+$$
 
 ### Selecting Hyperparameters
 

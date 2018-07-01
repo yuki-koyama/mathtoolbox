@@ -2,6 +2,8 @@
 
 Gaussian process regression (GPR) for scattered data interpolation and function approximation.
 
+![](gaussian-process-regression/examples.png)
+
 ## Header
 
 ```

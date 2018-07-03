@@ -20,7 +20,7 @@ $$
 \{ (\mathbf{x}_i, y_i) \}_{i = 1, \ldots, N},
 $$
 
-where $$ \mathbf{x}_i \in \mathbb{R}^D $$ is the $$ i $$-th data point location and $$ y_i \in \mathbb{R} $$ is its value. This input data is denoted by
+where $$ \mathbf{x}_i \in \mathbb{R}^D $$ is the $$ i $$-th data point location in a $$ D $$-dimensional space and $$ y_i \in \mathbb{R} $$ is its value. This input data is also denoted as
 
 $$
 \mathbf{X} = \begin{bmatrix} \mathbf{x}_{1} & \cdots & \mathbf{x}_{N} \end{bmatrix} \in \mathbb{R}^{D \times N}

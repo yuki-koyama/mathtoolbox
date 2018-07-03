@@ -29,7 +29,7 @@ $$
 and
 
 $$
-\mathbf{y} = \begin{bmatrix} y_1 \\ \ldots \\ y_N \end{bmatrix} \in \mathbb{R}^{N}.
+\mathbf{y} = \begin{bmatrix} y_1 \\ \vdots \\ y_N \end{bmatrix} \in \mathbb{R}^{N}.
 $$ 
 
 ### Output

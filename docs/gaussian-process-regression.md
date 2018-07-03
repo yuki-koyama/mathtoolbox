@@ -10,7 +10,7 @@ Gaussian process regression (GPR) for scattered data interpolation and function 
 #include <mathtoolbox/gaussian-process-regression.hpp>
 ```
 
-## Math
+## Overview
 
 ### Input
 
@@ -31,6 +31,14 @@ and
 $$
 \mathbf{y} = \begin{bmatrix} y_1 & \cdots & y_N \end{bmatrix}^T.
 $$ 
+
+### Output
+
+Given the data some "Gaussian process" assumptions, GPR can calculate the most likely value $$ y $$ and its variance $$ \text{var}(y) $$ for an arbitrary location $$ \mathbf{x} $$. 
+
+The variance roughly indicates how uncertain the estimation is. For example, when this value is large, the estimated value may not be very trustful (this often occurs in regions with less data points).
+
+## Math
 
 ### Coveriance Function
 

@@ -23,13 +23,13 @@ $$
 where $$ \mathbf{x}_i \in \mathbb{R}^D $$ is the $$ i $$-th data point location and $$ y_i \in \mathbb{R} $$ is its value. This input data is denoted by
 
 $$
-\mathbf{X} = \begin{bmatrix} \mathbf{x}_{1} & \cdots & \mathbf{x}_{n} \end{bmatrix} \in \mathbb{R}^{D \times N}
+\mathbf{X} = \begin{bmatrix} \mathbf{x}_{1} & \cdots & \mathbf{x}_{N} \end{bmatrix} \in \mathbb{R}^{D \times N}
 $$
 
 and
 
 $$
-\mathbf{y} = \begin{bmatrix} y_1 & \cdots & y_N \end{bmatrix}^T.
+\mathbf{y} = \begin{bmatrix} y_1 \\ \ldots \\ y_N \end{bmatrix} \in \mathbb{R}^{N}.
 $$ 
 
 ### Output

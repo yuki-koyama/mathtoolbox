@@ -14,9 +14,23 @@ Gaussian process regression (GPR) for scattered data interpolation and function 
 
 ### Input
 
+The input consists of a set of $$ N $$ scattered data points:
+
 $$
-\{ (\mathbf{x}_i, y_i) \}_{i = 1, \ldots, n},
+\{ (\mathbf{x}_i, y_i) \}_{i = 1, \ldots, N},
 $$
+
+where $$ \mathbf{x}_i \in \mathbb{R}^D $$ is the $$ i $$-th data point location and $$ y_i \in \mathbb{R} $$ is its value. This input data is denoted by
+
+$$
+\mathbf{X} = \begin{bmatrix} \mathbf{x}_{1} & \cdots & \mathbf{x}_{n} \end{bmatrix} \in \mathbb{R}^{D \times N}
+$$
+
+and
+
+$$
+\mathbf{y} = \begin{bmatrix} y_1 & \cdots & y_N \end{bmatrix}^T.
+$$ 
 
 ### Coveriance Function
 

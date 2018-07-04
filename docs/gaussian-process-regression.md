@@ -42,25 +42,25 @@ The variance roughly indicates how uncertain the estimation is. For example, whe
 
 ### Coveriance Function
 
-The automatic relevance determination (ARD) squared exponential kernel is used.
+The automatic relevance determination (ARD) squared exponential kernel is used:
 
 $$
 k(\mathbf{x}_p, \mathbf{x}_q) = \sigma_f^{2} \exp \left( - \frac{1}{2} (\mathbf{x}_p - \mathbf{x}_q)^{T} \text{diag}(\boldsymbol{\ell})^{-2} (\mathbf{x}_p - \mathbf{x}_q) \right) + \sigma_n^{2} \delta_{pq},
 $$
 
-where $$ \sigma_f^{2} $$, $$ \sigma_n^{2} $$, and $$ \boldsymbol{\ell} $$ are hyperparameters.
+where $$ \sigma_f^{2} $$ (the signal variance), $$ \sigma_n^{2} $$ (the noise level), and $$ \boldsymbol{\ell} $$ (the characteristic length-scales) are hyperparameters.
 
 ### Mean Function
 
-A constant-value function is used.
+A constant-value function is used:
 
 $$
-m(\mathbf{x}) = 0
+m(\mathbf{x}) = 0.
 $$
 
 ### Selecting Hyperparameters
 
-Options:
+There are two options for setting hyperparameters:
 - Set manually
 - Determined by the maximum likelihood estimation
 
@@ -72,13 +72,13 @@ $$
 \boldsymbol{\theta} = \begin{bmatrix} \sigma_{f}^{2} \\ \sigma_{n}^{2} \\ \boldsymbol{\ell} \end{bmatrix} \in \mathbb{R}^{D + 2}.
 $$
 
-In this approach, the hyperparameters are determined by solving
+In this approach, the hyperparameters are determined by solving the following numerical optimization problem:
 
 $$
 \boldsymbol{\theta}^\text{ML} = \mathop{\rm arg~max}\limits_{\boldsymbol{\theta}} p(\mathbf{y} \mid \mathbf{X}, \boldsymbol{\theta}).
 $$
 
-This maximization problem is solved by the L-BFGS method (a gradient-based local optimization algorithm) from the NLopt library <https://nlopt.readthedocs.io/>.
+In this implementation, this maximization problem is solved by the L-BFGS method (a gradient-based local optimization algorithm) from the NLopt library <https://nlopt.readthedocs.io/>.
 
 ## Useful Resources
 

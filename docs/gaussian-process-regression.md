@@ -20,7 +20,7 @@ $$
 \{ (\mathbf{x}_i, y_i) \}_{i = 1, \ldots, N},
 $$
 
-where $$ \mathbf{x}_i \in \mathbb{R}^D $$ is the $$ i $$-th data point location in a $$ D $$-dimensional space and $$ y_i \in \mathbb{R} $$ is its value. This input data is also denoted as
+where $$ \mathbf{x}_i \in \mathbb{R}^D $$ is the $$ i $$-th data point location in a $$ D $$-dimensional space and $$ y_i \in \mathbb{R} $$ is its associated value. This input data is also denoted as
 
 $$
 \mathbf{X} = \begin{bmatrix} \mathbf{x}_{1} & \cdots & \mathbf{x}_{N} \end{bmatrix} \in \mathbb{R}^{D \times N}
@@ -34,7 +34,7 @@ $$
 
 ### Output
 
-Given the data some "Gaussian process" assumptions, GPR can calculate the most likely value $$ y $$ and its variance $$ \text{var}(y) $$ for an arbitrary location $$ \mathbf{x} $$. 
+Given the data and some "Gaussian process" assumptions, GPR can calculate the most likely value $$ y $$ and its variance $$ \text{var}(y) $$ for an arbitrary location $$ \mathbf{x} $$. 
 
 The variance roughly indicates how uncertain the estimation is. For example, when this value is large, the estimated value may not be very trustful (this often occurs in regions with less data points).
 
@@ -66,19 +66,19 @@ There are two options for setting hyperparameters:
 
 #### Maximum Likelihood Estimation
 
-Let
+Let $$ \boldsymbol{theta} $$ be a concatenation of hyperparameters; that is, 
 
 $$
 \boldsymbol{\theta} = \begin{bmatrix} \sigma_{f}^{2} \\ \sigma_{n}^{2} \\ \boldsymbol{\ell} \end{bmatrix} \in \mathbb{R}^{D + 2}.
 $$
 
-In this approach, the hyperparameters are determined by solving the following numerical optimization problem:
+In this approach, these hyperparameters are determined by solving the following numerical optimization problem:
 
 $$
 \boldsymbol{\theta}^\text{ML} = \mathop{\rm arg~max}\limits_{\boldsymbol{\theta}} p(\mathbf{y} \mid \mathbf{X}, \boldsymbol{\theta}).
 $$
 
-In this implementation, this maximization problem is solved by the L-BFGS method (a gradient-based local optimization algorithm) from the NLopt library <https://nlopt.readthedocs.io/>.
+In this implementation, this maximization problem is solved by the L-BFGS method (a gradient-based local optimization algorithm) from the NLopt library <https://nlopt.readthedocs.io/>. Initial solutions for this maximization need to be specified.
 
 ## Useful Resources
 

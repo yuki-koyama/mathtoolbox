@@ -8,7 +8,7 @@ namespace mathtoolbox
     class GaussianProcessRegression
     {
     public:
-        
+        // Construction with input data
         GaussianProcessRegression(const Eigen::MatrixXd& X, const Eigen::VectorXd& y);
         
         // Estimation methods
@@ -16,8 +16,12 @@ namespace mathtoolbox
         double EstimateVariance(const Eigen::VectorXd& x) const;
         
         // Hyperparameters setup methods
-        void SetHyperparameters(double s_f_squared, double s_n_squared, const Eigen::VectorXd& l);
-        void PerformMaximumLikelihood(double s_f_squared_initial, double s_n_squared_initial, const Eigen::VectorXd& l_initial);
+        void SetHyperparameters(double sigma_squared_f,
+                                double sigma_squared_n,
+                                const Eigen::VectorXd& length_scales);
+        void PerformMaximumLikelihood(double sigma_squared_f_initial,
+                                      double sigma_squared_n_initial,
+                                      const Eigen::VectorXd& length_scales_initial);
 
         // Getter methods
         const Eigen::MatrixXd& GetX() const { return X; }
@@ -34,9 +38,9 @@ namespace mathtoolbox
         Eigen::MatrixXd K_inv;
         
         // Hyperparameters
-        double          s_f_squared;
-        double          s_n_squared;
-        Eigen::VectorXd l;
+        double          sigma_squared_f;
+        double          sigma_squared_n;
+        Eigen::VectorXd length_scales;
     };
 }
 

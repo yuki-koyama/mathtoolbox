@@ -276,9 +276,9 @@ namespace mathtoolbox
         return k.transpose() * K_inv * y;
     }
     
-    double GaussianProcessRegression::EstimateS(const VectorXd& x) const
+    double GaussianProcessRegression::EstimateVariance(const VectorXd& x) const
     {
         const VectorXd k = CalculateSmallK(x, X, s_f_squared, l);
-        return std::sqrt(s_f_squared + s_n_squared - k.transpose() * K_inv * k);
+        return s_f_squared + s_n_squared - k.transpose() * K_inv * k;
     }
 }

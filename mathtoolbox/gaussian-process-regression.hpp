@@ -13,7 +13,7 @@ namespace mathtoolbox
         
         // Estimation methods
         double EstimateY(const Eigen::VectorXd& x) const;
-        double EstimateS(const Eigen::VectorXd& x) const;
+        double EstimateVariance(const Eigen::VectorXd& x) const;
         
         // Hyperparameters setup methods
         void SetHyperparameters(double s_f_squared, double s_n_squared, const Eigen::VectorXd& l);

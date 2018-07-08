@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <cmath>
 #include <Eigen/Core>
 #include <mathtoolbox/gaussian-process-regression.hpp>
 
@@ -54,7 +55,7 @@ int main(int argc, char** argv)
     {
         const double x = (1.0 / static_cast<double>(resolution)) * i;
         const double y = regressor.EstimateY(Eigen::VectorXd::Constant(1, x));
-        const double s = regressor.EstimateS(Eigen::VectorXd::Constant(1, x));
+        const double s = std::sqrt(regressor.EstimateVariance(Eigen::VectorXd::Constant(1, x)));
         
         estimated_data_stream << x << "," << y << "," << s << std::endl;
     }

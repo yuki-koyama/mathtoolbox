@@ -66,7 +66,7 @@ There are two options for setting hyperparameters:
 
 #### Maximum Likelihood Estimation
 
-Let $$ \boldsymbol{theta} $$ be a concatenation of hyperparameters; that is, 
+Let $$ \boldsymbol{\theta} $$ be a concatenation of hyperparameters; that is, 
 
 $$
 \boldsymbol{\theta} = \begin{bmatrix} \sigma_{f}^{2} \\ \sigma_{n}^{2} \\ \boldsymbol{\ell} \end{bmatrix} \in \mathbb{R}^{D + 2}.

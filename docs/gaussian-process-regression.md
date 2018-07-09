@@ -34,9 +34,11 @@ $$
 
 ### Output
 
-Given the data and some "Gaussian process" assumptions, GPR can calculate the most likely value $$ y $$ and its variance $$ \text{var}(y) $$ for an arbitrary location $$ \mathbf{x} $$. 
+Given the data and some "Gaussian process" assumptions, GPR can calculate the most likely value $$ y $$ and its variance $$ \text{Var}(y) $$ for an arbitrary location $$ \mathbf{x} $$. 
 
 The variance roughly indicates how uncertain the estimation is. For example, when this value is large, the estimated value may not be very trustful (this often occurs in regions with less data points).
+
+Note that a 95%-confidence interval can be obtained by $$ [ y - 1.96 \sqrt{\text{Var}(y)}, y + 1.96 \sqrt{\text{Var}(y)} ] $$.
 
 ## Math
 

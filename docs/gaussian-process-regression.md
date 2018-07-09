@@ -80,6 +80,41 @@ $$
 
 In this implementation, this maximization problem is solved by the L-BFGS method (a gradient-based local optimization algorithm) from the NLopt library <https://nlopt.readthedocs.io/>. Initial solutions for this maximization need to be specified.
 
+## Usage
+
+### Instantiation and Data Specification
+
+A GPR object is instantiated with data specification in its constructor:
+```
+GaussianProcessRegression(const Eigen::MatrixXd& X, const Eigen::VectorXd& y);
+```
+
+### Hyperparameter Selection
+
+Hyperparameters are set by either
+```
+void SetHyperparameters(double sigma_squared_f,
+                        double sigma_squared_n,
+                        const Eigen::VectorXd& length_scales);
+```
+or 
+```
+void PerformMaximumLikelihood(double sigma_squared_f_initial,
+                              double sigma_squared_n_initial,
+                              const Eigen::VectorXd& length_scales_initial);
+```
+
+### Estimation
+
+Once a GPR object is instantiated and its hyperparameters are set, it is ready for estimation. For an unknown location $$ \mathbf{x} $$, the GPR object estimates the most likely value $$ y $$ by the following method:
+```
+double EstimateY(const Eigen::VectorXd& x) const;
+```
+It also estimates the variance $$ \text{Var}(y) $$ by the following method:
+```
+double EstimateVariance(const Eigen::VectorXd& x) const;
+```
+
 ## Useful Resources
 
 - Mark Ebden. 2015. Gaussian Processes: A Quick Introduction. [arXiv:1505.02965](https://arxiv.org/abs/1505.02965).

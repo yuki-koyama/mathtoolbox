@@ -23,7 +23,7 @@ A library of mathematical tools (regression, interpolation, dimensionality reduc
 
 mathtoolbox uses CMake <https://cmake.org/> for building source codes. This library can be built, for example, by
 ```
-git clone https://github.com/yuki-koyama/mathtoolbox.git
+git clone https://github.com/yuki-koyama/mathtoolbox.git --recursive
 cd mathtoolbox
 mkdir build
 cd build

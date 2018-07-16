@@ -41,6 +41,13 @@ cmake ../ -DMATHTOOLBOX_BUILD_EXAMPLES=ON
 make
 ```
 
+### Installing Eigen
+
+If you are using macOS, Eigen can be easily installed by
+```
+brew install eigen
+```
+
 ## Projects Using mathtoolbox
 
 - SelPh <https://github.com/yuki-koyama/selph> (for `classical-mds`)

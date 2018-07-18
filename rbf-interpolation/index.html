@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>rbf-interpolation - mathtoolbox</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "rbf-interpolation";
+    var mkdocs_page_input_path = "rbf-interpolation.md";
+    var mkdocs_page_url = "/rbf-interpolation/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+  <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-118875313-1', 'yuki-koyama.github.io');
+      ga('send', 'pageview');
+  </script>
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> mathtoolbox</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Introduction</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Scattered Data Interpolation and Function Approximation</span>
+    <ul class="subnav">
+                <li class=" current">
+                    
+    <a class="current" href="./">rbf-interpolation</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#rbf-interpolation">rbf-interpolation</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#header">Header</a></li>
+        
+            <li><a class="toctree-l4" href="#math">Math</a></li>
+        
+            <li><a class="toctree-l4" href="#usage">Usage</a></li>
+        
+            <li><a class="toctree-l4" href="#useful-resources">Useful Resources</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../gaussian-process-regression/">Gaussian process regression</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Dimensionality Reduction and Low-Dimensional Embedding</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../classical-mds/">Classical mds</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">mathtoolbox</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Scattered Data Interpolation and Function Approximation &raquo;</li>
+        
+      
+    
+    <li>rbf-interpolation</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="rbf-interpolation">rbf-interpolation</h1>
+<p>Radial basis function (RBF) network for scattered data interpolation and function approximation.</p>
+<h2 id="header">Header</h2>
+<pre><code>#include &lt;mathtoolbox/rbf-interpolation.hpp&gt;
+</code></pre>
+
+<h2 id="math">Math</h2>
+<h3 id="overview">Overview</h3>
+<p>Given input data:</p>
+<p>
+<script type="math/tex; mode=display">
+\{ (\mathbf{x}_i, y_i) \}_{i = 1, \ldots, n},
+</script>
+</p>
+<p>this technique calculates an interpolated value <script type="math/tex"> y </script> for a specified point <script type="math/tex"> \mathbf{x} </script> by</p>
+<p>
+<script type="math/tex; mode=display">
+y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} \|),
+</script>
+</p>
+<p>where <script type="math/tex"> \phi(\cdot) </script> is a user-selected RBF and <script type="math/tex"> w_1, \cdots, w_n </script> are weights that are calculated in pre-computation.</p>
+<p><img alt="" src="../rbf-interpolation/simple-interpolation.png" /></p>
+<h3 id="pre-computation">Pre-Computation</h3>
+<p>The weight values need to be calculated in pre-computation. Let </p>
+<p>
+<script type="math/tex; mode=display">
+\mathbf{w} = \begin{bmatrix} w_1 & \cdots & w_n \end{bmatrix}^T
+</script>
+</p>
+<p>and </p>
+<p>
+<script type="math/tex; mode=display">
+\mathbf{\Phi} = 
+  \begin{bmatrix} 
+    \phi_{1, 1} & \cdots & \phi_{1, n} \\
+    \vdots      & \ddots & \vdots      \\
+    \phi_{n, 1} & \cdots & \phi_{n, n}
+  \end{bmatrix},
+</script>
+</p>
+<p>where </p>
+<p>
+<script type="math/tex; mode=display">
+\phi_{i, j} = \phi(\| \mathbf{x}_i - \mathbf{x}_j \|).
+</script>
+</p>
+<p>The following linear system is solved for <script type="math/tex"> \mathbf{w} </script>:</p>
+<p>
+<script type="math/tex; mode=display">
+\mathbf{\Phi} \mathbf{w} = \mathbf{y}.
+</script>
+</p>
+<p>LU decomposition can be used for solving this problem.</p>
+<h3 id="pre-computation-with-regularization">Pre-Computation with Regularization</h3>
+<p>The original formulation above is not robust (i.e., overfitting can occur) when the data points are dense and noisy.</p>
+<p><img alt="" src="../rbf-interpolation/without-regularization.png" /></p>
+<p>For such scenarios, it is possible to add a <em>regularization</em> term into pre-computation. That is, the following minimization problem is solved:</p>
+<p>
+<script type="math/tex; mode=display">
+\min_{\mathbf{w}} \left\{ \| \mathbf{\Phi} \mathbf{w} - \mathbf{y} \|^2 + \lambda \| \mathbf{w} \|^2 \right\}.
+</script>
+</p>
+<p>The derivative of this objective function with respect to <script type="math/tex"> \mathbf{w} </script> is</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{eqnarray*}
+&& \frac{\partial}{\partial \mathbf{w}} \left\{ \| \mathbf{\Phi} \mathbf{w} - \mathbf{y} \|^2 + \lambda \| \mathbf{w} \|^2 \right\} \\
+&=& \frac{\partial}{\partial \mathbf{w}} \| \mathbf{\Phi} \mathbf{w} - \mathbf{y} \|^2 + \lambda \frac{\partial}{\partial \mathbf{w}} \| \mathbf{w} \|^2 \\
+&=& 2 \mathbf{\Phi}^T (\mathbf{\Phi} \mathbf{w} - \mathbf{y}) + 2 \lambda \mathbf{w} \\
+&=& 2 \left\{ (\mathbf{\Phi}^T \mathbf{\Phi} + \lambda \mathbf{I}) \mathbf{w} - \mathbf{\Phi}^T \mathbf{y} \right\}.
+\end{eqnarray*}
+</script>
+</p>
+<p>Thus, the solution of the above minimization problem can be obtained by solving the below linear system:</p>
+<p>
+<script type="math/tex; mode=display">
+(\mathbf{\Phi}^T \mathbf{\Phi} + \lambda \mathbf{I}) \mathbf{w} = \mathbf{\Phi}^T \mathbf{y}.
+</script>
+</p>
+<p><img alt="" src="../rbf-interpolation/with-regularization.png" /></p>
+<h2 id="usage">Usage</h2>
+<p>First, instantiate the class <code>RbfInterpolation</code>. Via the constructor, an RBF can be specified from the following options:</p>
+<ul>
+<li><code>Gaussian</code></li>
+<li><code>ThinPlateSpline</code></li>
+<li><code>InverseQuadratic</code></li>
+<li><code>Linear</code></li>
+</ul>
+<p>By default, <code>ThinPlateSpline</code> (i.e., <script type="math/tex"> \phi(x) = x^2 \log(x) </script>) is chosen.</p>
+<p>Then, set the target scattered data by the method</p>
+<pre><code>void SetData(const Eigen::MatrixXd&amp; X, const Eigen::VectorXd&amp; y);
+</code></pre>
+
+<p>where</p>
+<p>
+<script type="math/tex; mode=display">
+\mathbf{X} = \begin{bmatrix} \mathbf{x}_{1} & \cdots & \mathbf{x}_{n} \end{bmatrix} \in \mathbb{R}^{m \times n}
+</script>
+</p>
+<p>represents the data points and</p>
+<p>
+<script type="math/tex; mode=display">
+\mathbf{y} = \begin{bmatrix} y_1 & \cdots & y_n \end{bmatrix}^T
+</script>
+</p>
+<p>represents their values.</p>
+<p>Next, calculate the weight values by the method:</p>
+<pre><code>void ComputeWeights(bool use_regularization = false, double lambda = 0.001);
+</code></pre>
+
+<p>When <code>use_regularization</code> is set <code>true</code>, the weights are calculated in the manner of scattered data approximation, rather than scattered data interpolation. When the data is noisy, approximation is usually a better choice.</p>
+<p>Once the above procedures are performed, the instance is ready to calculate interpolated values. This is performed by the method</p>
+<pre><code>double GetValue(const Eigen::VectorXd&amp; x) const;
+</code></pre>
+
+<h2 id="useful-resources">Useful Resources</h2>
+<ul>
+<li>Ken Anjyo, J. P. Lewis, and Frédéric Pighin. 2014. Scattered data interpolation for computer graphics. In ACM SIGGRAPH 2014 Courses (SIGGRAPH '14). ACM, New York, NY, USA, Article 27, 69 pages. DOI: <a href="https://doi.org/10.1145/2614028.2615425">https://doi.org/10.1145/2614028.2615425</a></li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../gaussian-process-regression/" class="btn btn-neutral float-right" title="Gaussian process regression">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href=".." class="btn btn-neutral" title="Introduction"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../gaussian-process-regression/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js"></script>
+      <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="../search/require.js"></script>
+      <script src="../search/search.js"></script>
+
+</body>
+</html>

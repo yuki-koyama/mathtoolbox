@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>gaussian-process-regression - mathtoolbox</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "gaussian-process-regression";
+    var mkdocs_page_input_path = "gaussian-process-regression.md";
+    var mkdocs_page_url = "/gaussian-process-regression/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+  <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-118875313-1', 'yuki-koyama.github.io');
+      ga('send', 'pageview');
+  </script>
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> mathtoolbox</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Introduction</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Scattered Data Interpolation and Function Approximation</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../rbf-interpolation/">rbf-interpolation</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">gaussian-process-regression</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#gaussian-process-regression">gaussian-process-regression</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#header">Header</a></li>
+        
+            <li><a class="toctree-l4" href="#overview">Overview</a></li>
+        
+            <li><a class="toctree-l4" href="#math">Math</a></li>
+        
+            <li><a class="toctree-l4" href="#usage">Usage</a></li>
+        
+            <li><a class="toctree-l4" href="#useful-resources">Useful Resources</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Dimensionality Reduction and Low-Dimensional Embedding</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../classical-mds/">Classical mds</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">mathtoolbox</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Scattered Data Interpolation and Function Approximation &raquo;</li>
+        
+      
+    
+    <li>gaussian-process-regression</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="gaussian-process-regression">gaussian-process-regression</h1>
+<p>Gaussian process regression (GPR) for scattered data interpolation and function approximation.</p>
+<p><img alt="" src="../gaussian-process-regression/examples.png" /></p>
+<h2 id="header">Header</h2>
+<pre><code>#include &lt;mathtoolbox/gaussian-process-regression.hpp&gt;
+</code></pre>
+
+<h2 id="overview">Overview</h2>
+<h3 id="input">Input</h3>
+<p>The input consists of a set of <script type="math/tex"> N </script> scattered data points:</p>
+<p>
+<script type="math/tex; mode=display">
+\{ (\mathbf{x}_i, y_i) \}_{i = 1, \ldots, N},
+</script>
+</p>
+<p>where <script type="math/tex"> \mathbf{x}_i \in \mathbb{R}^D </script> is the <script type="math/tex"> i </script>-th data point location in a <script type="math/tex"> D </script>-dimensional space and <script type="math/tex"> y_i \in \mathbb{R} </script> is its associated value. This input data is also denoted as</p>
+<p>
+<script type="math/tex; mode=display">
+\mathbf{X} = \begin{bmatrix} \mathbf{x}_{1} & \cdots & \mathbf{x}_{N} \end{bmatrix} \in \mathbb{R}^{D \times N}
+</script>
+</p>
+<p>and</p>
+<p>
+<script type="math/tex; mode=display">
+\mathbf{y} = \begin{bmatrix} y_1 \\ \vdots \\ y_N \end{bmatrix} \in \mathbb{R}^{N}.
+</script>
+</p>
+<h3 id="output">Output</h3>
+<p>Given the data and some "Gaussian process" assumptions, GPR can calculate the most likely value <script type="math/tex"> y </script> and its variance <script type="math/tex"> \text{Var}(y) </script> for an arbitrary location <script type="math/tex"> \mathbf{x} </script>. </p>
+<p>The variance roughly indicates how uncertain the estimation is. For example, when this value is large, the estimated value may not be very trustful (this often occurs in regions with less data points).</p>
+<p>Note that a 95%-confidence interval can be obtained by <script type="math/tex"> [ y - 1.96 \sqrt{\text{Var}(y)}, y + 1.96 \sqrt{\text{Var}(y)} ] </script>.</p>
+<h2 id="math">Math</h2>
+<h3 id="coveriance-function">Coveriance Function</h3>
+<p>The automatic relevance determination (ARD) squared exponential kernel is used:</p>
+<p>
+<script type="math/tex; mode=display">
+k(\mathbf{x}_p, \mathbf{x}_q) = \sigma_f^{2} \exp \left( - \frac{1}{2} (\mathbf{x}_p - \mathbf{x}_q)^{T} \text{diag}(\boldsymbol{\ell})^{-2} (\mathbf{x}_p - \mathbf{x}_q) \right) + \sigma_n^{2} \delta_{pq},
+</script>
+</p>
+<p>where <script type="math/tex"> \sigma_f^{2} </script> (the signal variance), <script type="math/tex"> \sigma_n^{2} </script> (the noise level), and <script type="math/tex"> \boldsymbol{\ell} </script> (the characteristic length-scales) are hyperparameters.</p>
+<h3 id="mean-function">Mean Function</h3>
+<p>A constant-value function is used:</p>
+<p>
+<script type="math/tex; mode=display">
+m(\mathbf{x}) = 0.
+</script>
+</p>
+<h3 id="selecting-hyperparameters">Selecting Hyperparameters</h3>
+<p>There are two options for setting hyperparameters:
+- Set manually
+- Determined by the maximum likelihood estimation</p>
+<h4 id="maximum-likelihood-estimation">Maximum Likelihood Estimation</h4>
+<p>Let <script type="math/tex"> \boldsymbol{\theta} </script> be a concatenation of hyperparameters; that is, </p>
+<p>
+<script type="math/tex; mode=display">
+\boldsymbol{\theta} = \begin{bmatrix} \sigma_{f}^{2} \\ \sigma_{n}^{2} \\ \boldsymbol{\ell} \end{bmatrix} \in \mathbb{R}^{D + 2}.
+</script>
+</p>
+<p>In this approach, these hyperparameters are determined by solving the following numerical optimization problem:</p>
+<p>
+<script type="math/tex; mode=display">
+\boldsymbol{\theta}^\text{ML} = \mathop{\rm arg~max}\limits_{\boldsymbol{\theta}} p(\mathbf{y} \mid \mathbf{X}, \boldsymbol{\theta}).
+</script>
+</p>
+<p>In this implementation, this maximization problem is solved by the L-BFGS method (a gradient-based local optimization algorithm) from the NLopt library <a href="https://nlopt.readthedocs.io/">https://nlopt.readthedocs.io/</a>. Initial solutions for this maximization need to be specified.</p>
+<h2 id="usage">Usage</h2>
+<h3 id="instantiation-and-data-specification">Instantiation and Data Specification</h3>
+<p>A GPR object is instantiated with data specification in its constructor:</p>
+<pre><code>GaussianProcessRegression(const Eigen::MatrixXd&amp; X, const Eigen::VectorXd&amp; y);
+</code></pre>
+
+<h3 id="hyperparameter-selection">Hyperparameter Selection</h3>
+<p>Hyperparameters are set by either</p>
+<pre><code>void SetHyperparameters(double sigma_squared_f,
+                        double sigma_squared_n,
+                        const Eigen::VectorXd&amp; length_scales);
+</code></pre>
+
+<p>or </p>
+<pre><code>void PerformMaximumLikelihood(double sigma_squared_f_initial,
+                              double sigma_squared_n_initial,
+                              const Eigen::VectorXd&amp; length_scales_initial);
+</code></pre>
+
+<h3 id="estimation">Estimation</h3>
+<p>Once a GPR object is instantiated and its hyperparameters are set, it is ready for estimation. For an unknown location <script type="math/tex"> \mathbf{x} </script>, the GPR object estimates the most likely value <script type="math/tex"> y </script> by the following method:</p>
+<pre><code>double EstimateY(const Eigen::VectorXd&amp; x) const;
+</code></pre>
+
+<p>It also estimates the variance <script type="math/tex"> \text{Var}(y) </script> by the following method:</p>
+<pre><code>double EstimateVariance(const Eigen::VectorXd&amp; x) const;
+</code></pre>
+
+<h2 id="useful-resources">Useful Resources</h2>
+<ul>
+<li>Mark Ebden. 2015. Gaussian Processes: A Quick Introduction. <a href="https://arxiv.org/abs/1505.02965">arXiv:1505.02965</a>.</li>
+<li>Carl Edward Rasmussen and Christopher K. I. Williams. 2006. Gaussian Processes for Machine Learning. The MIT Press. Online version: <a href="http://www.gaussianprocess.org/gpml/">http://www.gaussianprocess.org/gpml/</a></li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../classical-mds/" class="btn btn-neutral float-right" title="Classical mds">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../rbf-interpolation/" class="btn btn-neutral" title="rbf-interpolation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../rbf-interpolation/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../classical-mds/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js"></script>
+      <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="../search/require.js"></script>
+      <script src="../search/search.js"></script>
+
+</body>
+</html>

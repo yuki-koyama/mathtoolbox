@@ -14,13 +14,13 @@ Gaussian process regression (GPR) for scattered data interpolation and function 
 
 ### Input
 
-The input consists of a set of $$ N $$ scattered data points:
+The input consists of a set of $ N $ scattered data points:
 
 $$
 \{ (\mathbf{x}_i, y_i) \}_{i = 1, \ldots, N},
 $$
 
-where $$ \mathbf{x}_i \in \mathbb{R}^D $$ is the $$ i $$-th data point location in a $$ D $$-dimensional space and $$ y_i \in \mathbb{R} $$ is its associated value. This input data is also denoted as
+where $ \mathbf{x}_i \in \mathbb{R}^D $ is the $ i $-th data point location in a $ D $-dimensional space and $ y_i \in \mathbb{R} $ is its associated value. This input data is also denoted as
 
 $$
 \mathbf{X} = \begin{bmatrix} \mathbf{x}_{1} & \cdots & \mathbf{x}_{N} \end{bmatrix} \in \mathbb{R}^{D \times N}
@@ -30,15 +30,15 @@ and
 
 $$
 \mathbf{y} = \begin{bmatrix} y_1 \\ \vdots \\ y_N \end{bmatrix} \in \mathbb{R}^{N}.
-$$ 
+$$
 
 ### Output
 
-Given the data and some "Gaussian process" assumptions, GPR can calculate the most likely value $$ y $$ and its variance $$ \text{Var}(y) $$ for an arbitrary location $$ \mathbf{x} $$. 
+Given the data and some "Gaussian process" assumptions, GPR can calculate the most likely value $ y $ and its variance $ \text{Var}(y) $ for an arbitrary location $ \mathbf{x} $. 
 
 The variance roughly indicates how uncertain the estimation is. For example, when this value is large, the estimated value may not be very trustful (this often occurs in regions with less data points).
 
-Note that a 95%-confidence interval can be obtained by $$ [ y - 1.96 \sqrt{\text{Var}(y)}, y + 1.96 \sqrt{\text{Var}(y)} ] $$.
+Note that a 95%-confidence interval can be obtained by $ [ y - 1.96 \sqrt{\text{Var}(y)}, y + 1.96 \sqrt{\text{Var}(y)} ] $.
 
 ## Math
 
@@ -50,7 +50,7 @@ $$
 k(\mathbf{x}_p, \mathbf{x}_q) = \sigma_f^{2} \exp \left( - \frac{1}{2} (\mathbf{x}_p - \mathbf{x}_q)^{T} \text{diag}(\boldsymbol{\ell})^{-2} (\mathbf{x}_p - \mathbf{x}_q) \right) + \sigma_n^{2} \delta_{pq},
 $$
 
-where $$ \sigma_f^{2} $$ (the signal variance), $$ \sigma_n^{2} $$ (the noise level), and $$ \boldsymbol{\ell} $$ (the characteristic length-scales) are hyperparameters.
+where $ \sigma_f^{2} $ (the signal variance), $ \sigma_n^{2} $ (the noise level), and $ \boldsymbol{\ell} $ (the characteristic length-scales) are hyperparameters.
 
 ### Mean Function
 
@@ -68,7 +68,7 @@ There are two options for setting hyperparameters:
 
 #### Maximum Likelihood Estimation
 
-Let $$ \boldsymbol{\theta} $$ be a concatenation of hyperparameters; that is, 
+Let $ \boldsymbol{\theta} $ be a concatenation of hyperparameters; that is, 
 
 $$
 \boldsymbol{\theta} = \begin{bmatrix} \sigma_{f}^{2} \\ \sigma_{n}^{2} \\ \boldsymbol{\ell} \end{bmatrix} \in \mathbb{R}^{D + 2}.
@@ -108,11 +108,11 @@ void PerformMaximumLikelihood(double sigma_squared_f_initial,
 
 ### Estimation
 
-Once a GPR object is instantiated and its hyperparameters are set, it is ready for estimation. For an unknown location $$ \mathbf{x} $$, the GPR object estimates the most likely value $$ y $$ by the following method:
+Once a GPR object is instantiated and its hyperparameters are set, it is ready for estimation. For an unknown location $ \mathbf{x} $, the GPR object estimates the most likely value $ y $ by the following method:
 ```
 double EstimateY(const Eigen::VectorXd& x) const;
 ```
-It also estimates the variance $$ \text{Var}(y) $$ by the following method:
+It also estimates the variance $ \text{Var}(y) $ by the following method:
 ```
 double EstimateVariance(const Eigen::VectorXd& x) const;
 ```
@@ -121,5 +121,3 @@ double EstimateVariance(const Eigen::VectorXd& x) const;
 
 - Mark Ebden. 2015. Gaussian Processes: A Quick Introduction. [arXiv:1505.02965](https://arxiv.org/abs/1505.02965).
 - Carl Edward Rasmussen and Christopher K. I. Williams. 2006. Gaussian Processes for Machine Learning. The MIT Press. Online version: <http://www.gaussianprocess.org/gpml/>
-
-<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>

@@ -18,13 +18,13 @@ $$
 \{ (\mathbf{x}_i, y_i) \}_{i = 1, \ldots, n},
 $$
 
-this technique calculates an interpolated value $$ y $$ for a specified point $$ \mathbf{x} $$ by
+this technique calculates an interpolated value $ y $ for a specified point $ \mathbf{x} $ by
 
 $$
 y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} \|),
 $$
 
-where $$ \phi(\cdot) $$ is a user-selected RBF and $$ w_1, \cdots, w_n $$ are weights that are calculated in pre-computation.
+where $ \phi(\cdot) $ is a user-selected RBF and $ w_1, \cdots, w_n $ are weights that are calculated in pre-computation.
 
 ![](rbf-interpolation/simple-interpolation.png)
 
@@ -53,7 +53,7 @@ $$
 \phi_{i, j} = \phi(\| \mathbf{x}_i - \mathbf{x}_j \|).
 $$
 
-The following linear system is solved for $$ \mathbf{w} $$:
+The following linear system is solved for $ \mathbf{w} $:
 
 $$
 \mathbf{\Phi} \mathbf{w} = \mathbf{y}.
@@ -73,7 +73,7 @@ $$
 \min_{\mathbf{w}} \left\{ \| \mathbf{\Phi} \mathbf{w} - \mathbf{y} \|^2 + \lambda \| \mathbf{w} \|^2 \right\}.
 $$
 
-The derivative of this objective function with respect to $$ \mathbf{w} $$ is
+The derivative of this objective function with respect to $ \mathbf{w} $ is
 
 $$
 \begin{eqnarray*}
@@ -95,12 +95,13 @@ $$
 ## Usage
 
 First, instantiate the class `RbfInterpolation`. Via the constructor, an RBF can be specified from the following options:
+
 - `Gaussian`
 - `ThinPlateSpline`
 - `InverseQuadratic`
 - `Linear`
 
-By default, `ThinPlateSpline` (i.e., $$ \phi(x) = x^2 \log(x) $$) is chosen.
+By default, `ThinPlateSpline` (i.e., $ \phi(x) = x^2 \log(x) $) is chosen.
 
 Then, set the target scattered data by the method
 ```
@@ -134,5 +135,3 @@ double GetValue(const Eigen::VectorXd& x) const;
 ## Useful Resources
 
 - Ken Anjyo, J. P. Lewis, and Frédéric Pighin. 2014. Scattered data interpolation for computer graphics. In ACM SIGGRAPH 2014 Courses (SIGGRAPH '14). ACM, New York, NY, USA, Article 27, 69 pages. DOI: <https://doi.org/10.1145/2614028.2615425>
-
-<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>

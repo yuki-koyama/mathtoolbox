@@ -13,3 +13,5 @@ pages:
     - 'gaussian-process-regression.md'
   - 'Dimensionality Reduction and Low-Dimensional Embedding':
     - 'classical-mds.md'
+repo_name: GitHub
+repo_url: https://github.com/yuki-koyama/mathtoolbox/

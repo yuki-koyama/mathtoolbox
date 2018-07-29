@@ -2,22 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
      <loc>/</loc>
-     <lastmod>2018-07-18</lastmod>
+     <lastmod>2018-07-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>/rbf-interpolation/</loc>
-     <lastmod>2018-07-18</lastmod>
+     <lastmod>2018-07-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>/gaussian-process-regression/</loc>
-     <lastmod>2018-07-18</lastmod>
+     <lastmod>2018-07-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>/classical-mds/</loc>
-     <lastmod>2018-07-18</lastmod>
+     <lastmod>2018-07-29</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>

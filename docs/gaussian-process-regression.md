@@ -63,6 +63,7 @@ $$
 ### Selecting Hyperparameters
 
 There are two options for setting hyperparameters:
+
 - Set manually
 - Determined by the maximum likelihood estimation
 

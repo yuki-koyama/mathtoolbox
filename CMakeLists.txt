@@ -13,7 +13,6 @@ link_directories(${EXTERNAL_INSTALL_DIR}/lib)
 include_directories(${EXTERNAL_INSTALL_DIR}/include)
 
 find_package(Eigen3 REQUIRED)
-include_directories(${EIGEN3_INCLUDE_DIR})
 
 ######################################################################
 # Build
@@ -23,7 +22,7 @@ file(GLOB headers mathtoolbox/*.hpp)
 file(GLOB sources mathtoolbox/*.cpp)
 
 add_library(mathtoolbox STATIC ${headers} ${sources})
-target_link_libraries(mathtoolbox nlopt)
+target_link_libraries(mathtoolbox nlopt Eigen3::Eigen)
 
 ######################################################################
 # Installation

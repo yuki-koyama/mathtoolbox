@@ -24,6 +24,13 @@ namespace
 
 int main(int argc, char** argv)
 {
+    // Display usage when necessary arguments are not provided
+    if (argc < 2)
+    {
+        std::cout << "Usage: gaussian-process-regression-test [output directory path]" << std::endl;
+        exit(0);
+    }
+    
     // Set a output directory path
     const std::string output_directory_path(argv[1]);
     

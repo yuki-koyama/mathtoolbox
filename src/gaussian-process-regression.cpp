@@ -1,4 +1,4 @@
-#include "gaussian-process-regression.hpp"
+#include <mathtoolbox/gaussian-process-regression.hpp>
 #include <tuple>
 #include <Eigen/LU>
 #include <nlopt-util.hpp>

@@ -18,10 +18,11 @@ find_package(Eigen3 REQUIRED)
 # Build
 ######################################################################
 
-file(GLOB headers mathtoolbox/*.hpp)
-file(GLOB sources mathtoolbox/*.cpp)
+file(GLOB headers ${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/*.hpp)
+file(GLOB sources ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
 add_library(mathtoolbox STATIC ${headers} ${sources})
+target_include_directories(mathtoolbox PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(mathtoolbox nlopt Eigen3::Eigen)
 
 ######################################################################
@@ -38,7 +39,6 @@ install(TARGETS mathtoolbox ARCHIVE DESTINATION lib)
 option(MATHTOOLBOX_BUILD_EXAMPLES "Build example applications" OFF)
 
 if(MATHTOOLBOX_BUILD_EXAMPLES)
-	include_directories(${CMAKE_SOURCE_DIR})
 	add_subdirectory(examples)
 endif()
 

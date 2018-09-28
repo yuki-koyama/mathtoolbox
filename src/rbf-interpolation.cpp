@@ -1,4 +1,4 @@
-#include "rbf-interpolation.hpp"
+#include <mathtoolbox/rbf-interpolation.hpp>
 #include <cmath>
 #include <Eigen/LU>
 

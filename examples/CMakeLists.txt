@@ -1,3 +1,6 @@
 add_subdirectory(classical-mds)
 add_subdirectory(rbf-interpolation)
-add_subdirectory(gaussian-process-regression)
+
+if(MATHTOOLBOX_NLOPT_BASED_MODULES)
+	add_subdirectory(gaussian-process-regression)
+endif()

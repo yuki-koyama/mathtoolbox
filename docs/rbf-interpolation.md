@@ -103,7 +103,7 @@ First, instantiate the class `RbfInterpolation`. Via the constructor, an RBF can
 
 By default, `ThinPlateSpline` (i.e., $ \phi(x) = x^2 \log(x) $) is chosen.
 
-Then, set the target scattered data by the method
+Then, set the target scattered data by the method:
 ```
 void SetData(const Eigen::MatrixXd& X, const Eigen::VectorXd& y);
 ```

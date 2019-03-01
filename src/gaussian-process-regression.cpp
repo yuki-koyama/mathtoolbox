@@ -26,7 +26,7 @@ namespace
         }();
         return sigma_squared_f * std::exp(- 0.5 * sum);
     }
-    
+
     double CalculateArdSquaredExponentialKernelGradientSigmaSquaredF(const VectorXd& x_i,
                                                                      const VectorXd& x_j,
                                                                      const double    sigma_squared_f,
@@ -43,7 +43,7 @@ namespace
             return std::exp(- 0.5 * sum);
         }();
     }
-    
+
     VectorXd CalculateArdSquaredExponentialKernelGradientLengthScales(const VectorXd& x_i,
                                                                       const VectorXd& x_j,
                                                                       const double    sigma_squared_f,
@@ -60,7 +60,7 @@ namespace
             return CalculateArdSquaredExponentialKernel(x_i, x_j, sigma_squared_f, length_scales) * partial_derivative;
         }();
     }
-    
+
     MatrixXd CalculateLargeK(const MatrixXd& X,
                              const double    sigma_squared_f,
                              const double    sigma_squared_n,
@@ -83,7 +83,7 @@ namespace
         }();
         return K + sigma_squared_n * MatrixXd::Identity(N, N);
     }
-    
+
     MatrixXd CalculateLargeKGradientSigmaSquaredF(const MatrixXd& X,
                                                   const double    sigma_squared_f,
                                                   const double    sigma_squared_n,
@@ -105,7 +105,7 @@ namespace
             return K_gradient_sigma_squared_f;
         }();
     }
-    
+
     MatrixXd CalculateLargeKGradientSigmaSquaredN(const MatrixXd& X,
                                                   const double    sigma_squared_f,
                                                   const double    sigma_squared_n,
@@ -114,7 +114,7 @@ namespace
         const int N = X.cols();
         return MatrixXd::Identity(N, N);
     }
-    
+
     MatrixXd CalculateLargeKGradientLengthScaleI(const MatrixXd& X,
                                                  const double    sigma_squared_f,
                                                  const double    sigma_squared_n,
@@ -137,7 +137,7 @@ namespace
             return K_gradient_length_scale_i;
         }();
     }
-    
+
     VectorXd CalculateSmallK(const VectorXd& x,
                              const MatrixXd& X,
                              const double    sigma_squared_f,
@@ -154,7 +154,7 @@ namespace
             return k;
         }();
     }
-    
+
     double CalculateLogLikelihood(const MatrixXd& X,
                                   const VectorXd& y,
                                   const double    sigma_squared_f,
@@ -163,22 +163,22 @@ namespace
     {
         const int      N = X.cols();
         const MatrixXd K = CalculateLargeK(X, sigma_squared_f, sigma_squared_n, length_scales);
-        
+
         const Eigen::FullPivLU<MatrixXd> lu(K);
-        
+
         assert(lu.isInvertible());
-        
+
         const MatrixXd K_inv = lu.inverse();
         const double   K_det = lu.determinant();
-        
+
         // Equation 5.8 [Rasmuss and Williams 2006]
         const double term1 = - 0.5 * y.transpose() * K_inv * y;
         const double term2 = - 0.5 * std::log(K_det);
         const double term3 = - 0.5 * N * std::log(2.0 * M_PI);
-        
+
         return term1 + term2 + term3;
     }
-    
+
     VectorXd CalculateLogLikelihoodGradient(const MatrixXd& X,
                                             const VectorXd& y,
                                             const double    sigma_squared_f,
@@ -186,10 +186,10 @@ namespace
                                             const VectorXd& length_scales)
     {
         const int D = X.rows();
-        
+
         const MatrixXd K     = CalculateLargeK(X, sigma_squared_f, sigma_squared_n, length_scales);
         const MatrixXd K_inv = K.inverse();
-        
+
         const double log_likeliehood_gradient_sigma_squared_f = [&]()
         {
             // Equation 5.9 [Rasmuss and Williams 2006]
@@ -198,7 +198,7 @@ namespace
             const double term2 = - 0.5 * (K_inv * K_gradient_sigma_squared_f).trace();
             return term1 + term2;
         }();
-        
+
         const double log_likeliehood_gradient_sigma_squared_n = [&]()
         {
             // Equation 5.9 [Rasmuss and Williams 2006]
@@ -207,7 +207,7 @@ namespace
             const double term2 = - 0.5 * (K_inv * K_gradient_sigma_squared_n).trace();
             return term1 + term2;
         }();
-        
+
         const VectorXd log_likelihood_gradient_length_scales = [&]()
         {
             // Equation 5.9 [Rasmuss and Williams 2006]
@@ -221,7 +221,7 @@ namespace
             }
             return log_likelihood_gradient_length_scales;
         }();
-        
+
         return [&]()
         {
             VectorXd concat(D + 2);
@@ -238,10 +238,10 @@ namespace mathtoolbox
     GaussianProcessRegression::GaussianProcessRegression(const MatrixXd& X, const VectorXd& y) : X(X), y(y)
     {
         const int D = X.rows();
-        
+
         SetHyperparameters(0.10, 1e-05, VectorXd::Constant(D, 0.10));
     }
-    
+
     void GaussianProcessRegression::SetHyperparameters(double sigma_squared_f,
                                                        double sigma_squared_n,
                                                        const Eigen::VectorXd& length_scales)
@@ -249,20 +249,20 @@ namespace mathtoolbox
         this->sigma_squared_f = sigma_squared_f;
         this->sigma_squared_n = sigma_squared_n;
         this->length_scales   = length_scales;
-        
+
         K     = CalculateLargeK(X, sigma_squared_f, sigma_squared_n, length_scales);
         K_inv = K.inverse();
     }
-    
+
     void GaussianProcessRegression::PerformMaximumLikelihood(double sigma_squared_f_initial,
                                                              double sigma_squared_n_initial,
                                                              const Eigen::VectorXd& length_scales_initial)
     {
         const int D = X.rows();
-        
+
         assert(length_scales.rows() == D);
         assert(length_scales_initial.rows() == D);
-        
+
         const VectorXd x_initial = [&]()
         {
             VectorXd x(D + 2);
@@ -273,26 +273,26 @@ namespace mathtoolbox
         }();
         const VectorXd upper = VectorXd::Constant(D + 2, 1e+05);
         const VectorXd lower = VectorXd::Constant(D + 2, 1e-08);
-        
+
         using Data = std::tuple<const MatrixXd&, const VectorXd&>;
         Data data(X, y);
-        
+
         auto objective = [](const std::vector<double>& x, std::vector<double>& grad, void* data)
         {
             const double   sigma_squared_f = x[0];
             const double   sigma_squared_n = x[1];
             const VectorXd length_scales   = Eigen::Map<const VectorXd>(&x[2], x.size() - 2);
-            
+
             const MatrixXd& X = std::get<0>(*static_cast<Data*>(data));
             const VectorXd& y = std::get<1>(*static_cast<Data*>(data));
-            
+
             const double   log_likelihood          = CalculateLogLikelihood(X, y, sigma_squared_f, sigma_squared_n, length_scales);
             const VectorXd log_likelihood_gradient = CalculateLogLikelihoodGradient(X, y, sigma_squared_f, sigma_squared_n, length_scales);
-            
+
             assert(!grad.empty());
-            
+
             grad = std::vector<double>(log_likelihood_gradient.data(), log_likelihood_gradient.data() + log_likelihood_gradient.rows());
-            
+
             return log_likelihood;
         };
 
@@ -311,21 +311,21 @@ namespace mathtoolbox
         sigma_squared_f = x_optimal[0];
         sigma_squared_n = x_optimal[1];
         length_scales           = Eigen::Map<const VectorXd>(&x_optimal[2], x_optimal.size() - 2);
-        
+
         std::cout << "sigma_squared_f: " << sigma_squared_f << std::endl;
         std::cout << "sigma_squared_n: " << sigma_squared_n << std::endl;
         std::cout << "length_scales  : " << length_scales.transpose() << std::endl;
-        
+
         K     = CalculateLargeK(X, sigma_squared_f, sigma_squared_n, length_scales);
         K_inv = K.inverse();
     }
-    
+
     double GaussianProcessRegression::EstimateY(const VectorXd& x) const
     {
         const VectorXd k = CalculateSmallK(x, X, sigma_squared_f, length_scales);
         return k.transpose() * K_inv * y;
     }
-    
+
     double GaussianProcessRegression::EstimateVariance(const VectorXd& x) const
     {
         const VectorXd k = CalculateSmallK(x, X, sigma_squared_f, length_scales);

@@ -295,9 +295,19 @@ namespace mathtoolbox
             
             return log_likelihood;
         };
-        
-        const VectorXd x_optimal = nloptutil::compute(x_initial, upper, lower, objective, &data, nlopt::LD_LBFGS, 1000, 1e-06, 1e-06, true, true);
-        
+
+        const VectorXd x_optimal = nloptutil::solve(x_initial,
+                                                    upper,
+                                                    lower,
+                                                    objective,
+                                                    nlopt::LD_LBFGS,
+                                                    &data,
+                                                    true,
+                                                    1000,
+                                                    1e-06,
+                                                    1e-06,
+                                                    true);
+
         sigma_squared_f = x_optimal[0];
         sigma_squared_n = x_optimal[1];
         length_scales           = Eigen::Map<const VectorXd>(&x_optimal[2], x_optimal.size() - 2);

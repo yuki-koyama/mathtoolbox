@@ -12,14 +12,8 @@ option(MATHTOOLBOX_NLOPT_BASED_MODULES "Build NLopt-based modules" ON)
 option(MATHTOOLBOX_BUILD_EXAMPLES "Build example applications" OFF)
 
 ######################################################################
-# Include and link paths
+# Check prerequisites
 ######################################################################
-
-if(MATHTOOLBOX_NLOPT_BASED_MODULES)
-	set(EXTERNAL_INSTALL_DIR ${CMAKE_BINARY_DIR}/external)
-	link_directories(${EXTERNAL_INSTALL_DIR}/lib)
-	include_directories(${EXTERNAL_INSTALL_DIR}/include)
-endif()
 
 find_package(Eigen3 REQUIRED)
 
@@ -38,7 +32,7 @@ file(GLOB
 )
 file(GLOB
 	headers_nlopt
-	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/gaussian-process-regression.hpp	
+	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/gaussian-process-regression.hpp
 )
 file(GLOB
 	sources_nlopt
@@ -47,7 +41,7 @@ file(GLOB
 
 if(MATHTOOLBOX_NLOPT_BASED_MODULES)
 	add_library(mathtoolbox STATIC ${headers} ${sources} ${headers_nlopt} ${sources_nlopt})
-	target_link_libraries(mathtoolbox nlopt Eigen3::Eigen)
+	target_link_libraries(mathtoolbox Eigen3::Eigen nlopt nlopt-util)
 else()
 	add_library(mathtoolbox STATIC ${headers} ${sources})
 	target_link_libraries(mathtoolbox Eigen3::Eigen)
@@ -78,28 +72,6 @@ endif()
 ######################################################################
 
 if(MATHTOOLBOX_NLOPT_BASED_MODULES)
-	include(ExternalProject)
-	ExternalProject_Add(
-		nlopt
-		GIT_REPOSITORY ${CMAKE_SOURCE_DIR}/external/nlopt
-		GIT_TAG eafdc8ce9403a4e1532239c1bebbdb86064eda38
-		INSTALL_DIR ${EXTERNAL_INSTALL_DIR}
-		CMAKE_ARGS 
-		-DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
-		-DBUILD_SHARED_LIBS=OFF
-		-DNLOPT_GUILE=OFF
-		-DNLOPT_LINK_PYTHON=OFF
-		-DNLOPT_MATLAB=OFF
-		-DNLOPT_OCTAVE=OFF
-		-DNLOPT_PYTHON=OFF
-		-DNLOPT_SWIG=OFF
-	)
-	ExternalProject_Add(
-		nlopt-util
-		GIT_REPOSITORY ${CMAKE_SOURCE_DIR}/external/nlopt-util
-		GIT_TAG a45dd9aed0439a8d7eab3e0917d4a746d356097c
-		INSTALL_DIR ${EXTERNAL_INSTALL_DIR}
-		CMAKE_ARGS -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
-	)
-	add_dependencies(mathtoolbox nlopt nlopt-util)
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/nlopt)
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/nlopt-util)
 endif()

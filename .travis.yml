@@ -1,0 +1,19 @@
+language: cpp
+compiler:
+- clang
+- gcc
+os:
+- linux
+- osx
+dist: xenial
+addons:
+  homebrew:
+    packages:
+    - eigen
+  apt:
+    packages:
+    - libeigen3-dev
+script:
+- cmake -DMATHTOOLBOX_NLOPT_BASED_MODULES=ON -DMATHTOOLBOX_BUILD_EXAMPLES=ON .
+- make
+- ctest

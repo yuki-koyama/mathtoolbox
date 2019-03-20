@@ -18,6 +18,32 @@ option(MATHTOOLBOX_BUILD_EXAMPLES "Build example applications" OFF)
 find_package(Eigen3 REQUIRED)
 
 ######################################################################
+# External libraries
+######################################################################
+
+if(MATHTOOLBOX_NLOPT_BASED_MODULES)
+	set(BUILD_SHARED_LIBS OFF CACHE INTERNAL "" FORCE)
+	set(NLOPT_GUILE       OFF CACHE INTERNAL "" FORCE)
+	set(NLOPT_LINK_PYTHON OFF CACHE INTERNAL "" FORCE)
+	set(NLOPT_MATLAB      OFF CACHE INTERNAL "" FORCE)
+	set(NLOPT_OCTAVE      OFF CACHE INTERNAL "" FORCE)
+	set(NLOPT_PYTHON      OFF CACHE INTERNAL "" FORCE)
+	set(NLOPT_SWIG        OFF CACHE INTERNAL "" FORCE)
+	set(NLOPT_TESTS       OFF CACHE INTERNAL "" FORCE)
+	set(NLOPT_CXX         OFF CACHE INTERNAL "" FORCE)
+	set(NLOPT_FORTRAN     OFF CACHE INTERNAL "" FORCE)
+	set(WITH_THREADLOCAL  OFF CACHE INTERNAL "" FORCE)
+	set(INSTALL_BIN_DIR     "bin"             CACHE INTERNAL "" FORCE)
+	set(INSTALL_CMAKE_DIR   "lib/cmake/nlopt" CACHE INTERNAL "" FORCE)
+	set(INSTALL_DATA_DIR    "share/nlopt"     CACHE INTERNAL "" FORCE)
+	set(INSTALL_INCLUDE_DIR "include"         CACHE INTERNAL "" FORCE)
+	set(INSTALL_LIB_DIR     "lib"             CACHE INTERNAL "" FORCE)
+	set(INSTALL_MAN_DIR     "share/man"       CACHE INTERNAL "" FORCE)
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/nlopt)
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/nlopt-util)
+endif()
+
+######################################################################
 # Build
 ######################################################################
 
@@ -41,10 +67,10 @@ file(GLOB
 
 if(MATHTOOLBOX_NLOPT_BASED_MODULES)
 	add_library(mathtoolbox STATIC ${headers} ${sources} ${headers_nlopt} ${sources_nlopt})
-	target_link_libraries(mathtoolbox Eigen3::Eigen nlopt nlopt-util)
+	target_link_libraries(mathtoolbox PUBLIC Eigen3::Eigen nlopt nlopt-util)
 else()
 	add_library(mathtoolbox STATIC ${headers} ${sources})
-	target_link_libraries(mathtoolbox Eigen3::Eigen)
+	target_link_libraries(mathtoolbox PUBLIC Eigen3::Eigen)
 endif()
 target_include_directories(mathtoolbox PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
@@ -65,30 +91,4 @@ install(TARGETS mathtoolbox ARCHIVE DESTINATION lib)
 
 if(MATHTOOLBOX_BUILD_EXAMPLES)
 	add_subdirectory(examples)
-endif()
-
-######################################################################
-# External libraries
-######################################################################
-
-if(MATHTOOLBOX_NLOPT_BASED_MODULES)
-	set(BUILD_SHARED_LIBS OFF CACHE INTERNAL "" FORCE)
-	set(NLOPT_GUILE       OFF CACHE INTERNAL "" FORCE)
-	set(NLOPT_LINK_PYTHON OFF CACHE INTERNAL "" FORCE)
-	set(NLOPT_MATLAB      OFF CACHE INTERNAL "" FORCE)
-	set(NLOPT_OCTAVE      OFF CACHE INTERNAL "" FORCE)
-	set(NLOPT_PYTHON      OFF CACHE INTERNAL "" FORCE)
-	set(NLOPT_SWIG        OFF CACHE INTERNAL "" FORCE)
-	set(NLOPT_TESTS       OFF CACHE INTERNAL "" FORCE)
-	set(NLOPT_CXX         ON  CACHE INTERNAL "" FORCE)
-	set(NLOPT_FORTRAN     OFF CACHE INTERNAL "" FORCE)
-	set(WITH_THREADLOCAL  OFF CACHE INTERNAL "" FORCE)
-	set(INSTALL_BIN_DIR     "bin"             CACHE INTERNAL "" FORCE)
-	set(INSTALL_CMAKE_DIR   "lib/cmake/nlopt" CACHE INTERNAL "" FORCE)
-	set(INSTALL_DATA_DIR    "share/nlopt"     CACHE INTERNAL "" FORCE)
-	set(INSTALL_INCLUDE_DIR "include"         CACHE INTERNAL "" FORCE)
-	set(INSTALL_LIB_DIR     "lib"             CACHE INTERNAL "" FORCE)
-	set(INSTALL_MAN_DIR     "share/man"       CACHE INTERNAL "" FORCE)
-	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/nlopt)
-	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/nlopt-util)
 endif()

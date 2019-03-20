@@ -1,0 +1,12 @@
+language: cpp
+compiler:
+- clang
+- gcc
+os:
+- osx
+addons:
+  homebrew:
+    packages:
+    - eigen
+script:
+- cmake . && make

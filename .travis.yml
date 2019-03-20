@@ -9,4 +9,6 @@ addons:
     packages:
     - eigen
 script:
-- cmake -DMATHTOOLBOX_NLOPT_BASED_MODULES=ON -DMATHTOOLBOX_BUILD_EXAMPLES=ON . && make
+- cmake -DMATHTOOLBOX_NLOPT_BASED_MODULES=ON -DMATHTOOLBOX_BUILD_EXAMPLES=ON .
+- make
+- ctest

@@ -92,3 +92,17 @@ install(TARGETS mathtoolbox ARCHIVE DESTINATION lib)
 if(MATHTOOLBOX_BUILD_EXAMPLES)
 	add_subdirectory(examples)
 endif()
+
+######################################################################
+# Tests
+######################################################################
+
+enable_testing()
+if(MATHTOOLBOX_BUILD_EXAMPLES)
+	add_test(NAME rbf-interpolation-test COMMAND $<TARGET_FILE:rbf-interpolation-test>)
+	add_test(NAME classical-mds-test COMMAND $<TARGET_FILE:classical-mds-test>)
+
+	if(MATHTOOLBOX_NLOPT_BASED_MODULES)
+		add_test(NAME gaussian-process-regression-test COMMAND $<TARGET_FILE:gaussian-process-regression-test> .)
+	endif()
+endif()

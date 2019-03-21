@@ -97,7 +97,15 @@ install(TARGETS mathtoolbox ARCHIVE DESTINATION lib)
 ######################################################################
 
 if(MATHTOOLBOX_BUILD_EXAMPLES)
-	add_subdirectory(examples)
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/optimization-test-functions)
+
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/bfgs)
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/classical-mds)
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/rbf-interpolation)
+
+	if(MATHTOOLBOX_NLOPT_BASED_MODULES)
+		add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/gaussian-process-regression)
+	endif()
 endif()
 
 ######################################################################

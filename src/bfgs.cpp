@@ -2,7 +2,7 @@
 
 namespace mathtoolbox
 {
-    Result RunOptimization(Setting& input)
+    Result RunOptimization(const Setting& input)
     {
         return Result();
     }

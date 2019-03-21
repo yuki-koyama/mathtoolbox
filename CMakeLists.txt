@@ -106,8 +106,9 @@ endif()
 
 enable_testing()
 if(MATHTOOLBOX_BUILD_EXAMPLES)
-	add_test(NAME rbf-interpolation-test COMMAND $<TARGET_FILE:rbf-interpolation-test>)
+	add_test(NAME bfgs-test COMMAND $<TARGET_FILE:bfgs-test>)
 	add_test(NAME classical-mds-test COMMAND $<TARGET_FILE:classical-mds-test>)
+	add_test(NAME rbf-interpolation-test COMMAND $<TARGET_FILE:rbf-interpolation-test>)
 
 	if(MATHTOOLBOX_NLOPT_BASED_MODULES)
 		add_test(NAME gaussian-process-regression-test COMMAND $<TARGET_FILE:gaussian-process-regression-test> .)

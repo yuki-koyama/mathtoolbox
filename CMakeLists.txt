@@ -97,6 +97,7 @@ install(TARGETS mathtoolbox ARCHIVE DESTINATION lib)
 ######################################################################
 
 if(MATHTOOLBOX_BUILD_EXAMPLES)
+	set(OTF_WITH_EIGEN ON CACHE INTERNAL "" FORCE)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/optimization-test-functions)
 
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/bfgs)

@@ -54,11 +54,13 @@ endif()
 
 file(GLOB
 	headers
+	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/bfgs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/classical-mds.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/rbf-interpolation.hpp
 )
 file(GLOB
 	sources
+	${CMAKE_CURRENT_SOURCE_DIR}/src/bfgs.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/rbf-interpolation.cpp
 )
 file(GLOB

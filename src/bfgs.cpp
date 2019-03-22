@@ -1,4 +1,5 @@
 #include <mathtoolbox/bfgs.hpp>
+#include <cmath>
 
 namespace mathtoolbox
 {
@@ -31,7 +32,12 @@ namespace mathtoolbox
             const Eigen::VectorXd grad_next = input.f_grad(x_next);
             const Eigen::VectorXd y = grad_next - grad;
 
-            H = H; // TODO
+            const Eigen::MatrixXd I = Eigen::MatrixXd::Identity(dim, dim);
+            const double rho = 1.0 / (y.transpose() * s);
+
+            assert(!std::isnan(rho));
+
+            H = (I - rho * s * y.transpose()) * H * (I - rho * y * s.transpose()) + rho * s * s.transpose();
 
             x = x_next;
             grad = grad_next;

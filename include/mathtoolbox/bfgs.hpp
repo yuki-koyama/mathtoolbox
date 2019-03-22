@@ -22,6 +22,7 @@ namespace mathtoolbox
     {
         Eigen::VectorXd x_star;
         double y_star;
+        unsigned num_iterations;
     };
 
     Result RunOptimization(const Setting& input);

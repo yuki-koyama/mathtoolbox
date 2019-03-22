@@ -5,7 +5,7 @@ namespace mathtoolbox
     Result RunOptimization(const Setting& input)
     {
         constexpr double epsilon = 1e-05;
-        constexpr unsigned num_max_iterations = 10000;
+        constexpr unsigned num_max_iterations = 1000;
 
         const unsigned dim = input.x_init.rows();
 
@@ -30,7 +30,8 @@ namespace mathtoolbox
         return Result
         {
             x,
-            input.f(x)
+            input.f(x),
+            counter
         };
     }
 }

@@ -18,6 +18,7 @@ int main()
 
     const Eigen::VectorXd expected_solution = otf::GetSolution(dimensions, type);
 
+    std::cout << "#iterations: " << result.num_iterations << std::endl;
     std::cout << "Found solution: " << result.x_star.transpose() << " (" << result.y_star << ")" << std::endl;
     std::cout << "Expected solution: " << expected_solution.transpose() << " (" << otf::GetValue(expected_solution, type) << ")" << std::endl;
 

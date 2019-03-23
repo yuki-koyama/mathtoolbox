@@ -38,11 +38,13 @@ namespace mathtoolbox
         const unsigned dim = input.x_init.rows();
 
         const Eigen::MatrixXd I = Eigen::MatrixXd::Identity(dim, dim);
-        const Eigen::MatrixXd H_init = I; // TODO
+        const Eigen::MatrixXd H_init = I;
 
         Eigen::MatrixXd H = H_init;
         Eigen::VectorXd x = input.x_init;
         Eigen::VectorXd grad = input.f_grad(x);
+
+        bool is_first_step = true;
 
         unsigned counter = 0;
         while (true)
@@ -67,6 +69,14 @@ namespace mathtoolbox
             const double rho = 1.0 / (y.transpose() * s);
 
             assert(!std::isnan(rho));
+
+            // Equation 8.20
+            if (is_first_step)
+            {
+                const double scale = static_cast<double>(y.transpose() * s) / static_cast<double>(y.transpose() * y);
+                H = scale * I;
+                is_first_step = false;
+            }
 
             // Equation 8.16
             H = (I - rho * s * y.transpose()) * H * (I - rho * y * s.transpose()) + rho * s * s.transpose();

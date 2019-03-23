@@ -9,7 +9,7 @@ int main()
     constexpr int dimensions = 3;
 
     mathtoolbox::Setting setting;
-    setting.x_init = Eigen::VectorXd::Ones(dimensions);
+    setting.x_init = Eigen::VectorXd::Random(dimensions);
     setting.f = [](const Eigen::VectorXd& x) { return otf::GetValue(x, type); };
     setting.f_grad = [](const Eigen::VectorXd& x) { return otf::GetGrad(x, type); };
     setting.type = mathtoolbox::Type::Min;

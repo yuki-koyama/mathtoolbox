@@ -35,6 +35,9 @@ namespace mathtoolbox
         constexpr double epsilon = 1e-05;
         constexpr unsigned num_max_iterations = 1000;
 
+        const auto f = (input.type == Type::Min) ? input.f : [&input](const Eigen::VectorXd& x) { return - input.f(x); };
+        const auto f_grad = (input.type == Type::Min) ? input.f_grad : [&input](const Eigen::VectorXd& x) { return - input.f_grad(x); };
+
         const unsigned dim = input.x_init.rows();
 
         const Eigen::MatrixXd I = Eigen::MatrixXd::Identity(dim, dim);
@@ -42,7 +45,7 @@ namespace mathtoolbox
 
         Eigen::MatrixXd H = H_init;
         Eigen::VectorXd x = input.x_init;
-        Eigen::VectorXd grad = input.f_grad(x);
+        Eigen::VectorXd grad = f_grad(x);
 
         bool is_first_step = true;
 
@@ -58,11 +61,11 @@ namespace mathtoolbox
             const Eigen::VectorXd p = - H * grad;
 
             // Procedure 3.1
-            const double alpha = internal::RunBacktrackingLineSearch(input.f, grad, x, p, 1.0, 0.5, 1e-04);
+            const double alpha = internal::RunBacktrackingLineSearch(f, grad, x, p, 1.0, 0.5, 1e-04);
 
             const Eigen::VectorXd x_next = x + alpha * p;
             const Eigen::VectorXd s = x_next - x;
-            const Eigen::VectorXd grad_next = input.f_grad(x_next);
+            const Eigen::VectorXd grad_next = f_grad(x_next);
             const Eigen::VectorXd y = grad_next - grad;
 
             // Equation 8.17

@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>classical-mds - mathtoolbox</title>
+  <title>bfgs - mathtoolbox</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
@@ -17,8 +17,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "classical-mds";
-    var mkdocs_page_input_path = "classical-mds.md";
+    var mkdocs_page_name = "bfgs";
+    var mkdocs_page_input_path = "bfgs.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -82,25 +82,9 @@
 		
     <span class="caption-text">Dimensionality Reduction and Low-Dimensional Embedding</span>
     <ul class="subnav">
-                <li class=" current">
+                <li class="">
                     
-    <a class="current" href="./">classical-mds</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l3"><a href="#classical-mds">classical-mds</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l4" href="#header">Header</a></li>
-        
-            <li><a class="toctree-l4" href="#math">Math</a></li>
-        
-            <li><a class="toctree-l4" href="#useful-resources">Useful Resources</a></li>
-        
-        </ul>
-    
-
-    </ul>
+    <a class="" href="../classical-mds/">classical-mds</a>
                 </li>
     </ul>
 	    </li>
@@ -109,9 +93,25 @@
 		
     <span class="caption-text">Numerical Optimization</span>
     <ul class="subnav">
-                <li class="">
+                <li class=" current">
                     
-    <a class="" href="../bfgs/">bfgs</a>
+    <a class="current" href="./">bfgs</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#bfgs">bfgs</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#header">Header</a></li>
+        
+            <li><a class="toctree-l4" href="#math-and-algorithm">Math and Algorithm</a></li>
+        
+            <li><a class="toctree-l4" href="#useful-resources">Useful Resources</a></li>
+        
+        </ul>
+    
+
+    </ul>
                 </li>
     </ul>
 	    </li>
@@ -138,14 +138,14 @@
     
       
         
-          <li>Dimensionality Reduction and Low-Dimensional Embedding &raquo;</li>
+          <li>Numerical Optimization &raquo;</li>
         
       
     
-    <li>classical-mds</li>
+    <li>bfgs</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/yuki-koyama/mathtoolbox/edit/master/docs/classical-mds.md"
+        <a href="https://github.com/yuki-koyama/mathtoolbox/edit/master/docs/bfgs.md"
           class="icon icon-github"> Edit on GitHub</a>
       
     </li>
@@ -155,62 +155,21 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="classical-mds">classical-mds</h1>
-<p>Classical multi-dimensional scaling (MDS) for dimensionality reduction and low-dimensional embedding. This is also useful for visualizing the similarities of individual items in a 2-dimensional scattered plot.</p>
+                <h1 id="bfgs">bfgs</h1>
+<p>The BFGS method (BFGS) is a numerical optimization algorithm that is one of the most popular choices among quasi-Newton methods.</p>
 <h2 id="header">Header</h2>
-<pre><code>#include &lt;mathtoolbox/classical-mds.hpp&gt;
+<pre><code>#include &lt;mathtoolbox/bfgs.hpp&gt;
 </code></pre>
 
-<h2 id="math">Math</h2>
-<h3 id="overview">Overview</h3>
-<p>Given a distance (or dissimilarity) matrix of <script type="math/tex"> n </script> elements</p>
-<p>
-<script type="math/tex; mode=display">
-\mathbf{D} \in \mathbb{R}^{n \times n}
-</script>
-</p>
-<p>and a target dimensionality <script type="math/tex"> m </script>, this technique calculates a set of <script type="math/tex"> m </script>-dimensional coordinates for them:</p>
-<p>
-<script type="math/tex; mode=display">
-\mathbf{X} = \begin{bmatrix} \mathbf{x}_1 & \cdots & \mathbf{x}_n \end{bmatrix} \in \mathbb{R}^{m \times n}.
-</script>
-</p>
-<p>If the elements are originally defined in an <script type="math/tex"> m' </script>-dimensional space (<script type="math/tex"> m < m' </script>) and Euclidian distance is used for calculating the distance matrix, then this is considered dimensionality reduction (or low-dimensional embedding).</p>
-<h3 id="algorithm">Algorithm</h3>
-<p>First, calculate the kernel matrix:</p>
-<p>
-<script type="math/tex; mode=display">
-\mathbf{K} = - \frac{1}{2} \mathbf{H} \mathbf{D}^{(2)} \mathbf{H} \in \mathbb{R}^{n \times n},
-</script>
-</p>
-<p>where <script type="math/tex"> \mathbf{H} </script> is called the centering matrix and defined as</p>
-<p>
-<script type="math/tex; mode=display">
-\mathbf{H} = \mathbf{I} - \frac{1}{n} \mathbf{1}^T \mathbf{1} \in \mathbb{R}^{n \times n},
-</script>
-</p>
-<p>and <script type="math/tex"> \mathbf{D}^{(2)} </script> is the squared distance matrix.</p>
-<p>Then, apply eigenvalue decomposition to <script type="math/tex"> \mathbf{K} </script>:</p>
-<p>
-<script type="math/tex; mode=display">
-\mathbf{K} = \mathbf{V} \mathbf{\Lambda} \mathbf{V}^T.
-</script>
-</p>
-<p>Finally, pick up the <script type="math/tex"> m </script>-largest eigenvalues <script type="math/tex"> \mathbf{\Lambda}_m </script> and corresponding eigenvectors <script type="math/tex"> \mathbf{V}_m </script>, and calculate <script type="math/tex"> \mathbf{X} </script> by</p>
-<p>
-<script type="math/tex; mode=display">
-\mathbf{X} = \mathbf{V}_m \mathbf{\Lambda}_m^\frac{1}{2}.
-</script>
-</p>
-<h3 id="usage">Usage</h3>
-<p>This technique can be calculated by the following function:</p>
-<pre><code>Eigen::MatrixXd ComputeClassicalMds(const Eigen::MatrixXd&amp; D, unsigned dim);
-</code></pre>
-
-<p>where <code>dim</code> is the target dimensionality for embedding.</p>
+<h2 id="math-and-algorithm">Math and Algorithm</h2>
+<p>We follow <a href="https://doi.org/10.1007/978-0-387-40065-5">Nocedal and Wright (2006)</a>.</p>
+<h3 id="inverse-hessian-initialization">Inverse Hessian Initialization</h3>
+<p>This implementation adopts the strategy described in Equation 8.20.</p>
+<h3 id="line-search">Line Search</h3>
+<p>To find an appropriate step size (called <em>alpha</em>), this implementation uses <em>Backtracking Line Search</em> procedure considering the <em>sufficient decrease condition</em> (also known as <em>Armijo condition</em>).</p>
 <h2 id="useful-resources">Useful Resources</h2>
 <ul>
-<li>Josh Wills, Sameer Agarwal, David Kriegman, and Serge Belongie. 2009. Toward a perceptual space for gloss. ACM Trans. Graph. 28, 4, Article 103 (September 2009), 15 pages. DOI: <a href="https://doi.org/10.1145/1559755.1559760">https://doi.org/10.1145/1559755.1559760</a></li>
+<li>Jorge Nocedal and Stephen J. Wright. 2006. Numerical optimization (2nd ed.). Springer. DOI: <a href="https://doi.org/10.1007/978-0-387-40065-5">https://doi.org/10.1007/978-0-387-40065-5</a></li>
 </ul>
               
             </div>
@@ -219,10 +178,8 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../bfgs/" class="btn btn-neutral float-right" title="bfgs">Next <span class="icon icon-circle-arrow-right"></span></a>
       
-      
-        <a href="../gaussian-process-regression/" class="btn btn-neutral" title="gaussian-process-regression"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../classical-mds/" class="btn btn-neutral" title="classical-mds"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -250,10 +207,8 @@
           <a href="https://github.com/yuki-koyama/mathtoolbox/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../gaussian-process-regression/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../classical-mds/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
-      
-        <span style="margin-left: 15px"><a href="../bfgs/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

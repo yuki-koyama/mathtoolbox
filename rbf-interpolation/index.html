@@ -13,24 +13,25 @@
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="../css/highlight.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
   
   <script>
     // Current page data
     var mkdocs_page_name = "rbf-interpolation";
     var mkdocs_page_input_path = "rbf-interpolation.md";
-    var mkdocs_page_url = "/rbf-interpolation/";
+    var mkdocs_page_url = null;
   </script>
   
-  <script src="../js/jquery-2.1.1.min.js"></script>
-  <script src="../js/modernizr-2.8.3.min.js"></script>
-  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
   
   <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
       ga('create', 'UA-118875313-1', 'yuki-koyama.github.io');
       ga('send', 'pageview');
@@ -48,7 +49,7 @@
         <a href=".." class="icon icon-home"> mathtoolbox</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -90,7 +91,7 @@
                 </li>
                 <li class="">
                     
-    <a class="" href="../gaussian-process-regression/">Gaussian process regression</a>
+    <a class="" href="../gaussian-process-regression/">gaussian-process-regression</a>
                 </li>
     </ul>
 	    </li>
@@ -101,7 +102,18 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="../classical-mds/">Classical mds</a>
+    <a class="" href="../classical-mds/">classical-mds</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">Numerical Optimization</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../bfgs/">bfgs</a>
                 </li>
     </ul>
 	    </li>
@@ -166,7 +178,7 @@ y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} 
 </script>
 </p>
 <p>where <script type="math/tex"> \phi(\cdot) </script> is a user-selected RBF and <script type="math/tex"> w_1, \cdots, w_n </script> are weights that are calculated in pre-computation.</p>
-<p><img alt="" src="../rbf-interpolation/simple-interpolation.png" /></p>
+<p><img alt="" src="simple-interpolation.png" /></p>
 <h3 id="pre-computation">Pre-Computation</h3>
 <p>The weight values need to be calculated in pre-computation. Let </p>
 <p>
@@ -200,7 +212,7 @@ y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} 
 <p>LU decomposition can be used for solving this problem.</p>
 <h3 id="pre-computation-with-regularization">Pre-Computation with Regularization</h3>
 <p>The original formulation above is not robust (i.e., overfitting can occur) when the data points are dense and noisy.</p>
-<p><img alt="" src="../rbf-interpolation/without-regularization.png" /></p>
+<p><img alt="" src="without-regularization.png" /></p>
 <p>For such scenarios, it is possible to add a <em>regularization</em> term into pre-computation. That is, the following minimization problem is solved:</p>
 <p>
 <script type="math/tex; mode=display">
@@ -224,7 +236,7 @@ y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} 
 (\mathbf{\Phi}^T \mathbf{\Phi} + \lambda \mathbf{I}) \mathbf{w} = \mathbf{\Phi}^T \mathbf{y}.
 </script>
 </p>
-<p><img alt="" src="../rbf-interpolation/with-regularization.png" /></p>
+<p><img alt="" src="with-regularization.png" /></p>
 <h2 id="usage">Usage</h2>
 <p>First, instantiate the class <code>RbfInterpolation</code>. Via the constructor, an RBF can be specified from the following options:</p>
 <ul>
@@ -234,7 +246,7 @@ y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} 
 <li><code>Linear</code></li>
 </ul>
 <p>By default, <code>ThinPlateSpline</code> (i.e., <script type="math/tex"> \phi(x) = x^2 \log(x) </script>) is chosen.</p>
-<p>Then, set the target scattered data by the method</p>
+<p>Then, set the target scattered data by the method:</p>
 <pre><code>void SetData(const Eigen::MatrixXd&amp; X, const Eigen::VectorXd&amp; y);
 </code></pre>
 
@@ -271,7 +283,7 @@ y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} 
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../gaussian-process-regression/" class="btn btn-neutral float-right" title="Gaussian process regression">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../gaussian-process-regression/" class="btn btn-neutral float-right" title="gaussian-process-regression">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
         <a href=".." class="btn btn-neutral" title="Introduction"><span class="icon icon-circle-arrow-left"></span> Previous</a>
@@ -310,10 +322,9 @@ y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} 
     </span>
 </div>
     <script>var base_url = '..';</script>
-    <script src="../js/theme.js"></script>
-      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-      <script src="../search/require.js"></script>
-      <script src="../search/search.js"></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
+      <script src="../search/main.js" defer></script>
 
 </body>
 </html>

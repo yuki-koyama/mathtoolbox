@@ -54,11 +54,13 @@ endif()
 
 file(GLOB
 	headers
+	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/bfgs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/classical-mds.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/rbf-interpolation.hpp
 )
 file(GLOB
 	sources
+	${CMAKE_CURRENT_SOURCE_DIR}/src/bfgs.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/rbf-interpolation.cpp
 )
 file(GLOB
@@ -95,7 +97,16 @@ install(TARGETS mathtoolbox ARCHIVE DESTINATION lib)
 ######################################################################
 
 if(MATHTOOLBOX_BUILD_EXAMPLES)
-	add_subdirectory(examples)
+	set(OTF_WITH_EIGEN ON CACHE INTERNAL "" FORCE)
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/optimization-test-functions)
+
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/bfgs)
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/classical-mds)
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/rbf-interpolation)
+
+	if(MATHTOOLBOX_NLOPT_BASED_MODULES)
+		add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/gaussian-process-regression)
+	endif()
 endif()
 
 ######################################################################
@@ -104,8 +115,9 @@ endif()
 
 enable_testing()
 if(MATHTOOLBOX_BUILD_EXAMPLES)
-	add_test(NAME rbf-interpolation-test COMMAND $<TARGET_FILE:rbf-interpolation-test>)
+	add_test(NAME bfgs-test COMMAND $<TARGET_FILE:bfgs-test>)
 	add_test(NAME classical-mds-test COMMAND $<TARGET_FILE:classical-mds-test>)
+	add_test(NAME rbf-interpolation-test COMMAND $<TARGET_FILE:rbf-interpolation-test>)
 
 	if(MATHTOOLBOX_NLOPT_BASED_MODULES)
 		add_test(NAME gaussian-process-regression-test COMMAND $<TARGET_FILE:gaussian-process-regression-test> .)

@@ -14,7 +14,7 @@ namespace mathtoolbox
     {
         Eigen::VectorXd x_init;
         std::function<double(const Eigen::VectorXd&)> f;
-        std::function<Eigen::VectorXd(const Eigen::VectorXd&)> f_grad;
+        std::function<Eigen::VectorXd(const Eigen::VectorXd&)> g;
         Type type = Type::Min;
     };
 

@@ -11,7 +11,7 @@ int main()
     mathtoolbox::Setting setting;
     setting.x_init = Eigen::VectorXd::Random(dimensions);
     setting.f = [](const Eigen::VectorXd& x) { return otf::GetValue(x, type); };
-    setting.f_grad = [](const Eigen::VectorXd& x) { return otf::GetGrad(x, type); };
+    setting.g = [](const Eigen::VectorXd& x) { return otf::GetGrad(x, type); };
     setting.type = mathtoolbox::Type::Min;
 
     const mathtoolbox::Result result = mathtoolbox::RunOptimization(setting);

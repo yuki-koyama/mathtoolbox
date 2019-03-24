@@ -36,7 +36,7 @@ namespace mathtoolbox
         constexpr unsigned num_max_iterations = 1000;
 
         const auto f = (input.type == Type::Min) ? input.f : [&input](const Eigen::VectorXd& x) { return - input.f(x); };
-        const auto f_grad = (input.type == Type::Min) ? input.f_grad : [&input](const Eigen::VectorXd& x) { return - input.f_grad(x); };
+        const auto g = (input.type == Type::Min) ? input.g : [&input](const Eigen::VectorXd& x) { return - input.g(x); };
 
         const unsigned dim = input.x_init.rows();
 
@@ -45,7 +45,7 @@ namespace mathtoolbox
 
         Eigen::MatrixXd H = H_init;
         Eigen::VectorXd x = input.x_init;
-        Eigen::VectorXd grad = f_grad(x);
+        Eigen::VectorXd grad = g(x);
 
         bool is_first_step = true;
 
@@ -65,7 +65,7 @@ namespace mathtoolbox
 
             const Eigen::VectorXd x_next = x + alpha * p;
             const Eigen::VectorXd s = x_next - x;
-            const Eigen::VectorXd grad_next = f_grad(x_next);
+            const Eigen::VectorXd grad_next = g(x_next);
             const Eigen::VectorXd y = grad_next - grad;
 
             // Equation 8.17

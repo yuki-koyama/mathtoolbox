@@ -9,17 +9,24 @@ A library of mathematical tools (regression, interpolation, dimensionality reduc
 ## Algorithms
 
 ### Scattered Data Interpolation and Function Approximation
+
 - [`rbf-interpolation`: Radial basis function (RBF) network](https://yuki-koyama.github.io/mathtoolbox/rbf-interpolation/)
 - [`gaussian-process-regression`: Gaussian process regression (GPR)](https://yuki-koyama.github.io/mathtoolbox/gaussian-process-regression/)
 
 ### Dimensionality Reduction and Low-Dimensional Embedding
+
 - [`classical-mds`: Classical multi-dimensional scaling (MDS)](https://yuki-koyama.github.io/mathtoolbox/classical-mds/)
+
+### Numerical Optimization
+
+- [`bfgs`: BFGS method](https://yuki-koyama.github.io/mathtoolbox/bfgs/)
 
 ## Dependencies
 
 - Eigen <http://eigen.tuxfamily.org/>
 - NLopt <https://nlopt.readthedocs.io/> (included as gitsubmodule)
 - nlopt-util <https://github.com/yuki-koyama/nlopt-util> (included as gitsubmodule)
+- optimization-test-function <https://github.com/yuki-koyama/optimization-test-functions> (included as githsubmodule)
 
 ## Build and Installation
 

@@ -15,15 +15,20 @@ namespace mathtoolbox
                                          const double rho,
                                          const double c)
         {
+            constexpr unsigned num_max_iterations = 50;
+
+            unsigned counter = 0;
             double alpha = alpha_init;
             while (true)
             {
                 // Equation 3.6a
                 const bool sufficient_decrease_condition = f(x + alpha * p) <= f(x) + c * alpha * grad.transpose() * p;
 
-                if (sufficient_decrease_condition) { break; }
+                if (sufficient_decrease_condition || counter == num_max_iterations) { break; }
 
                 alpha *= rho;
+
+                ++ counter;
             }
             return alpha;
         }
@@ -68,21 +73,35 @@ namespace mathtoolbox
             const Eigen::VectorXd grad_next = g(x_next);
             const Eigen::VectorXd y = grad_next - grad;
 
+            const double yts = y.transpose() * s;
+            const double yty = y.transpose() * y;
+
             // Equation 8.17
-            const double rho = 1.0 / (y.transpose() * s);
+            const double rho = 1.0 / yts;
 
-            assert(!std::isnan(rho));
+            // As we do not search the step, alpha, using backtracking line
+            // search without the curvature condition, the condition may be
+            // violated. In that case, we need to correct the Hessian
+            // approximation somehow. It is mentioned that damped BFGS is useful
+            // for this purpose (p.201), which is a little complicated to
+            // implement. Here, we take a simple solution, that is, just
+            // skipping the Hessian approximation update when the condition is
+            // violated, though this approach is not recommended (p.201).
+            const bool is_curvature_condition_satisfied = yts > 0 && !std::isnan(rho);
 
-            // Equation 8.20
-            if (is_first_step)
+            if (is_curvature_condition_satisfied)
             {
-                const double scale = static_cast<double>(y.transpose() * s) / static_cast<double>(y.transpose() * y);
-                H = scale * I;
-                is_first_step = false;
-            }
+                // Equation 8.20
+                if (is_first_step)
+                {
+                    const double scale = yts / yty;
+                    H = scale * I;
+                    is_first_step = false;
+                }
 
-            // Equation 8.16
-            H = (I - rho * s * y.transpose()) * H * (I - rho * y * s.transpose()) + rho * s * s.transpose();
+                // Equation 8.16
+                H = (I - rho * s * y.transpose()) * H * (I - rho * y * s.transpose()) + rho * s * s.transpose();
+            }
 
             x = x_next;
             grad = grad_next;

@@ -2,7 +2,7 @@
 #include <ctime>
 #include <iostream>
 #include <Eigen/Core>
-#include <mathtoolbox/bfgs.hpp>
+#include <mathtoolbox/numerical-optimization.hpp>
 #include <optimization-test-functions.hpp>
 
 int main()
@@ -12,13 +12,14 @@ int main()
 
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
-    mathtoolbox::Setting setting;
+    mathtoolbox::optimization::Setting setting;
+    setting.algorithm = mathtoolbox::optimization::Algorithm::Bfgs;
     setting.x_init = Eigen::VectorXd::Random(dimensions);
     setting.f = [](const Eigen::VectorXd& x) { return otf::GetValue(x, type); };
     setting.g = [](const Eigen::VectorXd& x) { return otf::GetGrad(x, type); };
-    setting.type = mathtoolbox::Type::Min;
+    setting.type = mathtoolbox::optimization::Type::Min;
 
-    const mathtoolbox::Result result = mathtoolbox::RunOptimization(setting);
+    const mathtoolbox::optimization::Result result = mathtoolbox::optimization::RunOptimization(setting);
 
     const Eigen::VectorXd expected_solution = otf::GetSolution(dimensions, type);
 

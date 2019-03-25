@@ -1,6 +1,9 @@
 #ifndef NUMERICAL_OPTIMIZATION_HPP
 #define NUMERICAL_OPTIMIZATION_HPP
 
+#include <mathtoolbox/bfgs.hpp>
+#include <functional>
+#include <stdexcept>
 #include <Eigen/Core>
 
 namespace mathtoolbox
@@ -19,27 +22,20 @@ namespace mathtoolbox
 
         struct Setting
         {
-            Algorithm algorithm = Algorithm::Bfgs;
-            Eigen::VectorXd x_init;
-            std::function<double(const Eigen::VectorXd&)> f;
-            std::function<Eigen::VectorXd(const Eigen::VectorXd&)> g;
-            double epsilon = 1e-05;
-            unsigned max_num_iterations = 1000;
-            Type type = Type::Min;
+            Algorithm algorithm                                      = Algorithm::Bfgs;
+            Eigen::VectorXd x_init                                   = Eigen::VectorXd(0);
+            std::function<double(const Eigen::VectorXd&)> f          = nullptr;
+            std::function<Eigen::VectorXd(const Eigen::VectorXd&)> g = nullptr;
+            double epsilon                                           = 1e-05;
+            unsigned max_num_iterations                              = 1000;
+            Type type                                                = Type::Min;
         };
 
         struct Result
         {
             Eigen::VectorXd x_star;
-            double y_star;
-            unsigned num_iterations;
+            unsigned        num_iterations;
         };
-
-        Result RunBfgs(const Eigen::VectorXd& x_init,
-                       const std::function<double(const Eigen::VectorXd&)> f,
-                       const std::function<Eigen::VectorXd(const Eigen::VectorXd&)> g,
-                       const double epsilon,
-                       const unsigned max_num_iterations);
 
         inline Result RunOptimization(const Setting& input)
         {
@@ -49,7 +45,14 @@ namespace mathtoolbox
             switch (input.algorithm) {
                 case Algorithm::Bfgs:
                 {
-                    return RunBfgs(input.x_init, f, g, input.epsilon, input.max_num_iterations);
+                    if (!input.f || !input.g || input.x_init.rows() == 0)
+                    {
+                        throw std::invalid_argument("Invalid setting.");
+                    }
+
+                    Result result;
+                    RunBfgs(input.x_init, f, g, input.epsilon, input.max_num_iterations, result.x_star, result.num_iterations);
+                    return result;
                 }
             }
         }

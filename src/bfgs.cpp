@@ -37,11 +37,13 @@ namespace mathtoolbox
         }
 
         // Algorithm 8.1 "BFGS Method" with Backtracking Line Search
-        Result RunBfgs(const Eigen::VectorXd& x_init,
-                       const std::function<double(const Eigen::VectorXd&)> f,
-                       const std::function<Eigen::VectorXd(const Eigen::VectorXd&)> g,
-                       const double epsilon,
-                       const unsigned max_num_iterations)
+        void RunBfgs(const Eigen::VectorXd& x_init,
+                     const std::function<double(const Eigen::VectorXd&)>& f,
+                     const std::function<Eigen::VectorXd(const Eigen::VectorXd&)>& g,
+                     const double epsilon,
+                     const unsigned max_num_iterations,
+                     Eigen::VectorXd& x_star,
+                     unsigned& num_iterations)
         {
             const unsigned dim = x_init.rows();
 
@@ -111,12 +113,9 @@ namespace mathtoolbox
                 ++ counter;
             }
 
-            return Result
-            {
-                x,
-                f(x),
-                counter
-            };
+            // Output
+            x_star = x;
+            num_iterations = counter;
         }
     }
 }

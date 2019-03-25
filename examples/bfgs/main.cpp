@@ -18,6 +18,7 @@ int main()
     setting.f = [](const Eigen::VectorXd& x) { return otf::GetValue(x, type); };
     setting.g = [](const Eigen::VectorXd& x) { return otf::GetGrad(x, type); };
     setting.type = mathtoolbox::optimization::Type::Min;
+    setting.max_num_iterations = 1000;
 
     const mathtoolbox::optimization::Result result = mathtoolbox::optimization::RunOptimization(setting);
 
@@ -25,7 +26,7 @@ int main()
 
     std::cout << "#iterations: " << result.num_iterations << std::endl;
     std::cout << "Initial solution: " << setting.x_init.transpose() << " (" << otf::GetValue(setting.x_init, type) << ")" << std::endl;
-    std::cout << "Found solution: " << result.x_star.transpose() << " (" << result.y_star << ")" << std::endl;
+    std::cout << "Found solution: " << result.x_star.transpose() << " (" << otf::GetValue(result.x_star, type) << ")" << std::endl;
     std::cout << "Expected solution: " << expected_solution.transpose() << " (" << otf::GetValue(expected_solution, type) << ")" << std::endl;
 
     return 0;

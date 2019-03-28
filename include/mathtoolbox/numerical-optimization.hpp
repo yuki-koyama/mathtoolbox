@@ -54,6 +54,34 @@ namespace mathtoolbox
                     RunBfgs(input.x_init, f, g, input.epsilon, input.max_num_iterations, result.x_star, result.num_iterations);
                     return result;
                 }
+
+        namespace internal
+        {
+            // Procedure 3.1: "Backtracking Line Search"
+            inline double RunBacktrackingLineSearch(const std::function<double(const Eigen::VectorXd&)>& f,
+                                                    const Eigen::VectorXd& grad,
+                                                    const Eigen::VectorXd& x,
+                                                    const Eigen::VectorXd& p,
+                                                    const double alpha_init,
+                                                    const double rho,
+                                                    const double c)
+            {
+                constexpr unsigned num_max_iterations = 50;
+
+                unsigned counter = 0;
+                double alpha = alpha_init;
+                while (true)
+                {
+                    // Equation 3.6a
+                    const bool sufficient_decrease_condition = f(x + alpha * p) <= f(x) + c * alpha * grad.transpose() * p;
+
+                    if (sufficient_decrease_condition || counter == num_max_iterations) { break; }
+
+                    alpha *= rho;
+
+                    ++ counter;
+                }
+                return alpha;
             }
         }
     }

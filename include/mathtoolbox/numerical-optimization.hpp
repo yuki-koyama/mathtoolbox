@@ -2,6 +2,7 @@
 #define NUMERICAL_OPTIMIZATION_HPP
 
 #include <mathtoolbox/bfgs.hpp>
+#include <mathtoolbox/l-bfgs.hpp>
 #include <functional>
 #include <stdexcept>
 #include <Eigen/Core>
@@ -12,7 +13,7 @@ namespace mathtoolbox
     {
         enum class Algorithm
         {
-            Bfgs
+            Bfgs, LBfgs
         };
 
         enum class Type
@@ -54,6 +55,19 @@ namespace mathtoolbox
                     RunBfgs(input.x_init, f, g, input.epsilon, input.max_num_iterations, result.x_star, result.num_iterations);
                     return result;
                 }
+                case Algorithm::LBfgs:
+                {
+                    if (!input.f || !input.g || input.x_init.rows() == 0)
+                    {
+                        throw std::invalid_argument("Invalid setting.");
+                    }
+
+                    Result result;
+                    RunLBfgs(input.x_init, f, g, input.epsilon, input.max_num_iterations, result.x_star, result.num_iterations);
+                    return result;
+                }
+            }
+        }
 
         namespace internal
         {

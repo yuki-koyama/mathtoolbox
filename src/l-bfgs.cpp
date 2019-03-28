@@ -6,44 +6,14 @@ namespace mathtoolbox
 {
     namespace optimization
     {
-        namespace internal
-        {
-            // Procedure 3.1: "Backtracking Line Search"
-            double RunBacktrackingLineSearch(const std::function<double(const Eigen::VectorXd&)>& f,
-                                             const Eigen::VectorXd& grad,
-                                             const Eigen::VectorXd& x,
-                                             const Eigen::VectorXd& p,
-                                             const double alpha_init,
-                                             const double rho,
-                                             const double c)
-            {
-                constexpr unsigned num_max_iterations = 50;
-
-                unsigned counter = 0;
-                double alpha = alpha_init;
-                while (true)
-                {
-                    // Equation 3.6a
-                    const bool sufficient_decrease_condition = f(x + alpha * p) <= f(x) + c * alpha * grad.transpose() * p;
-
-                    if (sufficient_decrease_condition || counter == num_max_iterations) { break; }
-
-                    alpha *= rho;
-
-                    ++ counter;
-                }
-                return alpha;
-            }
-        }
-
-        // Algorithm 8.1 "BFGS Method" with Backtracking Line Search
-        void RunBfgs(const Eigen::VectorXd& x_init,
-                     const std::function<double(const Eigen::VectorXd&)>& f,
-                     const std::function<Eigen::VectorXd(const Eigen::VectorXd&)>& g,
-                     const double epsilon,
-                     const unsigned max_num_iterations,
-                     Eigen::VectorXd& x_star,
-                     unsigned& num_iterations)
+        // Algorithm X.X "L-BFGS Method" with Backtracking Line Search
+        void RunLBfgs(const Eigen::VectorXd& x_init,
+                      const std::function<double(const Eigen::VectorXd&)>& f,
+                      const std::function<Eigen::VectorXd(const Eigen::VectorXd&)>& g,
+                      const double epsilon,
+                      const unsigned max_num_iterations,
+                      Eigen::VectorXd& x_star,
+                      unsigned& num_iterations)
         {
             const unsigned dim = x_init.rows();
 

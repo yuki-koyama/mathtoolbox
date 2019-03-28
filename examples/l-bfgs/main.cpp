@@ -13,7 +13,7 @@ int main()
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
     mathtoolbox::optimization::Setting setting;
-    setting.algorithm = mathtoolbox::optimization::Algorithm::Bfgs;
+    setting.algorithm = mathtoolbox::optimization::Algorithm::LBfgs;
     setting.x_init = Eigen::VectorXd::Random(dimensions);
     setting.f = [](const Eigen::VectorXd& x) { return otf::GetValue(x, type); };
     setting.g = [](const Eigen::VectorXd& x) { return otf::GetGrad(x, type); };

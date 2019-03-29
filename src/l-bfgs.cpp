@@ -11,9 +11,9 @@ namespace mathtoolbox
                       const std::function<double(const Eigen::VectorXd&)>& f,
                       const std::function<Eigen::VectorXd(const Eigen::VectorXd&)>& g,
                       const double epsilon,
-                      const unsigned max_num_iterations,
+                      const unsigned int max_num_iterations,
                       Eigen::VectorXd& x_star,
-                      unsigned& num_iterations)
+                      unsigned int& num_iterations)
         {
             const unsigned dim = x_init.rows();
 
@@ -26,7 +26,7 @@ namespace mathtoolbox
 
             bool is_first_step = true;
 
-            unsigned counter = 0;
+            unsigned int counter = 0;
             while (true)
             {
                 if (grad.norm() < epsilon || counter == max_num_iterations)

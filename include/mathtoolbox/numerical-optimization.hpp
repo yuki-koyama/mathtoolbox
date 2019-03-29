@@ -28,7 +28,7 @@ namespace mathtoolbox
             std::function<double(const Eigen::VectorXd&)> f          = nullptr;
             std::function<Eigen::VectorXd(const Eigen::VectorXd&)> g = nullptr;
             double epsilon                                           = 1e-05;
-            unsigned max_num_iterations                              = 1000;
+            unsigned int max_num_iterations                          = 1000;
             Type type                                                = Type::Min;
         };
 
@@ -80,7 +80,7 @@ namespace mathtoolbox
                                                     const double rho,
                                                     const double c)
             {
-                constexpr unsigned num_max_iterations = 50;
+                constexpr unsigned int num_max_iterations = 50;
 
                 unsigned counter = 0;
                 double alpha = alpha_init;

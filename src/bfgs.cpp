@@ -13,9 +13,9 @@ namespace mathtoolbox
                      const double epsilon,
                      const unsigned max_num_iterations,
                      Eigen::VectorXd& x_star,
-                     unsigned& num_iterations)
+                     unsigned int& num_iterations)
         {
-            const unsigned dim = x_init.rows();
+            const unsigned int dim = x_init.rows();
 
             const Eigen::MatrixXd I = Eigen::MatrixXd::Identity(dim, dim);
             const Eigen::MatrixXd H_init = I;
@@ -26,7 +26,7 @@ namespace mathtoolbox
 
             bool is_first_step = true;
 
-            unsigned counter = 0;
+            unsigned int counter = 0;
             while (true)
             {
                 if (grad.norm() < epsilon || counter == max_num_iterations)

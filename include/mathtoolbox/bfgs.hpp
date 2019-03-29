@@ -12,9 +12,9 @@ namespace mathtoolbox
                      const std::function<double(const Eigen::VectorXd&)>& f,
                      const std::function<Eigen::VectorXd(const Eigen::VectorXd&)>& g,
                      const double epsilon,
-                     const unsigned max_num_iterations,
+                     const unsigned int max_num_iterations,
                      Eigen::VectorXd& x_star,
-                     unsigned& num_iterations);
+                     unsigned int& num_iterations);
     }
 }
 

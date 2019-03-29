@@ -171,9 +171,9 @@ namespace mathtoolbox
                 while (true)
                 {
                     // Equation 3.6a
-                    const bool sufficient_decrease_condition = f(x + alpha * p) <= f(x) + c * alpha * grad.transpose() * p;
+                    const bool armijo_condition = f(x + alpha * p) <= f(x) + c * alpha * grad.transpose() * p;
 
-                    if (sufficient_decrease_condition || counter == num_max_iterations) { break; }
+                    if (armijo_condition || counter == num_max_iterations) { break; }
 
                     alpha *= rho;
 

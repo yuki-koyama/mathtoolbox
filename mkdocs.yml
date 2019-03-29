@@ -6,7 +6,7 @@ markdown_extensions:
 extra_javascript:
   - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML
 google_analytics: ['UA-118875313-1', 'yuki-koyama.github.io']
-pages:
+nav:
   - 'Introduction': 'index.md'
   - 'Scattered Data Interpolation and Function Approximation':
     - 'rbf-interpolation.md'

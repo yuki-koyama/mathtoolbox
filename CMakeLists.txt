@@ -56,11 +56,14 @@ file(GLOB
 	headers
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/bfgs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/classical-mds.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/l-bfgs.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/numerical-optimization.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/rbf-interpolation.hpp
 )
 file(GLOB
 	sources
 	${CMAKE_CURRENT_SOURCE_DIR}/src/bfgs.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/l-bfgs.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/rbf-interpolation.cpp
 )
 file(GLOB
@@ -102,6 +105,7 @@ if(MATHTOOLBOX_BUILD_EXAMPLES)
 
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/bfgs)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/classical-mds)
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/l-bfgs)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/rbf-interpolation)
 
 	if(MATHTOOLBOX_NLOPT_BASED_MODULES)
@@ -117,6 +121,7 @@ enable_testing()
 if(MATHTOOLBOX_BUILD_EXAMPLES)
 	add_test(NAME bfgs-test COMMAND $<TARGET_FILE:bfgs-test>)
 	add_test(NAME classical-mds-test COMMAND $<TARGET_FILE:classical-mds-test>)
+	add_test(NAME l-bfgs-test COMMAND $<TARGET_FILE:l-bfgs-test>)
 	add_test(NAME rbf-interpolation-test COMMAND $<TARGET_FILE:rbf-interpolation-test>)
 
 	if(MATHTOOLBOX_NLOPT_BASED_MODULES)

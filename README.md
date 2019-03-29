@@ -20,6 +20,7 @@ A library of mathematical tools (regression, interpolation, dimensionality reduc
 ### Numerical Optimization
 
 - [`bfgs`: BFGS method](https://yuki-koyama.github.io/mathtoolbox/bfgs/)
+- [`l-bfgs`: Limited-memory BFGS method](https://yuki-koyama.github.io/mathtoolbox/l-bfgs/)
 
 ## Dependencies
 

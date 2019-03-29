@@ -15,5 +15,6 @@ pages:
     - 'classical-mds.md'
   - 'Numerical Optimization':
     - 'bfgs.md'
+    - 'l-bfgs.md'
 repo_name: GitHub
 repo_url: https://github.com/yuki-koyama/mathtoolbox/

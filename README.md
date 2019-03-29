@@ -51,11 +51,16 @@ cmake ../ -DMATHTOOLBOX_BUILD_EXAMPLES=ON
 make
 ```
 
-### Installing Eigen
+### Installing Prerequisites
 
-If you are using macOS, Eigen can be easily installed by
+macOS:
 ```
 brew install eigen
+```
+
+Ubuntu:
+```
+sudo apt install libeigen3-dev
 ```
 
 ## Projects Using mathtoolbox

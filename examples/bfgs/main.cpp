@@ -8,7 +8,7 @@
 int main()
 {
     constexpr otf::FunctionType type = otf::FunctionType::Rosenbrock;
-    constexpr int dimensions = 3;
+    constexpr int dimensions = 100;
 
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 

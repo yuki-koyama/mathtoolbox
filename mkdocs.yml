@@ -14,7 +14,9 @@ nav:
   - 'Dimensionality Reduction and Low-Dimensional Embedding':
     - 'classical-mds.md'
   - 'Numerical Optimization':
+    - 'backtracking-line-search.md'
     - 'bfgs.md'
     - 'l-bfgs.md'
+    - 'strong-wolfe-conditions-line-search.md'
 repo_name: GitHub
 repo_url: https://github.com/yuki-koyama/mathtoolbox/

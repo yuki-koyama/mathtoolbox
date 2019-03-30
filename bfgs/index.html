@@ -93,6 +93,10 @@
 		
     <span class="caption-text">Numerical Optimization</span>
     <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../backtracking-line-search/">backtracking-line-search</a>
+                </li>
                 <li class=" current">
                     
     <a class="current" href="./">bfgs</a>
@@ -116,6 +120,10 @@
                 <li class="">
                     
     <a class="" href="../l-bfgs/">l-bfgs</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../strong-wolfe-conditions-line-search/">strong-wolfe-conditions-line-search</a>
                 </li>
     </ul>
 	    </li>
@@ -170,7 +178,7 @@
 <h3 id="inverse-hessian-initialization">Inverse Hessian Initialization</h3>
 <p>This implementation adopts the strategy described in Equation 8.20.</p>
 <h3 id="line-search">Line Search</h3>
-<p>To find an appropriate step size (called <em>alpha</em>), this implementation uses Algorithm 3.2, which considers both the <em>sufficient decrease condition</em> (also known as the <em>Armijo condition</em>) and the <em>curvature condition</em> (collectively known as the <em>strong Wolfe conditions</em>).</p>
+<p>This implementation uses <a href="./strong-wolfe-conditions-line-search">strong-wolfe-conditions-line-search</a> to find an appropriate step size.</p>
 <h2 id="useful-resources">Useful Resources</h2>
 <ul>
 <li>Jorge Nocedal and Stephen J. Wright. 2006. Numerical optimization (2nd ed.). Springer. DOI: <a href="https://doi.org/10.1007/978-0-387-40065-5">https://doi.org/10.1007/978-0-387-40065-5</a></li>
@@ -185,7 +193,7 @@
         <a href="../l-bfgs/" class="btn btn-neutral float-right" title="l-bfgs">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../classical-mds/" class="btn btn-neutral" title="classical-mds"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../backtracking-line-search/" class="btn btn-neutral" title="backtracking-line-search"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -213,7 +221,7 @@
           <a href="https://github.com/yuki-koyama/mathtoolbox/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../classical-mds/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../backtracking-line-search/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
         <span style="margin-left: 15px"><a href="../l-bfgs/" style="color: #fcfcfc">Next &raquo;</a></span>

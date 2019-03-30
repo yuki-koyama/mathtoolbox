@@ -115,11 +115,19 @@
     <ul class="subnav">
                 <li class="">
                     
+    <a class="" href="backtracking-line-search/">backtracking-line-search</a>
+                </li>
+                <li class="">
+                    
     <a class="" href="bfgs/">bfgs</a>
                 </li>
                 <li class="">
                     
     <a class="" href="l-bfgs/">l-bfgs</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="strong-wolfe-conditions-line-search/">strong-wolfe-conditions-line-search</a>
                 </li>
     </ul>
 	    </li>
@@ -175,8 +183,10 @@
 </ul>
 <h3 id="numerical-optimization">Numerical Optimization</h3>
 <ul>
+<li><a href="./backtracking-line-search/"><code>backtracking-line-search</code>: Backtracking line search</a></li>
 <li><a href="./bfgs/"><code>bfgs</code>: BFGS method</a></li>
 <li><a href="./l-bfgs/"><code>l-bfgs</code>: Limited-memory BFGS method</a></li>
+<li><a href="./strong-wolfe-conditions-line-search/"><code>strong-wolfe-conditions-line-search</code>: Strong Wolfe conditions line search</a></li>
 </ul>
 <h2 id="dependencies">Dependencies</h2>
 <ul>
@@ -204,9 +214,13 @@ make
 make
 </code></pre>
 
-<h3 id="installing-eigen">Installing Eigen</h3>
-<p>If you are using macOS, Eigen can be easily installed by</p>
+<h3 id="installing-prerequisites">Installing Prerequisites</h3>
+<p>macOS:</p>
 <pre><code>brew install eigen
+</code></pre>
+
+<p>Ubuntu:</p>
+<pre><code>sudo apt install libeigen3-dev
 </code></pre>
 
 <h2 id="projects-using-mathtoolbox">Projects Using mathtoolbox</h2>
@@ -266,5 +280,5 @@ make
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2019-03-29 10:08:20
+Build Date UTC : 2019-03-30 23:33:49
 -->

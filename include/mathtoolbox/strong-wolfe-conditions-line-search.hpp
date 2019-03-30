@@ -10,14 +10,14 @@ namespace mathtoolbox
     namespace optimization
     {
         // Algorithm 3.2: Line Search Algorithm
-        inline double RunLineSearch(const std::function<double(const Eigen::VectorXd&)>& f,
-                                    const std::function<Eigen::VectorXd(const Eigen::VectorXd&)>& g,
-                                    const Eigen::VectorXd& x,
-                                    const Eigen::VectorXd& p,
-                                    const double alpha_init,
-                                    const double alpha_max,
-                                    const double c_1 = 1e-04,
-                                    const double c_2 = 0.9)
+        inline double RunStrongWolfeConditionsLineSearch(const std::function<double(const Eigen::VectorXd&)>& f,
+                                                         const std::function<Eigen::VectorXd(const Eigen::VectorXd&)>& g,
+                                                         const Eigen::VectorXd& x,
+                                                         const Eigen::VectorXd& p,
+                                                         const double alpha_init,
+                                                         const double alpha_max,
+                                                         const double c_1 = 1e-04,
+                                                         const double c_2 = 0.9)
         {
             auto phi = [&](const double alpha) { return f(x + alpha * p); };
             auto phi_grad = [&](const double alpha) { return static_cast<double>(g(x + alpha * p).transpose() * p); };

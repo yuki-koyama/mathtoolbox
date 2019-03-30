@@ -101,7 +101,7 @@ namespace mathtoolbox
                                                                      data);
 
                 // Algorithm 3.2
-                const double alpha = RunLineSearch(f, g, x, p, 1.0, 10.0);
+                const double alpha = RunStrongWolfeConditionsLineSearch(f, g, x, p, 1.0, 10.0);
 
                 const Eigen::VectorXd x_next = x + alpha * p;
                 const Eigen::VectorXd s = x_next - x;

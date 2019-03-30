@@ -19,8 +19,10 @@ A library of mathematical tools (regression, interpolation, dimensionality reduc
 
 ### Numerical Optimization
 
+- [`backtracking-line-search`: Backtracking line search](https://yuki-koyama.github.io/mathtoolbox/backtracking-line-search/)
 - [`bfgs`: BFGS method](https://yuki-koyama.github.io/mathtoolbox/bfgs/)
 - [`l-bfgs`: Limited-memory BFGS method](https://yuki-koyama.github.io/mathtoolbox/l-bfgs/)
+- [`strong-wolfe-conditions-line-search`: Strong Wolfe conditions line search](https://yuki-koyama.github.io/mathtoolbox/strong-wolfe-conditions-line-search/)
 
 ## Dependencies
 

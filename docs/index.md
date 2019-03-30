@@ -19,8 +19,10 @@ A library of mathematical tools (regression, interpolation, dimensionality reduc
 
 ### Numerical Optimization
 
+- [`backtracking-line-search`: Backtracking line search](./backtracking-line-search/)
 - [`bfgs`: BFGS method](./bfgs/)
 - [`l-bfgs`: Limited-memory BFGS method](./l-bfgs/)
+- [`strong-wolfe-conditions-line-search`: Strong Wolfe conditions line search](./strong-wolfe-conditions-line-search/)
 
 ## Dependencies
 

@@ -1,4 +1,4 @@
-#include <mathtoolbox/numerical-optimization.hpp>
+#include <mathtoolbox/strong-wolfe-conditions-line-search.hpp>
 #include <cassert>
 #include <cmath>
 
@@ -38,7 +38,7 @@ namespace mathtoolbox
                 const Eigen::VectorXd p = - H * grad;
 
                 // Algorithm 3.2
-                const double alpha = internal::RunLineSearch(f, g, x, p, 1.0, 10.0);
+                const double alpha = RunStrongWolfeConditionsLineSearch(f, g, x, p, 1.0, 10.0);
 
                 const Eigen::VectorXd x_next = x + alpha * p;
                 const Eigen::VectorXd s = x_next - x;

@@ -18,7 +18,7 @@ This implementation adopts the strategy described in Equation 9.6.
 
 ### Line Search
 
-To find an appropriate step size (called _alpha_), this implementation uses Algorithm 3.2, which considers both the _sufficient decrease condition_ (also known as the _Armijo condition_) and the _curvature condition_ (collectively known as the _strong Wolfe conditions_).
+This implementation uses [strong-wolfe-conditions-line-search](./strong-wolfe-conditions-line-search) to find an appropriate step size.
 
 ## Useful Resources
 

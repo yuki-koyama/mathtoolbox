@@ -18,7 +18,7 @@ This implementation adopts the strategy described in Equation 8.20.
 
 ### Line Search
 
-This implementation uses [strong-wolfe-conditions-line-search](./strong-wolfe-conditions-line-search) to find an appropriate step size.
+This implementation uses [strong-wolfe-conditions-line-search](../strong-wolfe-conditions-line-search) to find an appropriate step size.
 
 ## Useful Resources
 

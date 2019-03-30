@@ -9,6 +9,12 @@ namespace mathtoolbox
     namespace optimization
     {
         // Procedure 3.1: Backtracking Line Search
+        //
+        // This algoritmh tries to find an appropriate step size that satisfies
+        // the Armijo condition (i.e., the safficient decreasing condition).
+        // This algorithm runs faster than the line search algorithm for the
+        // strong Wolfe conditions, but it does not guarantee the curvature
+        // condition, which is required to stabilize the overall optimization.
         inline double RunBacktrackingLineSearch(const std::function<double(const Eigen::VectorXd&)>& f,
                                                 const Eigen::VectorXd& grad,
                                                 const Eigen::VectorXd& x,

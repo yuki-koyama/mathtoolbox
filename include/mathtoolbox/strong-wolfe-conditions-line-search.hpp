@@ -10,6 +10,10 @@ namespace mathtoolbox
     namespace optimization
     {
         // Algorithm 3.2: Line Search Algorithm
+        //
+        // This algoritmh tries to find an appropriate step size that satisfies
+        // the strong Wolfe conditions (i.e., both the safficient decreasing
+        // condition and the curvature condition).
         inline double RunStrongWolfeConditionsLineSearch(const std::function<double(const Eigen::VectorXd&)>& f,
                                                          const std::function<Eigen::VectorXd(const Eigen::VectorXd&)>& g,
                                                          const Eigen::VectorXd& x,

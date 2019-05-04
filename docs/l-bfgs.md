@@ -10,7 +10,7 @@ The Limited-memory BFGS method (L-BFGS) is a numerical optimization algorithm th
 
 ## Internal Dependencies
 
-- [strong-wolfe-conditions-line-search](./strong-wolfe-conditions-line-search/)
+- [strong-wolfe-conditions-line-search](../strong-wolfe-conditions-line-search/)
 
 ## Math and Algorithm
 

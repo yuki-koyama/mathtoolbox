@@ -8,6 +8,10 @@ The BFGS method (BFGS) is a numerical optimization algorithm that is one of the 
 #include <mathtoolbox/bfgs.hpp>
 ```
 
+## Internal Dependencies
+
+- [strong-wolfe-conditions-line-search](./strong-wolfe-conditions-line-search/)
+
 ## Math and Algorithm
 
 We follow [Nocedal and Wright (2006)](https://doi.org/10.1007/978-0-387-40065-5) (Chapter 8).

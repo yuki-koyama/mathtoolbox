@@ -4,7 +4,7 @@ A line search method for finding a step size that satisfies the Armijo (i.e., su
 
 ## Header
 
-```
+```cpp
 #include <mathtoolbox/backtracking-line-search.hpp>
 ```
 

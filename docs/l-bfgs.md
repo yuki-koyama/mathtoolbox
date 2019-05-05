@@ -4,7 +4,7 @@ The Limited-memory BFGS method (L-BFGS) is a numerical optimization algorithm th
 
 ## Header
 
-```
+```cpp
 #include <mathtoolbox/l-bfgs.hpp>
 ```
 

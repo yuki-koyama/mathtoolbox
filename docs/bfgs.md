@@ -4,7 +4,7 @@ The BFGS method (BFGS) is a numerical optimization algorithm that is one of the 
 
 ## Header
 
-```
+```cpp
 #include <mathtoolbox/bfgs.hpp>
 ```
 

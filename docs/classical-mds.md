@@ -4,7 +4,7 @@ Classical multi-dimensional scaling (MDS) for dimensionality reduction and low-d
 
 ## Header
 
-```
+```cpp
 #include <mathtoolbox/classical-mds.hpp>
 ```
 
@@ -56,7 +56,7 @@ $$
 
 ### Usage
 This technique can be calculated by the following function:
-```
+```cpp
 Eigen::MatrixXd ComputeClassicalMds(const Eigen::MatrixXd& D, unsigned dim);
 ```
 where `dim` is the target dimensionality for embedding.
@@ -64,4 +64,3 @@ where `dim` is the target dimensionality for embedding.
 ## Useful Resources
 
 - Josh Wills, Sameer Agarwal, David Kriegman, and Serge Belongie. 2009. Toward a perceptual space for gloss. ACM Trans. Graph. 28, 4, Article 103 (September 2009), 15 pages. DOI: <https://doi.org/10.1145/1559755.1559760>
-

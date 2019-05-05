@@ -4,7 +4,7 @@ Radial basis function (RBF) network for scattered data interpolation and functio
 
 ## Header
 
-```
+```cpp
 #include <mathtoolbox/rbf-interpolation.hpp>
 ```
 
@@ -30,24 +30,24 @@ where $ \phi(\cdot) $ is a user-selected RBF and $ w_1, \cdots, w_n $ are weight
 
 ### Pre-Computation
 
-The weight values need to be calculated in pre-computation. Let 
+The weight values need to be calculated in pre-computation. Let
 
 $$
 \mathbf{w} = \begin{bmatrix} w_1 & \cdots & w_n \end{bmatrix}^T
 $$
 
-and 
+and
 
 $$
-\mathbf{\Phi} = 
-  \begin{bmatrix} 
+\mathbf{\Phi} =
+  \begin{bmatrix}
     \phi_{1, 1} & \cdots & \phi_{1, n} \\
     \vdots      & \ddots & \vdots      \\
     \phi_{n, 1} & \cdots & \phi_{n, n}
   \end{bmatrix},
 $$
 
-where 
+where
 
 $$
 \phi_{i, j} = \phi(\| \mathbf{x}_i - \mathbf{x}_j \|).
@@ -104,7 +104,7 @@ First, instantiate the class `RbfInterpolation`. Via the constructor, an RBF can
 By default, `ThinPlateSpline` (i.e., $ \phi(x) = x^2 \log(x) $) is chosen.
 
 Then, set the target scattered data by the method:
-```
+```cpp
 void SetData(const Eigen::MatrixXd& X, const Eigen::VectorXd& y);
 ```
 where
@@ -117,18 +117,19 @@ represents the data points and
 
 $$
 \mathbf{y} = \begin{bmatrix} y_1 & \cdots & y_n \end{bmatrix}^T
-$$ 
+$$
 
 represents their values.
 
 Next, calculate the weight values by the method:
-```
-void ComputeWeights(bool use_regularization = false, double lambda = 0.001);
+```cpp
+void ComputeWeights(bool use_regularization = false,
+                    double lambda = 0.001);
 ```
 When `use_regularization` is set `true`, the weights are calculated in the manner of scattered data approximation, rather than scattered data interpolation. When the data is noisy, approximation is usually a better choice.
 
 Once the above procedures are performed, the instance is ready to calculate interpolated values. This is performed by the method
-```
+```cpp
 double GetValue(const Eigen::VectorXd& x) const;
 ```
 

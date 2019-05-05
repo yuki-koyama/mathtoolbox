@@ -4,7 +4,7 @@ A line search method for finding a step size that satisfies the strong Wolfe con
 
 ## Header
 
-```
+```cpp
 #include <mathtoolbox/strong-wolfe-conditions-line-search.hpp>
 ```
 

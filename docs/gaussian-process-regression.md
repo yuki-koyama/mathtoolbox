@@ -6,7 +6,7 @@ Gaussian process regression (GPR) for scattered data interpolation and function 
 
 ## Header
 
-```
+```cpp
 #include <mathtoolbox/gaussian-process-regression.hpp>
 ```
 
@@ -34,7 +34,7 @@ $$
 
 ### Output
 
-Given the data and some "Gaussian process" assumptions, GPR can calculate the most likely value $ y $ and its variance $ \text{Var}(y) $ for an arbitrary location $ \mathbf{x} $. 
+Given the data and some "Gaussian process" assumptions, GPR can calculate the most likely value $ y $ and its variance $ \text{Var}(y) $ for an arbitrary location $ \mathbf{x} $.
 
 The variance roughly indicates how uncertain the estimation is. For example, when this value is large, the estimated value may not be very trustful (this often occurs in regions with less data points).
 
@@ -69,7 +69,7 @@ There are two options for setting hyperparameters:
 
 #### Maximum Likelihood Estimation
 
-Let $ \boldsymbol{\theta} $ be a concatenation of hyperparameters; that is, 
+Let $ \boldsymbol{\theta} $ be a concatenation of hyperparameters; that is,
 
 $$
 \boldsymbol{\theta} = \begin{bmatrix} \sigma_{f}^{2} \\ \sigma_{n}^{2} \\ \boldsymbol{\ell} \end{bmatrix} \in \mathbb{R}^{D + 2}.
@@ -88,20 +88,21 @@ In this implementation, this maximization problem is solved by the L-BFGS method
 ### Instantiation and Data Specification
 
 A GPR object is instantiated with data specification in its constructor:
-```
-GaussianProcessRegression(const Eigen::MatrixXd& X, const Eigen::VectorXd& y);
+```cpp
+GaussianProcessRegression(const Eigen::MatrixXd& X,
+                          const Eigen::VectorXd& y);
 ```
 
 ### Hyperparameter Selection
 
 Hyperparameters are set by either
-```
+```cpp
 void SetHyperparameters(double sigma_squared_f,
                         double sigma_squared_n,
                         const Eigen::VectorXd& length_scales);
 ```
-or 
-```
+or
+```cpp
 void PerformMaximumLikelihood(double sigma_squared_f_initial,
                               double sigma_squared_n_initial,
                               const Eigen::VectorXd& length_scales_initial);
@@ -110,11 +111,11 @@ void PerformMaximumLikelihood(double sigma_squared_f_initial,
 ### Estimation
 
 Once a GPR object is instantiated and its hyperparameters are set, it is ready for estimation. For an unknown location $ \mathbf{x} $, the GPR object estimates the most likely value $ y $ by the following method:
-```
+```cpp
 double EstimateY(const Eigen::VectorXd& x) const;
 ```
 It also estimates the variance $ \text{Var}(y) $ by the following method:
-```
+```cpp
 double EstimateVariance(const Eigen::VectorXd& x) const;
 ```
 

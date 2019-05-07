@@ -170,7 +170,7 @@
                 <h1 id="classical-mds">classical-mds</h1>
 <p>Classical multi-dimensional scaling (MDS) for dimensionality reduction and low-dimensional embedding. This is also useful for visualizing the similarities of individual items in a 2-dimensional scattered plot.</p>
 <h2 id="header">Header</h2>
-<pre><code>#include &lt;mathtoolbox/classical-mds.hpp&gt;
+<pre><code class="cpp">#include &lt;mathtoolbox/classical-mds.hpp&gt;
 </code></pre>
 
 <h2 id="math">Math</h2>
@@ -216,7 +216,7 @@
 </p>
 <h3 id="usage">Usage</h3>
 <p>This technique can be calculated by the following function:</p>
-<pre><code>Eigen::MatrixXd ComputeClassicalMds(const Eigen::MatrixXd&amp; D, unsigned dim);
+<pre><code class="cpp">Eigen::MatrixXd ComputeClassicalMds(const Eigen::MatrixXd&amp; D, unsigned dim);
 </code></pre>
 
 <p>where <code>dim</code> is the target dimensionality for embedding.</p>

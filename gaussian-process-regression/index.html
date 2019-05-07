@@ -175,7 +175,7 @@
 <p>Gaussian process regression (GPR) for scattered data interpolation and function approximation.</p>
 <p><img alt="" src="examples.png" /></p>
 <h2 id="header">Header</h2>
-<pre><code>#include &lt;mathtoolbox/gaussian-process-regression.hpp&gt;
+<pre><code class="cpp">#include &lt;mathtoolbox/gaussian-process-regression.hpp&gt;
 </code></pre>
 
 <h2 id="overview">Overview</h2>
@@ -199,7 +199,7 @@
 </script>
 </p>
 <h3 id="output">Output</h3>
-<p>Given the data and some "Gaussian process" assumptions, GPR can calculate the most likely value <script type="math/tex"> y </script> and its variance <script type="math/tex"> \text{Var}(y) </script> for an arbitrary location <script type="math/tex"> \mathbf{x} </script>. </p>
+<p>Given the data and some "Gaussian process" assumptions, GPR can calculate the most likely value <script type="math/tex"> y </script> and its variance <script type="math/tex"> \text{Var}(y) </script> for an arbitrary location <script type="math/tex"> \mathbf{x} </script>.</p>
 <p>The variance roughly indicates how uncertain the estimation is. For example, when this value is large, the estimated value may not be very trustful (this often occurs in regions with less data points).</p>
 <p>Note that a 95%-confidence interval can be obtained by <script type="math/tex"> [ y - 1.96 \sqrt{\text{Var}(y)}, y + 1.96 \sqrt{\text{Var}(y)} ] </script>.</p>
 <h2 id="math">Math</h2>
@@ -225,7 +225,7 @@ m(\mathbf{x}) = 0.
 <li>Determined by the maximum likelihood estimation</li>
 </ul>
 <h4 id="maximum-likelihood-estimation">Maximum Likelihood Estimation</h4>
-<p>Let <script type="math/tex"> \boldsymbol{\theta} </script> be a concatenation of hyperparameters; that is, </p>
+<p>Let <script type="math/tex"> \boldsymbol{\theta} </script> be a concatenation of hyperparameters; that is,</p>
 <p>
 <script type="math/tex; mode=display">
 \boldsymbol{\theta} = \begin{bmatrix} \sigma_{f}^{2} \\ \sigma_{n}^{2} \\ \boldsymbol{\ell} \end{bmatrix} \in \mathbb{R}^{D + 2}.
@@ -241,29 +241,30 @@ m(\mathbf{x}) = 0.
 <h2 id="usage">Usage</h2>
 <h3 id="instantiation-and-data-specification">Instantiation and Data Specification</h3>
 <p>A GPR object is instantiated with data specification in its constructor:</p>
-<pre><code>GaussianProcessRegression(const Eigen::MatrixXd&amp; X, const Eigen::VectorXd&amp; y);
+<pre><code class="cpp">GaussianProcessRegression(const Eigen::MatrixXd&amp; X,
+                          const Eigen::VectorXd&amp; y);
 </code></pre>
 
 <h3 id="hyperparameter-selection">Hyperparameter Selection</h3>
 <p>Hyperparameters are set by either</p>
-<pre><code>void SetHyperparameters(double sigma_squared_f,
+<pre><code class="cpp">void SetHyperparameters(double sigma_squared_f,
                         double sigma_squared_n,
                         const Eigen::VectorXd&amp; length_scales);
 </code></pre>
 
-<p>or </p>
-<pre><code>void PerformMaximumLikelihood(double sigma_squared_f_initial,
+<p>or</p>
+<pre><code class="cpp">void PerformMaximumLikelihood(double sigma_squared_f_initial,
                               double sigma_squared_n_initial,
                               const Eigen::VectorXd&amp; length_scales_initial);
 </code></pre>
 
 <h3 id="estimation">Estimation</h3>
 <p>Once a GPR object is instantiated and its hyperparameters are set, it is ready for estimation. For an unknown location <script type="math/tex"> \mathbf{x} </script>, the GPR object estimates the most likely value <script type="math/tex"> y </script> by the following method:</p>
-<pre><code>double EstimateY(const Eigen::VectorXd&amp; x) const;
+<pre><code class="cpp">double EstimateY(const Eigen::VectorXd&amp; x) const;
 </code></pre>
 
 <p>It also estimates the variance <script type="math/tex"> \text{Var}(y) </script> by the following method:</p>
-<pre><code>double EstimateVariance(const Eigen::VectorXd&amp; x) const;
+<pre><code class="cpp">double EstimateVariance(const Eigen::VectorXd&amp; x) const;
 </code></pre>
 
 <h2 id="useful-resources">Useful Resources</h2>

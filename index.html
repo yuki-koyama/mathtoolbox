@@ -197,7 +197,7 @@
 </ul>
 <h2 id="build-and-installation">Build and Installation</h2>
 <p>mathtoolbox uses CMake <a href="https://cmake.org/">https://cmake.org/</a> for building source codes. This library can be built, for example, by</p>
-<pre><code>git clone https://github.com/yuki-koyama/mathtoolbox.git --recursive
+<pre><code class="bash">git clone https://github.com/yuki-koyama/mathtoolbox.git --recursive
 cd mathtoolbox
 mkdir build
 cd build
@@ -206,21 +206,21 @@ make
 </code></pre>
 
 <p>and optionally it can be installed to the system by</p>
-<pre><code>make install
+<pre><code class="bash">make install
 </code></pre>
 
 <p>When the CMake parameter <code>MATHTOOLBOX_BUILD_EXAMPLES</code> is set <code>ON</code>, the example applications are also built. (The default setting is <code>OFF</code>.) This is done by, for example,</p>
-<pre><code>cmake ../ -DMATHTOOLBOX_BUILD_EXAMPLES=ON
+<pre><code class="bash">cmake ../ -DMATHTOOLBOX_BUILD_EXAMPLES=ON
 make
 </code></pre>
 
 <h3 id="installing-prerequisites">Installing Prerequisites</h3>
 <p>macOS:</p>
-<pre><code>brew install eigen
+<pre><code class="bash">brew install eigen
 </code></pre>
 
 <p>Ubuntu:</p>
-<pre><code>sudo apt install libeigen3-dev
+<pre><code class="bash">sudo apt install libeigen3-dev
 </code></pre>
 
 <h2 id="projects-using-mathtoolbox">Projects Using mathtoolbox</h2>
@@ -280,5 +280,5 @@ make
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2019-05-04 02:57:30
+Build Date UTC : 2019-05-07 00:41:04
 -->

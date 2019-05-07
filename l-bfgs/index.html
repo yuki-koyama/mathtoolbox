@@ -172,7 +172,7 @@
                 <h1 id="l-bfgs">l-bfgs</h1>
 <p>The Limited-memory BFGS method (L-BFGS) is a numerical optimization algorithm that is one of the most popular choices among quasi-Newton methods.</p>
 <h2 id="header">Header</h2>
-<pre><code>#include &lt;mathtoolbox/l-bfgs.hpp&gt;
+<pre><code class="cpp">#include &lt;mathtoolbox/l-bfgs.hpp&gt;
 </code></pre>
 
 <h2 id="internal-dependencies">Internal Dependencies</h2>
@@ -182,7 +182,13 @@
 <h2 id="math-and-algorithm">Math and Algorithm</h2>
 <p>We follow <a href="https://doi.org/10.1007/978-0-387-40065-5">Nocedal and Wright (2006)</a> (Chapter 9).</p>
 <h3 id="inverse-hessian-initialization">Inverse Hessian Initialization</h3>
-<p>This implementation adopts the strategy described in Equation 9.6.</p>
+<p>This implementation adopts the strategy described in Equation 9.6:</p>
+<p>
+<script type="math/tex; mode=display">
+\mathbf{H}_k^0 \leftarrow \frac{\mathbf{y}_{k - 1}^T \mathbf{s}_{k - 1}}{\mathbf{y}_{k - 1}^T \mathbf{y}_{k - 1}} \mathbf{I}.
+</script>
+</p>
+<p>See the book for details.</p>
 <h3 id="line-search">Line Search</h3>
 <p>This implementation uses <a href="../strong-wolfe-conditions-line-search">strong-wolfe-conditions-line-search</a> to find an appropriate step size.</p>
 <h2 id="useful-resources">Useful Resources</h2>

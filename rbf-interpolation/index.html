@@ -172,7 +172,7 @@
                 <h1 id="rbf-interpolation">rbf-interpolation</h1>
 <p>Radial basis function (RBF) network for scattered data interpolation and function approximation.</p>
 <h2 id="header">Header</h2>
-<pre><code>#include &lt;mathtoolbox/rbf-interpolation.hpp&gt;
+<pre><code class="cpp">#include &lt;mathtoolbox/rbf-interpolation.hpp&gt;
 </code></pre>
 
 <h2 id="math">Math</h2>
@@ -192,24 +192,24 @@ y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} 
 <p>where <script type="math/tex"> \phi(\cdot) </script> is a user-selected RBF and <script type="math/tex"> w_1, \cdots, w_n </script> are weights that are calculated in pre-computation.</p>
 <p><img alt="" src="simple-interpolation.png" /></p>
 <h3 id="pre-computation">Pre-Computation</h3>
-<p>The weight values need to be calculated in pre-computation. Let </p>
+<p>The weight values need to be calculated in pre-computation. Let</p>
 <p>
 <script type="math/tex; mode=display">
 \mathbf{w} = \begin{bmatrix} w_1 & \cdots & w_n \end{bmatrix}^T
 </script>
 </p>
-<p>and </p>
+<p>and</p>
 <p>
 <script type="math/tex; mode=display">
-\mathbf{\Phi} = 
-  \begin{bmatrix} 
+\mathbf{\Phi} =
+  \begin{bmatrix}
     \phi_{1, 1} & \cdots & \phi_{1, n} \\
     \vdots      & \ddots & \vdots      \\
     \phi_{n, 1} & \cdots & \phi_{n, n}
   \end{bmatrix},
 </script>
 </p>
-<p>where </p>
+<p>where</p>
 <p>
 <script type="math/tex; mode=display">
 \phi_{i, j} = \phi(\| \mathbf{x}_i - \mathbf{x}_j \|).
@@ -259,7 +259,7 @@ y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} 
 </ul>
 <p>By default, <code>ThinPlateSpline</code> (i.e., <script type="math/tex"> \phi(x) = x^2 \log(x) </script>) is chosen.</p>
 <p>Then, set the target scattered data by the method:</p>
-<pre><code>void SetData(const Eigen::MatrixXd&amp; X, const Eigen::VectorXd&amp; y);
+<pre><code class="cpp">void SetData(const Eigen::MatrixXd&amp; X, const Eigen::VectorXd&amp; y);
 </code></pre>
 
 <p>where</p>
@@ -276,12 +276,13 @@ y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} 
 </p>
 <p>represents their values.</p>
 <p>Next, calculate the weight values by the method:</p>
-<pre><code>void ComputeWeights(bool use_regularization = false, double lambda = 0.001);
+<pre><code class="cpp">void ComputeWeights(bool use_regularization = false,
+                    double lambda = 0.001);
 </code></pre>
 
 <p>When <code>use_regularization</code> is set <code>true</code>, the weights are calculated in the manner of scattered data approximation, rather than scattered data interpolation. When the data is noisy, approximation is usually a better choice.</p>
 <p>Once the above procedures are performed, the instance is ready to calculate interpolated values. This is performed by the method</p>
-<pre><code>double GetValue(const Eigen::VectorXd&amp; x) const;
+<pre><code class="cpp">double GetValue(const Eigen::VectorXd&amp; x) const;
 </code></pre>
 
 <h2 id="useful-resources">Useful Resources</h2>

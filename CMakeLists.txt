@@ -10,6 +10,7 @@ set(CMAKE_CXX_STANDARD 11)
 
 option(MATHTOOLBOX_NLOPT_BASED_MODULES "Build NLopt-based modules" ON)
 option(MATHTOOLBOX_BUILD_EXAMPLES "Build example applications" OFF)
+option(MATHTOOLBOX_PYTHON_BINDINGS "Build python bindings" OFF)
 
 ######################################################################
 # Check prerequisites
@@ -25,6 +26,14 @@ endif()
 ######################################################################
 # External libraries
 ######################################################################
+
+if(MATHTOOLBOX_PYTHON_BINDINGS)
+	set(PYBIND11_INSTALL        OFF CACHE INTERNAL "" FORCE)
+	set(PYBIND11_PYTHON_VERSION ""  CACHE INTERNAL "" FORCE)
+	set(PYBIND11_TEST           OFF CACHE INTERNAL "" FORCE)
+	set(USE_PYTHON_INCLUDE_DIR  OFF CACHE INTERNAL "" FORCE)
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/pybind11)
+endif()
 
 if(MATHTOOLBOX_NLOPT_BASED_MODULES)
 	set(BUILD_SHARED_LIBS OFF CACHE INTERNAL "" FORCE)
@@ -45,6 +54,7 @@ if(MATHTOOLBOX_NLOPT_BASED_MODULES)
 	set(INSTALL_LIB_DIR     "lib"             CACHE INTERNAL "" FORCE)
 	set(INSTALL_MAN_DIR     "share/man"       CACHE INTERNAL "" FORCE)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/nlopt)
+
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/nlopt-util)
 endif()
 

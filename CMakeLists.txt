@@ -85,12 +85,14 @@ file(GLOB
 	${CMAKE_CURRENT_SOURCE_DIR}/src/gaussian-process-regression.cpp
 )
 
+add_library(mathtoolbox STATIC ${headers} ${sources})
+target_link_libraries(mathtoolbox PUBLIC Eigen3::Eigen)
 if(MATHTOOLBOX_NLOPT_BASED_MODULES)
-	add_library(mathtoolbox STATIC ${headers} ${sources} ${headers_nlopt} ${sources_nlopt})
-	target_link_libraries(mathtoolbox PUBLIC Eigen3::Eigen nlopt nlopt-util)
-else()
-	add_library(mathtoolbox STATIC ${headers} ${sources})
-	target_link_libraries(mathtoolbox PUBLIC Eigen3::Eigen)
+	target_sources(mathtoolbox PRIVATE ${headers_nlopt} ${sources_nlopt})
+	target_link_libraries(mathtoolbox PUBLIC nlopt nlopt-util)
+endif()
+if(MATHTOOLBOX_PYTHON_BINDINGS)
+	target_link_libraries(mathtoolbox PUBLIC pybind11)
 endif()
 target_include_directories(mathtoolbox PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 

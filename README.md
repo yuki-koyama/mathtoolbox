@@ -26,9 +26,18 @@ A library of mathematical tools (regression, interpolation, dimensionality reduc
 
 ## Dependencies
 
+### Main Library
+
 - Eigen <http://eigen.tuxfamily.org/>
 - NLopt <https://nlopt.readthedocs.io/> (included as gitsubmodule)
 - nlopt-util <https://github.com/yuki-koyama/nlopt-util> (included as gitsubmodule)
+
+### Python Bindings
+
+- pybind11 <https://github.com/pybind/pybind11> (included as gitsubmodule)
+
+### Examples
+
 - optimization-test-function <https://github.com/yuki-koyama/optimization-test-functions> (included as githsubmodule)
 
 ## Build and Installation

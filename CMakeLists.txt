@@ -146,4 +146,8 @@ if(MATHTOOLBOX_BUILD_EXAMPLES)
 	if(MATHTOOLBOX_NLOPT_BASED_MODULES)
 		add_test(NAME gaussian-process-regression-test COMMAND $<TARGET_FILE:gaussian-process-regression-test> .)
 	endif()
+
+	if(MATHTOOLBOX_PYTHON_BINDINGS)
+		add_test(NAME python-classical-mds-test COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH=$<TARGET_FILE_DIR:pymathtoolbox> python3 ${CMAKE_CURRENT_SOURCE_DIR}/examples/python-bindings/classical-mds.py)
+	endif()
 endif()

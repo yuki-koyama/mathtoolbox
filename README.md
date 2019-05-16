@@ -56,9 +56,15 @@ and optionally it can be installed to the system by
 make install
 ```
 
-When the CMake parameter `MATHTOOLBOX_BUILD_EXAMPLES` is set `ON`, the example applications are also built. (The default setting is `OFF`.) This is done by, for example,
+When the CMake parameter `MATHTOOLBOX_BUILD_EXAMPLES` is set `ON`, the example applications are also built. (The default setting is `OFF`.) This is done by
 ```
 cmake ../ -DMATHTOOLBOX_BUILD_EXAMPLES=ON
+make
+```
+
+When the CMake parameter `MATHTOOLBOX_PYTHON_BINDINGS` is set `ON`, the example applications are also built. (The default setting is `OFF`.) This is done by
+```
+cmake ../ -DMATHTOOLBOX_PYTHON_BINDINGS=ON
 make
 ```
 

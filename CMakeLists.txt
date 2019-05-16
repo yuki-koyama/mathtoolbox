@@ -8,11 +8,12 @@ set(CMAKE_CXX_STANDARD 11)
 # Options
 ######################################################################
 
-option(MATHTOOLBOX_NLOPT_BASED_MODULES "Build NLopt-based modules" ON)
-option(MATHTOOLBOX_BUILD_EXAMPLES "Build example applications" OFF)
+option(MATHTOOLBOX_NLOPT_BASED_MODULES "Build NLopt-based modules"  ON )
+option(MATHTOOLBOX_BUILD_EXAMPLES      "Build example applications" OFF)
+option(MATHTOOLBOX_PYTHON_BINDINGS     "Build python bindings"      OFF)
 
 ######################################################################
-# Check prerequisites
+# Prerequisites
 ######################################################################
 
 find_package(Eigen3 REQUIRED)
@@ -25,6 +26,14 @@ endif()
 ######################################################################
 # External libraries
 ######################################################################
+
+if(MATHTOOLBOX_PYTHON_BINDINGS)
+	set(PYBIND11_INSTALL        OFF CACHE INTERNAL "" FORCE)
+	set(PYBIND11_PYTHON_VERSION ""  CACHE INTERNAL "" FORCE)
+	set(PYBIND11_TEST           OFF CACHE INTERNAL "" FORCE)
+	set(USE_PYTHON_INCLUDE_DIR  OFF CACHE INTERNAL "" FORCE)
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/pybind11)
+endif()
 
 if(MATHTOOLBOX_NLOPT_BASED_MODULES)
 	set(BUILD_SHARED_LIBS OFF CACHE INTERNAL "" FORCE)
@@ -45,44 +54,54 @@ if(MATHTOOLBOX_NLOPT_BASED_MODULES)
 	set(INSTALL_LIB_DIR     "lib"             CACHE INTERNAL "" FORCE)
 	set(INSTALL_MAN_DIR     "share/man"       CACHE INTERNAL "" FORCE)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/nlopt)
+
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/nlopt-util)
 endif()
 
 ######################################################################
-# Build
+# Core library
 ######################################################################
 
-file(GLOB
-	headers
+set(headers
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/bfgs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/classical-mds.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/l-bfgs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/numerical-optimization.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/rbf-interpolation.hpp
 )
-file(GLOB
-	sources
+set(sources
 	${CMAKE_CURRENT_SOURCE_DIR}/src/bfgs.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/classical-mds.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/l-bfgs.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/rbf-interpolation.cpp
 )
-file(GLOB
-	headers_nlopt
+set(headers_nlopt
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/gaussian-process-regression.hpp
 )
-file(GLOB
-	sources_nlopt
+set(sources_nlopt
 	${CMAKE_CURRENT_SOURCE_DIR}/src/gaussian-process-regression.cpp
 )
 
+add_library(mathtoolbox STATIC ${headers} ${sources})
+target_link_libraries(mathtoolbox PUBLIC Eigen3::Eigen)
 if(MATHTOOLBOX_NLOPT_BASED_MODULES)
-	add_library(mathtoolbox STATIC ${headers} ${sources} ${headers_nlopt} ${sources_nlopt})
-	target_link_libraries(mathtoolbox PUBLIC Eigen3::Eigen nlopt nlopt-util)
-else()
-	add_library(mathtoolbox STATIC ${headers} ${sources})
-	target_link_libraries(mathtoolbox PUBLIC Eigen3::Eigen)
+	target_sources(mathtoolbox PRIVATE ${headers_nlopt} ${sources_nlopt})
+	target_link_libraries(mathtoolbox PUBLIC nlopt nlopt-util)
 endif()
 target_include_directories(mathtoolbox PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+######################################################################
+# Python bindings
+######################################################################
+
+set(sources_python_bindings
+	${CMAKE_CURRENT_SOURCE_DIR}/src/python-bindings.cpp
+)
+
+if(MATHTOOLBOX_PYTHON_BINDINGS)
+	pybind11_add_module(pymathtoolbox ${sources_python_bindings})
+	target_link_libraries(pymathtoolbox PUBLIC mathtoolbox)
+endif()
 
 ######################################################################
 # Installation

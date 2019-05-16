@@ -7,3 +7,6 @@
 [submodule "external/optimization-test-functions"]
 	path = external/optimization-test-functions
 	url = https://github.com/yuki-koyama/optimization-test-functions.git
+[submodule "external/pybind11"]
+	path = external/pybind11
+	url = https://github.com/pybind/pybind11.git

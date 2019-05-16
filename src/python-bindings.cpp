@@ -1,4 +1,6 @@
+#include <mathtoolbox/classical-mds.hpp>
 #include <pybind11/pybind11.h>
+#include <pybind11/eigen.h>
 
 int add(int i, int j)
 {
@@ -9,5 +11,5 @@ PYBIND11_MODULE(pymathtoolbox, m)
 {
     m.doc() = "mathtoolbox python bindings";
 
-    m.def("add", &add, "A function which adds two numbers");
+    m.def("ComputeClassicalMds", &mathtoolbox::ComputeClassicalMds, "A function which computes classical MDS");
 }

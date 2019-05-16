@@ -1,11 +1,14 @@
 language: cpp
-compiler:
-- clang
-- gcc
-os:
-- linux
-- osx
+
+matrix:
+  include:
+    - compiler: gcc
+      os: linux
+    - compiler: clang
+      os: osx
+
 dist: xenial
+
 addons:
   homebrew:
     packages:
@@ -13,7 +16,8 @@ addons:
   apt:
     packages:
     - libeigen3-dev
+
 script:
-- cmake -DMATHTOOLBOX_NLOPT_BASED_MODULES=ON -DMATHTOOLBOX_BUILD_EXAMPLES=ON .
+- cmake -DMATHTOOLBOX_NLOPT_BASED_MODULES=ON -DMATHTOOLBOX_BUILD_EXAMPLES=ON -DMATHTOOLBOX_PYTHON_BINDINGS=ON .
 - make
 - ctest

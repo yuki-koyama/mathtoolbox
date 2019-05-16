@@ -1,9 +1,6 @@
 #ifndef CLASSICAL_MDS_HPP
 #define CLASSICAL_MDS_HPP
 
-#include <vector>
-#include <utility>
-#include <cassert>
 #include <Eigen/Core>
 #include <Eigen/Eigenvalues>
 

@@ -1,4 +1,7 @@
 #include <mathtoolbox/classical-mds.hpp>
+#include <vector>
+#include <utility>
+#include <cassert>
 
 // Extract the N-largest eigen values and eigen vectors
 inline void ExtractNLargestEigens(unsigned n,

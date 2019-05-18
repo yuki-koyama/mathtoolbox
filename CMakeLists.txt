@@ -151,6 +151,6 @@ if(MATHTOOLBOX_BUILD_EXAMPLES)
 	endif()
 
 	if(MATHTOOLBOX_PYTHON_BINDINGS)
-		add_test(NAME python-classical-mds-test COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH=$<TARGET_FILE_DIR:pymathtoolbox> python3 ${CMAKE_CURRENT_SOURCE_DIR}/examples/python-bindings/classical-mds.py)
+		add_test(NAME python-classical-mds-test COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH=$<TARGET_FILE_DIR:pymathtoolbox> ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/examples/python-bindings/classical-mds.py)
 	endif()
 endif()

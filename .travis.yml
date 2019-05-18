@@ -18,7 +18,7 @@ addons:
     - libeigen3-dev
 
 before_script:
-  - pyenv install 3.7.1
+  - pyenv versions
   - pyenv global 3.7.1
 
 script:

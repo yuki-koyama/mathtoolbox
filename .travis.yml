@@ -9,9 +9,6 @@ matrix:
 
 dist: xenial
 
-python:
-  - "3.7"
-
 addons:
   homebrew:
     packages:
@@ -20,7 +17,11 @@ addons:
     packages:
     - libeigen3-dev
 
+before_script:
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pyenv global 3.7; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pip install numpy; fi
+
 script:
-- cmake -DMATHTOOLBOX_NLOPT_BASED_MODULES=ON -DMATHTOOLBOX_BUILD_EXAMPLES=ON -DMATHTOOLBOX_PYTHON_BINDINGS=ON .
-- make
-- ctest
+  - cmake -DMATHTOOLBOX_NLOPT_BASED_MODULES=ON -DMATHTOOLBOX_BUILD_EXAMPLES=ON -DMATHTOOLBOX_PYTHON_BINDINGS=ON .
+  - make
+  - ctest

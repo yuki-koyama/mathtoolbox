@@ -18,9 +18,7 @@ addons:
     - libeigen3-dev
 
 before_script:
-  - pyenv versions
-  - pyenv install --list
-  - pyenv global 3.7
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pyenv global 3.7; fi
 
 script:
   - cmake -DMATHTOOLBOX_NLOPT_BASED_MODULES=ON -DMATHTOOLBOX_BUILD_EXAMPLES=ON -DMATHTOOLBOX_PYTHON_BINDINGS=ON .

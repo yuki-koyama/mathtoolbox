@@ -363,7 +363,7 @@ namespace mathtoolbox
 
         sigma_squared_f = x_optimal[0];
         sigma_squared_n = x_optimal[1];
-        length_scales           = Eigen::Map<const VectorXd>(&x_optimal[2], x_optimal.size() - 2);
+        length_scales   = x_optimal.segment(2, x_optimal.size() - 2);
 
         std::cout << "sigma_squared_f: " << sigma_squared_f << std::endl;
         std::cout << "sigma_squared_n: " << sigma_squared_n << std::endl;

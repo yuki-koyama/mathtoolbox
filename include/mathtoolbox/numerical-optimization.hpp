@@ -40,8 +40,8 @@ namespace mathtoolbox
 
         inline Result RunOptimization(const Setting& input)
         {
-            const auto f = (input.type == Type::Min) ? input.f : [&input](const Eigen::VectorXd& x) { return - input.f(x); };
-            const auto g = (input.type == Type::Min) ? input.g : [&input](const Eigen::VectorXd& x) { return - input.g(x); };
+            const auto f = (input.type == Type::Min) ? input.f : [&input](const Eigen::VectorXd& x) -> double { return - input.f(x); };
+            const auto g = (input.type == Type::Min) ? input.g : [&input](const Eigen::VectorXd& x) -> Eigen::VectorXd { return - input.g(x); };
 
             switch (input.algorithm) {
                 case Algorithm::Bfgs:

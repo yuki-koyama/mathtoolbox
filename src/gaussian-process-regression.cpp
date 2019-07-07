@@ -289,11 +289,44 @@ namespace mathtoolbox
         // upper bounds are totally ignored and the numerical optimization algorithm
         // may try unacceptably large variables.
 
-        std::function<double(const VectorXd&)> f = [&data](const VectorXd& x) -> double
+        const auto encode_value = [](const double x)
         {
-            const double   sigma_squared_f = std::exp(x[0]);
-            const double   sigma_squared_n = std::exp(x[1]);
-            const VectorXd length_scales   = x.segment(2, x.size() - 2).array().exp().matrix();
+            return std::log(x);
+        };
+        const auto decode_value = [](const double x)
+        {
+            return std::exp(x);
+        };
+        const auto calc_decode_value_derivative = [](const double x)
+        {
+            return std::exp(x);
+        };
+        const auto encode_vector = [&encode_value](const VectorXd& x)
+        {
+            auto encoded_x = VectorXd(x.size());
+            for (int i = 0; i < x.size(); ++ i) { encoded_x[i] = encode_value(x[i]); }
+            return encoded_x;
+        };
+        const auto decode_vector = [&decode_value](const VectorXd& x)
+        {
+            auto decoded_x = VectorXd(x.size());
+            for (int i = 0; i < x.size(); ++ i) { decoded_x[i] = decode_value(x[i]); }
+            return decoded_x;
+        };
+        const auto calc_decode_vector_derivative = [&calc_decode_value_derivative](const VectorXd& x)
+        {
+            auto grad = VectorXd(x.size());
+            for (int i = 0; i < x.size(); ++ i) { grad[i] = calc_decode_value_derivative(x[i]); }
+            return grad;
+        };
+
+        std::function<double(const VectorXd&)> f = [&](const VectorXd& x) -> double
+        {
+            const auto decoded_x = decode_vector(x);
+
+            const double   sigma_squared_f = decoded_x[0];
+            const double   sigma_squared_n = decoded_x[1];
+            const VectorXd length_scales   = decoded_x.segment(2, x.size() - 2);
 
             const MatrixXd& X = std::get<0>(data);
             const VectorXd& y = std::get<1>(data);
@@ -303,23 +336,25 @@ namespace mathtoolbox
             return log_likelihood;
         };
 
-        std::function<VectorXd(const VectorXd&)> g = [&data](const VectorXd& x) -> VectorXd
+        std::function<VectorXd(const VectorXd&)> g = [&](const VectorXd& x) -> VectorXd
         {
-            const double   sigma_squared_f = std::exp(x[0]);
-            const double   sigma_squared_n = std::exp(x[1]);
-            const VectorXd length_scales   = x.segment(2, x.size() - 2).array().exp().matrix();
+            const auto decoded_x = decode_vector(x);
+
+            const double   sigma_squared_f = decoded_x[0];
+            const double   sigma_squared_n = decoded_x[1];
+            const VectorXd length_scales   = decoded_x.segment(2, x.size() - 2);
 
             const MatrixXd& X = std::get<0>(data);
             const VectorXd& y = std::get<1>(data);
 
             const VectorXd log_likelihood_gradient = CalculateLogLikelihoodGradient(X, y, sigma_squared_f, sigma_squared_n, length_scales);
 
-            return (log_likelihood_gradient.array() * x.array().exp()).matrix();
+            return (log_likelihood_gradient.array() * calc_decode_vector_derivative(x).array()).matrix();
         };
 
         optimization::Setting input;
         input.algorithm = optimization::Algorithm::LBfgs;
-        input.x_init = x_initial.array().log().matrix();
+        input.x_init = encode_vector(x_initial);
         input.f = f;
         input.g = g;
         input.epsilon = 1e-06;
@@ -327,7 +362,7 @@ namespace mathtoolbox
         input.type = optimization::Type::Max;
 
         const auto result = optimization::RunOptimization(input);
-        const VectorXd x_optimal = result.x_star.array().exp().matrix();
+        const VectorXd x_optimal = decode_vector(result.x_star);
 #else
         auto objective = [](const std::vector<double>& x, std::vector<double>& grad, void* data)
         {

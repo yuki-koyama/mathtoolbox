@@ -169,7 +169,7 @@ namespace
 
         const Eigen::FullPivLU<MatrixXd> lu(K);
 
-        assert(lu.isInvertible());
+        if (!lu.isInvertible()) { throw std::runtime_error("Non-invertible K is detected."); }
 
         const MatrixXd K_inv = lu.inverse();
         const double   K_det = lu.determinant();

@@ -38,7 +38,7 @@ namespace mathtoolbox
             // Algorithm 3.3
             auto zoom = [&](double alpha_l, double alpha_h)
             {
-                constexpr unsigned int max_num_iterations = 50;
+                constexpr unsigned int max_num_iterations = 100;
                 for (unsigned int i = 0; i < max_num_iterations; ++ i)
                 {
                     const double alpha_j = 0.5 * (alpha_l + alpha_h); // TODO: Use a better strategy
@@ -65,7 +65,8 @@ namespace mathtoolbox
                 throw std::runtime_error("Failed to perform the line search.");
             };
 
-            while (true)
+            constexpr unsigned int max_num_iterations = 100;
+            for (int i = 0; i < max_num_iterations; ++ i)
             {
                 const double phi_alpha = phi(alpha);
 
@@ -91,8 +92,7 @@ namespace mathtoolbox
 
                 alpha = 0.5 * (alpha + alpha_max); // TODO: Use a better strategy
             }
-
-            assert(false);
+            throw std::runtime_error("Failed to perform the line search.");
 
             return alpha_init;
         }

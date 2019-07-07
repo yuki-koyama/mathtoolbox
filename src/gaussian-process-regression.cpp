@@ -1,4 +1,7 @@
 #include <mathtoolbox/gaussian-process-regression.hpp>
+#ifdef USE_MATHTOOLBOX_NUMERICAL_OPTIMIZATION_INSTEAD_OF_NLOPT
+#include <mathtoolbox/numerical-optimization.hpp>
+#endif
 #include <tuple>
 #include <Eigen/LU>
 #include <nlopt-util.hpp>
@@ -277,6 +280,55 @@ namespace mathtoolbox
         using Data = std::tuple<const MatrixXd&, const VectorXd&>;
         Data data(X, y);
 
+#ifdef USE_MATHTOOLBOX_NUMERICAL_OPTIMIZATION_INSTEAD_OF_NLOPT
+        // Currently, the mathtoolbox does not have any numerical optimization algorithms
+        // that support lower- and upper-bound conditions. The hyperparameters here
+        // should always be positive for evaluating the objective function. To resolve
+        // the positiveness issue, the search variables are encoded using logarithm.
+        // This works for most cases, but sometimes it becomes unstable because the
+        // upper bounds are totally ignored and the numerical optimization algorithm
+        // may try unacceptably large variables.
+
+        std::function<double(const VectorXd&)> f = [&data](const VectorXd& x) -> double
+        {
+            const double   sigma_squared_f = std::exp(x[0]);
+            const double   sigma_squared_n = std::exp(x[1]);
+            const VectorXd length_scales   = x.segment(2, x.size() - 2).array().exp().matrix();
+
+            const MatrixXd& X = std::get<0>(data);
+            const VectorXd& y = std::get<1>(data);
+
+            const double log_likelihood = CalculateLogLikelihood(X, y, sigma_squared_f, sigma_squared_n, length_scales);
+
+            return log_likelihood;
+        };
+
+        std::function<VectorXd(const VectorXd&)> g = [&data](const VectorXd& x) -> VectorXd
+        {
+            const double   sigma_squared_f = std::exp(x[0]);
+            const double   sigma_squared_n = std::exp(x[1]);
+            const VectorXd length_scales   = x.segment(2, x.size() - 2).array().exp().matrix();
+
+            const MatrixXd& X = std::get<0>(data);
+            const VectorXd& y = std::get<1>(data);
+
+            const VectorXd log_likelihood_gradient = CalculateLogLikelihoodGradient(X, y, sigma_squared_f, sigma_squared_n, length_scales);
+
+            return (log_likelihood_gradient.array() * x.array().exp()).matrix();
+        };
+
+        optimization::Setting input;
+        input.algorithm = optimization::Algorithm::LBfgs;
+        input.x_init = x_initial.array().log().matrix();
+        input.f = f;
+        input.g = g;
+        input.epsilon = 1e-06;
+        input.max_num_iterations = 1000;
+        input.type = optimization::Type::Max;
+
+        const auto result = optimization::RunOptimization(input);
+        const VectorXd x_optimal = result.x_star.array().exp().matrix();
+#else
         auto objective = [](const std::vector<double>& x, std::vector<double>& grad, void* data)
         {
             const double   sigma_squared_f = x[0];
@@ -307,6 +359,7 @@ namespace mathtoolbox
                                                     1e-06,
                                                     1e-06,
                                                     true);
+#endif
 
         sigma_squared_f = x_optimal[0];
         sigma_squared_n = x_optimal[1];

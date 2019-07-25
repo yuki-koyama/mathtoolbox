@@ -47,17 +47,20 @@ int main(int argc, char** argv)
     mathtoolbox::GaussianProcessRegression regressor(X, y);
     regressor.PerformMaximumLikelihood(0.10, 0.01, Eigen::VectorXd::Constant(1, 0.10));
 
-    // Calculate (and export) estimated values
+    // Define constants for export
+    constexpr int    resolution       = 300;
+    constexpr double percentile_point = 1.95996398454005423552;
+
+    // Calculate (and export) predictive distribution
     std::ofstream estimated_data_stream(output_directory_path + "/estimated_data.csv");
-    estimated_data_stream << "x,y,s" << std::endl;
-    constexpr int resolution = 300;
+    estimated_data_stream << "x,mean,standard deviation,95-percent upper,95-percent lower" << std::endl;
     for (int i = 0; i <= resolution; ++ i)
     {
         const double x = (1.0 / static_cast<double>(resolution)) * i;
         const double y = regressor.EstimateY(Eigen::VectorXd::Constant(1, x));
         const double s = std::sqrt(regressor.EstimateVariance(Eigen::VectorXd::Constant(1, x)));
 
-        estimated_data_stream << x << "," << y << "," << s << std::endl;
+        estimated_data_stream << x << "," << y << "," << s << "," << y + percentile_point * s << "," << y - percentile_point * s << std::endl;
     }
     estimated_data_stream.close();
 

@@ -24,15 +24,8 @@ namespace
 
 int main(int argc, char** argv)
 {
-    // Display usage when necessary arguments are not provided
-    if (argc < 2)
-    {
-        std::cout << "Usage: gaussian-process-regression-test [output directory path]" << std::endl;
-        exit(0);
-    }
-
     // Set a output directory path
-    const std::string output_directory_path(argv[1]);
+    const std::string output_directory_path = (argc < 2) ? "." : argv[1];
 
     // Generate (and export) scattered data
     constexpr int    number_of_samples = 10;

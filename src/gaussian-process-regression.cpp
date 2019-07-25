@@ -93,20 +93,18 @@ namespace
                                                   const VectorXd& length_scales)
     {
         const int N = X.cols();
-        return [&]()
+
+        MatrixXd K_gradient_sigma_squared_f(N, N);
+        for (int i = 0; i < N; ++ i)
         {
-            MatrixXd K_gradient_sigma_squared_f(N, N);
-            for (int i = 0; i < N; ++ i)
+            for (int j = i; j < N; ++ j)
             {
-                for (int j = i; j < N; ++ j)
-                {
-                    const double ard_squared_exponential_kernel_gradient_sigma_squared_f = CalculateArdSquaredExponentialKernelGradientSigmaSquaredF(X.col(i), X.col(j), sigma_squared_f, length_scales);
-                    K_gradient_sigma_squared_f(i, j) = ard_squared_exponential_kernel_gradient_sigma_squared_f;
-                    K_gradient_sigma_squared_f(j, i) = ard_squared_exponential_kernel_gradient_sigma_squared_f;
-                }
+                const double ard_squared_exponential_kernel_gradient_sigma_squared_f = CalculateArdSquaredExponentialKernelGradientSigmaSquaredF(X.col(i), X.col(j), sigma_squared_f, length_scales);
+                K_gradient_sigma_squared_f(i, j) = ard_squared_exponential_kernel_gradient_sigma_squared_f;
+                K_gradient_sigma_squared_f(j, i) = ard_squared_exponential_kernel_gradient_sigma_squared_f;
             }
-            return K_gradient_sigma_squared_f;
-        }();
+        }
+        return K_gradient_sigma_squared_f;
     }
 
     MatrixXd CalculateLargeKGradientSigmaSquaredN(const MatrixXd& X,
@@ -125,20 +123,18 @@ namespace
                                                  const int       index)
     {
         const int N = X.cols();
-        return [&]()
+
+        MatrixXd K_gradient_length_scale_i(N, N);
+        for (int i = 0; i < N; ++ i)
         {
-            MatrixXd K_gradient_length_scale_i(N, N);
-            for (int i = 0; i < N; ++ i)
+            for (int j = i; j < N; ++ j)
             {
-                for (int j = i; j < N; ++ j)
-                {
-                    const VectorXd ard_squared_exponential_kernel_gradient_length_scales = CalculateArdSquaredExponentialKernelGradientLengthScales(X.col(i), X.col(j), sigma_squared_f, length_scales);
-                    K_gradient_length_scale_i(i, j) = ard_squared_exponential_kernel_gradient_length_scales(index);
-                    K_gradient_length_scale_i(j, i) = ard_squared_exponential_kernel_gradient_length_scales(index);
-                }
+                const VectorXd ard_squared_exponential_kernel_gradient_length_scales = CalculateArdSquaredExponentialKernelGradientLengthScales(X.col(i), X.col(j), sigma_squared_f, length_scales);
+                K_gradient_length_scale_i(i, j) = ard_squared_exponential_kernel_gradient_length_scales(index);
+                K_gradient_length_scale_i(j, i) = ard_squared_exponential_kernel_gradient_length_scales(index);
             }
-            return K_gradient_length_scale_i;
-        }();
+        }
+        return K_gradient_length_scale_i;
     }
 
     VectorXd CalculateSmallK(const VectorXd& x,

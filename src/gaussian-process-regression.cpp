@@ -413,6 +413,6 @@ namespace mathtoolbox
     double GaussianProcessRegression::EstimateVariance(const VectorXd& x) const
     {
         const VectorXd k = CalculateSmallK(x, X, sigma_squared_f, length_scales);
-        return sigma_squared_f + sigma_squared_n - k.transpose() * K_inv * k;
+        return sigma_squared_f - k.transpose() * K_inv * k;
     }
 }

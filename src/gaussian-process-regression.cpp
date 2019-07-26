@@ -67,9 +67,8 @@ namespace
                              const double    sigma_squared_n,
                              const VectorXd& length_scales)
     {
-        const int      N = X.cols();
-        const MatrixXd K = [&]()
-        {
+        const int      N   = X.cols();
+        const MatrixXd K_f = [&]() {
             MatrixXd K(N, N);
             for (int i = 0; i < N; ++i)
             {
@@ -83,7 +82,7 @@ namespace
             }
             return K;
         }();
-        return K + sigma_squared_n * MatrixXd::Identity(N, N);
+        return K_f + sigma_squared_n * MatrixXd::Identity(N, N);
     }
 
     MatrixXd CalculateLargeKGradientSigmaSquaredF(const MatrixXd& X,
@@ -160,23 +159,23 @@ namespace
                                   const double    sigma_squared_n,
                                   const VectorXd& length_scales)
     {
-        const int      N = X.cols();
-        const MatrixXd K = CalculateLargeK(X, sigma_squared_f, sigma_squared_n, length_scales);
+        const int      N   = X.cols();
+        const MatrixXd K_y = CalculateLargeK(X, sigma_squared_f, sigma_squared_n, length_scales);
 
-        const Eigen::FullPivLU<MatrixXd> lu(K);
+        const Eigen::FullPivLU<MatrixXd> lu(K_y);
 
         if (!lu.isInvertible())
         {
             throw std::runtime_error("Non-invertible K_y is detected.");
         }
 
-        const MatrixXd K_inv = lu.inverse();
-        const double   K_det = lu.determinant();
+        const MatrixXd K_y_inv = lu.inverse();
+        const double   K_y_det = lu.determinant();
 
         // Equation 5.8 [Rasmuss and Williams 2006]
-        const double term1 = - 0.5 * y.transpose() * K_inv * y;
-        const double term2 = - 0.5 * std::log(K_det);
-        const double term3 = - 0.5 * N * std::log(2.0 * M_PI);
+        const double term1 = -0.5 * y.transpose() * K_y_inv * y;
+        const double term2 = -0.5 * std::log(K_y_det);
+        const double term3 = -0.5 * N * std::log(2.0 * M_PI);
 
         return term1 + term2 + term3;
     }
@@ -189,22 +188,24 @@ namespace
     {
         const int D = X.rows();
 
-        const MatrixXd K     = CalculateLargeK(X, sigma_squared_f, sigma_squared_n, length_scales);
-        const MatrixXd K_inv = K.inverse();
+        const MatrixXd K_y     = CalculateLargeK(X, sigma_squared_f, sigma_squared_n, length_scales);
+        const MatrixXd K_y_inv = K_y.inverse();
 
         const double log_likeliehood_gradient_sigma_squared_f = [&]() {
             // Equation 5.9 [Rasmuss and Williams 2006]
-            const MatrixXd K_gradient_sigma_squared_f = CalculateLargeKGradientSigmaSquaredF(X, sigma_squared_f, sigma_squared_n, length_scales);
-            const double term1 = + 0.5 * y.transpose() * K_inv * K_gradient_sigma_squared_f * K_inv * y;
-            const double term2 = - 0.5 * (K_inv * K_gradient_sigma_squared_f).trace();
+            const MatrixXd K_gradient_sigma_squared_f =
+                CalculateLargeKGradientSigmaSquaredF(X, sigma_squared_f, sigma_squared_n, length_scales);
+            const double term1 = +0.5 * y.transpose() * K_y_inv * K_gradient_sigma_squared_f * K_y_inv * y;
+            const double term2 = -0.5 * (K_y_inv * K_gradient_sigma_squared_f).trace();
             return term1 + term2;
         }();
 
         const double log_likeliehood_gradient_sigma_squared_n = [&]() {
             // Equation 5.9 [Rasmuss and Williams 2006]
-            const MatrixXd K_gradient_sigma_squared_n = CalculateLargeKGradientSigmaSquaredN(X, sigma_squared_f, sigma_squared_n, length_scales);
-            const double term1 = + 0.5 * y.transpose() * K_inv * K_gradient_sigma_squared_n * K_inv * y;
-            const double term2 = - 0.5 * (K_inv * K_gradient_sigma_squared_n).trace();
+            const MatrixXd K_gradient_sigma_squared_n =
+                CalculateLargeKGradientSigmaSquaredN(X, sigma_squared_f, sigma_squared_n, length_scales);
+            const double term1 = +0.5 * y.transpose() * K_y_inv * K_gradient_sigma_squared_n * K_y_inv * y;
+            const double term2 = -0.5 * (K_y_inv * K_gradient_sigma_squared_n).trace();
             return term1 + term2;
         }();
 
@@ -213,9 +214,10 @@ namespace
             VectorXd log_likelihood_gradient_length_scales(D);
             for (int i = 0; i < D; ++i)
             {
-                const MatrixXd K_gradient_length_scale_i = CalculateLargeKGradientLengthScaleI(X, sigma_squared_f, sigma_squared_n, length_scales, i);
-                const double term1 = + 0.5 * y.transpose() * K_inv * K_gradient_length_scale_i * K_inv * y;
-                const double term2 = - 0.5 * (K_inv * K_gradient_length_scale_i).trace();
+                const MatrixXd K_gradient_length_scale_i =
+                    CalculateLargeKGradientLengthScaleI(X, sigma_squared_f, sigma_squared_n, length_scales, i);
+                const double term1 = +0.5 * y.transpose() * K_y_inv * K_gradient_length_scale_i * K_y_inv * y;
+                const double term2 = -0.5 * (K_y_inv * K_gradient_length_scale_i).trace();
                 log_likelihood_gradient_length_scales(i) = term1 + term2;
             }
             return log_likelihood_gradient_length_scales;
@@ -240,8 +242,8 @@ namespace mathtoolbox
         SetHyperparameters(0.10, 1e-05, VectorXd::Constant(D, 0.10));
     }
 
-    void GaussianProcessRegression::SetHyperparameters(double sigma_squared_f,
-                                                       double sigma_squared_n,
+    void GaussianProcessRegression::SetHyperparameters(double                 sigma_squared_f,
+                                                       double                 sigma_squared_n,
                                                        const Eigen::VectorXd& length_scales)
     {
         this->sigma_squared_f = sigma_squared_f;
@@ -252,8 +254,8 @@ namespace mathtoolbox
         K_inv = K.inverse();
     }
 
-    void GaussianProcessRegression::PerformMaximumLikelihood(double sigma_squared_f_initial,
-                                                             double sigma_squared_n_initial,
+    void GaussianProcessRegression::PerformMaximumLikelihood(double                 sigma_squared_f_initial,
+                                                             double                 sigma_squared_n_initial,
                                                              const Eigen::VectorXd& length_scales_initial)
     {
         const int D = X.rows();

@@ -15,6 +15,7 @@ namespace
     std::random_device seed;
     std::default_random_engine engine(seed());
     std::uniform_real_distribution<double> uniform_dist(0.0, 1.0);
+    std::normal_distribution<double> normal_dist(0.0, 1.0);
 
     double CalculateFunction(double x)
     {
@@ -28,8 +29,8 @@ int main(int argc, char** argv)
     const std::string output_directory_path = (argc < 2) ? "." : argv[1];
 
     // Generate (and export) scattered data
-    constexpr int    number_of_samples = 10;
-    constexpr double noise_intensity   = 0.10;
+    constexpr int    number_of_samples = 50;
+    constexpr double noise_intensity   = 0.010;
     std::ofstream scattered_data_stream(output_directory_path + "/scattered_data.csv");
     scattered_data_stream << "x,y" << std::endl;
     Eigen::MatrixXd X(1, number_of_samples);
@@ -37,7 +38,7 @@ int main(int argc, char** argv)
     for (int i = 0; i < number_of_samples; ++ i)
     {
         X(0, i) = uniform_dist(engine);
-        y(i)    = CalculateFunction(X(0, i)) + noise_intensity * uniform_dist(engine);
+        y(i)    = CalculateFunction(X(0, i)) + noise_intensity * normal_dist(engine);
 
         scattered_data_stream << X(0, i) << "," << y(i) << std::endl;
     }
@@ -45,7 +46,7 @@ int main(int argc, char** argv)
 
     // Instantiate the interpolation object
     mathtoolbox::GaussianProcessRegression regressor(X, y);
-    regressor.PerformMaximumLikelihood(0.10, 0.01, Eigen::VectorXd::Constant(1, 0.10));
+    regressor.PerformMaximumLikelihood(0.50, 0.010, Eigen::VectorXd::Constant(1, 0.50));
 
     // Define constants for export
     constexpr int    resolution       = 300;

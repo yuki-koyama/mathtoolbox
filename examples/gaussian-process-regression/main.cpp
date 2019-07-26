@@ -29,7 +29,7 @@ int main(int argc, char** argv)
     const std::string output_directory_path = (argc < 2) ? "." : argv[1];
 
     // Generate (and export) scattered data
-    constexpr int    number_of_samples = 50;
+    constexpr int    number_of_samples = 20;
     constexpr double noise_intensity   = 0.010;
     std::ofstream scattered_data_stream(output_directory_path + "/scattered_data.csv");
     scattered_data_stream << "x,y" << std::endl;
@@ -49,7 +49,7 @@ int main(int argc, char** argv)
     regressor.PerformMaximumLikelihood(0.50, 0.010, Eigen::VectorXd::Constant(1, 0.50));
 
     // Define constants for export
-    constexpr int    resolution       = 300;
+    constexpr int    resolution       = 200;
     constexpr double percentile_point = 1.95996398454005423552;
 
     // Calculate (and export) predictive distribution

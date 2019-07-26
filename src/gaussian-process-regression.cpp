@@ -177,6 +177,11 @@ namespace
         const double term2 = -0.5 * std::log(K_y_det);
         const double term3 = -0.5 * N * std::log(2.0 * M_PI);
 
+        if (std::isinf(term2))
+        {
+            throw std::runtime_error("Inf is detected.");
+        }
+
         return term1 + term2 + term3;
     }
 
@@ -270,8 +275,8 @@ namespace mathtoolbox
             x.segment(2, D) = length_scales_initial;
             return x;
         }();
-        const VectorXd upper = VectorXd::Constant(D + 2, 1e+05);
-        const VectorXd lower = VectorXd::Constant(D + 2, 1e-08);
+        const VectorXd upper = VectorXd::Constant(D + 2, 1e+03);
+        const VectorXd lower = VectorXd::Constant(D + 2, 1e-05);
 
         using Data = std::tuple<const MatrixXd&, const VectorXd&>;
         Data data(X, y);

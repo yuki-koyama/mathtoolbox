@@ -66,11 +66,13 @@ endif()
 ######################################################################
 
 set(headers
+	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/backtracking-line-search.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/bfgs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/classical-mds.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/l-bfgs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/numerical-optimization.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/rbf-interpolation.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/strong-wolfe-conditions-line-search.hpp
 )
 set(sources
 	${CMAKE_CURRENT_SOURCE_DIR}/src/bfgs.cpp

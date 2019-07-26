@@ -10,7 +10,7 @@ namespace mathtoolbox
 {
     namespace optimization
     {
-        // Algorithm 3.2: Line Search Algorithm
+        // Algorithm 3.5: Line Search Algorithm
         //
         // This algoritmh tries to find an appropriate step size that satisfies the strong Wolfe conditions (i.e., both
         // the safficient decreasing condition and the curvature condition).
@@ -36,7 +36,7 @@ namespace mathtoolbox
 
             bool is_first = true;
 
-            // Algorithm 3.3
+            // Algorithm 3.6: Zoom
             auto zoom = [&](double alpha_l, double alpha_h) {
                 constexpr unsigned int max_num_iterations = 100;
                 for (unsigned int i = 0; i < max_num_iterations; ++i)

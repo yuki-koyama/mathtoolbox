@@ -1,9 +1,10 @@
 #ifndef STRONG_WOLFE_CONDITIONS_LINE_SEARCH_HPP
 #define STRONG_WOLFE_CONDITIONS_LINE_SEARCH_HPP
 
+#include <Eigen/Core>
 #include <cassert>
 #include <functional>
-#include <Eigen/Core>
+#include <iostream>
 
 namespace mathtoolbox
 {
@@ -62,7 +63,8 @@ namespace mathtoolbox
                         alpha_l = alpha_j;
                     }
                 }
-                throw std::runtime_error("Failed to perform the line search.");
+                std::cerr << "Warning: The line search did not converge." << std::endl;
+                return 0.5 * (alpha_l + alpha_h);
             };
 
             constexpr unsigned int max_num_iterations = 100;
@@ -92,8 +94,7 @@ namespace mathtoolbox
 
                 alpha = 0.5 * (alpha + alpha_max); // TODO: Use a better strategy
             }
-            throw std::runtime_error("Failed to perform the line search.");
-
+            std::cerr << "Warning: The line search did not converge." << std::endl;
             return alpha_init;
         }
     }

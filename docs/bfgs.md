@@ -14,11 +14,11 @@ The BFGS method (BFGS) is a numerical optimization algorithm that is one of the 
 
 ## Math and Algorithm
 
-We follow [Nocedal and Wright (2006)](https://doi.org/10.1007/978-0-387-40065-5) (Chapter 8).
+We follow [Nocedal and Wright (2006)](https://doi.org/10.1007/978-0-387-40065-5) (Chapter 6).
 
 ### Inverse Hessian Initialization
 
-This implementation adopts the strategy described in Equation 8.20:
+This implementation adopts the strategy described in Equation 6.20:
 
 $$
 \mathbf{H}_0 \leftarrow \frac{\mathbf{y}_k^T \mathbf{s}_k}{\mathbf{y}_k^T \mathbf{y}_k} \mathbf{I}.

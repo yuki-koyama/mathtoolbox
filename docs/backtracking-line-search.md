@@ -10,7 +10,7 @@ A line search method for finding a step size that satisfies the Armijo (i.e., su
 
 ## Math and Algorithm
 
-We follow [Nocedal and Wright (2006)](https://doi.org/10.1007/978-0-387-40065-5) (Chapter 3, specifically Procedure 3.1).
+We follow [Nocedal and Wright (2006)](https://doi.org/10.1007/978-0-387-40065-5) (Chapter 3, specifically Algorithm 3.1).
 
 ## Useful Resources
 

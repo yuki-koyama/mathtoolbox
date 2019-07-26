@@ -8,7 +8,7 @@ namespace mathtoolbox
 {
     namespace optimization
     {
-        // Procedure 3.1: Backtracking Line Search
+        // Algorithm 3.1: Backtracking Line Search
         //
         // This algoritmh tries to find an appropriate step size that satisfies the Armijo condition (i.e., the
         // safficient decreasing condition). This algorithm runs faster than the line search algorithm for the strong

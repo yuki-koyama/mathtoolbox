@@ -14,11 +14,11 @@ The Limited-memory BFGS method (L-BFGS) is a numerical optimization algorithm th
 
 ## Math and Algorithm
 
-We follow [Nocedal and Wright (2006)](https://doi.org/10.1007/978-0-387-40065-5) (Chapter 9).
+We follow [Nocedal and Wright (2006)](https://doi.org/10.1007/978-0-387-40065-5) (Chapter 7).
 
 ### Inverse Hessian Initialization
 
-This implementation adopts the strategy described in Equation 9.6:
+This implementation adopts the strategy described in Equation 7.20:
 
 $$
 \mathbf{H}_k^0 \leftarrow \frac{\mathbf{y}_{k - 1}^T \mathbf{s}_{k - 1}}{\mathbf{y}_{k - 1}^T \mathbf{y}_{k - 1}} \mathbf{I}.

@@ -277,42 +277,53 @@ namespace mathtoolbox
         Data data(X, y);
 
 #ifdef USE_MATHTOOLBOX_NUMERICAL_OPTIMIZATION_INSTEAD_OF_NLOPT
-        // Currently, the mathtoolbox does not have any numerical optimization algorithms
-        // that support lower- and upper-bound conditions. The hyperparameters here
-        // should always be positive for evaluating the objective function. To resolve
-        // the positiveness issue, the search variables are encoded using logarithm.
-        // This works for most cases, but sometimes it becomes unstable because the
-        // upper bounds are totally ignored and the numerical optimization algorithm
-        // may try unacceptably large variables.
+        // Currently, the mathtoolbox does not have any numerical optimization algorithms that support lower- and
+        // upper-bound conditions. The hyperparameters here should always be positive for evaluating the objective
+        // function. Also, they should not be very large values because the covariance matrix becomes difficult to
+        // inverse. To resolve these issues, here, the search variables are encoded using a variant of the logit
+        // function. While this approach does not handle bound conditions in an exact sense, it works in this case.
 
-        const auto encode_value = [](const double x)
-        {
-            return std::log(x);
+        const auto sigmoid = [](const double x) { return 1.0 / (1.0 + std::exp(-x)); };
+
+        const auto logit = [](const double x) { return std::log(x / (1.0 - x)); };
+
+        const auto encode_value = [&logit](const double x, const double l, const double u) {
+            return logit((x - l) / (u - l));
         };
-        const auto decode_value = [](const double x)
-        {
-            return std::exp(x);
+
+        const auto decode_value = [&sigmoid](const double x, const double l, const double u) {
+            return (u - l) * sigmoid(x) + l;
         };
-        const auto calc_decode_value_derivative = [](const double x)
-        {
-            return std::exp(x);
+
+        const auto calc_decode_value_derivative = [&sigmoid](const double x, const double l, const double u) {
+            const double s = sigmoid(x);
+            return (u - l) * s * (1.0 - s);
         };
-        const auto encode_vector = [&encode_value](const VectorXd& x)
-        {
+
+        const auto encode_vector = [&encode_value, &lower, &upper](const VectorXd& x) {
             auto encoded_x = VectorXd(x.size());
-            for (int i = 0; i < x.size(); ++ i) { encoded_x[i] = encode_value(x[i]); }
+            for (int i = 0; i < x.size(); ++i)
+            {
+                encoded_x[i] = encode_value(x[i], lower[i], upper[i]);
+            }
             return encoded_x;
         };
-        const auto decode_vector = [&decode_value](const VectorXd& x)
-        {
+
+        const auto decode_vector = [&decode_value, &lower, &upper](const VectorXd& x) {
             auto decoded_x = VectorXd(x.size());
-            for (int i = 0; i < x.size(); ++ i) { decoded_x[i] = decode_value(x[i]); }
+            for (int i = 0; i < x.size(); ++i)
+            {
+                decoded_x[i] = decode_value(x[i], lower[i], upper[i]);
+            }
             return decoded_x;
         };
-        const auto calc_decode_vector_derivative = [&calc_decode_value_derivative](const VectorXd& x)
-        {
+
+        const auto calc_decode_vector_derivative = [&calc_decode_value_derivative, &lower, &upper](const VectorXd& x) {
             auto grad = VectorXd(x.size());
-            for (int i = 0; i < x.size(); ++ i) { grad[i] = calc_decode_value_derivative(x[i]); }
+            for (int i = 0; i < x.size(); ++i)
+            {
+                grad[i] = calc_decode_value_derivative(x[i], lower[i], upper[i]);
+            }
             return grad;
         };
 

@@ -45,6 +45,7 @@ set(headers
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/backtracking-line-search.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/bfgs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/classical-mds.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/distributions.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/gaussian-process-regression.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/l-bfgs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/numerical-optimization.hpp

@@ -11,7 +11,6 @@ endif()
 # Options
 ######################################################################
 
-option(MATHTOOLBOX_NLOPT_BASED_MODULES "Build NLopt-based modules"  ON )
 option(MATHTOOLBOX_BUILD_EXAMPLES      "Build example applications" OFF)
 option(MATHTOOLBOX_PYTHON_BINDINGS     "Build python bindings"      OFF)
 
@@ -38,29 +37,6 @@ if(MATHTOOLBOX_PYTHON_BINDINGS)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/pybind11)
 endif()
 
-if(MATHTOOLBOX_NLOPT_BASED_MODULES)
-	set(BUILD_SHARED_LIBS OFF CACHE INTERNAL "" FORCE)
-	set(NLOPT_GUILE       OFF CACHE INTERNAL "" FORCE)
-	set(NLOPT_LINK_PYTHON OFF CACHE INTERNAL "" FORCE)
-	set(NLOPT_MATLAB      OFF CACHE INTERNAL "" FORCE)
-	set(NLOPT_OCTAVE      OFF CACHE INTERNAL "" FORCE)
-	set(NLOPT_PYTHON      OFF CACHE INTERNAL "" FORCE)
-	set(NLOPT_SWIG        OFF CACHE INTERNAL "" FORCE)
-	set(NLOPT_TESTS       OFF CACHE INTERNAL "" FORCE)
-	set(NLOPT_CXX         OFF CACHE INTERNAL "" FORCE)
-	set(NLOPT_FORTRAN     OFF CACHE INTERNAL "" FORCE)
-	set(WITH_THREADLOCAL  OFF CACHE INTERNAL "" FORCE)
-	set(INSTALL_BIN_DIR     "bin"             CACHE INTERNAL "" FORCE)
-	set(INSTALL_CMAKE_DIR   "lib/cmake/nlopt" CACHE INTERNAL "" FORCE)
-	set(INSTALL_DATA_DIR    "share/nlopt"     CACHE INTERNAL "" FORCE)
-	set(INSTALL_INCLUDE_DIR "include"         CACHE INTERNAL "" FORCE)
-	set(INSTALL_LIB_DIR     "lib"             CACHE INTERNAL "" FORCE)
-	set(INSTALL_MAN_DIR     "share/man"       CACHE INTERNAL "" FORCE)
-	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/nlopt)
-
-	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/nlopt-util)
-endif()
-
 ######################################################################
 # Core library
 ######################################################################
@@ -69,6 +45,7 @@ set(headers
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/backtracking-line-search.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/bfgs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/classical-mds.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/gaussian-process-regression.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/l-bfgs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/numerical-optimization.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/rbf-interpolation.hpp
@@ -77,22 +54,13 @@ set(headers
 set(sources
 	${CMAKE_CURRENT_SOURCE_DIR}/src/bfgs.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/classical-mds.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/gaussian-process-regression.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/l-bfgs.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/rbf-interpolation.cpp
-)
-set(headers_nlopt
-	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/gaussian-process-regression.hpp
-)
-set(sources_nlopt
-	${CMAKE_CURRENT_SOURCE_DIR}/src/gaussian-process-regression.cpp
 )
 
 add_library(mathtoolbox STATIC ${headers} ${sources})
 target_link_libraries(mathtoolbox PUBLIC Eigen3::Eigen)
-if(MATHTOOLBOX_NLOPT_BASED_MODULES)
-	target_sources(mathtoolbox PRIVATE ${headers_nlopt} ${sources_nlopt})
-	target_link_libraries(mathtoolbox PUBLIC nlopt nlopt-util)
-endif()
 target_include_directories(mathtoolbox PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 ######################################################################
@@ -112,11 +80,7 @@ endif()
 # Installation
 ######################################################################
 
-if(MATHTOOLBOX_NLOPT_BASED_MODULES)
-	install(FILES ${headers} ${headers_nlopt} DESTINATION include/mathtoolbox)
-else()
-	install(FILES ${headers} DESTINATION include/mathtoolbox)
-endif()
+install(FILES ${headers} DESTINATION include/mathtoolbox)
 install(TARGETS mathtoolbox ARCHIVE DESTINATION lib)
 
 ######################################################################
@@ -129,12 +93,9 @@ if(MATHTOOLBOX_BUILD_EXAMPLES)
 
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/bfgs)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/classical-mds)
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/gaussian-process-regression)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/l-bfgs)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/rbf-interpolation)
-
-	if(MATHTOOLBOX_NLOPT_BASED_MODULES)
-		add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/gaussian-process-regression)
-	endif()
 endif()
 
 ######################################################################
@@ -145,12 +106,9 @@ enable_testing()
 if(MATHTOOLBOX_BUILD_EXAMPLES)
 	add_test(NAME bfgs-test COMMAND $<TARGET_FILE:bfgs-test>)
 	add_test(NAME classical-mds-test COMMAND $<TARGET_FILE:classical-mds-test>)
+	add_test(NAME gaussian-process-regression-test COMMAND $<TARGET_FILE:gaussian-process-regression-test> .)
 	add_test(NAME l-bfgs-test COMMAND $<TARGET_FILE:l-bfgs-test>)
 	add_test(NAME rbf-interpolation-test COMMAND $<TARGET_FILE:rbf-interpolation-test>)
-
-	if(MATHTOOLBOX_NLOPT_BASED_MODULES)
-		add_test(NAME gaussian-process-regression-test COMMAND $<TARGET_FILE:gaussian-process-regression-test> .)
-	endif()
 
 	if(MATHTOOLBOX_PYTHON_BINDINGS)
 		add_test(NAME python-classical-mds-test COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH=$<TARGET_FILE_DIR:pymathtoolbox> ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/examples/python-bindings/classical-mds.py)

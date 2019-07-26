@@ -1,9 +1,3 @@
-[submodule "external/nlopt"]
-	path = external/nlopt
-	url = https://github.com/stevengj/nlopt.git
-[submodule "external/nlopt-util"]
-	path = external/nlopt-util
-	url = https://github.com/yuki-koyama/nlopt-util.git
 [submodule "external/optimization-test-functions"]
 	path = external/optimization-test-functions
 	url = https://github.com/yuki-koyama/optimization-test-functions.git

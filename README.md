@@ -28,9 +28,7 @@ A library of mathematical tools (regression, interpolation, dimensionality reduc
 
 ### Main Library
 
-- Eigen <http://eigen.tuxfamily.org/>
-- NLopt <https://nlopt.readthedocs.io/> (included as gitsubmodule)
-- nlopt-util <https://github.com/yuki-koyama/nlopt-util> (included as gitsubmodule)
+- Eigen <http://eigen.tuxfamily.org/> (`brew install eigen`)
 
 ### Python Bindings
 
@@ -38,7 +36,7 @@ A library of mathematical tools (regression, interpolation, dimensionality reduc
 
 ### Examples
 
-- optimization-test-function <https://github.com/yuki-koyama/optimization-test-functions> (included as githsubmodule)
+- optimization-test-function <https://github.com/yuki-koyama/optimization-test-functions> (included as gitsubmodule)
 
 ## Build and Installation
 
@@ -68,7 +66,7 @@ cmake ../ -DMATHTOOLBOX_PYTHON_BINDINGS=ON
 make
 ```
 
-### Installing Prerequisites
+### Prerequisites
 
 macOS:
 ```

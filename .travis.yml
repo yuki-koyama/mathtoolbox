@@ -23,6 +23,6 @@ before_script:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pip install numpy; fi
 
 script:
-  - cmake -DMATHTOOLBOX_NLOPT_BASED_MODULES=ON -DMATHTOOLBOX_BUILD_EXAMPLES=ON -DMATHTOOLBOX_PYTHON_BINDINGS=ON .
+  - cmake -DMATHTOOLBOX_BUILD_EXAMPLES=ON -DMATHTOOLBOX_PYTHON_BINDINGS=ON .
   - make
   - ctest

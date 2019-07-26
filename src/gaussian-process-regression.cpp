@@ -1,9 +1,7 @@
-#include <mathtoolbox/gaussian-process-regression.hpp>
-#ifdef USE_MATHTOOLBOX_NUMERICAL_OPTIMIZATION_INSTEAD_OF_NLOPT
-#include <mathtoolbox/numerical-optimization.hpp>
-#endif
 #include <Eigen/LU>
-#include <nlopt-util.hpp>
+#include <iostream>
+#include <mathtoolbox/gaussian-process-regression.hpp>
+#include <mathtoolbox/numerical-optimization.hpp>
 #include <tuple>
 
 using Eigen::MatrixXd;
@@ -281,7 +279,6 @@ namespace mathtoolbox
         using Data = std::tuple<const MatrixXd&, const VectorXd&>;
         Data data(X, y);
 
-#ifdef USE_MATHTOOLBOX_NUMERICAL_OPTIMIZATION_INSTEAD_OF_NLOPT
         // Currently, the mathtoolbox does not have any numerical optimization algorithms that support lower- and
         // upper-bound conditions. The hyperparameters here should always be positive for evaluating the objective
         // function. Also, they should not be very large values because the covariance matrix becomes difficult to
@@ -374,30 +371,6 @@ namespace mathtoolbox
 
         const auto     result    = optimization::RunOptimization(input);
         const VectorXd x_optimal = decode_vector(result.x_star);
-#else
-        auto objective = [](const std::vector<double>& x, std::vector<double>& grad, void* data) {
-            const double   sigma_squared_f = x[0];
-            const double   sigma_squared_n = x[1];
-            const VectorXd length_scales   = Eigen::Map<const VectorXd>(&x[2], x.size() - 2);
-
-            const MatrixXd& X = std::get<0>(*static_cast<Data*>(data));
-            const VectorXd& y = std::get<1>(*static_cast<Data*>(data));
-
-            const double log_likelihood = CalculateLogLikelihood(X, y, sigma_squared_f, sigma_squared_n, length_scales);
-            const VectorXd log_likelihood_gradient =
-                CalculateLogLikelihoodGradient(X, y, sigma_squared_f, sigma_squared_n, length_scales);
-
-            assert(!grad.empty());
-
-            grad = std::vector<double>(log_likelihood_gradient.data(),
-                                       log_likelihood_gradient.data() + log_likelihood_gradient.rows());
-
-            return log_likelihood;
-        };
-
-        const VectorXd x_optimal = nloptutil::solve(
-            x_initial, upper, lower, objective, nlopt::LD_LBFGS, &data, true, 1000, 1e-06, 1e-06, true);
-#endif
 
         sigma_squared_f = x_optimal[0];
         sigma_squared_n = x_optimal[1];

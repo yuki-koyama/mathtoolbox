@@ -2,12 +2,12 @@
 #ifdef USE_MATHTOOLBOX_NUMERICAL_OPTIMIZATION_INSTEAD_OF_NLOPT
 #include <mathtoolbox/numerical-optimization.hpp>
 #endif
-#include <tuple>
 #include <Eigen/LU>
 #include <nlopt-util.hpp>
+#include <tuple>
 
-using Eigen::VectorXd;
 using Eigen::MatrixXd;
+using Eigen::VectorXd;
 
 namespace
 {
@@ -18,16 +18,15 @@ namespace
                                                 const VectorXd& length_scales)
     {
         const int    D   = x_i.rows();
-        const double sum = [&]()
-        {
+        const double sum = [&]() {
             double sum = 0.0;
-            for (int i = 0; i < D; ++ i)
+            for (int i = 0; i < D; ++i)
             {
                 sum += (x_i(i) - x_j(i)) * (x_i(i) - x_j(i)) / (length_scales(i) * length_scales(i));
             }
             return sum;
         }();
-        return sigma_squared_f * std::exp(- 0.5 * sum);
+        return sigma_squared_f * std::exp(-0.5 * sum);
     }
 
     double CalculateArdSquaredExponentialKernelGradientSigmaSquaredF(const VectorXd& x_i,
@@ -36,14 +35,13 @@ namespace
                                                                      const VectorXd& length_scales)
     {
         const int D = length_scales.rows();
-        return [&]()
-        {
+        return [&]() {
             double sum = 0.0;
-            for (int i = 0; i < D; ++ i)
+            for (int i = 0; i < D; ++i)
             {
                 sum += (x_i(i) - x_j(i)) * (x_i(i) - x_j(i)) / (length_scales(i) * length_scales(i));
             }
-            return std::exp(- 0.5 * sum);
+            return std::exp(-0.5 * sum);
         }();
     }
 
@@ -53,12 +51,12 @@ namespace
                                                                       const VectorXd& length_scales)
     {
         const int D = length_scales.rows();
-        return [&]() -> VectorXd
-        {
+        return [&]() -> VectorXd {
             VectorXd partial_derivative(D);
-            for (int i = 0; i < D; ++ i)
+            for (int i = 0; i < D; ++i)
             {
-                partial_derivative(i) = (x_i(i) - x_j(i)) * (x_i(i) - x_j(i)) / (length_scales(i) * length_scales(i) * length_scales(i));
+                partial_derivative(i) =
+                    (x_i(i) - x_j(i)) * (x_i(i) - x_j(i)) / (length_scales(i) * length_scales(i) * length_scales(i));
             }
             return CalculateArdSquaredExponentialKernel(x_i, x_j, sigma_squared_f, length_scales) * partial_derivative;
         }();
@@ -73,11 +71,12 @@ namespace
         const MatrixXd K = [&]()
         {
             MatrixXd K(N, N);
-            for (int i = 0; i < N; ++ i)
+            for (int i = 0; i < N; ++i)
             {
-                for (int j = i; j < N; ++ j)
+                for (int j = i; j < N; ++j)
                 {
-                    const double value = CalculateArdSquaredExponentialKernel(X.col(i), X.col(j), sigma_squared_f, length_scales);
+                    const double value =
+                        CalculateArdSquaredExponentialKernel(X.col(i), X.col(j), sigma_squared_f, length_scales);
                     K(i, j) = value;
                     K(j, i) = value;
                 }
@@ -95,11 +94,13 @@ namespace
         const int N = X.cols();
 
         MatrixXd K_gradient_sigma_squared_f(N, N);
-        for (int i = 0; i < N; ++ i)
+        for (int i = 0; i < N; ++i)
         {
-            for (int j = i; j < N; ++ j)
+            for (int j = i; j < N; ++j)
             {
-                const double ard_squared_exponential_kernel_gradient_sigma_squared_f = CalculateArdSquaredExponentialKernelGradientSigmaSquaredF(X.col(i), X.col(j), sigma_squared_f, length_scales);
+                const double ard_squared_exponential_kernel_gradient_sigma_squared_f =
+                    CalculateArdSquaredExponentialKernelGradientSigmaSquaredF(
+                        X.col(i), X.col(j), sigma_squared_f, length_scales);
                 K_gradient_sigma_squared_f(i, j) = ard_squared_exponential_kernel_gradient_sigma_squared_f;
                 K_gradient_sigma_squared_f(j, i) = ard_squared_exponential_kernel_gradient_sigma_squared_f;
             }
@@ -125,11 +126,13 @@ namespace
         const int N = X.cols();
 
         MatrixXd K_gradient_length_scale_i(N, N);
-        for (int i = 0; i < N; ++ i)
+        for (int i = 0; i < N; ++i)
         {
-            for (int j = i; j < N; ++ j)
+            for (int j = i; j < N; ++j)
             {
-                const VectorXd ard_squared_exponential_kernel_gradient_length_scales = CalculateArdSquaredExponentialKernelGradientLengthScales(X.col(i), X.col(j), sigma_squared_f, length_scales);
+                const VectorXd ard_squared_exponential_kernel_gradient_length_scales =
+                    CalculateArdSquaredExponentialKernelGradientLengthScales(
+                        X.col(i), X.col(j), sigma_squared_f, length_scales);
                 K_gradient_length_scale_i(i, j) = ard_squared_exponential_kernel_gradient_length_scales(index);
                 K_gradient_length_scale_i(j, i) = ard_squared_exponential_kernel_gradient_length_scales(index);
             }
@@ -137,16 +140,13 @@ namespace
         return K_gradient_length_scale_i;
     }
 
-    VectorXd CalculateSmallK(const VectorXd& x,
-                             const MatrixXd& X,
-                             const double    sigma_squared_f,
-                             const VectorXd& length_scales)
+    VectorXd
+    CalculateSmallK(const VectorXd& x, const MatrixXd& X, const double sigma_squared_f, const VectorXd& length_scales)
     {
         const int N = X.cols();
-        return [&]()
-        {
+        return [&]() {
             VectorXd k(N);
-            for (unsigned i = 0; i < N; ++ i)
+            for (unsigned i = 0; i < N; ++i)
             {
                 k(i) = CalculateArdSquaredExponentialKernel(x, X.col(i), sigma_squared_f, length_scales);
             }
@@ -165,7 +165,10 @@ namespace
 
         const Eigen::FullPivLU<MatrixXd> lu(K);
 
-        if (!lu.isInvertible()) { throw std::runtime_error("Non-invertible K is detected."); }
+        if (!lu.isInvertible())
+        {
+            throw std::runtime_error("Non-invertible K_y is detected.");
+        }
 
         const MatrixXd K_inv = lu.inverse();
         const double   K_det = lu.determinant();
@@ -189,8 +192,7 @@ namespace
         const MatrixXd K     = CalculateLargeK(X, sigma_squared_f, sigma_squared_n, length_scales);
         const MatrixXd K_inv = K.inverse();
 
-        const double log_likeliehood_gradient_sigma_squared_f = [&]()
-        {
+        const double log_likeliehood_gradient_sigma_squared_f = [&]() {
             // Equation 5.9 [Rasmuss and Williams 2006]
             const MatrixXd K_gradient_sigma_squared_f = CalculateLargeKGradientSigmaSquaredF(X, sigma_squared_f, sigma_squared_n, length_scales);
             const double term1 = + 0.5 * y.transpose() * K_inv * K_gradient_sigma_squared_f * K_inv * y;
@@ -198,8 +200,7 @@ namespace
             return term1 + term2;
         }();
 
-        const double log_likeliehood_gradient_sigma_squared_n = [&]()
-        {
+        const double log_likeliehood_gradient_sigma_squared_n = [&]() {
             // Equation 5.9 [Rasmuss and Williams 2006]
             const MatrixXd K_gradient_sigma_squared_n = CalculateLargeKGradientSigmaSquaredN(X, sigma_squared_f, sigma_squared_n, length_scales);
             const double term1 = + 0.5 * y.transpose() * K_inv * K_gradient_sigma_squared_n * K_inv * y;
@@ -207,11 +208,10 @@ namespace
             return term1 + term2;
         }();
 
-        const VectorXd log_likelihood_gradient_length_scales = [&]()
-        {
+        const VectorXd log_likelihood_gradient_length_scales = [&]() {
             // Equation 5.9 [Rasmuss and Williams 2006]
             VectorXd log_likelihood_gradient_length_scales(D);
-            for (int i = 0; i < D; ++ i)
+            for (int i = 0; i < D; ++i)
             {
                 const MatrixXd K_gradient_length_scale_i = CalculateLargeKGradientLengthScaleI(X, sigma_squared_f, sigma_squared_n, length_scales, i);
                 const double term1 = + 0.5 * y.transpose() * K_inv * K_gradient_length_scale_i * K_inv * y;
@@ -221,16 +221,15 @@ namespace
             return log_likelihood_gradient_length_scales;
         }();
 
-        return [&]()
-        {
+        return [&]() {
             VectorXd concat(D + 2);
-            concat(0) = log_likeliehood_gradient_sigma_squared_f;
-            concat(1) = log_likeliehood_gradient_sigma_squared_n;
+            concat(0)            = log_likeliehood_gradient_sigma_squared_f;
+            concat(1)            = log_likeliehood_gradient_sigma_squared_n;
             concat.segment(2, D) = log_likelihood_gradient_length_scales;
             return concat;
         }();
     }
-}
+} // namespace
 
 namespace mathtoolbox
 {
@@ -262,11 +261,10 @@ namespace mathtoolbox
         assert(length_scales.rows() == D);
         assert(length_scales_initial.rows() == D);
 
-        const VectorXd x_initial = [&]()
-        {
+        const VectorXd x_initial = [&]() {
             VectorXd x(D + 2);
-            x(0) = sigma_squared_f_initial;
-            x(1) = sigma_squared_n_initial;
+            x(0)            = sigma_squared_f_initial;
+            x(1)            = sigma_squared_n_initial;
             x.segment(2, D) = length_scales_initial;
             return x;
         }();
@@ -316,8 +314,7 @@ namespace mathtoolbox
             return grad;
         };
 
-        std::function<double(const VectorXd&)> f = [&](const VectorXd& x) -> double
-        {
+        std::function<double(const VectorXd&)> f = [&](const VectorXd& x) -> double {
             const auto decoded_x = decode_vector(x);
 
             const double   sigma_squared_f = decoded_x[0];
@@ -332,8 +329,7 @@ namespace mathtoolbox
             return log_likelihood;
         };
 
-        std::function<VectorXd(const VectorXd&)> g = [&](const VectorXd& x) -> VectorXd
-        {
+        std::function<VectorXd(const VectorXd&)> g = [&](const VectorXd& x) -> VectorXd {
             const auto decoded_x = decode_vector(x);
 
             const double   sigma_squared_f = decoded_x[0];
@@ -343,25 +339,25 @@ namespace mathtoolbox
             const MatrixXd& X = std::get<0>(data);
             const VectorXd& y = std::get<1>(data);
 
-            const VectorXd log_likelihood_gradient = CalculateLogLikelihoodGradient(X, y, sigma_squared_f, sigma_squared_n, length_scales);
+            const VectorXd log_likelihood_gradient =
+                CalculateLogLikelihoodGradient(X, y, sigma_squared_f, sigma_squared_n, length_scales);
 
             return (log_likelihood_gradient.array() * calc_decode_vector_derivative(x).array()).matrix();
         };
 
         optimization::Setting input;
-        input.algorithm = optimization::Algorithm::LBfgs;
-        input.x_init = encode_vector(x_initial);
-        input.f = f;
-        input.g = g;
-        input.epsilon = 1e-06;
+        input.algorithm          = optimization::Algorithm::LBfgs;
+        input.x_init             = encode_vector(x_initial);
+        input.f                  = f;
+        input.g                  = g;
+        input.epsilon            = 1e-06;
         input.max_num_iterations = 1000;
-        input.type = optimization::Type::Max;
+        input.type               = optimization::Type::Max;
 
-        const auto result = optimization::RunOptimization(input);
+        const auto     result    = optimization::RunOptimization(input);
         const VectorXd x_optimal = decode_vector(result.x_star);
 #else
-        auto objective = [](const std::vector<double>& x, std::vector<double>& grad, void* data)
-        {
+        auto objective = [](const std::vector<double>& x, std::vector<double>& grad, void* data) {
             const double   sigma_squared_f = x[0];
             const double   sigma_squared_n = x[1];
             const VectorXd length_scales   = Eigen::Map<const VectorXd>(&x[2], x.size() - 2);
@@ -369,27 +365,20 @@ namespace mathtoolbox
             const MatrixXd& X = std::get<0>(*static_cast<Data*>(data));
             const VectorXd& y = std::get<1>(*static_cast<Data*>(data));
 
-            const double   log_likelihood          = CalculateLogLikelihood(X, y, sigma_squared_f, sigma_squared_n, length_scales);
-            const VectorXd log_likelihood_gradient = CalculateLogLikelihoodGradient(X, y, sigma_squared_f, sigma_squared_n, length_scales);
+            const double log_likelihood = CalculateLogLikelihood(X, y, sigma_squared_f, sigma_squared_n, length_scales);
+            const VectorXd log_likelihood_gradient =
+                CalculateLogLikelihoodGradient(X, y, sigma_squared_f, sigma_squared_n, length_scales);
 
             assert(!grad.empty());
 
-            grad = std::vector<double>(log_likelihood_gradient.data(), log_likelihood_gradient.data() + log_likelihood_gradient.rows());
+            grad = std::vector<double>(log_likelihood_gradient.data(),
+                                       log_likelihood_gradient.data() + log_likelihood_gradient.rows());
 
             return log_likelihood;
         };
 
-        const VectorXd x_optimal = nloptutil::solve(x_initial,
-                                                    upper,
-                                                    lower,
-                                                    objective,
-                                                    nlopt::LD_LBFGS,
-                                                    &data,
-                                                    true,
-                                                    1000,
-                                                    1e-06,
-                                                    1e-06,
-                                                    true);
+        const VectorXd x_optimal = nloptutil::solve(
+            x_initial, upper, lower, objective, nlopt::LD_LBFGS, &data, true, 1000, 1e-06, 1e-06, true);
 #endif
 
         sigma_squared_f = x_optimal[0];
@@ -415,4 +404,4 @@ namespace mathtoolbox
         const VectorXd k = CalculateSmallK(x, X, sigma_squared_f, length_scales);
         return sigma_squared_f - k.transpose() * K_inv * k;
     }
-}
+} // namespace mathtoolbox

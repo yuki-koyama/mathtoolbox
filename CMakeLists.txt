@@ -56,6 +56,7 @@ set(headers
 set(sources
 	${CMAKE_CURRENT_SOURCE_DIR}/src/bfgs.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/classical-mds.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/distributions.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/gaussian-process-regression.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/l-bfgs.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/rbf-interpolation.cpp

@@ -11,8 +11,8 @@ endif()
 # Options
 ######################################################################
 
-option(MATHTOOLBOX_BUILD_EXAMPLES      "Build example applications" OFF)
-option(MATHTOOLBOX_PYTHON_BINDINGS     "Build python bindings"      OFF)
+option(MATHTOOLBOX_BUILD_EXAMPLES  "Build example applications" OFF)
+option(MATHTOOLBOX_PYTHON_BINDINGS "Build python bindings"      OFF)
 
 ######################################################################
 # Prerequisites
@@ -45,6 +45,7 @@ set(headers
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/backtracking-line-search.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/bfgs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/classical-mds.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/constants.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/distributions.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/gaussian-process-regression.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/l-bfgs.hpp

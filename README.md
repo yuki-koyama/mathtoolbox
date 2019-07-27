@@ -24,6 +24,11 @@ A library of mathematical tools (regression, interpolation, dimensionality reduc
 - [`l-bfgs`: Limited-memory BFGS method](https://yuki-koyama.github.io/mathtoolbox/l-bfgs/)
 - [`strong-wolfe-conditions-line-search`: Strong Wolfe conditions line search](https://yuki-koyama.github.io/mathtoolbox/strong-wolfe-conditions-line-search/)
 
+### Utilities
+
+- [`constants`: Constants](https://yuki-koyama.github.io/mathtoolbox/constants/)
+- [`probability-distributions`: Probability distributions](https://yuki-koyama.github.io/mathtoolbox/probability-distributions/)
+
 ## Dependencies
 
 ### Main Library

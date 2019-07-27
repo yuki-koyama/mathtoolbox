@@ -1,4 +1,5 @@
 #include <cmath>
+#include <functional>
 #include <mathtoolbox/distributions.hpp>
 #include <random>
 

@@ -47,7 +47,9 @@ int main(int argc, char** argv)
         const double sigma_2 = 10.0 * uniform_dist(engine) + 1e-16;
 
         const auto f = [&mu, &sigma_2](const double x) { return mathtoolbox::GetLogNormalDist(x, mu, sigma_2); };
-        const auto g = [&mu, &sigma_2](const double x) { return mathtoolbox::GetLogNormalDistDerivative(x, mu, sigma_2); };
+        const auto g = [&mu, &sigma_2](const double x) {
+            return mathtoolbox::GetLogNormalDistDerivative(x, mu, sigma_2);
+        };
 
         const double x = 100.0 * uniform_dist(engine) + 1e-16;
 
@@ -64,7 +66,9 @@ int main(int argc, char** argv)
         const double sigma_2 = 10.0 * uniform_dist(engine) + 1e-16;
 
         const auto f = [&mu, &sigma_2](const double x) { return mathtoolbox::GetLogOfLogNormalDist(x, mu, sigma_2); };
-        const auto g = [&mu, &sigma_2](const double x) { return mathtoolbox::GetLogOfLogNormalDistDerivative(x, mu, sigma_2); };
+        const auto g = [&mu, &sigma_2](const double x) {
+            return mathtoolbox::GetLogOfLogNormalDistDerivative(x, mu, sigma_2);
+        };
 
         const double x = 100.0 * uniform_dist(engine) + 1e-16;
 

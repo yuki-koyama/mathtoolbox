@@ -5,7 +5,7 @@
 
 double CalculateNumericalDifferentiation(const std::function<double(double)>& f, const double x, const double h = 1e-04)
 {
-    return (f(x + h) - f(x - h)) / (2.0 * h);
+    return (-f(x + 2.0 * h) + 8.0 * f(x + h) - 8.0 * f(x - h) + f(x - 2.0 * h)) / (12.0 * h);
 }
 
 bool CheckConsistency(const std::function<double(double)>& f, const std::function<double(double)>& g, const double x)

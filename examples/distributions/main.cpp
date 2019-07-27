@@ -42,7 +42,7 @@ int main(int argc, char** argv)
         const auto f = [&mu, &sigma_2](const double x) { return mathtoolbox::GetNormalDist(x, mu, sigma_2); };
         const auto g = [&mu, &sigma_2](const double x) { return mathtoolbox::GetNormalDistDerivative(x, mu, sigma_2); };
 
-        const double x = 100.0 * uniform_dist(engine) - 50.0;
+        const double x = 10.0 * uniform_dist(engine) - 5.0;
 
         if (!CheckConsistency(f, g, x))
         {
@@ -53,15 +53,15 @@ int main(int argc, char** argv)
     // LogNormalDist
     for (int i = 0; i < num_tests; ++i)
     {
-        const double mu      = 20.0 * uniform_dist(engine) - 10.0;
-        const double sigma_2 = 10.0 * uniform_dist(engine) + 1e-16;
+        const double mu      = 2.0 * uniform_dist(engine) - 1.0;
+        const double sigma_2 = 2.0 * uniform_dist(engine) + 1e-16;
 
         const auto f = [&mu, &sigma_2](const double x) { return mathtoolbox::GetLogNormalDist(x, mu, sigma_2); };
         const auto g = [&mu, &sigma_2](const double x) {
             return mathtoolbox::GetLogNormalDistDerivative(x, mu, sigma_2);
         };
 
-        const double x = 100.0 * uniform_dist(engine) + 1e-16;
+        const double x = 10.0 * uniform_dist(engine) + 1e-03;
 
         if (!CheckConsistency(f, g, x))
         {
@@ -72,15 +72,15 @@ int main(int argc, char** argv)
     // Log of LogNormalDist
     for (int i = 0; i < num_tests; ++i)
     {
-        const double mu      = 20.0 * uniform_dist(engine) - 10.0;
-        const double sigma_2 = 10.0 * uniform_dist(engine) + 1e-16;
+        const double mu      = 2.0 * uniform_dist(engine) - 1.0;
+        const double sigma_2 = 2.0 * uniform_dist(engine) + 1e-16;
 
         const auto f = [&mu, &sigma_2](const double x) { return mathtoolbox::GetLogOfLogNormalDist(x, mu, sigma_2); };
         const auto g = [&mu, &sigma_2](const double x) {
             return mathtoolbox::GetLogOfLogNormalDistDerivative(x, mu, sigma_2);
         };
 
-        const double x = 100.0 * uniform_dist(engine) + 1e-16;
+        const double x = 10.0 * uniform_dist(engine) + 1e-03;
 
         if (!CheckConsistency(f, g, x))
         {

@@ -40,5 +40,39 @@ int main(int argc, char** argv)
         }
     }
 
+    // LogNormalDist
+    for (int i = 0; i < num_tests; ++i)
+    {
+        const double mu      = 20.0 * uniform_dist(engine) - 10.0;
+        const double sigma_2 = 10.0 * uniform_dist(engine) + 1e-16;
+
+        const auto f = [&mu, &sigma_2](const double x) { return mathtoolbox::GetLogNormalDist(x, mu, sigma_2); };
+        const auto g = [&mu, &sigma_2](const double x) { return mathtoolbox::GetLogNormalDistDerivative(x, mu, sigma_2); };
+
+        const double x = 100.0 * uniform_dist(engine) + 1e-16;
+
+        if (!CheckConsistency(f, g, x))
+        {
+            return 1;
+        }
+    }
+
+    // Log of LogNormalDist
+    for (int i = 0; i < num_tests; ++i)
+    {
+        const double mu      = 20.0 * uniform_dist(engine) - 10.0;
+        const double sigma_2 = 10.0 * uniform_dist(engine) + 1e-16;
+
+        const auto f = [&mu, &sigma_2](const double x) { return mathtoolbox::GetLogOfLogNormalDist(x, mu, sigma_2); };
+        const auto g = [&mu, &sigma_2](const double x) { return mathtoolbox::GetLogOfLogNormalDistDerivative(x, mu, sigma_2); };
+
+        const double x = 100.0 * uniform_dist(engine) + 1e-16;
+
+        if (!CheckConsistency(f, g, x))
+        {
+            return 1;
+        }
+    }
+
     return 0;
 }

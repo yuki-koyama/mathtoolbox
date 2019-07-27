@@ -13,7 +13,16 @@ bool CheckConsistency(const std::function<double(double)>& f, const std::functio
     const double dfdx_numerical = CalculateNumericalDifferentiation(f, x);
     const double dfdx_analytic  = g(x);
 
-    return std::abs(dfdx_numerical - dfdx_analytic) < 1e-08;
+    const double scale = std::max(std::abs(dfdx_numerical), std::abs(dfdx_analytic));
+    const double diff  = std::abs(dfdx_numerical - dfdx_analytic);
+
+    constexpr double relative_threshold = 1e-02;
+    constexpr double absolute_threshold = 1e-08;
+
+    const bool relative_check = diff <= relative_threshold * scale;
+    const bool absolute_check = diff <= absolute_threshold;
+
+    return relative_check || absolute_check;
 }
 
 int main(int argc, char** argv)

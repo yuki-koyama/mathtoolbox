@@ -1,5 +1,6 @@
 #include <Eigen/LU>
 #include <iostream>
+#include <mathtoolbox/constants.hpp>
 #include <mathtoolbox/gaussian-process-regression.hpp>
 #include <mathtoolbox/numerical-optimization.hpp>
 #include <tuple>
@@ -173,7 +174,7 @@ namespace
         // Equation 5.8 [Rasmuss and Williams 2006]
         const double term1 = -0.5 * y.transpose() * K_y_inv * y;
         const double term2 = -0.5 * std::log(K_y_det);
-        const double term3 = -0.5 * N * std::log(2.0 * M_PI);
+        const double term3 = -0.5 * N * std::log(2.0 * mathtoolbox::constants::pi);
 
         if (std::isinf(term2))
         {

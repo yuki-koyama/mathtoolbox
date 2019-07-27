@@ -11,8 +11,8 @@ endif()
 # Options
 ######################################################################
 
-option(MATHTOOLBOX_BUILD_EXAMPLES      "Build example applications" OFF)
-option(MATHTOOLBOX_PYTHON_BINDINGS     "Build python bindings"      OFF)
+option(MATHTOOLBOX_BUILD_EXAMPLES  "Build example applications" OFF)
+option(MATHTOOLBOX_PYTHON_BINDINGS "Build python bindings"      OFF)
 
 ######################################################################
 # Prerequisites
@@ -45,9 +45,11 @@ set(headers
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/backtracking-line-search.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/bfgs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/classical-mds.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/constants.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/gaussian-process-regression.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/l-bfgs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/numerical-optimization.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/probability-distributions.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/rbf-interpolation.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/strong-wolfe-conditions-line-search.hpp
 )
@@ -56,6 +58,7 @@ set(sources
 	${CMAKE_CURRENT_SOURCE_DIR}/src/classical-mds.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/gaussian-process-regression.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/l-bfgs.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/probability-distributions.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/rbf-interpolation.cpp
 )
 
@@ -95,6 +98,7 @@ if(MATHTOOLBOX_BUILD_EXAMPLES)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/classical-mds)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/gaussian-process-regression)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/l-bfgs)
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/probability-distributions)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/rbf-interpolation)
 endif()
 
@@ -108,6 +112,7 @@ if(MATHTOOLBOX_BUILD_EXAMPLES)
 	add_test(NAME classical-mds-test COMMAND $<TARGET_FILE:classical-mds-test>)
 	add_test(NAME gaussian-process-regression-test COMMAND $<TARGET_FILE:gaussian-process-regression-test> .)
 	add_test(NAME l-bfgs-test COMMAND $<TARGET_FILE:l-bfgs-test>)
+	add_test(NAME probability-distributions-test COMMAND $<TARGET_FILE:probability-distributions-test>)
 	add_test(NAME rbf-interpolation-test COMMAND $<TARGET_FILE:rbf-interpolation-test>)
 
 	if(MATHTOOLBOX_PYTHON_BINDINGS)

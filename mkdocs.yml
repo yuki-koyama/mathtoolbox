@@ -18,5 +18,7 @@ nav:
     - 'bfgs.md'
     - 'l-bfgs.md'
     - 'strong-wolfe-conditions-line-search.md'
+  - 'Utilities':
+    - 'distributions.md'
 repo_name: GitHub
 repo_url: https://github.com/yuki-koyama/mathtoolbox/

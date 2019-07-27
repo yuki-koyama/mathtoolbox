@@ -1,21 +1,21 @@
-# distributions
+# probability-distributions
 
 Probability distributions for statistical estimation.
 
 ## Header
 
 ```cpp
-#include <mathtoolbox/distributions.hpp>
+#include <mathtoolbox/probability-distributions.hpp>
 ```
 
 ## Overview
 
-The following distributions and their first derivatives are supported:
+The following probability distributions and their first derivatives are supported:
 
 - Normal distribution: $ \mathcal{N}(x \mid \mu, \sigma^{2}) $
 - Log-normal distribution: $ \mathcal{LN}(x \mid \mu, \sigma^{2}) $
 
-In statistical estimation, taking logarithms of probabilities is often necessary. For this purpose, the following distributions and their derivatives are supported:
+In statistical estimation, taking logarithms of probabilities is often necessary. For this purpose, the following probability distributions and their derivatives are supported:
 
 - Log of log-normal distribution: $ \log \{ \mathcal{LN}(x \mid \mu, \sigma^{2}) \} $
 

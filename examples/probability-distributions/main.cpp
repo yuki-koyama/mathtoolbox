@@ -1,6 +1,6 @@
 #include <cmath>
 #include <functional>
-#include <mathtoolbox/distributions.hpp>
+#include <mathtoolbox/probability-distributions.hpp>
 #include <random>
 
 double CalculateNumericalDifferentiation(const std::function<double(double)>& f, const double x, const double h = 1e-04)

@@ -1,6 +1,6 @@
 #include <cmath>
 #include <mathtoolbox/constants.hpp>
-#include <mathtoolbox/distributions.hpp>
+#include <mathtoolbox/probability-distributions.hpp>
 
 double mathtoolbox::GetNormalDist(const double x, const double mu, const double sigma_2)
 {

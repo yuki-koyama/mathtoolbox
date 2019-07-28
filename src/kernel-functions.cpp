@@ -1,3 +1,4 @@
+#include <cmath>
 #include <mathtoolbox/kernel-functions.hpp>
 
 using Eigen::VectorXd;

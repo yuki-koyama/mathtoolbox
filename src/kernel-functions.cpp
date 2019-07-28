@@ -6,7 +6,7 @@ double
 mathtoolbox::GetArdSquaredExponentialKernel(const VectorXd& x_a, const VectorXd& x_b, const VectorXd& hyperparameters)
 {
     assert(x_a.size() == x_b.size());
-    assert(x_a.size() == hyperparameters.size() + 1);
+    assert(x_a.size() == hyperparameters.size() - 1);
 
     const int              dim             = x_a.size();
     const double&          sigma_squared_f = hyperparameters[0];
@@ -30,7 +30,7 @@ VectorXd mathtoolbox::GetArdSquaredExponentialKernelHyperparametersDerivative(co
                                                                               const VectorXd& hyperparameters)
 {
     assert(x_a.size() == x_b.size());
-    assert(x_a.size() == hyperparameters.size() + 1);
+    assert(x_a.size() == hyperparameters.size() - 1);
 
     const int              dim           = x_a.size();
     const Eigen::VectorXd& length_scales = hyperparameters.segment(1, dim);

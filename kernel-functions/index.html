@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>l-bfgs - mathtoolbox</title>
+  <title>kernel-functions - mathtoolbox</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
@@ -17,8 +17,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "l-bfgs";
-    var mkdocs_page_input_path = "l-bfgs.md";
+    var mkdocs_page_name = "kernel-functions";
+    var mkdocs_page_input_path = "kernel-functions.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -101,27 +101,9 @@
                     
     <a class="" href="../bfgs/">bfgs</a>
                 </li>
-                <li class=" current">
+                <li class="">
                     
-    <a class="current" href="./">l-bfgs</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l3"><a href="#l-bfgs">l-bfgs</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l4" href="#header">Header</a></li>
-        
-            <li><a class="toctree-l4" href="#internal-dependencies">Internal Dependencies</a></li>
-        
-            <li><a class="toctree-l4" href="#math-and-algorithm">Math and Algorithm</a></li>
-        
-            <li><a class="toctree-l4" href="#useful-resources">Useful Resources</a></li>
-        
-        </ul>
-    
-
-    </ul>
+    <a class="" href="../l-bfgs/">l-bfgs</a>
                 </li>
                 <li class="">
                     
@@ -138,9 +120,25 @@
                     
     <a class="" href="../constants/">constants</a>
                 </li>
-                <li class="">
+                <li class=" current">
                     
-    <a class="" href="../kernel-functions/">kernel-functions</a>
+    <a class="current" href="./">kernel-functions</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#kernel-functions">kernel-functions</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#header">Header</a></li>
+        
+            <li><a class="toctree-l4" href="#overview">Overview</a></li>
+        
+            <li><a class="toctree-l4" href="#useful-resources">Useful Resources</a></li>
+        
+        </ul>
+    
+
+    </ul>
                 </li>
                 <li class="">
                     
@@ -171,14 +169,14 @@
     
       
         
-          <li>Numerical Optimization &raquo;</li>
+          <li>Utilities &raquo;</li>
         
       
     
-    <li>l-bfgs</li>
+    <li>kernel-functions</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/yuki-koyama/mathtoolbox/edit/master/docs/l-bfgs.md"
+        <a href="https://github.com/yuki-koyama/mathtoolbox/edit/master/docs/kernel-functions.md"
           class="icon icon-github"> Edit on GitHub</a>
       
     </li>
@@ -188,31 +186,29 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="l-bfgs">l-bfgs</h1>
-<p>The Limited-memory BFGS method (L-BFGS) is a numerical optimization algorithm that is one of the most popular choices among quasi-Newton methods.</p>
+                <h1 id="kernel-functions">kernel-functions</h1>
+<p>Kernel functions for various techniques.</p>
 <h2 id="header">Header</h2>
-<pre><code class="cpp">#include &lt;mathtoolbox/l-bfgs.hpp&gt;
+<pre><code class="cpp">#include &lt;mathtoolbox/kernel-functions.hpp&gt;
 </code></pre>
 
-<h2 id="internal-dependencies">Internal Dependencies</h2>
-<ul>
-<li><a href="../strong-wolfe-conditions-line-search/">strong-wolfe-conditions-line-search</a></li>
-</ul>
-<h2 id="math-and-algorithm">Math and Algorithm</h2>
-<p>We follow <a href="https://doi.org/10.1007/978-0-387-40065-5">Nocedal and Wright (2006)</a> (Chapter 7).</p>
-<h3 id="inverse-hessian-initialization">Inverse Hessian Initialization</h3>
-<p>This implementation adopts the strategy described in Equation 7.20:</p>
+<h2 id="overview">Overview</h2>
+<h3 id="automatic-relevance-determination-ard-squared-exponential-kernel">Automatic Relevance Determination (ARD) Squared Exponential Kernel</h3>
+<p>This kernel is defined as</p>
 <p>
 <script type="math/tex; mode=display">
-\mathbf{H}_k^0 \leftarrow \frac{\mathbf{y}_{k - 1}^T \mathbf{s}_{k - 1}}{\mathbf{y}_{k - 1}^T \mathbf{y}_{k - 1}} \mathbf{I}.
+k(\mathbf{x}_p, \mathbf{x}_q ; \boldsymbol{\theta}) = \sigma_f^{2} \exp \left( - \frac{1}{2} (\mathbf{x}_p - \mathbf{x}_q)^{T} \text{diag}(\boldsymbol{\ell})^{-2} (\mathbf{x}_p - \mathbf{x}_q) \right),
 </script>
 </p>
-<p>See the book for details.</p>
-<h3 id="line-search">Line Search</h3>
-<p>This implementation uses <a href="../strong-wolfe-conditions-line-search">strong-wolfe-conditions-line-search</a> to find an appropriate step size.</p>
+<p>where <script type="math/tex"> \sigma_f^{2} </script> (the signal variance) and <script type="math/tex"> \boldsymbol{\ell} </script> (the characteristic length-scales) are its hyperparameters. That is,</p>
+<p>
+<script type="math/tex; mode=display">
+\boldsymbol{\theta} = \begin{bmatrix} \sigma_{f}^{2} \\ \boldsymbol{\ell} \end{bmatrix} \in \mathbb{R}^{n + 1}_{> 0}.
+</script>
+</p>
 <h2 id="useful-resources">Useful Resources</h2>
 <ul>
-<li>Jorge Nocedal and Stephen J. Wright. 2006. Numerical optimization (2nd ed.). Springer. DOI: <a href="https://doi.org/10.1007/978-0-387-40065-5">https://doi.org/10.1007/978-0-387-40065-5</a></li>
+<li>Carl Edward Rasmussen and Christopher K. I. Williams. 2006. Gaussian Processes for Machine Learning. The MIT Press. Online version: <a href="http://www.gaussianprocess.org/gpml/">http://www.gaussianprocess.org/gpml/</a></li>
 </ul>
               
             </div>
@@ -221,10 +217,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../strong-wolfe-conditions-line-search/" class="btn btn-neutral float-right" title="strong-wolfe-conditions-line-search">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../probability-distributions/" class="btn btn-neutral float-right" title="probability-distributions">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../bfgs/" class="btn btn-neutral" title="bfgs"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../constants/" class="btn btn-neutral" title="constants"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -252,10 +248,10 @@
           <a href="https://github.com/yuki-koyama/mathtoolbox/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../bfgs/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../constants/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../strong-wolfe-conditions-line-search/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../probability-distributions/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

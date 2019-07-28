@@ -57,3 +57,34 @@ VectorXd mathtoolbox::GetArdSquaredExponentialKernelHyperparametersDerivative(co
 
     return derivative;
 }
+
+double mathtoolbox::GetArdSquaredExponentialKernelIThHyperparametersDerivative(const Eigen::VectorXd& x_a,
+                                                                               const Eigen::VectorXd& x_b,
+                                                                               const Eigen::VectorXd& hyperparameters,
+                                                                               const int              index)
+{
+    assert(x_a.size() == x_b.size());
+    assert(x_a.size() == hyperparameters.size() - 1);
+
+    const int              dim           = x_a.size();
+    const Eigen::VectorXd& length_scales = hyperparameters.segment(1, dim);
+
+    if (index == 0)
+    {
+        double sum = 0.0;
+        for (int i = 0; i < dim; ++i)
+        {
+            const double r = x_a(i) - x_b(i);
+            sum += (r * r) / (length_scales(i) * length_scales(i));
+        }
+        return std::exp(-0.5 * sum);
+    }
+    else
+    {
+        const int    i = index - 1;
+        const double k = GetArdSquaredExponentialKernel(x_a, x_b, hyperparameters);
+        const double r = x_a(i) - x_b(i);
+
+        return k * (r * r) / (length_scales(i) * length_scales(i) * length_scales(i));
+    }
+}

@@ -7,9 +7,9 @@ double mathtoolbox::GetArdSquaredExpKernel(const VectorXd& x_a, const VectorXd& 
     assert(x_a.size() == x_b.size());
     assert(x_a.size() == theta.size() - 1);
 
-    const int              dim             = x_a.size();
-    const double&          sigma_squared_f = theta[0];
-    const Eigen::VectorXd& length_scales   = theta.segment(1, dim);
+    const int       dim             = x_a.size();
+    const double&   sigma_squared_f = theta[0];
+    const VectorXd& length_scales   = theta.segment(1, dim);
 
     const double sum = [&]() {
         double sum = 0.0;
@@ -30,8 +30,8 @@ mathtoolbox::GetArdSquaredExpKernelThetaDerivative(const VectorXd& x_a, const Ve
     assert(x_a.size() == x_b.size());
     assert(x_a.size() == theta.size() - 1);
 
-    const int              dim           = x_a.size();
-    const Eigen::VectorXd& length_scales = theta.segment(1, dim);
+    const int       dim           = x_a.size();
+    const VectorXd& length_scales = theta.segment(1, dim);
 
     VectorXd derivative(theta.size());
 
@@ -56,16 +56,16 @@ mathtoolbox::GetArdSquaredExpKernelThetaDerivative(const VectorXd& x_a, const Ve
     return derivative;
 }
 
-double mathtoolbox::GetArdSquaredExpKernelThetaIDerivative(const Eigen::VectorXd& x_a,
-                                                           const Eigen::VectorXd& x_b,
-                                                           const Eigen::VectorXd& theta,
-                                                           const int              index)
+double mathtoolbox::GetArdSquaredExpKernelThetaIDerivative(const VectorXd& x_a,
+                                                           const VectorXd& x_b,
+                                                           const VectorXd& theta,
+                                                           const int       index)
 {
     assert(x_a.size() == x_b.size());
     assert(x_a.size() == theta.size() - 1);
 
-    const int              dim           = x_a.size();
-    const Eigen::VectorXd& length_scales = theta.segment(1, dim);
+    const int       dim           = x_a.size();
+    const VectorXd& length_scales = theta.segment(1, dim);
 
     if (index == 0)
     {

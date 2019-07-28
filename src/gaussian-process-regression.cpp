@@ -163,10 +163,7 @@ namespace
 
         const Eigen::FullPivLU<MatrixXd> lu(K_y);
 
-        if (!lu.isInvertible())
-        {
-            throw std::runtime_error("Non-invertible K_y is detected.");
-        }
+        if (!lu.isInvertible()) { throw std::runtime_error("Non-invertible K_y is detected."); }
 
         const MatrixXd K_y_inv = lu.inverse();
         const double   K_y_det = lu.determinant();
@@ -176,10 +173,7 @@ namespace
         const double term2 = -0.5 * std::log(K_y_det);
         const double term3 = -0.5 * N * std::log(2.0 * mathtoolbox::constants::pi);
 
-        if (std::isinf(term2))
-        {
-            throw std::runtime_error("Inf is detected.");
-        }
+        if (std::isinf(term2)) { throw std::runtime_error("Inf is detected."); }
 
         return term1 + term2 + term3;
     }

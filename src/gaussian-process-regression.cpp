@@ -11,7 +11,7 @@ using Eigen::VectorXd;
 
 namespace
 {
-    Eigen::VectorXd Concat(const double a, const Eigen::VectorXd& b)
+    inline Eigen::VectorXd Concat(const double a, const Eigen::VectorXd& b)
     {
         Eigen::VectorXd result(1 + b.size());
 
@@ -21,60 +21,44 @@ namespace
         return result;
     }
 
-    double CalculateArdSquaredExponentialKernelGradientSigmaSquaredF(const VectorXd& x_i,
-                                                                     const VectorXd& x_j,
-                                                                     const double    sigma_squared_f,
-                                                                     const VectorXd& length_scales)
+    inline Eigen::VectorXd Concat(const double a, const double b, const Eigen::VectorXd& c)
     {
-        const int D = length_scales.rows();
-        return [&]() {
-            double sum = 0.0;
-            for (int i = 0; i < D; ++i)
-            {
-                sum += (x_i(i) - x_j(i)) * (x_i(i) - x_j(i)) / (length_scales(i) * length_scales(i));
-            }
-            return std::exp(-0.5 * sum);
-        }();
+        Eigen::VectorXd result(2 + c.size());
+
+        result(0)                   = a;
+        result(1)                   = b;
+        result.segment(2, c.size()) = c;
+
+        return result;
     }
 
-    VectorXd CalculateArdSquaredExponentialKernelGradientLengthScales(const VectorXd& x_i,
-                                                                      const VectorXd& x_j,
-                                                                      const double    sigma_squared_f,
-                                                                      const VectorXd& length_scales)
+    MatrixXd CalculateLargeKF(const MatrixXd& X, const VectorXd& kernel_hyperparameters)
     {
-        const int D = length_scales.rows();
-        return [&]() -> VectorXd {
-            VectorXd partial_derivative(D);
-            for (int i = 0; i < D; ++i)
+        const int N = X.cols();
+
+        MatrixXd K_f(N, N);
+        for (int i = 0; i < N; ++i)
+        {
+            for (int j = i; j < N; ++j)
             {
-                partial_derivative(i) =
-                    (x_i(i) - x_j(i)) * (x_i(i) - x_j(i)) / (length_scales(i) * length_scales(i) * length_scales(i));
+                const double value =
+                    mathtoolbox::GetArdSquaredExponentialKernel(X.col(i), X.col(j), kernel_hyperparameters);
+
+                K_f(i, j) = value;
+                K_f(j, i) = value;
             }
-            return mathtoolbox::GetArdSquaredExponentialKernel(x_i, x_j, Concat(sigma_squared_f, length_scales)) *
-                   partial_derivative;
-        }();
+        }
+        return K_f;
     }
 
-    MatrixXd CalculateLargeK(const MatrixXd& X,
-                             const double    sigma_squared_f,
-                             const double    sigma_squared_n,
-                             const VectorXd& length_scales)
+    MatrixXd CalculateLargeKY(const MatrixXd& X,
+                              const double    sigma_squared_f,
+                              const double    sigma_squared_n,
+                              const VectorXd& length_scales)
     {
         const int      N   = X.cols();
-        const MatrixXd K_f = [&]() {
-            MatrixXd K(N, N);
-            for (int i = 0; i < N; ++i)
-            {
-                for (int j = i; j < N; ++j)
-                {
-                    const double value = mathtoolbox::GetArdSquaredExponentialKernel(
-                        X.col(i), X.col(j), Concat(sigma_squared_f, length_scales));
-                    K(i, j) = value;
-                    K(j, i) = value;
-                }
-            }
-            return K;
-        }();
+        const MatrixXd K_f = CalculateLargeKF(X, Concat(sigma_squared_f, length_scales));
+
         return K_f + sigma_squared_n * MatrixXd::Identity(N, N);
     }
 
@@ -90,11 +74,12 @@ namespace
         {
             for (int j = i; j < N; ++j)
             {
-                const double ard_squared_exponential_kernel_gradient_sigma_squared_f =
-                    CalculateArdSquaredExponentialKernelGradientSigmaSquaredF(
-                        X.col(i), X.col(j), sigma_squared_f, length_scales);
-                K_gradient_sigma_squared_f(i, j) = ard_squared_exponential_kernel_gradient_sigma_squared_f;
-                K_gradient_sigma_squared_f(j, i) = ard_squared_exponential_kernel_gradient_sigma_squared_f;
+                const double kernel_sigma_squared_f_derivative =
+                    mathtoolbox::GetArdSquaredExponentialKernelIThHyperparametersDerivative(
+                        X.col(i), X.col(j), Concat(sigma_squared_f, length_scales), 0);
+
+                K_gradient_sigma_squared_f(i, j) = kernel_sigma_squared_f_derivative;
+                K_gradient_sigma_squared_f(j, i) = kernel_sigma_squared_f_derivative;
             }
         }
         return K_gradient_sigma_squared_f;
@@ -122,11 +107,12 @@ namespace
         {
             for (int j = i; j < N; ++j)
             {
-                const VectorXd ard_squared_exponential_kernel_gradient_length_scales =
-                    CalculateArdSquaredExponentialKernelGradientLengthScales(
-                        X.col(i), X.col(j), sigma_squared_f, length_scales);
-                K_gradient_length_scale_i(i, j) = ard_squared_exponential_kernel_gradient_length_scales(index);
-                K_gradient_length_scale_i(j, i) = ard_squared_exponential_kernel_gradient_length_scales(index);
+                const double kernel_i_th_length_scale_derivative =
+                    mathtoolbox::GetArdSquaredExponentialKernelIThHyperparametersDerivative(
+                        X.col(i), X.col(j), Concat(sigma_squared_f, length_scales), index + 1);
+
+                K_gradient_length_scale_i(i, j) = kernel_i_th_length_scale_derivative;
+                K_gradient_length_scale_i(j, i) = kernel_i_th_length_scale_derivative;
             }
         }
         return K_gradient_length_scale_i;
@@ -153,7 +139,7 @@ namespace
                                   const VectorXd& length_scales)
     {
         const int      N   = X.cols();
-        const MatrixXd K_y = CalculateLargeK(X, sigma_squared_f, sigma_squared_n, length_scales);
+        const MatrixXd K_y = CalculateLargeKY(X, sigma_squared_f, sigma_squared_n, length_scales);
 
         const Eigen::FullPivLU<MatrixXd> lu(K_y);
 
@@ -180,7 +166,7 @@ namespace
     {
         const int D = X.rows();
 
-        const MatrixXd K_y     = CalculateLargeK(X, sigma_squared_f, sigma_squared_n, length_scales);
+        const MatrixXd K_y     = CalculateLargeKY(X, sigma_squared_f, sigma_squared_n, length_scales);
         const MatrixXd K_y_inv = K_y.inverse();
 
         const double log_likeliehood_gradient_sigma_squared_f = [&]() {
@@ -215,13 +201,9 @@ namespace
             return log_likelihood_gradient_length_scales;
         }();
 
-        return [&]() {
-            VectorXd concat(D + 2);
-            concat(0)            = log_likeliehood_gradient_sigma_squared_f;
-            concat(1)            = log_likeliehood_gradient_sigma_squared_n;
-            concat.segment(2, D) = log_likelihood_gradient_length_scales;
-            return concat;
-        }();
+        return Concat(log_likeliehood_gradient_sigma_squared_f,
+                      log_likeliehood_gradient_sigma_squared_n,
+                      log_likelihood_gradient_length_scales);
     }
 } // namespace
 
@@ -242,7 +224,7 @@ namespace mathtoolbox
         this->sigma_squared_n = sigma_squared_n;
         this->length_scales   = length_scales;
 
-        K     = CalculateLargeK(X, sigma_squared_f, sigma_squared_n, length_scales);
+        K     = CalculateLargeKY(X, sigma_squared_f, sigma_squared_n, length_scales);
         K_inv = K.inverse();
     }
 
@@ -369,7 +351,7 @@ namespace mathtoolbox
         std::cout << "sigma_squared_n: " << sigma_squared_n << std::endl;
         std::cout << "length_scales  : " << length_scales.transpose() << std::endl;
 
-        K     = CalculateLargeK(X, sigma_squared_f, sigma_squared_n, length_scales);
+        K     = CalculateLargeKY(X, sigma_squared_f, sigma_squared_n, length_scales);
         K_inv = K.inverse();
     }
 

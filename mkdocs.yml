@@ -20,6 +20,7 @@ nav:
     - 'strong-wolfe-conditions-line-search.md'
   - 'Utilities':
     - 'constants.md'
+    - 'kernel-functions.md'
     - 'probability-distributions.md'
 repo_name: GitHub
 repo_url: https://github.com/yuki-koyama/mathtoolbox/

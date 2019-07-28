@@ -5,18 +5,16 @@
 
 namespace mathtoolbox
 {
-    double GetArdSquaredExponentialKernel(const Eigen::VectorXd& x_a,
-                                          const Eigen::VectorXd& x_b,
-                                          const Eigen::VectorXd& hyperparameters);
+    double GetArdSquaredExpKernel(const Eigen::VectorXd& x_a, const Eigen::VectorXd& x_b, const Eigen::VectorXd& theta);
 
-    Eigen::VectorXd GetArdSquaredExponentialKernelHyperparametersDerivative(const Eigen::VectorXd& x_a,
-                                                                            const Eigen::VectorXd& x_b,
-                                                                            const Eigen::VectorXd& hyperparameters);
+    Eigen::VectorXd GetArdSquaredExpKernelThetaDerivative(const Eigen::VectorXd& x_a,
+                                                          const Eigen::VectorXd& x_b,
+                                                          const Eigen::VectorXd& theta);
 
-    double GetArdSquaredExponentialKernelIThHyperparametersDerivative(const Eigen::VectorXd& x_a,
-                                                                      const Eigen::VectorXd& x_b,
-                                                                      const Eigen::VectorXd& hyperparameters,
-                                                                      const int              index);
+    double GetArdSquaredExpKernelThetaIDerivative(const Eigen::VectorXd& x_a,
+                                                  const Eigen::VectorXd& x_b,
+                                                  const Eigen::VectorXd& theta,
+                                                  const int              index);
 } // namespace mathtoolbox
 
 #endif /* KERNEL_FUNCTIONS_HPP */

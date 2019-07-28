@@ -2,15 +2,14 @@
 
 using Eigen::VectorXd;
 
-double
-mathtoolbox::GetArdSquaredExponentialKernel(const VectorXd& x_a, const VectorXd& x_b, const VectorXd& hyperparameters)
+double mathtoolbox::GetArdSquaredExpKernel(const VectorXd& x_a, const VectorXd& x_b, const VectorXd& theta)
 {
     assert(x_a.size() == x_b.size());
-    assert(x_a.size() == hyperparameters.size() - 1);
+    assert(x_a.size() == theta.size() - 1);
 
     const int              dim             = x_a.size();
-    const double&          sigma_squared_f = hyperparameters[0];
-    const Eigen::VectorXd& length_scales   = hyperparameters.segment(1, dim);
+    const double&          sigma_squared_f = theta[0];
+    const Eigen::VectorXd& length_scales   = theta.segment(1, dim);
 
     const double sum = [&]() {
         double sum = 0.0;
@@ -25,17 +24,16 @@ mathtoolbox::GetArdSquaredExponentialKernel(const VectorXd& x_a, const VectorXd&
     return sigma_squared_f * std::exp(-0.5 * sum);
 }
 
-VectorXd mathtoolbox::GetArdSquaredExponentialKernelHyperparametersDerivative(const VectorXd& x_a,
-                                                                              const VectorXd& x_b,
-                                                                              const VectorXd& hyperparameters)
+VectorXd
+mathtoolbox::GetArdSquaredExpKernelThetaDerivative(const VectorXd& x_a, const VectorXd& x_b, const VectorXd& theta)
 {
     assert(x_a.size() == x_b.size());
-    assert(x_a.size() == hyperparameters.size() - 1);
+    assert(x_a.size() == theta.size() - 1);
 
     const int              dim           = x_a.size();
-    const Eigen::VectorXd& length_scales = hyperparameters.segment(1, dim);
+    const Eigen::VectorXd& length_scales = theta.segment(1, dim);
 
-    VectorXd derivative(hyperparameters.size());
+    VectorXd derivative(theta.size());
 
     derivative(0) = [&]() {
         double sum = 0.0;
@@ -47,7 +45,7 @@ VectorXd mathtoolbox::GetArdSquaredExponentialKernelHyperparametersDerivative(co
         return std::exp(-0.5 * sum);
     }();
 
-    const double k = GetArdSquaredExponentialKernel(x_a, x_b, hyperparameters);
+    const double k = GetArdSquaredExpKernel(x_a, x_b, theta);
 
     for (int i = 0; i < dim; ++i)
     {
@@ -58,16 +56,16 @@ VectorXd mathtoolbox::GetArdSquaredExponentialKernelHyperparametersDerivative(co
     return derivative;
 }
 
-double mathtoolbox::GetArdSquaredExponentialKernelIThHyperparametersDerivative(const Eigen::VectorXd& x_a,
-                                                                               const Eigen::VectorXd& x_b,
-                                                                               const Eigen::VectorXd& hyperparameters,
-                                                                               const int              index)
+double mathtoolbox::GetArdSquaredExpKernelThetaIDerivative(const Eigen::VectorXd& x_a,
+                                                           const Eigen::VectorXd& x_b,
+                                                           const Eigen::VectorXd& theta,
+                                                           const int              index)
 {
     assert(x_a.size() == x_b.size());
-    assert(x_a.size() == hyperparameters.size() - 1);
+    assert(x_a.size() == theta.size() - 1);
 
     const int              dim           = x_a.size();
-    const Eigen::VectorXd& length_scales = hyperparameters.segment(1, dim);
+    const Eigen::VectorXd& length_scales = theta.segment(1, dim);
 
     if (index == 0)
     {
@@ -82,7 +80,7 @@ double mathtoolbox::GetArdSquaredExponentialKernelIThHyperparametersDerivative(c
     else
     {
         const int    i = index - 1;
-        const double k = GetArdSquaredExponentialKernel(x_a, x_b, hyperparameters);
+        const double k = GetArdSquaredExpKernel(x_a, x_b, theta);
         const double r = x_a(i) - x_b(i);
 
         return k * (r * r) / (length_scales(i) * length_scales(i) * length_scales(i));

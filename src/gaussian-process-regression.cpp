@@ -41,8 +41,7 @@ namespace
         {
             for (int j = i; j < N; ++j)
             {
-                const double value =
-                    mathtoolbox::GetArdSquaredExponentialKernel(X.col(i), X.col(j), kernel_hyperparameters);
+                const double value = mathtoolbox::GetArdSquaredExpKernel(X.col(i), X.col(j), kernel_hyperparameters);
 
                 K_f(i, j) = value;
                 K_f(j, i) = value;
@@ -74,9 +73,8 @@ namespace
         {
             for (int j = i; j < N; ++j)
             {
-                const double kernel_sigma_squared_f_derivative =
-                    mathtoolbox::GetArdSquaredExponentialKernelIThHyperparametersDerivative(
-                        X.col(i), X.col(j), Concat(sigma_squared_f, length_scales), 0);
+                const double kernel_sigma_squared_f_derivative = mathtoolbox::GetArdSquaredExpKernelThetaIDerivative(
+                    X.col(i), X.col(j), Concat(sigma_squared_f, length_scales), 0);
 
                 K_gradient_sigma_squared_f(i, j) = kernel_sigma_squared_f_derivative;
                 K_gradient_sigma_squared_f(j, i) = kernel_sigma_squared_f_derivative;
@@ -107,9 +105,8 @@ namespace
         {
             for (int j = i; j < N; ++j)
             {
-                const double kernel_i_th_length_scale_derivative =
-                    mathtoolbox::GetArdSquaredExponentialKernelIThHyperparametersDerivative(
-                        X.col(i), X.col(j), Concat(sigma_squared_f, length_scales), index + 1);
+                const double kernel_i_th_length_scale_derivative = mathtoolbox::GetArdSquaredExpKernelThetaIDerivative(
+                    X.col(i), X.col(j), Concat(sigma_squared_f, length_scales), index + 1);
 
                 K_gradient_length_scale_i(i, j) = kernel_i_th_length_scale_derivative;
                 K_gradient_length_scale_i(j, i) = kernel_i_th_length_scale_derivative;
@@ -126,7 +123,7 @@ namespace
             VectorXd k(N);
             for (unsigned i = 0; i < N; ++i)
             {
-                k(i) = mathtoolbox::GetArdSquaredExponentialKernel(x, X.col(i), Concat(sigma_squared_f, length_scales));
+                k(i) = mathtoolbox::GetArdSquaredExpKernel(x, X.col(i), Concat(sigma_squared_f, length_scales));
             }
             return k;
         }();

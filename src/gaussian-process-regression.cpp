@@ -2,6 +2,7 @@
 #include <iostream>
 #include <mathtoolbox/constants.hpp>
 #include <mathtoolbox/gaussian-process-regression.hpp>
+#include <mathtoolbox/kernel-functions.hpp>
 #include <mathtoolbox/numerical-optimization.hpp>
 #include <tuple>
 
@@ -10,22 +11,14 @@ using Eigen::VectorXd;
 
 namespace
 {
-    // Equation 5.1 [Rasmuss and Williams 2006]
-    double CalculateArdSquaredExponentialKernel(const VectorXd& x_i,
-                                                const VectorXd& x_j,
-                                                const double    sigma_squared_f,
-                                                const VectorXd& length_scales)
+    Eigen::VectorXd Concat(const double a, const Eigen::VectorXd& b)
     {
-        const int    D   = x_i.rows();
-        const double sum = [&]() {
-            double sum = 0.0;
-            for (int i = 0; i < D; ++i)
-            {
-                sum += (x_i(i) - x_j(i)) * (x_i(i) - x_j(i)) / (length_scales(i) * length_scales(i));
-            }
-            return sum;
-        }();
-        return sigma_squared_f * std::exp(-0.5 * sum);
+        Eigen::VectorXd result(1 + b.size());
+
+        result(0)                   = a;
+        result.segment(1, b.size()) = b;
+
+        return result;
     }
 
     double CalculateArdSquaredExponentialKernelGradientSigmaSquaredF(const VectorXd& x_i,
@@ -57,7 +50,8 @@ namespace
                 partial_derivative(i) =
                     (x_i(i) - x_j(i)) * (x_i(i) - x_j(i)) / (length_scales(i) * length_scales(i) * length_scales(i));
             }
-            return CalculateArdSquaredExponentialKernel(x_i, x_j, sigma_squared_f, length_scales) * partial_derivative;
+            return mathtoolbox::GetArdSquaredExponentialKernel(x_i, x_j, Concat(sigma_squared_f, length_scales)) *
+                   partial_derivative;
         }();
     }
 
@@ -73,8 +67,8 @@ namespace
             {
                 for (int j = i; j < N; ++j)
                 {
-                    const double value =
-                        CalculateArdSquaredExponentialKernel(X.col(i), X.col(j), sigma_squared_f, length_scales);
+                    const double value = mathtoolbox::GetArdSquaredExponentialKernel(
+                        X.col(i), X.col(j), Concat(sigma_squared_f, length_scales));
                     K(i, j) = value;
                     K(j, i) = value;
                 }
@@ -146,7 +140,7 @@ namespace
             VectorXd k(N);
             for (unsigned i = 0; i < N; ++i)
             {
-                k(i) = CalculateArdSquaredExponentialKernel(x, X.col(i), sigma_squared_f, length_scales);
+                k(i) = mathtoolbox::GetArdSquaredExponentialKernel(x, X.col(i), Concat(sigma_squared_f, length_scales));
             }
             return k;
         }();

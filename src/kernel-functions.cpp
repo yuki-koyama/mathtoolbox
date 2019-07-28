@@ -87,3 +87,17 @@ double mathtoolbox::GetArdSquaredExpKernelThetaIDerivative(const VectorXd& x_a,
         return k * (r * r) / (length_scales(i) * length_scales(i) * length_scales(i));
     }
 }
+
+double mathtoolbox::GetArdMatern52Kernel(const VectorXd& x_a, const VectorXd& x_b, const VectorXd& theta) {}
+
+VectorXd
+mathtoolbox::GetArdMatern52KernelThetaDerivative(const VectorXd& x_a, const VectorXd& x_b, const VectorXd& theta)
+{
+}
+
+double mathtoolbox::GetArdMatern52KernelThetaIDerivative(const VectorXd& x_a,
+                                                         const VectorXd& x_b,
+                                                         const VectorXd& theta,
+                                                         const int       index)
+{
+}

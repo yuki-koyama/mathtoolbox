@@ -27,6 +27,7 @@ A library of mathematical tools (regression, interpolation, dimensionality reduc
 ### Utilities
 
 - [`constants`: Constants](https://yuki-koyama.github.io/mathtoolbox/constants/)
+- [`kernel-functions`: Kernel functions](https://yuki-koyama.github.io/mathtoolbox/kernel-functions/)
 - [`probability-distributions`: Probability distributions](https://yuki-koyama.github.io/mathtoolbox/probability-distributions/)
 
 ## Dependencies

@@ -47,6 +47,7 @@ set(headers
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/classical-mds.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/constants.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/gaussian-process-regression.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/kernel-functions.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/l-bfgs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/numerical-optimization.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/probability-distributions.hpp
@@ -57,6 +58,7 @@ set(sources
 	${CMAKE_CURRENT_SOURCE_DIR}/src/bfgs.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/classical-mds.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/gaussian-process-regression.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/kernel-functions.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/l-bfgs.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/probability-distributions.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/rbf-interpolation.cpp

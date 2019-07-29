@@ -31,26 +31,25 @@ namespace mathtoolbox
                                       const Eigen::VectorXd& length_scales_initial);
 
         // Getter methods
-        const Eigen::MatrixXd& GetX() const { return X; }
-        const Eigen::VectorXd& GetY() const { return y; }
+        const Eigen::MatrixXd& GetX() const { return m_X; }
+        const Eigen::VectorXd& GetY() const { return m_y; }
 
     private:
         // Data points
-        Eigen::MatrixXd X;
-        Eigen::VectorXd y;
+        Eigen::MatrixXd m_X;
+        Eigen::VectorXd m_y;
 
         // Derivative data
-        Eigen::MatrixXd K;
-        Eigen::MatrixXd K_inv;
+        Eigen::MatrixXd m_K_y;
+        Eigen::MatrixXd m_K_y_inv;
 
         // Hyperparameters
-        double          sigma_squared_f;
-        double          sigma_squared_n;
-        Eigen::VectorXd length_scales;
+        Eigen::VectorXd m_kernel_hyperparameters;
+        double          m_sigma_squared_n;
 
         // Kernel functions
-        Kernel                 kernel;
-        KernelThetaIDerivative kernel_theta_i_derivative;
+        Kernel                 m_kernel;
+        KernelThetaIDerivative m_kernel_theta_i_derivative;
     };
 } // namespace mathtoolbox
 

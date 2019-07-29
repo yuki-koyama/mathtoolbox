@@ -187,17 +187,17 @@ namespace mathtoolbox
     GaussianProcessRegression::GaussianProcessRegression(const MatrixXd&  X,
                                                          const VectorXd&  y,
                                                          const KernelType kernel_type)
-        : X(X), y(y)
+        : m_X(X), m_y(y)
     {
         switch (kernel_type)
         {
         case KernelType::ArdSquaredExp:
-            kernel                    = GetArdSquaredExpKernel;
-            kernel_theta_i_derivative = GetArdSquaredExpKernelThetaIDerivative;
+            m_kernel                    = GetArdSquaredExpKernel;
+            m_kernel_theta_i_derivative = GetArdSquaredExpKernelThetaIDerivative;
             break;
         case KernelType::Matern52:
-            kernel                    = GetArdMatern52Kernel;
-            kernel_theta_i_derivative = GetArdMatern52KernelThetaIDerivative;
+            m_kernel                    = GetArdMatern52Kernel;
+            m_kernel_theta_i_derivative = GetArdMatern52KernelThetaIDerivative;
             break;
         }
 
@@ -210,19 +210,18 @@ namespace mathtoolbox
                                                        double                 sigma_squared_n,
                                                        const Eigen::VectorXd& length_scales)
     {
-        this->sigma_squared_f = sigma_squared_f;
-        this->sigma_squared_n = sigma_squared_n;
-        this->length_scales   = length_scales;
+        this->m_kernel_hyperparameters = Concat(sigma_squared_f, length_scales);
+        this->m_sigma_squared_n        = sigma_squared_n;
 
-        K     = CalculateLargeKY(X, sigma_squared_n, Concat(sigma_squared_f, length_scales), kernel);
-        K_inv = K.inverse();
+        m_K_y     = CalculateLargeKY(m_X, m_sigma_squared_n, m_kernel_hyperparameters, m_kernel);
+        m_K_y_inv = m_K_y.inverse();
     }
 
     void GaussianProcessRegression::PerformMaximumLikelihood(double                 sigma_squared_f_initial,
                                                              double                 sigma_squared_n_initial,
                                                              const Eigen::VectorXd& length_scales_initial)
     {
-        const int D = X.rows();
+        const int D = m_X.rows();
 
         assert(length_scales.rows() == D);
         assert(length_scales_initial.rows() == D);
@@ -238,7 +237,7 @@ namespace mathtoolbox
         const VectorXd lower = VectorXd::Constant(D + 2, 1e-05);
 
         using Data = std::tuple<const MatrixXd&, const VectorXd&>;
-        Data data(X, y);
+        Data data(m_X, m_y);
 
         // Currently, the mathtoolbox does not have any numerical optimization algorithms that support lower- and
         // upper-bound conditions. The hyperparameters here should always be positive for evaluating the objective
@@ -301,7 +300,7 @@ namespace mathtoolbox
             const VectorXd& y = std::get<1>(data);
 
             const double log_likelihood =
-                CalculateLogLikelihood(X, y, sigma_squared_n, Concat(sigma_squared_f, length_scales), kernel);
+                CalculateLogLikelihood(X, y, sigma_squared_n, Concat(sigma_squared_f, length_scales), m_kernel);
 
             return log_likelihood;
         };
@@ -317,7 +316,7 @@ namespace mathtoolbox
             const VectorXd& y = std::get<1>(data);
 
             const VectorXd log_likelihood_gradient = CalculateLogLikelihoodGradient(
-                X, y, sigma_squared_n, Concat(sigma_squared_f, length_scales), kernel, kernel_theta_i_derivative);
+                X, y, sigma_squared_n, Concat(sigma_squared_f, length_scales), m_kernel, m_kernel_theta_i_derivative);
 
             return (log_likelihood_gradient.array() * calc_decode_vector_derivative(x).array()).matrix();
         };
@@ -334,27 +333,30 @@ namespace mathtoolbox
         const auto     result    = optimization::RunOptimization(input);
         const VectorXd x_optimal = decode_vector(result.x_star);
 
-        sigma_squared_f = x_optimal[0];
-        sigma_squared_n = x_optimal[1];
-        length_scales   = x_optimal.segment(2, x_optimal.size() - 2);
+        m_kernel_hyperparameters[0]            = x_optimal[0];
+        m_kernel_hyperparameters.segment(1, D) = x_optimal.segment(2, D);
+        m_sigma_squared_n                      = x_optimal[1];
 
-        std::cout << "sigma_squared_f: " << sigma_squared_f << std::endl;
-        std::cout << "sigma_squared_n: " << sigma_squared_n << std::endl;
-        std::cout << "length_scales  : " << length_scales.transpose() << std::endl;
+        std::cout << "sigma_squared_f: " << m_kernel_hyperparameters[0] << std::endl;
+        std::cout << "sigma_squared_n: " << m_sigma_squared_n << std::endl;
+        std::cout << "length_scales  : " << m_kernel_hyperparameters.segment(1, D).transpose() << std::endl;
 
-        K     = CalculateLargeKY(X, sigma_squared_n, Concat(sigma_squared_f, length_scales), kernel);
-        K_inv = K.inverse();
+        m_K_y     = CalculateLargeKY(m_X, m_sigma_squared_n, m_kernel_hyperparameters, m_kernel);
+        m_K_y_inv = m_K_y.inverse();
     }
 
     double GaussianProcessRegression::EstimateY(const VectorXd& x) const
     {
-        const VectorXd k = CalculateSmallK(x, X, Concat(sigma_squared_f, length_scales), kernel);
-        return k.transpose() * K_inv * y;
+        const VectorXd k = CalculateSmallK(x, m_X, m_kernel_hyperparameters, m_kernel);
+
+        return k.transpose() * m_K_y_inv * m_y;
     }
 
     double GaussianProcessRegression::EstimateVariance(const VectorXd& x) const
     {
-        const VectorXd k = CalculateSmallK(x, X, Concat(sigma_squared_f, length_scales), kernel);
-        return sigma_squared_f - k.transpose() * K_inv * k;
+        const VectorXd k    = CalculateSmallK(x, m_X, m_kernel_hyperparameters, m_kernel);
+        const double   k_xx = m_kernel_hyperparameters[0];
+
+        return k_xx - k.transpose() * m_K_y_inv * k;
     }
 } // namespace mathtoolbox

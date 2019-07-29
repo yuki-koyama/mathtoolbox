@@ -3,6 +3,15 @@
 
 namespace mathtoolbox
 {
+    // N(x | 0, 1)
+    double GetStandardNormalDist(const double x);
+
+    // d/dx N(x | 0, 1)
+    double GetStandardNormalDistDerivative(const double x);
+
+    // integral_{- inf, x} N(x' | 0, 1) dx'
+    double GetStandardNormalDistCdf(const double x);
+
     // N(x | mu, sigma^2)
     double GetNormalDist(const double x, const double mu, const double sigma_2);
 

@@ -2,6 +2,22 @@
 #include <mathtoolbox/constants.hpp>
 #include <mathtoolbox/probability-distributions.hpp>
 
+double mathtoolbox::GetStandardNormalDist(const double x)
+{
+    return (1.0 / std::sqrt(2.0 * constants::pi)) * std::exp(-0.5 * x * x);
+}
+
+double mathtoolbox::GetStandardNormalDistDerivative(const double x)
+{
+    const double N = GetStandardNormalDist(x);
+    return -x * N;
+}
+
+double mathtoolbox::GetStandardNormalDistCdf(const double x)
+{
+    return 0.5 * (1.0 + std::erf(x / std::sqrt(2.0)));
+}
+
 double mathtoolbox::GetNormalDist(const double x, const double mu, const double sigma_2)
 {
     const double r = x - mu;

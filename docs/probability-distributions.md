@@ -12,6 +12,7 @@ Probability distributions for statistical estimation.
 
 The following probability distributions and their first derivatives are supported:
 
+- Standard normal distribution: $ \mathcal{N}(x \mid 0, 1) $
 - Normal distribution: $ \mathcal{N}(x \mid \mu, \sigma^{2}) $
 - Log-normal distribution: $ \mathcal{LN}(x \mid \mu, \sigma^{2}) $
 

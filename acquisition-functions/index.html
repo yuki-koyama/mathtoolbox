@@ -7,16 +7,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
-  <link rel="shortcut icon" href="/img/favicon.ico">
-  <title>mathtoolbox</title>
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>acquisition-functions - mathtoolbox</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
-  <link rel="stylesheet" href="/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="/css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
   
-  <script src="/js/jquery-2.1.1.min.js" defer></script>
-  <script src="/js/modernizr-2.8.3.min.js" defer></script>
+  <script>
+    // Current page data
+    var mkdocs_page_name = "acquisition-functions";
+    var mkdocs_page_input_path = "acquisition-functions.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
   
@@ -39,9 +46,9 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
       <div class="wy-side-nav-search">
-        <a href="/." class="icon icon-home"> mathtoolbox</a>
+        <a href=".." class="icon icon-home"> mathtoolbox</a>
         <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="//search.html" method="get">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
@@ -53,7 +60,7 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="/.">Introduction</a>
+    <a class="" href="..">Introduction</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -62,11 +69,11 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="/rbf-interpolation/">rbf-interpolation</a>
+    <a class="" href="../rbf-interpolation/">rbf-interpolation</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="/gaussian-process-regression/">gaussian-process-regression</a>
+    <a class="" href="../gaussian-process-regression/">gaussian-process-regression</a>
                 </li>
     </ul>
 	    </li>
@@ -77,7 +84,7 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="/classical-mds/">classical-mds</a>
+    <a class="" href="../classical-mds/">classical-mds</a>
                 </li>
     </ul>
 	    </li>
@@ -88,19 +95,19 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="/backtracking-line-search/">backtracking-line-search</a>
+    <a class="" href="../backtracking-line-search/">backtracking-line-search</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="/bfgs/">bfgs</a>
+    <a class="" href="../bfgs/">bfgs</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="/l-bfgs/">l-bfgs</a>
+    <a class="" href="../l-bfgs/">l-bfgs</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="/strong-wolfe-conditions-line-search/">strong-wolfe-conditions-line-search</a>
+    <a class="" href="../strong-wolfe-conditions-line-search/">strong-wolfe-conditions-line-search</a>
                 </li>
     </ul>
 	    </li>
@@ -109,21 +116,37 @@
 		
     <span class="caption-text">Utilities</span>
     <ul class="subnav">
-                <li class="">
+                <li class=" current">
                     
-    <a class="" href="/acquisition-functions/">acquisition-functions</a>
+    <a class="current" href="./">acquisition-functions</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#acquisition-functions">acquisition-functions</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#header">Header</a></li>
+        
+            <li><a class="toctree-l4" href="#overview">Overview</a></li>
+        
+            <li><a class="toctree-l4" href="#useful-resources">Useful Resources</a></li>
+        
+        </ul>
+    
+
+    </ul>
                 </li>
                 <li class="">
                     
-    <a class="" href="/constants/">constants</a>
+    <a class="" href="../constants/">constants</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="/kernel-functions/">kernel-functions</a>
+    <a class="" href="../kernel-functions/">kernel-functions</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="/probability-distributions/">probability-distributions</a>
+    <a class="" href="../probability-distributions/">probability-distributions</a>
                 </li>
     </ul>
 	    </li>
@@ -138,7 +161,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="/.">mathtoolbox</a>
+        <a href="..">mathtoolbox</a>
       </nav>
 
       
@@ -146,10 +169,19 @@
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="/.">Docs</a> &raquo;</li>
+    <li><a href="..">Docs</a> &raquo;</li>
     
+      
+        
+          <li>Utilities &raquo;</li>
+        
+      
     
+    <li>acquisition-functions</li>
     <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/yuki-koyama/mathtoolbox/edit/master/docs/acquisition-functions.md"
+          class="icon icon-github"> Edit on GitHub</a>
       
     </li>
   </ul>
@@ -158,15 +190,35 @@
           <div role="main">
             <div class="section">
               
+                <h1 id="acquisition-functions">acquisition-functions</h1>
+<p>Acquisition functions for Bayesian optimization</p>
+<h2 id="header">Header</h2>
+<pre><code class="cpp">#include &lt;mathtoolbox/acquisition-functions.hpp&gt;
+</code></pre>
 
-  <h1 id="404-page-not-found">404</h1>
-
-  <p><strong>Page not found</strong></p>
-
-
+<h2 id="overview">Overview</h2>
+<p>The following acquisition functions are supported:</p>
+<ul>
+<li>Expected improvement (EI)</li>
+</ul>
+<h2 id="useful-resources">Useful Resources</h2>
+<ul>
+<li>Jasper Snoek, Hugo Larochelle, and Ryan P. Adams. 2012. Practical Bayesian optimization of machine learning algorithms. In Proc. NIPS '12, pp.2951--2959.</li>
+<li>Yuki Koyama, Issei Sato, Daisuke Sakamoto, and Takeo Igarashi. 2017. Sequential line search for efficient visual design optimization by crowds. ACM Trans. Graph. 36, 4, pp.48:1--48:11 (2017). DOI: <a href="https://doi.org/10.1145/3072959.3073598">https://doi.org/10.1145/3072959.3073598</a></li>
+</ul>
+              
             </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../constants/" class="btn btn-neutral float-right" title="constants">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../strong-wolfe-conditions-line-search/" class="btn btn-neutral" title="strong-wolfe-conditions-line-search"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
@@ -192,13 +244,17 @@
           <a href="https://github.com/yuki-koyama/mathtoolbox/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
+        <span><a href="../strong-wolfe-conditions-line-search/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../constants/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
-    <script>var base_url = '/';</script>
-    <script src="/js/theme.js" defer></script>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
       <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
-      <script src="/search/main.js" defer></script>
+      <script src="../search/main.js" defer></script>
 
 </body>
 </html>

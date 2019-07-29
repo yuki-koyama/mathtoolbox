@@ -138,6 +138,10 @@
     <ul class="subnav">
                 <li class="">
                     
+    <a class="" href="acquisition-functions/">acquisition-functions</a>
+                </li>
+                <li class="">
+                    
     <a class="" href="constants/">constants</a>
                 </li>
                 <li class="">
@@ -187,36 +191,50 @@
             <div class="section">
               
                 <h1 id="mathtoolbox">mathtoolbox</h1>
-<p><a href="https://travis-ci.com/yuki-koyama/mathtoolbox"><img alt="Build Status" src="https://travis-ci.com/yuki-koyama/mathtoolbox.svg?branch=master" /></a></p>
-<p>A library of mathematical tools (regression, interpolation, dimensionality reduction, clustering, etc.) written in C++11. Eigen <a href="http://eigen.tuxfamily.org/">http://eigen.tuxfamily.org/</a> is used for the interface and internal vector/matrix representation.</p>
+<p><a href="https://travis-ci.com/yuki-koyama/mathtoolbox"><img alt="Build Status" src="https://travis-ci.com/yuki-koyama/mathtoolbox.svg?branch=master" /></a>
+<img alt="GitHub" src="https://img.shields.io/github/license/yuki-koyama/mathtoolbox" /></p>
+<p>A library of mathematical tools (regression, interpolation, dimensionality reduction, clustering, etc.) written in C++11 and <a href="http://eigen.tuxfamily.org/">Eigen</a>.</p>
 <p><img alt="" src="header.png" /></p>
 <h2 id="algorithms">Algorithms</h2>
 <h3 id="scattered-data-interpolation-and-function-approximation">Scattered Data Interpolation and Function Approximation</h3>
 <ul>
-<li><a href="./rbf-interpolation/"><code>rbf-interpolation</code>: Radial basis function (RBF) network</a></li>
-<li><a href="./gaussian-process-regression/"><code>gaussian-process-regression</code>: Gaussian process regression (GPR)</a></li>
+<li><a href="https://yuki-koyama.github.io/mathtoolbox/rbf-interpolation/"><code>rbf-interpolation</code>: Radial basis function (RBF) network</a></li>
+<li><a href="https://yuki-koyama.github.io/mathtoolbox/gaussian-process-regression/"><code>gaussian-process-regression</code>: Gaussian process regression (GPR)</a></li>
 </ul>
 <h3 id="dimensionality-reduction-and-low-dimensional-embedding">Dimensionality Reduction and Low-Dimensional Embedding</h3>
 <ul>
-<li><a href="./classical-mds/"><code>classical-mds</code>: Classical multi-dimensional scaling (MDS)</a></li>
+<li><a href="https://yuki-koyama.github.io/mathtoolbox/classical-mds/"><code>classical-mds</code>: Classical multi-dimensional scaling (MDS)</a></li>
 </ul>
 <h3 id="numerical-optimization">Numerical Optimization</h3>
 <ul>
-<li><a href="./backtracking-line-search/"><code>backtracking-line-search</code>: Backtracking line search</a></li>
-<li><a href="./bfgs/"><code>bfgs</code>: BFGS method</a></li>
-<li><a href="./l-bfgs/"><code>l-bfgs</code>: Limited-memory BFGS method</a></li>
-<li><a href="./strong-wolfe-conditions-line-search/"><code>strong-wolfe-conditions-line-search</code>: Strong Wolfe conditions line search</a></li>
+<li><a href="https://yuki-koyama.github.io/mathtoolbox/backtracking-line-search/"><code>backtracking-line-search</code>: Backtracking line search</a></li>
+<li><a href="https://yuki-koyama.github.io/mathtoolbox/bfgs/"><code>bfgs</code>: BFGS method</a></li>
+<li><a href="https://yuki-koyama.github.io/mathtoolbox/l-bfgs/"><code>l-bfgs</code>: Limited-memory BFGS method</a></li>
+<li><a href="https://yuki-koyama.github.io/mathtoolbox/strong-wolfe-conditions-line-search/"><code>strong-wolfe-conditions-line-search</code>: Strong Wolfe conditions line search</a></li>
+</ul>
+<h3 id="utilities">Utilities</h3>
+<ul>
+<li><a href="https://yuki-koyama.github.io/mathtoolbox/acquisition-functions/"><code>acquisition-functions</code>: Acquisition functions</a></li>
+<li><a href="https://yuki-koyama.github.io/mathtoolbox/constants/"><code>constants</code>: Constants</a></li>
+<li><a href="https://yuki-koyama.github.io/mathtoolbox/kernel-functions/"><code>kernel-functions</code>: Kernel functions</a></li>
+<li><a href="https://yuki-koyama.github.io/mathtoolbox/probability-distributions/"><code>probability-distributions</code>: Probability distributions</a></li>
 </ul>
 <h2 id="dependencies">Dependencies</h2>
+<h3 id="main-library">Main Library</h3>
 <ul>
-<li>Eigen <a href="http://eigen.tuxfamily.org/">http://eigen.tuxfamily.org/</a></li>
-<li>NLopt <a href="https://nlopt.readthedocs.io/">https://nlopt.readthedocs.io/</a> (included as gitsubmodule)</li>
-<li>nlopt-util <a href="https://github.com/yuki-koyama/nlopt-util">https://github.com/yuki-koyama/nlopt-util</a> (included as gitsubmodule)</li>
-<li>optimization-test-function <a href="https://github.com/yuki-koyama/optimization-test-functions">https://github.com/yuki-koyama/optimization-test-functions</a> (included as githsubmodule)</li>
+<li>Eigen <a href="http://eigen.tuxfamily.org/">http://eigen.tuxfamily.org/</a> (<code>brew install eigen</code>)</li>
+</ul>
+<h3 id="python-bindings">Python Bindings</h3>
+<ul>
+<li>pybind11 <a href="https://github.com/pybind/pybind11">https://github.com/pybind/pybind11</a> (included as gitsubmodule)</li>
+</ul>
+<h3 id="examples">Examples</h3>
+<ul>
+<li>optimization-test-function <a href="https://github.com/yuki-koyama/optimization-test-functions">https://github.com/yuki-koyama/optimization-test-functions</a> (included as gitsubmodule)</li>
 </ul>
 <h2 id="build-and-installation">Build and Installation</h2>
 <p>mathtoolbox uses CMake <a href="https://cmake.org/">https://cmake.org/</a> for building source codes. This library can be built, for example, by</p>
-<pre><code class="bash">git clone https://github.com/yuki-koyama/mathtoolbox.git --recursive
+<pre><code>git clone https://github.com/yuki-koyama/mathtoolbox.git --recursive
 cd mathtoolbox
 mkdir build
 cd build
@@ -225,26 +243,32 @@ make
 </code></pre>
 
 <p>and optionally it can be installed to the system by</p>
-<pre><code class="bash">make install
+<pre><code>make install
 </code></pre>
 
-<p>When the CMake parameter <code>MATHTOOLBOX_BUILD_EXAMPLES</code> is set <code>ON</code>, the example applications are also built. (The default setting is <code>OFF</code>.) This is done by, for example,</p>
-<pre><code class="bash">cmake ../ -DMATHTOOLBOX_BUILD_EXAMPLES=ON
+<p>When the CMake parameter <code>MATHTOOLBOX_BUILD_EXAMPLES</code> is set <code>ON</code>, the example applications are also built. (The default setting is <code>OFF</code>.) This is done by</p>
+<pre><code>cmake ../ -DMATHTOOLBOX_BUILD_EXAMPLES=ON
 make
 </code></pre>
 
-<h3 id="installing-prerequisites">Installing Prerequisites</h3>
+<p>When the CMake parameter <code>MATHTOOLBOX_PYTHON_BINDINGS</code> is set <code>ON</code>, the example applications are also built. (The default setting is <code>OFF</code>.) This is done by</p>
+<pre><code>cmake ../ -DMATHTOOLBOX_PYTHON_BINDINGS=ON
+make
+</code></pre>
+
+<h3 id="prerequisites">Prerequisites</h3>
 <p>macOS:</p>
-<pre><code class="bash">brew install eigen
+<pre><code>brew install eigen
 </code></pre>
 
 <p>Ubuntu:</p>
-<pre><code class="bash">sudo apt install libeigen3-dev
+<pre><code>sudo apt install libeigen3-dev
 </code></pre>
 
 <h2 id="projects-using-mathtoolbox">Projects Using mathtoolbox</h2>
 <ul>
 <li>SelPh <a href="https://github.com/yuki-koyama/selph">https://github.com/yuki-koyama/selph</a> (for <code>classical-mds</code>)</li>
+<li>Sequential Line Search <a href="https://github.com/yuki-koyama/sequential-line-search">https://github.com/yuki-koyama/sequential-line-search</a> (for <code>acquisition-functions</code>, <code>kernel-functions</code>, and <code>probability-distributions</code>)</li>
 </ul>
 <h2 id="licensing">Licensing</h2>
 <p>The MIT License.</p>
@@ -299,5 +323,5 @@ make
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2019-07-29 00:54:49
+Build Date UTC : 2019-07-29 09:24:36
 -->

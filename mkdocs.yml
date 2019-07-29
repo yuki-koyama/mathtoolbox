@@ -19,6 +19,7 @@ nav:
     - 'l-bfgs.md'
     - 'strong-wolfe-conditions-line-search.md'
   - 'Utilities':
+    - 'acquisition-functions.md'
     - 'constants.md'
     - 'kernel-functions.md'
     - 'probability-distributions.md'

@@ -42,6 +42,7 @@ endif()
 ######################################################################
 
 set(headers
+	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/acquisition-functions.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/backtracking-line-search.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/bfgs.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/classical-mds.hpp
@@ -55,6 +56,7 @@ set(headers
 	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/strong-wolfe-conditions-line-search.hpp
 )
 set(sources
+	${CMAKE_CURRENT_SOURCE_DIR}/src/acquisition-functions.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/bfgs.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/classical-mds.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/gaussian-process-regression.cpp

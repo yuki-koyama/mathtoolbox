@@ -223,7 +223,7 @@ namespace mathtoolbox
     {
         const int D = m_X.rows();
 
-        assert(length_scales.rows() == D);
+        assert(m_kernel_hyperparameters.size() == D + 1);
         assert(length_scales_initial.rows() == D);
 
         const VectorXd x_initial = [&]() {

@@ -1,8 +1,9 @@
 # mathtoolbox
 
 [![Build Status](https://travis-ci.com/yuki-koyama/mathtoolbox.svg?branch=master)](https://travis-ci.com/yuki-koyama/mathtoolbox)
+![GitHub](https://img.shields.io/github/license/yuki-koyama/mathtoolbox)
 
-A library of mathematical tools (regression, interpolation, dimensionality reduction, clustering, etc.) written in C++11. Eigen <http://eigen.tuxfamily.org/> is used for the interface and internal vector/matrix representation.
+A library of mathematical tools (regression, interpolation, dimensionality reduction, clustering, etc.) written in C++11 and [Eigen](http://eigen.tuxfamily.org/).
 
 ![](docs/header.png)
 
@@ -26,6 +27,7 @@ A library of mathematical tools (regression, interpolation, dimensionality reduc
 
 ### Utilities
 
+- [`acquisition-functions`: Acquisition functions](https://yuki-koyama.github.io/mathtoolbox/acquisition-functions/)
 - [`constants`: Constants](https://yuki-koyama.github.io/mathtoolbox/constants/)
 - [`kernel-functions`: Kernel functions](https://yuki-koyama.github.io/mathtoolbox/kernel-functions/)
 - [`probability-distributions`: Probability distributions](https://yuki-koyama.github.io/mathtoolbox/probability-distributions/)
@@ -87,6 +89,7 @@ sudo apt install libeigen3-dev
 ## Projects Using mathtoolbox
 
 - SelPh <https://github.com/yuki-koyama/selph> (for `classical-mds`)
+- Sequential Line Search <https://github.com/yuki-koyama/sequential-line-search> (for `acquisition-functions`, `kernel-functions`, and `probability-distributions`)
 
 ## Licensing
 

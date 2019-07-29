@@ -206,6 +206,25 @@ k(\mathbf{x}_p, \mathbf{x}_q ; \boldsymbol{\theta}) = \sigma_f^{2} \exp \left( -
 \boldsymbol{\theta} = \begin{bmatrix} \sigma_{f}^{2} \\ \boldsymbol{\ell} \end{bmatrix} \in \mathbb{R}^{n + 1}_{> 0}.
 </script>
 </p>
+<h3 id="automatic-relevance-determination-ard-matern-52-kernel">Automatic Relevance Determination (ARD) Matern 5/2 Kernel</h3>
+<p>This kernel is defined as</p>
+<p>
+<script type="math/tex; mode=display">
+k(\mathbf{x}_p, \mathbf{x}_q ; \boldsymbol{\theta}) = \sigma_f^{2} \left( 1 + \sqrt{5 r^{2}(\mathbf{x}_{p}, \mathbf{x}_{q}; \boldsymbol{\ell})} + \frac{5}{3} r^{2}(\mathbf{x}_{p}, \mathbf{x}_{q}; \boldsymbol{\ell}) \right) \exp \left\{ - \sqrt{5 r^{2}(\mathbf{x}_{p}, \mathbf{x}_{q}; \boldsymbol{\ell})} \right\},
+</script>
+</p>
+<p>where</p>
+<p>
+<script type="math/tex; mode=display">
+r^{2}(\mathbf{x}_{p}, \mathbf{x}_{q}; \boldsymbol{\ell}) = (\mathbf{x}_p - \mathbf{x}_q)^{T} \text{diag}(\boldsymbol{\ell})^{-2} (\mathbf{x}_p - \mathbf{x}_q)
+</script>
+</p>
+<p>and <script type="math/tex"> \sigma_f^{2} </script> (the signal variance) and <script type="math/tex"> \boldsymbol{\ell} </script> (the characteristic length-scales) are its hyperparameters. That is,</p>
+<p>
+<script type="math/tex; mode=display">
+\boldsymbol{\theta} = \begin{bmatrix} \sigma_{f}^{2} \\ \boldsymbol{\ell} \end{bmatrix} \in \mathbb{R}^{n + 1}_{> 0}.
+</script>
+</p>
 <h2 id="useful-resources">Useful Resources</h2>
 <ul>
 <li>Carl Edward Rasmussen and Christopher K. I. Williams. 2006. Gaussian Processes for Machine Learning. The MIT Press. Online version: <a href="http://www.gaussianprocess.org/gpml/">http://www.gaussianprocess.org/gpml/</a></li>

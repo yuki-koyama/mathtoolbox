@@ -1,40 +1,55 @@
 # mathtoolbox
 
 [![Build Status](https://travis-ci.com/yuki-koyama/mathtoolbox.svg?branch=master)](https://travis-ci.com/yuki-koyama/mathtoolbox)
+![GitHub](https://img.shields.io/github/license/yuki-koyama/mathtoolbox)
 
-A library of mathematical tools (regression, interpolation, dimensionality reduction, clustering, etc.) written in C++11. Eigen <http://eigen.tuxfamily.org/> is used for the interface and internal vector/matrix representation.
+A library of mathematical tools (regression, interpolation, dimensionality reduction, clustering, etc.) written in C++11 and [Eigen](http://eigen.tuxfamily.org/).
 
-![](header.png)
+![](./header.png)
 
 ## Algorithms
 
 ### Scattered Data Interpolation and Function Approximation
 
-- [`rbf-interpolation`: Radial basis function (RBF) network](./rbf-interpolation/)
-- [`gaussian-process-regression`: Gaussian process regression (GPR)](./gaussian-process-regression/)
+- [`rbf-interpolation`: Radial basis function (RBF) network](https://yuki-koyama.github.io/mathtoolbox/rbf-interpolation/)
+- [`gaussian-process-regression`: Gaussian process regression (GPR)](https://yuki-koyama.github.io/mathtoolbox/gaussian-process-regression/)
 
 ### Dimensionality Reduction and Low-Dimensional Embedding
 
-- [`classical-mds`: Classical multi-dimensional scaling (MDS)](./classical-mds/)
+- [`classical-mds`: Classical multi-dimensional scaling (MDS)](https://yuki-koyama.github.io/mathtoolbox/classical-mds/)
 
 ### Numerical Optimization
 
-- [`backtracking-line-search`: Backtracking line search](./backtracking-line-search/)
-- [`bfgs`: BFGS method](./bfgs/)
-- [`l-bfgs`: Limited-memory BFGS method](./l-bfgs/)
-- [`strong-wolfe-conditions-line-search`: Strong Wolfe conditions line search](./strong-wolfe-conditions-line-search/)
+- [`backtracking-line-search`: Backtracking line search](https://yuki-koyama.github.io/mathtoolbox/backtracking-line-search/)
+- [`bfgs`: BFGS method](https://yuki-koyama.github.io/mathtoolbox/bfgs/)
+- [`l-bfgs`: Limited-memory BFGS method](https://yuki-koyama.github.io/mathtoolbox/l-bfgs/)
+- [`strong-wolfe-conditions-line-search`: Strong Wolfe conditions line search](https://yuki-koyama.github.io/mathtoolbox/strong-wolfe-conditions-line-search/)
+
+### Utilities
+
+- [`acquisition-functions`: Acquisition functions](https://yuki-koyama.github.io/mathtoolbox/acquisition-functions/)
+- [`constants`: Constants](https://yuki-koyama.github.io/mathtoolbox/constants/)
+- [`kernel-functions`: Kernel functions](https://yuki-koyama.github.io/mathtoolbox/kernel-functions/)
+- [`probability-distributions`: Probability distributions](https://yuki-koyama.github.io/mathtoolbox/probability-distributions/)
 
 ## Dependencies
 
-- Eigen <http://eigen.tuxfamily.org/>
-- NLopt <https://nlopt.readthedocs.io/> (included as gitsubmodule)
-- nlopt-util <https://github.com/yuki-koyama/nlopt-util> (included as gitsubmodule)
-- optimization-test-function <https://github.com/yuki-koyama/optimization-test-functions> (included as githsubmodule)
+### Main Library
+
+- Eigen <http://eigen.tuxfamily.org/> (`brew install eigen`)
+
+### Python Bindings
+
+- pybind11 <https://github.com/pybind/pybind11> (included as gitsubmodule)
+
+### Examples
+
+- optimization-test-function <https://github.com/yuki-koyama/optimization-test-functions> (included as gitsubmodule)
 
 ## Build and Installation
 
 mathtoolbox uses CMake <https://cmake.org/> for building source codes. This library can be built, for example, by
-```bash
+```
 git clone https://github.com/yuki-koyama/mathtoolbox.git --recursive
 cd mathtoolbox
 mkdir build
@@ -43,31 +58,38 @@ cmake ../
 make
 ```
 and optionally it can be installed to the system by
-```bash
+```
 make install
 ```
 
-When the CMake parameter `MATHTOOLBOX_BUILD_EXAMPLES` is set `ON`, the example applications are also built. (The default setting is `OFF`.) This is done by, for example,
-```bash
+When the CMake parameter `MATHTOOLBOX_BUILD_EXAMPLES` is set `ON`, the example applications are also built. (The default setting is `OFF`.) This is done by
+```
 cmake ../ -DMATHTOOLBOX_BUILD_EXAMPLES=ON
 make
 ```
 
-### Installing Prerequisites
+When the CMake parameter `MATHTOOLBOX_PYTHON_BINDINGS` is set `ON`, the example applications are also built. (The default setting is `OFF`.) This is done by
+```
+cmake ../ -DMATHTOOLBOX_PYTHON_BINDINGS=ON
+make
+```
+
+### Prerequisites
 
 macOS:
-```bash
+```
 brew install eigen
 ```
 
 Ubuntu:
-```bash
+```
 sudo apt install libeigen3-dev
 ```
 
 ## Projects Using mathtoolbox
 
 - SelPh <https://github.com/yuki-koyama/selph> (for `classical-mds`)
+- Sequential Line Search <https://github.com/yuki-koyama/sequential-line-search> (for `acquisition-functions`, `kernel-functions`, and `probability-distributions`)
 
 ## Licensing
 

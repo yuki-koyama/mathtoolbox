@@ -11,6 +11,8 @@ namespace mathtoolbox
         std::function<Eigen::VectorXd(const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&)>;
     using KernelThetaIDerivative =
         std::function<double(const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&, const int)>;
+    using KernelFirstArgDerivative =
+        std::function<Eigen::VectorXd(const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&)>;
 
     double GetArdSquaredExpKernel(const Eigen::VectorXd& x_a, const Eigen::VectorXd& x_b, const Eigen::VectorXd& theta);
 
@@ -33,6 +35,10 @@ namespace mathtoolbox
                                                 const Eigen::VectorXd& x_b,
                                                 const Eigen::VectorXd& theta,
                                                 const int              index);
+
+    Eigen::VectorXd GetArdMatern52KernelFirstArgDerivative(const Eigen::VectorXd& x_a,
+                                                           const Eigen::VectorXd& x_b,
+                                                           const Eigen::VectorXd& theta);
 } // namespace mathtoolbox
 
 #endif /* KERNEL_FUNCTIONS_HPP */

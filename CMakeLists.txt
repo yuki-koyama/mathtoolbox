@@ -53,7 +53,7 @@ target_include_directories(mathtoolbox PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/includ
 ######################################################################
 
 set(sources_python_bindings
-	${CMAKE_CURRENT_SOURCE_DIR}/src/python-bindings.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/pybind/python-bindings.cpp
 )
 
 if(MATHTOOLBOX_PYTHON_BINDINGS)

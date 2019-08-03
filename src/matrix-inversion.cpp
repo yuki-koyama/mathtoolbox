@@ -1,3 +1,4 @@
+#include <Eigen/LU>
 #include <mathtoolbox/matrix-inversion.hpp>
 
 using Eigen::MatrixXd;
@@ -19,16 +20,19 @@ MatrixXd mathtoolbox::GetInverseUsingUpperLeftBlockInverse(const MatrixXd& matri
     const Eigen::MatrixXd& C     = matrix.block(block_size, 0, size - block_size, block_size);
     const Eigen::MatrixXd& D     = matrix.block(block_size, block_size, size - block_size, size - block_size);
 
-    const Eigen::MatrixXd E; // TODO
+    const Eigen::MatrixXd E     = D - C * A_inv * B;
+    const Eigen::MatrixXd E_inv = E.inverse();
+
+    assert((E * E_inv).isApprox(MatrixXd::Identity(E.rows(), E.cols())));
 
     const Eigen::MatrixXd I = MatrixXd::Identity(block_size, block_size);
 
     Eigen::MatrixXd result(size, size);
 
-    result.block(0, 0, block_size, block_size)                                 = A_inv * (I + B * E * C * A_inv);
-    result.block(0, block_size, block_size, size - block_size)                 = -A_inv * B * E;
-    result.block(block_size, 0, size - block_size, block_size)                 = -E * C * A_inv;
-    result.block(block_size, block_size, size - block_size, size - block_size) = E;
+    result.block(0, 0, block_size, block_size)                                 = A_inv * (I + B * E_inv * C * A_inv);
+    result.block(0, block_size, block_size, size - block_size)                 = -A_inv * B * E_inv;
+    result.block(block_size, 0, size - block_size, block_size)                 = -E_inv * C * A_inv;
+    result.block(block_size, block_size, size - block_size, size - block_size) = E_inv;
 
     return result;
 }

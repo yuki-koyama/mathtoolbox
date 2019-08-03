@@ -34,5 +34,7 @@ MatrixXd mathtoolbox::GetInverseUsingUpperLeftBlockInverse(const MatrixXd& matri
     result.block(block_size, 0, size - block_size, block_size)                 = -E_inv * C * A_inv;
     result.block(block_size, block_size, size - block_size, size - block_size) = E_inv;
 
+    assert((matrix * result).isApprox(MatrixXd::Identity(size, size)));
+
     return result;
 }

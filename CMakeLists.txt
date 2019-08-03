@@ -41,30 +41,8 @@ endif()
 # Core library
 ######################################################################
 
-set(headers
-	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/acquisition-functions.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/backtracking-line-search.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/bfgs.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/classical-mds.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/constants.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/gaussian-process-regression.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/kernel-functions.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/l-bfgs.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/numerical-optimization.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/probability-distributions.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/rbf-interpolation.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/strong-wolfe-conditions-line-search.hpp
-)
-set(sources
-	${CMAKE_CURRENT_SOURCE_DIR}/src/acquisition-functions.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/bfgs.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/classical-mds.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/gaussian-process-regression.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/kernel-functions.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/l-bfgs.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/probability-distributions.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/rbf-interpolation.cpp
-)
+file(GLOB headers ${CMAKE_CURRENT_SOURCE_DIR}/include/mathtoolbox/*.hpp)
+file(GLOB sources ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
 add_library(mathtoolbox STATIC ${headers} ${sources})
 target_link_libraries(mathtoolbox PUBLIC Eigen3::Eigen)

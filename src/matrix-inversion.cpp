@@ -23,7 +23,7 @@ MatrixXd mathtoolbox::GetInverseUsingUpperLeftBlockInverse(const MatrixXd& matri
     const Eigen::MatrixXd E     = D - C * A_inv * B;
     const Eigen::MatrixXd E_inv = E.inverse();
 
-    assert((E * E_inv).isApprox(MatrixXd::Identity(E.rows(), E.cols())));
+    assert((E * E_inv - MatrixXd::Identity(E.rows(), E.cols())).cwiseAbs().maxCoeff() < 1e-10);
 
     const Eigen::MatrixXd I = MatrixXd::Identity(block_size, block_size);
 
@@ -34,7 +34,7 @@ MatrixXd mathtoolbox::GetInverseUsingUpperLeftBlockInverse(const MatrixXd& matri
     result.block(block_size, 0, size - block_size, block_size)                 = -E_inv * C * A_inv;
     result.block(block_size, block_size, size - block_size, size - block_size) = E_inv;
 
-    assert((matrix * result).isApprox(MatrixXd::Identity(size, size)));
+    assert((matrix * result - MatrixXd::Identity(size, size)).cwiseAbs().maxCoeff() < 1e-10);
 
     return result;
 }

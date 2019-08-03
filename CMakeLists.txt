@@ -76,6 +76,9 @@ if(MATHTOOLBOX_BUILD_EXAMPLES)
 	set(OTF_WITH_EIGEN ON CACHE INTERNAL "" FORCE)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/optimization-test-functions)
 
+	set(TIMER_BUILD_TEST OFF CACHE INTERNAL "" FORCE)
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/timer)
+
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/bfgs)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/classical-mds)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/gaussian-process-regression)

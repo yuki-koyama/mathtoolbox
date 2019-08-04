@@ -18,6 +18,8 @@ nav:
     - 'bfgs.md'
     - 'l-bfgs.md'
     - 'strong-wolfe-conditions-line-search.md'
+  - 'Linear Algebra':
+    - 'matrix-inversion.md'
   - 'Utilities':
     - 'acquisition-functions.md'
     - 'constants.md'

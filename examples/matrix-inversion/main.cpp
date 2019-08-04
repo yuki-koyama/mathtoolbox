@@ -50,7 +50,7 @@ int main(int argc, char** argv)
     t = nullptr;
 
     // Error check
-    if (!naive_result.isApprox(block_result, 1e-10)) { throw std::runtime_error("The results are not consistent."); }
+    if (!naive_result.isApprox(block_result, 1e-06)) { throw std::runtime_error("The results are not consistent."); }
 #else
     const int start_size = 100;
 
@@ -94,7 +94,7 @@ int main(int argc, char** argv)
         t = nullptr;
 
         // Error check
-        if (!naive_result.isApprox(block_result, 1e-10))
+        if (!naive_result.isApprox(block_result, 1e-06))
         { throw std::runtime_error("The results are not consistent."); }
 
         // Store the results for the next step

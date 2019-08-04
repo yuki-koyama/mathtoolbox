@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>backtracking-line-search - mathtoolbox</title>
+  <title>matrix-inversion - mathtoolbox</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
@@ -17,8 +17,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "backtracking-line-search";
-    var mkdocs_page_input_path = "backtracking-line-search.md";
+    var mkdocs_page_name = "matrix-inversion";
+    var mkdocs_page_input_path = "matrix-inversion.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -93,25 +93,9 @@
 		
     <span class="caption-text">Numerical Optimization</span>
     <ul class="subnav">
-                <li class=" current">
+                <li class="">
                     
-    <a class="current" href="./">backtracking-line-search</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l3"><a href="#backtracking-line-search">backtracking-line-search</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l4" href="#header">Header</a></li>
-        
-            <li><a class="toctree-l4" href="#math-and-algorithm">Math and Algorithm</a></li>
-        
-            <li><a class="toctree-l4" href="#useful-resources">Useful Resources</a></li>
-        
-        </ul>
-    
-
-    </ul>
+    <a class="" href="../backtracking-line-search/">backtracking-line-search</a>
                 </li>
                 <li class="">
                     
@@ -132,9 +116,25 @@
 		
     <span class="caption-text">Linear Algebra</span>
     <ul class="subnav">
-                <li class="">
+                <li class=" current">
                     
-    <a class="" href="../matrix-inversion/">matrix-inversion</a>
+    <a class="current" href="./">matrix-inversion</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#matrix-inversion">matrix-inversion</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#header">Header</a></li>
+        
+            <li><a class="toctree-l4" href="#block-matrix-inversion">Block Matrix Inversion</a></li>
+        
+            <li><a class="toctree-l4" href="#useful-resources">Useful Resources</a></li>
+        
+        </ul>
+    
+
+    </ul>
                 </li>
     </ul>
 	    </li>
@@ -184,14 +184,14 @@
     
       
         
-          <li>Numerical Optimization &raquo;</li>
+          <li>Linear Algebra &raquo;</li>
         
       
     
-    <li>backtracking-line-search</li>
+    <li>matrix-inversion</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/yuki-koyama/mathtoolbox/edit/master/docs/backtracking-line-search.md"
+        <a href="https://github.com/yuki-koyama/mathtoolbox/edit/master/docs/matrix-inversion.md"
           class="icon icon-github"> Edit on GitHub</a>
       
     </li>
@@ -201,17 +201,54 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="backtracking-line-search">backtracking-line-search</h1>
-<p>A line search method for finding a step size that satisfies the Armijo (i.e., sufficient decrease) condition based on a simple backtracking procedure.</p>
+                <h1 id="matrix-inversion">matrix-inversion</h1>
+<p>Matrix inversion techniques.</p>
 <h2 id="header">Header</h2>
-<pre><code class="cpp">#include &lt;mathtoolbox/backtracking-line-search.hpp&gt;
+<pre><code class="cpp">#include &lt;mathtoolbox/matrix-inversion.hpp&gt;
 </code></pre>
 
-<h2 id="math-and-algorithm">Math and Algorithm</h2>
-<p>We follow <a href="https://doi.org/10.1007/978-0-387-40065-5">Nocedal and Wright (2006)</a> (Chapter 3, specifically Algorithm 3.1).</p>
+<h2 id="block-matrix-inversion">Block Matrix Inversion</h2>
+<h3 id="about">About</h3>
+<p>Inverse of a block (partitioned) matrix</p>
+<p>
+<script type="math/tex; mode=display">
+\mathbf{X}
+=
+\begin{bmatrix}
+  \mathbf{A} & \mathbf{B} \\
+  \mathbf{C} & \mathbf{D}
+\end{bmatrix},
+</script>
+</p>
+<p>where <script type="math/tex">\mathbf{A}</script> and <script type="math/tex">\mathbf{D}</script> are square matrices, can be calculated as</p>
+<p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+  \mathbf{A} & \mathbf{B} \\
+  \mathbf{C} & \mathbf{D}
+\end{bmatrix}^{-1}
+=
+\begin{bmatrix}
+  \mathbf{A}^{-1} ( \mathbf{I} + \mathbf{B} ( \mathbf{D} - \mathbf{C} \mathbf{A}^{-1} \mathbf{B} )^{-1} \mathbf{C} \mathbf{A}^{-1} ) &
+  - \mathbf{A}^{-1} \mathbf{B} ( \mathbf{D} - \mathbf{C} \mathbf{A}^{-1} \mathbf{B} )^{-1} \\
+  - ( \mathbf{D} - \mathbf{C} \mathbf{A}^{-1} \mathbf{B} )^{-1} \mathbf{C} \mathbf{A}^{-1} &
+  ( \mathbf{D} - \mathbf{C} \mathbf{A}^{-1} \mathbf{B} )^{-1}
+\end{bmatrix}
+</script>
+</p>
+<p>This technique is useful particularly when <script type="math/tex">\mathbf{A}</script> is relatively large (compared to <script type="math/tex">\mathbf{D}</script>) and <script type="math/tex">\mathbf{A}^{-1}</script> is known.</p>
+<h3 id="api">API</h3>
+<p>This module provides the following function:</p>
+<pre><code class="cpp">Eigen::MatrixXd GetInverseUsingUpperLeftBlockInverse(const Eigen::MatrixXd&amp; matrix,
+                                                     const Eigen::MatrixXd&amp; upper_left_block_inverse);
+</code></pre>
+
+<p>where <code>upper_left_block_inverse</code> corresponds to <script type="math/tex">\mathbf{A}^{-1}</script>.</p>
+<h3 id="performance-casual-comparison">Performance (Casual Comparison)</h3>
+<p>When <script type="math/tex">\mathbf{X}</script> was a random matrix, and the size of <script type="math/tex">\mathbf{X}</script> was 3,000 and that of <script type="math/tex">\mathbf{A}</script> was 2,999, a naive approach (i.e., the LU decomposition from Eigen) took 5847 milliseconds to obtain <script type="math/tex">\mathbf{X}^{-1}</script> while the block inversion approach took only 121 milliseconds.</p>
 <h2 id="useful-resources">Useful Resources</h2>
 <ul>
-<li>Jorge Nocedal and Stephen J. Wright. 2006. Numerical optimization (2nd ed.). Springer. DOI: <a href="https://doi.org/10.1007/978-0-387-40065-5">https://doi.org/10.1007/978-0-387-40065-5</a></li>
+<li>Block matrix - Wikipedia. <a href="https://en.wikipedia.org/wiki/Block_matrix">https://en.wikipedia.org/wiki/Block_matrix</a>.</li>
 </ul>
               
             </div>
@@ -220,10 +257,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../bfgs/" class="btn btn-neutral float-right" title="bfgs">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../acquisition-functions/" class="btn btn-neutral float-right" title="acquisition-functions">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../classical-mds/" class="btn btn-neutral" title="classical-mds"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../strong-wolfe-conditions-line-search/" class="btn btn-neutral" title="strong-wolfe-conditions-line-search"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -251,10 +288,10 @@
           <a href="https://github.com/yuki-koyama/mathtoolbox/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../classical-mds/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../strong-wolfe-conditions-line-search/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../bfgs/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../acquisition-functions/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

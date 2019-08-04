@@ -25,6 +25,10 @@ A library of mathematical tools (regression, interpolation, dimensionality reduc
 - [`l-bfgs`: Limited-memory BFGS method](https://yuki-koyama.github.io/mathtoolbox/l-bfgs/)
 - [`strong-wolfe-conditions-line-search`: Strong Wolfe conditions line search](https://yuki-koyama.github.io/mathtoolbox/strong-wolfe-conditions-line-search/)
 
+### Linear Algebra
+
+- [`matrix-inversion`: Matrix inversion techniques](https://yuki-koyama.github.io/mathtoolbox/matrix-inversion/)
+
 ### Utilities
 
 - [`acquisition-functions`: Acquisition functions](https://yuki-koyama.github.io/mathtoolbox/acquisition-functions/)

@@ -195,7 +195,7 @@ namespace mathtoolbox
             m_kernel                    = GetArdSquaredExpKernel;
             m_kernel_theta_i_derivative = GetArdSquaredExpKernelThetaIDerivative;
             break;
-        case KernelType::Matern52:
+        case KernelType::ArdMatern52:
             m_kernel                    = GetArdMatern52Kernel;
             m_kernel_theta_i_derivative = GetArdMatern52KernelThetaIDerivative;
             break;

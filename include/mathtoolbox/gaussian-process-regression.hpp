@@ -12,13 +12,13 @@ namespace mathtoolbox
         enum class KernelType
         {
             ArdSquaredExp,
-            Matern52
+            ArdMatern52
         };
 
         // Construction with input data
         GaussianProcessRegression(const Eigen::MatrixXd& X,
                                   const Eigen::VectorXd& y,
-                                  const KernelType       kernel_type = KernelType::Matern52);
+                                  const KernelType       kernel_type = KernelType::ArdMatern52);
 
         // Estimation methods
         double EstimateY(const Eigen::VectorXd& x) const;

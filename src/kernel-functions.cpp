@@ -88,6 +88,20 @@ double mathtoolbox::GetArdSquaredExpKernelThetaIDerivative(const VectorXd& x_a,
     }
 }
 
+Eigen::VectorXd mathtoolbox::GetArdSquaredExpKernelFirstArgDerivative(const Eigen::VectorXd& x_a,
+                                                                      const Eigen::VectorXd& x_b,
+                                                                      const Eigen::VectorXd& theta)
+{
+    assert(x_a.size() == x_b.size());
+    assert(x_a.size() == theta.size() - 1);
+
+    const int       dim           = x_a.size();
+    const VectorXd& length_scales = theta.segment(1, dim);
+    const double    k             = GetArdSquaredExpKernel(x_a, x_b, theta);
+
+    return - 2.0 * k * length_scales.array().square().inverse().matrix().asDiagonal() * (x_a - x_b);
+}
+
 double mathtoolbox::GetArdMatern52Kernel(const VectorXd& x_a, const VectorXd& x_b, const VectorXd& theta)
 {
     assert(x_a.size() == x_b.size());

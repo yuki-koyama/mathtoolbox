@@ -21,8 +21,8 @@ namespace mathtoolbox
                                   const KernelType       kernel_type = KernelType::ArdMatern52);
 
         // Estimation methods
-        double EstimateY(const Eigen::VectorXd& x) const;
-        double EstimateVariance(const Eigen::VectorXd& x) const;
+        double PredictMean(const Eigen::VectorXd& x) const;
+        double PredictVariance(const Eigen::VectorXd& x) const;
 
         // Hyperparameters setup methods
         void SetHyperparameters(double sigma_squared_f, double sigma_squared_n, const Eigen::VectorXd& length_scales);
@@ -31,7 +31,7 @@ namespace mathtoolbox
                                       const Eigen::VectorXd& length_scales_initial);
 
         // Getter methods
-        const Eigen::MatrixXd& GetX() const { return m_X; }
+        const Eigen::MatrixXd& GetLargeX() const { return m_X; }
         const Eigen::VectorXd& GetY() const { return m_y; }
 
     private:

@@ -345,14 +345,14 @@ namespace mathtoolbox
         m_K_y_inv = m_K_y.inverse();
     }
 
-    double GaussianProcessRegression::EstimateY(const VectorXd& x) const
+    double GaussianProcessRegression::PredictMean(const VectorXd& x) const
     {
         const VectorXd k = CalculateSmallK(x, m_X, m_kernel_hyperparameters, m_kernel);
 
         return k.transpose() * m_K_y_inv * m_y;
     }
 
-    double GaussianProcessRegression::EstimateVariance(const VectorXd& x) const
+    double GaussianProcessRegression::PredictVariance(const VectorXd& x) const
     {
         const VectorXd k    = CalculateSmallK(x, m_X, m_kernel_hyperparameters, m_kernel);
         const double   k_xx = m_kernel_hyperparameters[0];

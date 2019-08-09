@@ -217,7 +217,7 @@
 <p>The input consists of a set of <script type="math/tex"> N </script> scattered data points:</p>
 <p>
 <script type="math/tex; mode=display">
-\{ (\mathbf{x}_i, y_i) \}_{i = 1, \ldots, N},
+\{ (\mathbf{x}_i, y_i) \}_{i = 1}^{N},
 </script>
 </p>
 <p>where <script type="math/tex"> \mathbf{x}_i \in \mathbb{R}^D </script> is the <script type="math/tex"> i </script>-th data point location in a <script type="math/tex"> D </script>-dimensional space and <script type="math/tex"> y_i \in \mathbb{R} </script> is its associated value. This input data is also denoted as</p>
@@ -232,19 +232,39 @@
 \mathbf{y} = \begin{bmatrix} y_1 \\ \vdots \\ y_N \end{bmatrix} \in \mathbb{R}^{N}.
 </script>
 </p>
-<h3 id="output">Output</h3>
-<p>Given the data and some "Gaussian process" assumptions, GPR can calculate the most likely value <script type="math/tex"> y </script> and its variance <script type="math/tex"> \text{Var}(y) </script> for an arbitrary location <script type="math/tex"> \mathbf{x} </script>.</p>
-<p>The variance roughly indicates how uncertain the estimation is. For example, when this value is large, the estimated value may not be very trustful (this often occurs in regions with less data points).</p>
-<p>Note that a 95%-confidence interval can be obtained by <script type="math/tex"> [ y - 1.96 \sqrt{\text{Var}(y)}, y + 1.96 \sqrt{\text{Var}(y)} ] </script>.</p>
-<h2 id="math">Math</h2>
-<h3 id="coveriance-function">Coveriance Function</h3>
-<p>The automatic relevance determination (ARD) squared exponential kernel is used:</p>
+<p>Here, each observed values <script type="math/tex"> y_i </script> is assumed to be a noisy version of the corresponding latent function value <script type="math/tex"> f_i = f(\mathbf{x}_i) </script>. More specifically,</p>
 <p>
 <script type="math/tex; mode=display">
-k(\mathbf{x}_p, \mathbf{x}_q) = \sigma_f^{2} \exp \left( - \frac{1}{2} (\mathbf{x}_p - \mathbf{x}_q)^{T} \text{diag}(\boldsymbol{\ell})^{-2} (\mathbf{x}_p - \mathbf{x}_q) \right) + \sigma_n^{2} \delta_{pq},
+y_i = f_i + \delta,
 </script>
 </p>
-<p>where <script type="math/tex"> \sigma_f^{2} </script> (the signal variance), <script type="math/tex"> \sigma_n^{2} </script> (the noise level), and <script type="math/tex"> \boldsymbol{\ell} </script> (the characteristic length-scales) are hyperparameters.</p>
+<p>where</p>
+<p>
+<script type="math/tex; mode=display">
+\delta \sim \mathcal{N}(0, \sigma_n^{2}).
+</script>
+</p>
+<p>
+<script type="math/tex"> \sigma_n^{2} </script> (the noise variance) is considered as one of the hyperparamters of this model.</p>
+<h3 id="output">Output</h3>
+<p>Given the data and the <em>Gaussian process</em> assumption, GPR can calculate the most likely value <script type="math/tex"> f_{*} </script> and its variance <script type="math/tex"> \text{Var}(f_{*}) </script> for an arbitrary location <script type="math/tex"> \mathbf{x}_{*} </script>.</p>
+<p>The variance roughly indicates how uncertain the estimation is. For example, when this value is large, the estimated value may not be very trustful (this often occurs in regions with less data points).</p>
+<p>Note that, as the predicted value follows a Gaussian, its 95%-confidence interval can be obtained by <script type="math/tex"> [ f_{*} - 1.96 \sqrt{\text{Var}(f_{*})}, f_{*} + 1.96 \sqrt{\text{Var}(f_{*})} ] </script>.</p>
+<h2 id="math">Math</h2>
+<h3 id="covariance-function">Covariance Function</h3>
+<p>The automatic relevance determination (ARD) Matern 5/2 kernel is the default choice:</p>
+<p>
+<script type="math/tex; mode=display">
+k(\mathbf{x}_p, \mathbf{x}_q ; \sigma_f^{2}, \boldsymbol{\ell}) = \sigma_f^{2} \left( 1 + \sqrt{5 r^{2}(\mathbf{x}_{p}, \mathbf{x}_{q}; \boldsymbol{\ell})} + \frac{5}{3} r^{2}(\mathbf{x}_{p}, \mathbf{x}_{q}; \boldsymbol{\ell}) \right) \exp \left\{ - \sqrt{5 r^{2}(\mathbf{x}_{p}, \mathbf{x}_{q}; \boldsymbol{\ell})} \right\},
+</script>
+</p>
+<p>where</p>
+<p>
+<script type="math/tex; mode=display">
+r^{2}(\mathbf{x}_{p}, \mathbf{x}_{q}; \boldsymbol{\ell}) = (\mathbf{x}_p - \mathbf{x}_q)^{T} \text{diag}(\boldsymbol{\ell})^{-2} (\mathbf{x}_p - \mathbf{x}_q)
+</script>
+</p>
+<p>and <script type="math/tex"> \sigma_f^{2} </script> (the signal variance) and <script type="math/tex"> \boldsymbol{\ell} </script> (the characteristic length-scales) are its hyperparameters.</p>
 <h3 id="mean-function">Mean Function</h3>
 <p>A constant-value function is used:</p>
 <p>
@@ -276,7 +296,8 @@ m(\mathbf{x}) = 0.
 <h3 id="instantiation-and-data-specification">Instantiation and Data Specification</h3>
 <p>A GPR object is instantiated with data specification in its constructor:</p>
 <pre><code class="cpp">GaussianProcessRegression(const Eigen::MatrixXd&amp; X,
-                          const Eigen::VectorXd&amp; y);
+                          const Eigen::VectorXd&amp; y,
+                          const KernelType       kernel_type = KernelType::ArdMatern52);
 </code></pre>
 
 <h3 id="hyperparameter-selection">Hyperparameter Selection</h3>
@@ -293,12 +314,12 @@ m(\mathbf{x}) = 0.
 </code></pre>
 
 <h3 id="estimation">Estimation</h3>
-<p>Once a GPR object is instantiated and its hyperparameters are set, it is ready for estimation. For an unknown location <script type="math/tex"> \mathbf{x} </script>, the GPR object estimates the most likely value <script type="math/tex"> y </script> by the following method:</p>
-<pre><code class="cpp">double EstimateY(const Eigen::VectorXd&amp; x) const;
+<p>Once a GPR object is instantiated and its hyperparameters are set, it is ready for estimation. For an unknown location <script type="math/tex"> \mathbf{x} </script>, the GPR object estimates the most likely value <script type="math/tex"> f </script> by the following method:</p>
+<pre><code class="cpp">double PredictMean(const Eigen::VectorXd&amp; x) const;
 </code></pre>
 
-<p>It also estimates the variance <script type="math/tex"> \text{Var}(y) </script> by the following method:</p>
-<pre><code class="cpp">double EstimateVariance(const Eigen::VectorXd&amp; x) const;
+<p>It also estimates the variance <script type="math/tex"> \text{Var}(f) </script> by the following method:</p>
+<pre><code class="cpp">double PredictVariance(const Eigen::VectorXd&amp; x) const;
 </code></pre>
 
 <h2 id="useful-resources">Useful Resources</h2>

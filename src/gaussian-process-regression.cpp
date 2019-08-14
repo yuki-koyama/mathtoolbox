@@ -1,3 +1,4 @@
+#include <Eigen/Cholesky>
 #include <Eigen/LU>
 #include <iostream>
 #include <mathtoolbox/constants.hpp>
@@ -116,16 +117,14 @@ namespace
         const int      N   = X.cols();
         const MatrixXd K_y = CalculateLargeKY(X, sigma_squared_n, kernel_hyperparameters, kernel);
 
-        const Eigen::FullPivLU<MatrixXd> lu(K_y);
+        const Eigen::LLT<MatrixXd> K_y_llt(K_y);
 
-        if (!lu.isInvertible()) { throw std::runtime_error("Non-invertible K_y is detected."); }
-
-        const MatrixXd K_y_inv = lu.inverse();
-        const double   K_y_det = lu.determinant();
+        const VectorXd K_y_inv_y   = K_y_llt.solve(y);
+        const double   log_K_y_det = 2.0 * K_y_llt.matrixL().toDenseMatrix().diagonal().array().log().sum();
 
         // Equation 5.8 [Rasmuss and Williams 2006]
-        const double term1 = -0.5 * y.transpose() * K_y_inv * y;
-        const double term2 = -0.5 * std::log(K_y_det);
+        const double term1 = -0.5 * y.transpose() * K_y_inv_y;
+        const double term2 = -0.5 * log_K_y_det;
         const double term3 = -0.5 * N * std::log(2.0 * mathtoolbox::constants::pi);
 
         if (std::isinf(term2)) { throw std::runtime_error("Inf is detected."); }

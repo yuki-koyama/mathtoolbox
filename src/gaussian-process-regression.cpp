@@ -122,7 +122,7 @@ namespace
         const VectorXd K_y_inv_y   = K_y_llt.solve(y);
         const double   log_K_y_det = 2.0 * K_y_llt.matrixL().toDenseMatrix().diagonal().array().log().sum();
 
-        // Equation 5.8 [Rasmuss and Williams 2006]
+        // Equation 5.8 [Rasmussen and Williams 2006]
         const double term1 = -0.5 * y.transpose() * K_y_inv_y;
         const double term2 = -0.5 * log_K_y_det;
         const double term3 = -0.5 * N * std::log(2.0 * mathtoolbox::constants::pi);
@@ -145,7 +145,7 @@ namespace
         const MatrixXd K_y_inv = K_y.inverse();
 
         const double log_likeliehood_gradient_sigma_squared_f = [&]() {
-            // Equation 5.9 [Rasmuss and Williams 2006]
+            // Equation 5.9 [Rasmussen and Williams 2006]
             const MatrixXd K_gradient_sigma_squared_f =
                 CalculateLargeKYGradientKernelHyperparametersI(X, kernel_hyperparameters, 0, kernel_theta_i_derivative);
             const double term1 = +0.5 * y.transpose() * K_y_inv * K_gradient_sigma_squared_f * K_y_inv * y;
@@ -154,7 +154,7 @@ namespace
         }();
 
         const double log_likeliehood_gradient_sigma_squared_n = [&]() {
-            // Equation 5.9 [Rasmuss and Williams 2006]
+            // Equation 5.9 [Rasmussen and Williams 2006]
             const MatrixXd K_gradient_sigma_squared_n = CalculateLargeKGradientSigmaSquaredN(X, sigma_squared_n);
             const double   term1 = +0.5 * y.transpose() * K_y_inv * K_gradient_sigma_squared_n * K_y_inv * y;
             const double   term2 = -0.5 * (K_y_inv * K_gradient_sigma_squared_n).trace();
@@ -162,7 +162,7 @@ namespace
         }();
 
         const VectorXd log_likelihood_gradient_length_scales = [&]() {
-            // Equation 5.9 [Rasmuss and Williams 2006]
+            // Equation 5.9 [Rasmussen and Williams 2006]
             VectorXd log_likelihood_gradient_length_scales(D);
             for (int i = 0; i < D; ++i)
             {

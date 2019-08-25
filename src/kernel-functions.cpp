@@ -193,8 +193,12 @@ mathtoolbox::GetArdMatern52KernelFirstArgDerivative(const VectorXd& x_a, const V
     const double scale_term          = 1.0 + sqrt_of_5_r_squared + (5.0 / 3.0) * r_squared;
     const double exp_term            = std::exp(-sqrt_of_5_r_squared);
 
+    // When x_a is very similar to x_b, the following calculation becomes numerically unstable. To avoid this, here the
+    // derivative is simply approximated to a zero vector.
+    if (sqrt_of_5_r_squared < 1e-30) { return Eigen::VectorXd::Zero(dim); }
+
     const VectorXd r_squared_first_arg_derivative =
-        2.0 * length_scales.array().square().inverse().matrix().asDiagonal() * (x_a - x_b);
+        2.0 * length_scales.array().square().inverse().matrix().asDiagonal() * diff;
     const VectorXd sqrt_of_5_r_squared_first_arg_derivative =
         0.5 * std::sqrt(5.0 / r_squared) * r_squared_first_arg_derivative;
     const VectorXd exp_term_first_arg_derivative = -sqrt_of_5_r_squared_first_arg_derivative * exp_term;

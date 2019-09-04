@@ -1,6 +1,8 @@
 #ifndef PROBABILITY_DISTRIBUTIONS_HPP
 #define PROBABILITY_DISTRIBUTIONS_HPP
 
+#include <Eigen/Core>
+
 namespace mathtoolbox
 {
     // N(x | 0, 1)
@@ -29,6 +31,9 @@ namespace mathtoolbox
 
     // d/dx log{ LogNormal(x | mu, sigma^2) }
     double GetLogOfLogNormalDistDerivative(const double x, const double mu, const double sigma_2);
+
+    // N(x | mu, Sigma)
+    double GetNormalDist(const Eigen::VectorXd& x, const Eigen::VectorXd& mu, const Eigen::MatrixXd& Sigma_inv, const double Sigma_det);
 } // namespace mathtoolbox
 
 #endif /* PROBABILITY_DISTRIBUTIONS_HPP */

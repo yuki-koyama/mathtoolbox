@@ -55,3 +55,11 @@ double mathtoolbox::GetLogOfLogNormalDistDerivative(const double x, const double
 {
     return (mu - std::log(x) - sigma_2) / (x * sigma_2);
 }
+
+double mathtoolbox::GetNormalDist(const Eigen::VectorXd& x, const Eigen::VectorXd& mu, const Eigen::MatrixXd& Sigma_inv, const double Sigma_det)
+{
+    const double          coeff = std::pow(2.0 * constants::pi, -0.5 * mu.size()) * std::pow(Sigma_det, -0.5);
+    const Eigen::VectorXd r     = x - mu;
+
+    return coeff * std::exp(-0.5 * (r.transpose() * Sigma_inv * r)(0, 0));
+}

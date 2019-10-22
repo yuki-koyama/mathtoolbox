@@ -10,7 +10,7 @@ Acquisition functions for Bayesian optimization
 
 ## Overview
 
-The following acquisition functions are supported:
+The following acquisition functions (and their derivatives with respect to the data point) are supported:
 
 - Expected improvement (EI)
 

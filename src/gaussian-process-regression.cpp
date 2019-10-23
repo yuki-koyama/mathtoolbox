@@ -127,7 +127,10 @@ namespace
         const double term2 = -0.5 * log_K_y_det;
         const double term3 = -0.5 * N * std::log(2.0 * mathtoolbox::constants::pi);
 
-        if (std::isinf(term2)) { throw std::runtime_error("Inf is detected."); }
+        if (std::isinf(term2))
+        {
+            throw std::runtime_error("Inf is detected.");
+        }
 
         return term1 + term2 + term3;
     }

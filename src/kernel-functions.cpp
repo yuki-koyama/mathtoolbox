@@ -163,7 +163,10 @@ double mathtoolbox::GetArdMatern52KernelThetaIDerivative(const VectorXd& x_a,
     const double scale_term          = 1.0 + sqrt_of_5_r_squared + (5.0 / 3.0) * r_squared;
     const double exp_term            = std::exp(-sqrt_of_5_r_squared);
 
-    if (index == 0) { return scale_term * exp_term; }
+    if (index == 0)
+    {
+        return scale_term * exp_term;
+    }
     else
     {
         const int i = index - 1;
@@ -195,7 +198,10 @@ mathtoolbox::GetArdMatern52KernelFirstArgDerivative(const VectorXd& x_a, const V
 
     // When x_a is very similar to x_b, the following calculation becomes numerically unstable. To avoid this, here the
     // derivative is simply approximated to a zero vector.
-    if (sqrt_of_5_r_squared < 1e-30) { return Eigen::VectorXd::Zero(dim); }
+    if (sqrt_of_5_r_squared < 1e-30)
+    {
+        return Eigen::VectorXd::Zero(dim);
+    }
 
     const VectorXd r_squared_first_arg_derivative =
         2.0 * length_scales.array().square().inverse().matrix().asDiagonal() * diff;

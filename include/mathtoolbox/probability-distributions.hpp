@@ -33,7 +33,10 @@ namespace mathtoolbox
     double GetLogOfLogNormalDistDerivative(const double x, const double mu, const double sigma_2);
 
     // N(x | mu, Sigma)
-    double GetNormalDist(const Eigen::VectorXd& x, const Eigen::VectorXd& mu, const Eigen::MatrixXd& Sigma_inv, const double Sigma_det);
+    double GetNormalDist(const Eigen::VectorXd& x,
+                         const Eigen::VectorXd& mu,
+                         const Eigen::MatrixXd& Sigma_inv,
+                         const double           Sigma_det);
 } // namespace mathtoolbox
 
 #endif /* PROBABILITY_DISTRIBUTIONS_HPP */

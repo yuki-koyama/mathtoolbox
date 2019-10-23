@@ -1,8 +1,8 @@
 #ifndef RBF_INTERPOLATION_HPP
 #define RBF_INTERPOLATION_HPP
 
-#include <vector>
 #include <Eigen/Core>
+#include <vector>
 
 namespace mathtoolbox
 {
@@ -30,7 +30,6 @@ namespace mathtoolbox
         const Eigen::VectorXd& GetW() const { return w; }
 
     private:
-
         // Function type
         RbfType rbf_type;
 
@@ -50,6 +49,6 @@ namespace mathtoolbox
         // Returns f(||xj - xi||)
         double GetRbfValue(const Eigen::VectorXd& xi, const Eigen::VectorXd& xj) const;
     };
-}
+} // namespace mathtoolbox
 
 #endif // RBF_INTERPOLATION_HPP

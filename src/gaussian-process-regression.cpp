@@ -193,14 +193,18 @@ namespace mathtoolbox
     {
         switch (kernel_type)
         {
-        case KernelType::ArdSquaredExp:
-            m_kernel                    = GetArdSquaredExpKernel;
-            m_kernel_theta_i_derivative = GetArdSquaredExpKernelThetaIDerivative;
-            break;
-        case KernelType::ArdMatern52:
-            m_kernel                    = GetArdMatern52Kernel;
-            m_kernel_theta_i_derivative = GetArdMatern52KernelThetaIDerivative;
-            break;
+            case KernelType::ArdSquaredExp:
+            {
+                m_kernel                    = GetArdSquaredExpKernel;
+                m_kernel_theta_i_derivative = GetArdSquaredExpKernelThetaIDerivative;
+                break;
+            }
+            case KernelType::ArdMatern52:
+            {
+                m_kernel                    = GetArdMatern52Kernel;
+                m_kernel_theta_i_derivative = GetArdMatern52KernelThetaIDerivative;
+                break;
+            }
         }
 
         const int D = X.rows();

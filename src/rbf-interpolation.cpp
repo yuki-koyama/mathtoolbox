@@ -1,22 +1,18 @@
-#include <mathtoolbox/rbf-interpolation.hpp>
-#include <cmath>
 #include <Eigen/LU>
+#include <cmath>
+#include <mathtoolbox/rbf-interpolation.hpp>
 
-using std::vector;
-using Eigen::VectorXd;
-using Eigen::MatrixXd;
 using Eigen::FullPivLU;
 using Eigen::Map;
+using Eigen::MatrixXd;
+using Eigen::VectorXd;
+using std::vector;
 
 namespace mathtoolbox
 {
     extern inline VectorXd SolveLinearSystem(const MatrixXd& A, const VectorXd& y);
 
-    RbfInterpolation::RbfInterpolation(RbfType rbf_type, double epsilon) :
-    rbf_type(rbf_type),
-    epsilon(epsilon)
-    {
-    }
+    RbfInterpolation::RbfInterpolation(RbfType rbf_type, double epsilon) : rbf_type(rbf_type), epsilon(epsilon) {}
 
     void RbfInterpolation::SetData(const Eigen::MatrixXd& X, const Eigen::VectorXd& y)
     {
@@ -30,9 +26,9 @@ namespace mathtoolbox
         const int dim = y.rows();
 
         MatrixXd Phi = MatrixXd::Zero(dim, dim);
-        for (int i = 0; i < dim; ++ i)
+        for (int i = 0; i < dim; ++i)
         {
-            for (int j = i; j < dim; ++ j)
+            for (int j = i; j < dim; ++j)
             {
                 Phi(i, j) = Phi(j, i) = GetRbfValue(X.col(i), X.col(j));
             }
@@ -49,7 +45,7 @@ namespace mathtoolbox
         const int dim = w.rows();
 
         double result = 0.0;
-        for (int i = 0; i < dim; ++ i)
+        for (int i = 0; i < dim; ++i)
         {
             result += w(i) * GetRbfValue(x, X.col(i));
         }
@@ -63,7 +59,7 @@ namespace mathtoolbox
         {
             case RbfType::Gaussian:
             {
-                return std::exp(- std::pow((epsilon * r), 2.0));
+                return std::exp(-std::pow((epsilon * r), 2.0));
             }
             case RbfType::ThinPlateSpline:
             {
@@ -96,4 +92,4 @@ namespace mathtoolbox
         FullPivLU<MatrixXd> lu(A);
         return lu.solve(y);
     }
-}
+} // namespace mathtoolbox

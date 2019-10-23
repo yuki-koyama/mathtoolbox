@@ -1,12 +1,10 @@
-#include <mathtoolbox/classical-mds.hpp>
-#include <vector>
-#include <utility>
 #include <cassert>
+#include <mathtoolbox/classical-mds.hpp>
+#include <utility>
+#include <vector>
 
 // Extract the N-largest eigen values and eigen vectors
-inline void ExtractNLargestEigens(unsigned n,
-                                  Eigen::VectorXd& S,
-                                  Eigen::MatrixXd& V)
+inline void ExtractNLargestEigens(unsigned n, Eigen::VectorXd& S, Eigen::MatrixXd& V)
 {
     // Note: m is the original dimension
     const unsigned m = S.rows();
@@ -15,9 +13,9 @@ inline void ExtractNLargestEigens(unsigned n,
     const Eigen::MatrixXd original_V = V;
 
     // Sort by eigenvalue
-    constexpr double epsilon = 1e-16;
+    constexpr double                         epsilon = 1e-16;
     std::vector<std::pair<double, unsigned>> index_value_pairs(m);
-    for (unsigned i = 0; i < m; ++ i)
+    for (unsigned i = 0; i < m; ++i)
     {
         index_value_pairs[i] = std::make_pair(std::max(S(i), epsilon), i);
     }
@@ -31,25 +29,32 @@ inline void ExtractNLargestEigens(unsigned n,
     V.resize(m, n);
 
     // Set values
-    for (unsigned i = 0; i < n; ++ i)
+    for (unsigned i = 0; i < n; ++i)
     {
         S(i)     = index_value_pairs[i].first;
         V.col(i) = original_V.col(index_value_pairs[i].second);
     }
 }
 
-Eigen::MatrixXd mathtoolbox::ComputeClassicalMds(const Eigen::MatrixXd& D,
-                                                 unsigned dim)
+Eigen::MatrixXd mathtoolbox::ComputeClassicalMds(const Eigen::MatrixXd& D, unsigned dim)
 {
     assert(D.rows() == D.cols());
     assert(D.rows() >= dim);
-    const unsigned n = D.rows();
-    const Eigen::MatrixXd H = Eigen::MatrixXd::Identity(n, n) - (1.0 / static_cast<double>(n)) * Eigen::VectorXd::Ones(n) * Eigen::VectorXd::Ones(n).transpose();
-    const Eigen::MatrixXd K = - 0.5 * H * D.cwiseAbs2() * H;
+
+    const unsigned        n    = D.rows();
+    const Eigen::VectorXd ones = Eigen::VectorXd::Ones(n);
+    const Eigen::MatrixXd I    = Eigen::MatrixXd::Identity(n, n);
+
+    const Eigen::MatrixXd H = I - (1.0 / static_cast<double>(n)) * ones * ones.transpose();
+    const Eigen::MatrixXd K = -0.5 * H * D.cwiseAbs2() * H;
+
     const Eigen::EigenSolver<Eigen::MatrixXd> solver(K);
-    Eigen::VectorXd S = solver.eigenvalues().real();
-    Eigen::MatrixXd V = solver.eigenvectors().real();
+    Eigen::VectorXd                           S = solver.eigenvalues().real();
+    Eigen::MatrixXd                           V = solver.eigenvectors().real();
+
     ExtractNLargestEigens(dim, S, V);
+
     const Eigen::MatrixXd X = Eigen::DiagonalMatrix<double, Eigen::Dynamic>(S.cwiseSqrt()) * V.transpose();
+
     return X;
 }

@@ -1,11 +1,11 @@
 #ifndef NUMERICAL_OPTIMIZATION_HPP
 #define NUMERICAL_OPTIMIZATION_HPP
 
+#include <Eigen/Core>
+#include <functional>
 #include <mathtoolbox/bfgs.hpp>
 #include <mathtoolbox/l-bfgs.hpp>
-#include <functional>
 #include <stdexcept>
-#include <Eigen/Core>
 
 namespace mathtoolbox
 {
@@ -13,23 +13,25 @@ namespace mathtoolbox
     {
         enum class Algorithm
         {
-            Bfgs, LBfgs
+            Bfgs,
+            LBfgs
         };
 
         enum class Type
         {
-            Min, Max
+            Min,
+            Max
         };
 
         struct Setting
         {
-            Algorithm algorithm                                      = Algorithm::Bfgs;
-            Eigen::VectorXd x_init                                   = Eigen::VectorXd(0);
-            std::function<double(const Eigen::VectorXd&)> f          = nullptr;
-            std::function<Eigen::VectorXd(const Eigen::VectorXd&)> g = nullptr;
-            double epsilon                                           = 1e-05;
-            unsigned int max_num_iterations                          = 1000;
-            Type type                                                = Type::Min;
+            Algorithm                                              algorithm          = Algorithm::Bfgs;
+            Eigen::VectorXd                                        x_init             = Eigen::VectorXd(0);
+            std::function<double(const Eigen::VectorXd&)>          f                  = nullptr;
+            std::function<Eigen::VectorXd(const Eigen::VectorXd&)> g                  = nullptr;
+            double                                                 epsilon            = 1e-05;
+            unsigned int                                           max_num_iterations = 1000;
+            Type                                                   type               = Type::Min;
         };
 
         struct Result
@@ -40,10 +42,15 @@ namespace mathtoolbox
 
         inline Result RunOptimization(const Setting& input)
         {
-            const auto f = (input.type == Type::Min) ? input.f : [&input](const Eigen::VectorXd& x) -> double { return - input.f(x); };
-            const auto g = (input.type == Type::Min) ? input.g : [&input](const Eigen::VectorXd& x) -> Eigen::VectorXd { return - input.g(x); };
+            const auto f = (input.type == Type::Min) ? input.f : [&input](const Eigen::VectorXd& x) -> double {
+                return -input.f(x);
+            };
+            const auto g = (input.type == Type::Min) ? input.g : [&input](const Eigen::VectorXd& x) -> Eigen::VectorXd {
+                return -input.g(x);
+            };
 
-            switch (input.algorithm) {
+            switch (input.algorithm)
+            {
                 case Algorithm::Bfgs:
                 {
                     if (!input.f || !input.g || input.x_init.rows() == 0)
@@ -52,7 +59,13 @@ namespace mathtoolbox
                     }
 
                     Result result;
-                    RunBfgs(input.x_init, f, g, input.epsilon, input.max_num_iterations, result.x_star, result.num_iterations);
+                    RunBfgs(input.x_init,
+                            f,
+                            g,
+                            input.epsilon,
+                            input.max_num_iterations,
+                            result.x_star,
+                            result.num_iterations);
                     return result;
                 }
                 case Algorithm::LBfgs:
@@ -63,12 +76,18 @@ namespace mathtoolbox
                     }
 
                     Result result;
-                    RunLBfgs(input.x_init, f, g, input.epsilon, input.max_num_iterations, result.x_star, result.num_iterations);
+                    RunLBfgs(input.x_init,
+                             f,
+                             g,
+                             input.epsilon,
+                             input.max_num_iterations,
+                             result.x_star,
+                             result.num_iterations);
                     return result;
                 }
             }
         }
-    }
-}
+    } // namespace optimization
+} // namespace mathtoolbox
 
 #endif // NUMERICAL_OPTIMIZATION_HPP

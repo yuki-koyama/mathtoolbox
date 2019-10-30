@@ -24,7 +24,10 @@ int main(int argc, char** argv)
         {
             const MatrixXd candidate = MatrixXd::Random(size, size);
 
-            if (CheckInvertibleness(candidate)) { return candidate; }
+            if (CheckInvertibleness(candidate))
+            {
+                return candidate;
+            }
         }
     }(size);
 
@@ -50,7 +53,10 @@ int main(int argc, char** argv)
     t = nullptr;
 
     // Error check
-    if (!naive_result.isApprox(block_result, 1e-06)) { throw std::runtime_error("The results are not consistent."); }
+    if (!naive_result.isApprox(block_result, 1e-06))
+    {
+        throw std::runtime_error("The results are not consistent.");
+    }
 #else
     const int start_size = 100;
 
@@ -71,7 +77,10 @@ int main(int argc, char** argv)
                 const MatrixXd sub_matrix =
                     mat.block(i, i, 1, 1) - mat.block(i, 0, 1, i) * test_matrix_inv * mat.block(0, i, i, 1);
 
-                if (CheckInvertibleness(sub_matrix)) { break; }
+                if (CheckInvertibleness(sub_matrix))
+                {
+                    break;
+                }
             }
 
             return mat;
@@ -95,7 +104,9 @@ int main(int argc, char** argv)
 
         // Error check
         if (!naive_result.isApprox(block_result, 1e-06))
-        { throw std::runtime_error("The results are not consistent."); }
+        {
+            throw std::runtime_error("The results are not consistent.");
+        }
 
         // Store the results for the next step
         test_matrix     = new_test_matrix;

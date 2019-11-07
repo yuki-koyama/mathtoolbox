@@ -359,7 +359,7 @@ double mathtoolbox::GaussianProcessRegression::PredictMean(const VectorXd& x) co
     return k.transpose() * m_K_y_inv * m_y;
 }
 
-double mathtoolbox::GaussianProcessRegression::PredictVariance(const VectorXd& x) const
+double mathtoolbox::GaussianProcessRegression::PredictVar(const VectorXd& x) const
 {
     const VectorXd k    = CalculateSmallK(x, m_X, m_kernel_hyperparameters, m_kernel);
     const double   k_xx = m_kernel_hyperparameters[0];
@@ -369,5 +369,5 @@ double mathtoolbox::GaussianProcessRegression::PredictVariance(const VectorXd& x
 
 double mathtoolbox::GaussianProcessRegression::PredictStdev(const VectorXd& x) const
 {
-    return std::sqrt(PredictVariance(x));
+    return std::sqrt(PredictVar(x));
 }

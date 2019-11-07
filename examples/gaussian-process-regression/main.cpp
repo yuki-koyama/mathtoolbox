@@ -58,7 +58,7 @@ int main(int argc, char** argv)
     {
         const double x = (1.0 / static_cast<double>(resolution)) * i;
         const double y = regressor.PredictMean(Eigen::VectorXd::Constant(1, x));
-        const double s = std::sqrt(regressor.PredictVariance(Eigen::VectorXd::Constant(1, x)));
+        const double s = std::sqrt(regressor.PredictVar(Eigen::VectorXd::Constant(1, x)));
 
         estimated_data_stream << x << "," << y << "," << s << "," << y + percentile_point * s << ","
                               << y - percentile_point * s << std::endl;

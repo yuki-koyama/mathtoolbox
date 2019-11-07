@@ -32,8 +32,8 @@ int main(int argc, char** argv)
     // Generate (and export) scattered data
     std::ofstream scattered_data_stream(output_directory_path + "/scattered_data.csv");
     scattered_data_stream << "x,y" << std::endl;
-    Eigen::MatrixXd X(1, number_of_samples);
-    Eigen::VectorXd y(number_of_samples);
+    MatrixXd X(1, number_of_samples);
+    VectorXd y(number_of_samples);
     for (int i = 0; i < number_of_samples; ++i)
     {
         X(0, i) = uniform_dist(engine);
@@ -45,7 +45,7 @@ int main(int argc, char** argv)
 
     // Instantiate the interpolation object
     mathtoolbox::GaussianProcessRegression regressor(X, y);
-    regressor.PerformMaximumLikelihood(0.50, 0.010, Eigen::VectorXd::Constant(1, 0.50));
+    regressor.PerformMaximumLikelihood(0.50, 0.010, VectorXd::Constant(1, 0.50));
 
     // Define constants for export
     constexpr int    resolution       = 200;
@@ -57,8 +57,8 @@ int main(int argc, char** argv)
     for (int i = 0; i <= resolution; ++i)
     {
         const double x = (1.0 / static_cast<double>(resolution)) * i;
-        const double y = regressor.PredictMean(Eigen::VectorXd::Constant(1, x));
-        const double s = std::sqrt(regressor.PredictVar(Eigen::VectorXd::Constant(1, x)));
+        const double y = regressor.PredictMean(VectorXd::Constant(1, x));
+        const double s = regressor.PredictStdev(VectorXd::Constant(1, x));
 
         estimated_data_stream << x << "," << y << "," << s << "," << y + percentile_point * s << ","
                               << y - percentile_point * s << std::endl;

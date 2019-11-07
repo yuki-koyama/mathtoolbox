@@ -16,6 +16,20 @@ mathtoolbox::optimization::BayesianOptimizer::BayesianOptimizer(const std::funct
 
 VectorXd mathtoolbox::optimization::BayesianOptimizer::Step()
 {
+    const GaussianProcessRegression::KernelType kernel_type = [&]() {
+        switch (m_kernel_type)
+        {
+            case KernelType::ArdSquaredExp:
+                return GaussianProcessRegression::KernelType::ArdSquaredExp;
+            case KernelType::ArdMatern52:
+                return GaussianProcessRegression::KernelType::ArdMatern52;
+            default:
+                assert(false);
+        }
+    }();
+
+    m_regressor = std::make_shared<GaussianProcessRegression>(m_X, m_y, kernel_type);
+
     // TODO
     assert(false);
 }

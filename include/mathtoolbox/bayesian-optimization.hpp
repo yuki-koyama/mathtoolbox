@@ -2,9 +2,12 @@
 #define MATHTOOLBOX_BAYESIAN_OPTIMIZATION_HPP
 
 #include <Eigen/Core>
+#include <memory>
 
 namespace mathtoolbox
 {
+    class GaussianProcessRegression;
+
     namespace optimization
     {
         enum class KernelType
@@ -44,6 +47,8 @@ namespace mathtoolbox
 
             Eigen::MatrixXd m_X;
             Eigen::VectorXd m_y;
+
+            std::shared_ptr<GaussianProcessRegression> m_regressor;
         };
 
         // Function-style API

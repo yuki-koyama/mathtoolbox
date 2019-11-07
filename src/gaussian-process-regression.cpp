@@ -350,19 +350,24 @@ namespace mathtoolbox
         m_K_y     = CalculateLargeKY(m_X, m_sigma_squared_n, m_kernel_hyperparameters, m_kernel);
         m_K_y_inv = m_K_y.inverse();
     }
-
-    double GaussianProcessRegression::PredictMean(const VectorXd& x) const
-    {
-        const VectorXd k = CalculateSmallK(x, m_X, m_kernel_hyperparameters, m_kernel);
-
-        return k.transpose() * m_K_y_inv * m_y;
-    }
-
-    double GaussianProcessRegression::PredictVariance(const VectorXd& x) const
-    {
-        const VectorXd k    = CalculateSmallK(x, m_X, m_kernel_hyperparameters, m_kernel);
-        const double   k_xx = m_kernel_hyperparameters[0];
-
-        return k_xx - k.transpose() * m_K_y_inv * k;
-    }
 } // namespace mathtoolbox
+
+double mathtoolbox::GaussianProcessRegression::PredictMean(const VectorXd& x) const
+{
+    const VectorXd k = CalculateSmallK(x, m_X, m_kernel_hyperparameters, m_kernel);
+
+    return k.transpose() * m_K_y_inv * m_y;
+}
+
+double mathtoolbox::GaussianProcessRegression::PredictVariance(const VectorXd& x) const
+{
+    const VectorXd k    = CalculateSmallK(x, m_X, m_kernel_hyperparameters, m_kernel);
+    const double   k_xx = m_kernel_hyperparameters[0];
+
+    return k_xx - k.transpose() * m_K_y_inv * k;
+}
+
+double mathtoolbox::GaussianProcessRegression::PredictStdev(const VectorXd& x) const
+{
+    return std::sqrt(PredictVariance(x));
+}

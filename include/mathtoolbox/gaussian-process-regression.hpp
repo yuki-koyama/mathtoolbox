@@ -23,6 +23,7 @@ namespace mathtoolbox
         // Estimation methods
         double PredictMean(const Eigen::VectorXd& x) const;
         double PredictVariance(const Eigen::VectorXd& x) const;
+        double PredictStdev(const Eigen::VectorXd& x) const;
 
         // Hyperparameters setup methods
         void SetHyperparameters(double sigma_squared_f, double sigma_squared_n, const Eigen::VectorXd& length_scales);

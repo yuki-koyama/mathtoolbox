@@ -18,6 +18,8 @@ namespace mathtoolbox
         {
         public:
             BayesianOptimizer(const std::function<double(const Eigen::VectorXd&)>& f,
+                              const Eigen::VectorXd&                               lower_bound,
+                              const Eigen::VectorXd&                               upper_bound,
                               const KernelType& kernel_type = KernelType::ArdMatern52);
 
             /// \brief Perform a single step of the Bayesian optimization algorithm
@@ -35,12 +37,19 @@ namespace mathtoolbox
         private:
             const std::function<double(const Eigen::VectorXd&)> m_f;
 
+            const Eigen::VectorXd m_lower_bound;
+            const Eigen::VectorXd m_upper_bound;
+
+            const KernelType m_kernel_type;
+
             Eigen::MatrixXd m_X;
             Eigen::VectorXd m_y;
         };
 
         // Function-style API
         void RunBayesianOptimization(const std::function<double(const Eigen::VectorXd&)>& f,
+                                     const Eigen::VectorXd&                               lower_bound,
+                                     const Eigen::VectorXd&                               upper_bound,
                                      const unsigned int                                   max_num_iterations,
                                      const KernelType&                                    kernel_type,
                                      Eigen::VectorXd&                                     x_star,

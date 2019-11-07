@@ -1,5 +1,5 @@
-#ifndef gaussian_process_regression_hpp
-#define gaussian_process_regression_hpp
+#ifndef MATHTOOLBOX_GAUSSIAN_PROCESS_REGRESSION_HPP
+#define MATHTOOLBOX_GAUSSIAN_PROCESS_REGRESSION_HPP
 
 #include <Eigen/Core>
 #include <mathtoolbox/kernel-functions.hpp>
@@ -53,4 +53,4 @@ namespace mathtoolbox
     };
 } // namespace mathtoolbox
 
-#endif /* gaussian_process_regression_hpp */
+#endif // MATHTOOLBOX_GAUSSIAN_PROCESS_REGRESSION_HPP

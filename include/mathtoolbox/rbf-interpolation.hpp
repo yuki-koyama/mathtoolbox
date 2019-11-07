@@ -1,5 +1,5 @@
-#ifndef RBF_INTERPOLATION_HPP
-#define RBF_INTERPOLATION_HPP
+#ifndef MATHTOOLBOX_RBF_INTERPOLATION_HPP
+#define MATHTOOLBOX_RBF_INTERPOLATION_HPP
 
 #include <Eigen/Core>
 #include <vector>
@@ -51,4 +51,4 @@ namespace mathtoolbox
     };
 } // namespace mathtoolbox
 
-#endif // RBF_INTERPOLATION_HPP
+#endif // MATHTOOLBOX_RBF_INTERPOLATION_HPP

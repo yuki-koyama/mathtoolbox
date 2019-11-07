@@ -1,5 +1,5 @@
-#ifndef STRONG_WOLFE_CONDITIONS_LINE_SEARCH_HPP
-#define STRONG_WOLFE_CONDITIONS_LINE_SEARCH_HPP
+#ifndef MATHTOOLBOX_STRONG_WOLFE_CONDITIONS_LINE_SEARCH_HPP
+#define MATHTOOLBOX_STRONG_WOLFE_CONDITIONS_LINE_SEARCH_HPP
 
 #include <Eigen/Core>
 #include <cassert>
@@ -99,4 +99,4 @@ namespace mathtoolbox
     } // namespace optimization
 } // namespace mathtoolbox
 
-#endif /* STRONG_WOLFE_CONDITIONS_LINE_SEARCH_HPP */
+#endif // MATHTOOLBOX_STRONG_WOLFE_CONDITIONS_LINE_SEARCH_HPP

@@ -1,5 +1,5 @@
-#ifndef BFGS_HPP
-#define BFGS_HPP
+#ifndef MATHTOOLBOX_BFGS_HPP
+#define MATHTOOLBOX_BFGS_HPP
 
 #include <Eigen/Core>
 #include <functional>
@@ -18,4 +18,4 @@ namespace mathtoolbox
     }
 } // namespace mathtoolbox
 
-#endif // BFGS_HPP
+#endif // MATHTOOLBOX_BFGS_HPP

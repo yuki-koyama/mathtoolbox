@@ -34,8 +34,7 @@ std::pair<Eigen::VectorXd, double> mathtoolbox::optimization::BayesianOptimizer:
         }();
         const double y_new = EvaluatePoint(x_new);
 
-        m_X = x_new;
-        m_y = VectorXd::Constant(1, y_new);
+        AddDataEntry(x_new, y_new);
 
         return {x_new, y_new};
     }
@@ -109,14 +108,7 @@ std::pair<Eigen::VectorXd, double> mathtoolbox::optimization::BayesianOptimizer:
     const double y_new = EvaluatePoint(x_new);
 
     // Add the new data point
-    const MatrixXd X_old = m_X;
-    const VectorXd y_old = m_y;
-    m_X.resize(num_dims, X_old.cols() + 1);
-    m_y.resize(m_y.size() + 1);
-    m_X.block(0, 0, num_dims, X_old.cols()) = X_old;
-    m_X.col(X_old.cols())                   = x_new;
-    m_y.segment(0, y_old.size())            = y_old;
-    m_y(y_old.size())                       = y_new;
+    AddDataEntry(x_new, y_new);
 
     // Return the new data point
     return {x_new, y_new};
@@ -131,4 +123,27 @@ VectorXd mathtoolbox::optimization::BayesianOptimizer::GetCurrentOptimizer() con
     m_y.maxCoeff(&index);
 
     return m_X.col(index);
+}
+
+void mathtoolbox::optimization::BayesianOptimizer::AddDataEntry(const VectorXd& x_new, const double y_new)
+{
+    if (m_X.cols() == 0)
+    {
+        m_X = x_new;
+        m_y = VectorXd::Constant(1, y_new);
+
+        return;
+    }
+
+    const int num_dims = x_new.size();
+
+    const MatrixXd X_old = m_X;
+    const VectorXd y_old = m_y;
+
+    m_X.resize(num_dims, X_old.cols() + 1);
+    m_y.resize(m_y.size() + 1);
+    m_X.block(0, 0, num_dims, X_old.cols()) = X_old;
+    m_X.col(X_old.cols())                   = x_new;
+    m_y.segment(0, y_old.size())            = y_old;
+    m_y(y_old.size())                       = y_new;
 }

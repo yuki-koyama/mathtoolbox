@@ -51,15 +51,6 @@ namespace mathtoolbox
 
             std::shared_ptr<GaussianProcessRegression> m_regressor;
         };
-
-        // Function-style API
-        void RunBayesianOptimization(const std::function<double(const Eigen::VectorXd&)>& f,
-                                     const Eigen::VectorXd&                               lower_bound,
-                                     const Eigen::VectorXd&                               upper_bound,
-                                     const unsigned int                                   max_num_iterations,
-                                     const KernelType&                                    kernel_type,
-                                     Eigen::VectorXd&                                     x_star,
-                                     unsigned int&                                        num_iterations);
     } // namespace optimization
 } // namespace mathtoolbox
 

@@ -128,15 +128,3 @@ VectorXd mathtoolbox::optimization::BayesianOptimizer::GetCurrentOptimizer() con
 
     return m_X.col(index);
 }
-
-void mathtoolbox::optimization::RunBayesianOptimization(const std::function<double(const VectorXd&)>& f,
-                                                        const VectorXd&                               lower_bound,
-                                                        const VectorXd&                               upper_bound,
-                                                        const unsigned int max_num_iterations,
-                                                        const KernelType&  kernel_type,
-                                                        VectorXd&          x_star,
-                                                        unsigned int&      num_iterations)
-{
-    // TODO
-    assert(false);
-}

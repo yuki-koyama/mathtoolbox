@@ -396,8 +396,7 @@ VectorXd mathtoolbox::GaussianProcessRegression::PredictMeanDeriv(const Eigen::V
 VectorXd mathtoolbox::GaussianProcessRegression::PredictStdevDeriv(const Eigen::VectorXd& x) const
 {
     const MatrixXd k_deriv_x = CalcSmallKDerivSmallX(x, m_X, m_kernel_hyperparams, m_kernel_deriv_first_arg);
-    return k_deriv_x * m_K_y_inv * m_y;
-    const VectorXd k     = CalcSmallK(x, m_X, m_kernel_hyperparams, m_kernel);
-    const double   sigma = PredictStdev(x);
+    const VectorXd k         = CalcSmallK(x, m_X, m_kernel_hyperparams, m_kernel);
+    const double   sigma     = PredictStdev(x);
     return -(1.0 / sigma) * k_deriv_x * m_K_y_inv * k;
 }

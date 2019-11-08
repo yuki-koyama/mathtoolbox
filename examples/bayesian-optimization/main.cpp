@@ -17,8 +17,8 @@ int main()
 {
     constexpr otf::FunctionType type       = otf::FunctionType::Sphere;
     constexpr int               num_dims   = 5;
-    constexpr int               num_iters  = 100;
-    constexpr int               num_trials = 5;
+    constexpr int               num_iters  = 20;
+    constexpr int               num_trials = 3;
 
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
@@ -38,8 +38,8 @@ int main()
         {
             const auto new_point = optimizer.Step();
 
-            const Eigen::VectorXd current_solution = optimizer.GetCurrentOptimizer();
-            const double current_optimal_value = - optimizer.EvaluatePoint(current_solution);
+            const Eigen::VectorXd current_solution      = optimizer.GetCurrentOptimizer();
+            const double          current_optimal_value = -optimizer.EvaluatePoint(current_solution);
 
             std::cout << current_solution.transpose().format(Eigen::IOFormat(2));
             std::cout << " (" << current_optimal_value << ")" << std::endl;

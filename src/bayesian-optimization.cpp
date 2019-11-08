@@ -30,6 +30,26 @@ VectorXd mathtoolbox::optimization::BayesianOptimizer::Step()
 
     m_regressor = std::make_shared<GaussianProcessRegression>(m_X, m_y, kernel_type);
 
+    const Eigen::VectorXd x_plus = GetCurrentOptimizer();
+
+    const auto acquisition_func = [&](const Eigen::VectorXd& x) {
+        return GetExpectedImprovement(
+            x,
+            [&](const Eigen::VectorXd& x) { return m_regressor->PredictMean(x); },
+            [&](const Eigen::VectorXd& x) { return m_regressor->PredictStdev(x); },
+            x_plus);
+    };
+
+    const auto acquisition_func_deriv = [&](const Eigen::VectorXd& x) {
+        return GetExpectedImprovementDerivative(
+            x,
+            [&](const Eigen::VectorXd& x) { return m_regressor->PredictMean(x); },
+            [&](const Eigen::VectorXd& x) { return m_regressor->PredictStdev(x); },
+            x_plus,
+            [&](const Eigen::VectorXd& x) { return m_regressor->PredictMeanDeriv(x); },
+            [&](const Eigen::VectorXd& x) { return m_regressor->PredictStdevDeriv(x); });
+    };
+
     // TODO
     assert(false);
 }

@@ -56,8 +56,13 @@ VectorXd mathtoolbox::optimization::BayesianOptimizer::Step()
 
 VectorXd mathtoolbox::optimization::BayesianOptimizer::GetCurrentOptimizer() const
 {
-    // TODO
-    assert(false);
+    assert(m_X.cols() != 0);
+    assert(m_y.size() != 0);
+
+    int index;
+    m_y.maxCoeff(&index);
+
+    return m_X.col(index);
 }
 
 void mathtoolbox::optimization::RunBayesianOptimization(const std::function<double(const VectorXd&)>& f,

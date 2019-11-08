@@ -15,9 +15,9 @@ void ExportMatrixToCsv(const std::string& file_path, const Eigen::MatrixXd& X)
 
 int main()
 {
-    constexpr otf::FunctionType type       = otf::FunctionType::Rosenbrock;
+    constexpr otf::FunctionType type       = otf::FunctionType::Sphere;
     constexpr int               num_dims   = 5;
-    constexpr int               num_iters  = 80;
+    constexpr int               num_iters  = 100;
     constexpr int               num_trials = 5;
 
     std::srand(static_cast<unsigned>(std::time(nullptr)));
@@ -30,7 +30,7 @@ int main()
 
     for (int trial = 0; trial < num_trials; ++trial)
     {
-        std::cout << "#trial: " << std::to_string(trial) << std::endl;
+        std::cout << "#trial: " << std::to_string(trial + 1) << std::endl;
 
         mathtoolbox::optimization::BayesianOptimizer optimizer(objective_func, lower_bound, upper_bound);
 
@@ -39,11 +39,12 @@ int main()
             const auto new_point = optimizer.Step();
 
             const Eigen::VectorXd current_solution = optimizer.GetCurrentOptimizer();
+            const double current_optimal_value = - optimizer.EvaluatePoint(current_solution);
 
             std::cout << current_solution.transpose().format(Eigen::IOFormat(2));
-            std::cout << " (" << optimizer.EvaluatePoint(current_solution) << ")" << std::endl;
+            std::cout << " (" << current_optimal_value << ")" << std::endl;
 
-            result(iter, trial) = optimizer.EvaluatePoint(current_solution);
+            result(iter, trial) = current_optimal_value;
         }
     }
 

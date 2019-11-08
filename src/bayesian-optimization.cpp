@@ -87,7 +87,7 @@ std::pair<Eigen::VectorXd, double> mathtoolbox::optimization::BayesianOptimizer:
     // global search algorithm, to obtain an initial solution and then refine it by using L-BFGS-B, a local bounded
     // gradient-based algorithm.
     const VectorXd x_new = [&]() {
-        constexpr int num_samples = 1000;
+        constexpr int num_samples = 2000;
 
         std::vector<VectorXd> samples(num_samples);
         std::for_each(std::begin(samples), std::end(samples), [&](VectorXd& sample) {

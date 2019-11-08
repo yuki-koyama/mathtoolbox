@@ -1,5 +1,5 @@
-#ifndef CLASSICAL_MDS_HPP
-#define CLASSICAL_MDS_HPP
+#ifndef MATHTOOLBOX_CLASSICAL_MDS_HPP
+#define MATHTOOLBOX_CLASSICAL_MDS_HPP
 
 #include <Eigen/Core>
 #include <Eigen/Eigenvalues>
@@ -13,4 +13,4 @@ namespace mathtoolbox
     Eigen::MatrixXd ComputeClassicalMds(const Eigen::MatrixXd& D, unsigned dim);
 } // namespace mathtoolbox
 
-#endif // CLASSICAL_MDS_HPP
+#endif // MATHTOOLBOX_CLASSICAL_MDS_HPP

@@ -1,5 +1,5 @@
-#ifndef KERNEL_FUNCTIONS_HPP
-#define KERNEL_FUNCTIONS_HPP
+#ifndef MATHTOOLBOX_KERNEL_FUNCTIONS_HPP
+#define MATHTOOLBOX_KERNEL_FUNCTIONS_HPP
 
 #include <Eigen/Core>
 #include <functional>
@@ -45,4 +45,4 @@ namespace mathtoolbox
                                                            const Eigen::VectorXd& theta);
 } // namespace mathtoolbox
 
-#endif /* KERNEL_FUNCTIONS_HPP */
+#endif // MATHTOOLBOX_KERNEL_FUNCTIONS_HPP

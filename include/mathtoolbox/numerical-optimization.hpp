@@ -1,5 +1,5 @@
-#ifndef NUMERICAL_OPTIMIZATION_HPP
-#define NUMERICAL_OPTIMIZATION_HPP
+#ifndef MATHTOOLBOX_NUMERICAL_OPTIMIZATION_HPP
+#define MATHTOOLBOX_NUMERICAL_OPTIMIZATION_HPP
 
 #include <Eigen/Core>
 #include <functional>
@@ -90,4 +90,4 @@ namespace mathtoolbox
     } // namespace optimization
 } // namespace mathtoolbox
 
-#endif // NUMERICAL_OPTIMIZATION_HPP
+#endif // MATHTOOLBOX_NUMERICAL_OPTIMIZATION_HPP

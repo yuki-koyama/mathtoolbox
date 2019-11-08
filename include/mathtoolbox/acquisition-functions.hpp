@@ -1,5 +1,5 @@
-#ifndef ACQUISITION_FUNCTIONS_HPP
-#define ACQUISITION_FUNCTIONS_HPP
+#ifndef MATHTOOLBOX_ACQUISITION_FUNCTIONS_HPP
+#define MATHTOOLBOX_ACQUISITION_FUNCTIONS_HPP
 
 #include <Eigen/Core>
 #include <functional>
@@ -20,4 +20,4 @@ namespace mathtoolbox
                                      const std::function<Eigen::VectorXd(const Eigen::VectorXd&)>& sigma_derivative);
 } // namespace mathtoolbox
 
-#endif /* ACQUISITION_FUNCTIONS_HPP */
+#endif // MATHTOOLBOX_ACQUISITION_FUNCTIONS_HPP

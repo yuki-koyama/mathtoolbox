@@ -1,5 +1,5 @@
-#ifndef PROBABILITY_DISTRIBUTIONS_HPP
-#define PROBABILITY_DISTRIBUTIONS_HPP
+#ifndef MATHTOOLBOX_PROBABILITY_DISTRIBUTIONS_HPP
+#define MATHTOOLBOX_PROBABILITY_DISTRIBUTIONS_HPP
 
 #include <Eigen/Core>
 
@@ -39,4 +39,4 @@ namespace mathtoolbox
                          const double           Sigma_det);
 } // namespace mathtoolbox
 
-#endif /* PROBABILITY_DISTRIBUTIONS_HPP */
+#endif // MATHTOOLBOX_PROBABILITY_DISTRIBUTIONS_HPP

@@ -1,5 +1,5 @@
-#ifndef BACKTRACKING_LINE_SEARCH_HPP
-#define BACKTRACKING_LINE_SEARCH_HPP
+#ifndef MATHTOOLBOX_BACKTRACKING_LINE_SEARCH_HPP
+#define MATHTOOLBOX_BACKTRACKING_LINE_SEARCH_HPP
 
 #include <Eigen/Core>
 #include <functional>
@@ -45,4 +45,4 @@ namespace mathtoolbox
     } // namespace optimization
 } // namespace mathtoolbox
 
-#endif /* BACKTRACKING_LINE_SEARCH_HPP */
+#endif // MATHTOOLBOX_BACKTRACKING_LINE_SEARCH_HPP

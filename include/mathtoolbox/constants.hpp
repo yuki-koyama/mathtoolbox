@@ -1,5 +1,5 @@
-#ifndef CONSTANTS_HPP
-#define CONSTANTS_HPP
+#ifndef MATHTOOLBOX_CONSTANTS_HPP
+#define MATHTOOLBOX_CONSTANTS_HPP
 
 namespace mathtoolbox
 {
@@ -9,4 +9,4 @@ namespace mathtoolbox
     }
 } // namespace mathtoolbox
 
-#endif /* CONSTANTS_HPP */
+#endif // MATHTOOLBOX_CONSTANTS_HPP

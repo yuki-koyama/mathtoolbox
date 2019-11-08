@@ -9,4 +9,4 @@ namespace mathtoolbox
                                                          const Eigen::MatrixXd& upper_left_block_inverse);
 } // namespace mathtoolbox
 
-#endif /* MATHTOOLBOX_MATRIX_INVERSION_HPP */
+#endif // MATHTOOLBOX_MATRIX_INVERSION_HPP

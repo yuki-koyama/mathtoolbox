@@ -108,6 +108,27 @@ namespace
         }();
     }
 
+    MatrixXd CalculateSmallKGradientSmallX(const VectorXd&                              x,
+                                           const MatrixXd&                              X,
+                                           const VectorXd&                              kernel_hyperparameters,
+                                           const mathtoolbox::KernelFirstArgDerivative& kernel_deriv_first_arg)
+    {
+        const int num_points = X.cols();
+        const int num_dims   = X.rows();
+
+        assert(num_dims > 0);
+        assert(num_points > 0);
+        assert(x.size() == num_dims);
+
+        Eigen::MatrixXd k_deriv_x(num_dims, num_points);
+        for (int i = 0; i < num_points; ++i)
+        {
+            k_deriv_x.col(i) = kernel_deriv_first_arg(x, X.col(i), kernel_hyperparameters);
+        }
+
+        return k_deriv_x;
+    }
+
     double CalculateLogLikelihood(const MatrixXd&            X,
                                   const VectorXd&            y,
                                   const double               sigma_squared_n,
@@ -197,12 +218,14 @@ namespace mathtoolbox
             {
                 m_kernel                    = GetArdSquaredExpKernel;
                 m_kernel_theta_i_derivative = GetArdSquaredExpKernelThetaIDerivative;
+                m_kernel_deriv_first_arg    = GetArdSquaredExpKernelFirstArgDerivative;
                 break;
             }
             case KernelType::ArdMatern52:
             {
                 m_kernel                    = GetArdMatern52Kernel;
                 m_kernel_theta_i_derivative = GetArdMatern52KernelThetaIDerivative;
+                m_kernel_deriv_first_arg    = GetArdMatern52KernelFirstArgDerivative;
                 break;
             }
         }
@@ -359,15 +382,27 @@ double mathtoolbox::GaussianProcessRegression::PredictMean(const VectorXd& x) co
     return k.transpose() * m_K_y_inv * m_y;
 }
 
-double mathtoolbox::GaussianProcessRegression::PredictVar(const VectorXd& x) const
+double mathtoolbox::GaussianProcessRegression::PredictStdev(const VectorXd& x) const
 {
     const VectorXd k    = CalculateSmallK(x, m_X, m_kernel_hyperparameters, m_kernel);
     const double   k_xx = m_kernel_hyperparameters[0];
 
-    return k_xx - k.transpose() * m_K_y_inv * k;
+    return std::sqrt(k_xx - k.transpose() * m_K_y_inv * k);
 }
 
-double mathtoolbox::GaussianProcessRegression::PredictStdev(const VectorXd& x) const
+VectorXd mathtoolbox::GaussianProcessRegression::PredictMeanDeriv(const Eigen::VectorXd& x) const
 {
-    return std::sqrt(PredictVar(x));
+    const MatrixXd k_deriv_x =
+        CalculateSmallKGradientSmallX(x, m_X, m_kernel_hyperparameters, m_kernel_deriv_first_arg);
+    return k_deriv_x * m_K_y_inv * m_y;
+}
+
+VectorXd mathtoolbox::GaussianProcessRegression::PredictStdevDeriv(const Eigen::VectorXd& x) const
+{
+    const MatrixXd k_deriv_x =
+        CalculateSmallKGradientSmallX(x, m_X, m_kernel_hyperparameters, m_kernel_deriv_first_arg);
+    return k_deriv_x * m_K_y_inv * m_y;
+    const VectorXd k     = CalculateSmallK(x, m_X, m_kernel_hyperparameters, m_kernel);
+    const double   sigma = PredictStdev(x);
+    return -(1.0 / sigma) * k_deriv_x * m_K_y_inv * k;
 }

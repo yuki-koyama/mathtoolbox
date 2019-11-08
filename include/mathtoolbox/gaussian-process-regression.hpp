@@ -25,6 +25,11 @@ namespace mathtoolbox
         double PredictVar(const Eigen::VectorXd& x) const;
         double PredictStdev(const Eigen::VectorXd& x) const;
 
+        // Derivative estimation methods
+        Eigen::VectorXd PredictMeanDeriv(const Eigen::VectorXd& x) const;
+        Eigen::VectorXd PredictVarDeriv(const Eigen::VectorXd& x) const;
+        Eigen::VectorXd PredictStdevDeriv(const Eigen::VectorXd& x) const;
+
         // Hyperparameters setup methods
         void SetHyperparameters(double sigma_squared_f, double sigma_squared_n, const Eigen::VectorXd& length_scales);
         void PerformMaximumLikelihood(double                 sigma_squared_f_initial,
@@ -49,8 +54,9 @@ namespace mathtoolbox
         double          m_sigma_squared_n;
 
         // Kernel functions
-        Kernel                 m_kernel;
-        KernelThetaIDerivative m_kernel_theta_i_derivative;
+        Kernel                   m_kernel;
+        KernelThetaIDerivative   m_kernel_theta_i_derivative;
+        KernelFirstArgDerivative m_kernel_deriv_first_arg;
     };
 } // namespace mathtoolbox
 

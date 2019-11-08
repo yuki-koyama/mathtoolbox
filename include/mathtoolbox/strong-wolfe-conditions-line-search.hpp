@@ -6,6 +6,8 @@
 #include <functional>
 #include <iostream>
 
+#define MATHTOOLBOX_VERBOSE_LINE_SEARCH_WARNINGS
+
 namespace mathtoolbox
 {
     namespace optimization
@@ -38,7 +40,7 @@ namespace mathtoolbox
 
             // Algorithm 3.6: Zoom
             auto zoom = [&](double alpha_l, double alpha_h) {
-                constexpr unsigned int max_num_iterations = 100;
+                constexpr unsigned int max_num_iterations = 50;
                 for (unsigned int i = 0; i < max_num_iterations; ++i)
                 {
                     const double alpha_j     = 0.5 * (alpha_l + alpha_h); // TODO: Use a better strategy
@@ -62,11 +64,13 @@ namespace mathtoolbox
                         alpha_l = alpha_j;
                     }
                 }
+#ifdef MATHTOOLBOX_VERBOSE_LINE_SEARCH_WARNINGS
                 std::cerr << "Warning: The line search did not converge." << std::endl;
+#endif
                 return 0.5 * (alpha_l + alpha_h);
             };
 
-            constexpr unsigned int max_num_iterations = 100;
+            constexpr unsigned int max_num_iterations = 50;
             for (int i = 0; i < max_num_iterations; ++i)
             {
                 const double phi_alpha = phi(alpha);
@@ -93,7 +97,9 @@ namespace mathtoolbox
 
                 alpha = 0.5 * (alpha + alpha_max); // TODO: Use a better strategy
             }
+#ifdef MATHTOOLBOX_VERBOSE_LINE_SEARCH_WARNINGS
             std::cerr << "Warning: The line search did not converge." << std::endl;
+#endif
             return alpha_init;
         }
     } // namespace optimization

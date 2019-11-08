@@ -27,8 +27,10 @@ std::pair<Eigen::VectorXd, double> mathtoolbox::optimization::BayesianOptimizer:
 
         const VectorXd x_new = [&]() {
             const VectorXd normalized_sample = 0.5 * (VectorXd::Random(num_dims) + VectorXd::Ones(num_dims));
+            const VectorXd sample =
+                (normalized_sample.array() * (m_upper_bound - m_lower_bound).array()).matrix() + m_lower_bound;
 
-            return (normalized_sample.array() * (m_upper_bound - m_lower_bound).array()).matrix() + m_lower_bound;
+            return sample;
         }();
         const double y_new = EvaluatePoint(x_new);
 
@@ -54,7 +56,9 @@ std::pair<Eigen::VectorXd, double> mathtoolbox::optimization::BayesianOptimizer:
     const int      num_dims = x_plus.size();
 
     m_regressor = std::make_shared<GaussianProcessRegression>(m_X, m_y, kernel_type);
+#if false
     m_regressor->PerformMaximumLikelihood(0.1, 0.0, VectorXd::Constant(num_dims, 0.1));
+#endif
 
     const auto acquisition_func = [&](const VectorXd& x) {
         return GetExpectedImprovement(

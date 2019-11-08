@@ -13,9 +13,9 @@ namespace mathtoolbox
                                 const Eigen::VectorXd&                                        lower_bound,
                                 const Eigen::VectorXd&                                        upper_bound,
                                 const double                                                  epsilon,
-                                const unsigned int                                            max_num_iterations,
+                                const unsigned int                                            max_num_iters,
                                 Eigen::VectorXd&                                              x_star,
-                                unsigned int&                                                 num_iterations);
+                                unsigned int&                                                 num_iters);
     } // namespace optimization
 } // namespace mathtoolbox
 

@@ -8,13 +8,13 @@ void mathtoolbox::optimization::RunGradientDescent(const VectorXd&              
                                                    const VectorXd&                                 lower_bound,
                                                    const VectorXd&                                 upper_bound,
                                                    const double                                    epsilon,
-                                                   const unsigned int                              max_num_iterations,
+                                                   const unsigned int                              max_num_iters,
                                                    VectorXd&                                       x_star,
-                                                   unsigned int&                                   num_iterations)
+                                                   unsigned int&                                   num_iters)
 {
     // TODO
     assert(false);
 
-    x_star         = x_init;
-    num_iterations = 0;
+    x_star    = x_init;
+    num_iters = 0;
 }

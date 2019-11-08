@@ -26,7 +26,7 @@ int main()
     const Eigen::VectorXd lower_bound    = Eigen::VectorXd::Constant(num_dims, -1.0);
     const Eigen::VectorXd upper_bound    = Eigen::VectorXd::Constant(num_dims, 1.0);
 
-    Eigen::MatrixXd result(num_iters, num_trials);
+    Eigen::MatrixXd bo_result(num_iters, num_trials);
 
     for (int trial = 0; trial < num_trials; ++trial)
     {
@@ -44,7 +44,41 @@ int main()
             std::cout << current_solution.transpose().format(Eigen::IOFormat(2));
             std::cout << " (" << current_optimal_value << ")" << std::endl;
 
-            result(iter, trial) = current_optimal_value;
+            bo_result(iter, trial) = current_optimal_value;
+        }
+    }
+
+    Eigen::MatrixXd random_result(num_iters, num_trials);
+
+    for (int trial = 0; trial < num_trials; ++trial)
+    {
+        std::cout << "#trial: " << std::to_string(trial + 1) << std::endl;
+
+        Eigen::VectorXd current_solution;
+        double          current_optimal_value;
+
+        for (int iter = 0; iter < num_iters; ++iter)
+        {
+            const auto new_point = [&](){
+                const Eigen::VectorXd normalized_sample = 0.5 * (Eigen::VectorXd::Random(num_dims) + Eigen::VectorXd::Ones(num_dims));
+                const Eigen::VectorXd sample =
+                    (normalized_sample.array() * (upper_bound - lower_bound).array()).matrix() + lower_bound;
+
+                return sample;
+            }();
+
+            const double new_value = -objective_func(new_point);
+
+            if (current_solution.size() == 0 || current_optimal_value > new_value)
+            {
+                current_solution = new_point;
+                current_optimal_value = new_value;
+            }
+
+            std::cout << current_solution.transpose().format(Eigen::IOFormat(2));
+            std::cout << " (" << current_optimal_value << ")" << std::endl;
+
+            random_result(iter, trial) = current_optimal_value;
         }
     }
 
@@ -53,7 +87,8 @@ int main()
 
     std::cout << "Expected solution: " << expected_solution.transpose() << " (" << expected_value << ")" << std::endl;
 
-    ExportMatrixToCsv("./result.csv", result);
+    ExportMatrixToCsv("./bo_result.csv", bo_result);
+    ExportMatrixToCsv("./random_result.csv", random_result);
 
     return 0;
 }

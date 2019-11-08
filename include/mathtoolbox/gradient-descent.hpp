@@ -16,7 +16,7 @@ namespace mathtoolbox
                                 const unsigned int                                            max_num_iterations,
                                 Eigen::VectorXd&                                              x_star,
                                 unsigned int&                                                 num_iterations);
-    }
+    } // namespace optimization
 } // namespace mathtoolbox
 
 #endif // MATHTOOLBOX_GRADIENT_DESCENT_HPP

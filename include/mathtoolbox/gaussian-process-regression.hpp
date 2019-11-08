@@ -25,7 +25,7 @@ namespace mathtoolbox
         double PredictVariance(const Eigen::VectorXd& x) const;
 
         // Hyperparameters setup methods
-        void SetHyperparameters(double sigma_squared_f, double sigma_squared_n, const Eigen::VectorXd& length_scales);
+        void SetHyperparams(double sigma_squared_f, double sigma_squared_n, const Eigen::VectorXd& length_scales);
         void PerformMaximumLikelihood(double                 sigma_squared_f_initial,
                                       double                 sigma_squared_n_initial,
                                       const Eigen::VectorXd& length_scales_initial);
@@ -44,12 +44,12 @@ namespace mathtoolbox
         Eigen::MatrixXd m_K_y_inv;
 
         // Hyperparameters
-        Eigen::VectorXd m_kernel_hyperparameters;
+        Eigen::VectorXd m_kernel_hyperparams;
         double          m_sigma_squared_n;
 
         // Kernel functions
         Kernel                 m_kernel;
-        KernelThetaIDerivative m_kernel_theta_i_derivative;
+        KernelThetaIDerivative m_kernel_deriv_theta_i;
     };
 } // namespace mathtoolbox
 

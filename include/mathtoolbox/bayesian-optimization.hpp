@@ -3,6 +3,7 @@
 
 #include <Eigen/Core>
 #include <memory>
+#include <utility>
 
 namespace mathtoolbox
 {
@@ -27,7 +28,7 @@ namespace mathtoolbox
 
             /// \brief Perform a single step of the Bayesian optimization algorithm
             /// \return Newly observed data point
-            Eigen::VectorXd Step();
+            std::pair<Eigen::VectorXd, double> Step();
 
             /// \brief Calculate the function value
             /// \return Evaluated function value

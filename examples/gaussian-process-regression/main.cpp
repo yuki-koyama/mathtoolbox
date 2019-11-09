@@ -43,8 +43,11 @@ int main(int argc, char** argv)
     }
     scattered_data_stream.close();
 
+    // Define the kernel type
+    const auto kernel_type = mathtoolbox::GaussianProcessRegression::KernelType::ArdMatern52;
+
     // Instantiate the interpolation object
-    mathtoolbox::GaussianProcessRegression regressor(X, y);
+    mathtoolbox::GaussianProcessRegression regressor(X, y, kernel_type);
     regressor.PerformMaximumLikelihood(0.50, 0.010, VectorXd::Constant(1, 0.50));
 
     // Define constants for export

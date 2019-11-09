@@ -22,6 +22,7 @@ A library of mathematical tools (regression, interpolation, dimensionality reduc
 
 - [`backtracking-line-search`: Backtracking line search](https://yuki-koyama.github.io/mathtoolbox/backtracking-line-search/)
 - [`bfgs`: BFGS method](https://yuki-koyama.github.io/mathtoolbox/bfgs/)
+- [`gradient-descent`: Gradient descent method](https://yuki-koyama.github.io/mathtoolbox/gradient-descent/)
 - [`l-bfgs`: Limited-memory BFGS method](https://yuki-koyama.github.io/mathtoolbox/l-bfgs/)
 - [`strong-wolfe-conditions-line-search`: Strong Wolfe conditions line search](https://yuki-koyama.github.io/mathtoolbox/strong-wolfe-conditions-line-search/)
 

@@ -7,16 +7,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
-  <link rel="shortcut icon" href="./img/favicon.ico">
-  <title>mathtoolbox</title>
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>gradient-descent - mathtoolbox</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
-  <link rel="stylesheet" href="./css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="./css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
   
-  <script src="./js/jquery-2.1.1.min.js" defer></script>
-  <script src="./js/modernizr-2.8.3.min.js" defer></script>
+  <script>
+    // Current page data
+    var mkdocs_page_name = "gradient-descent";
+    var mkdocs_page_input_path = "gradient-descent.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
   
@@ -39,9 +46,9 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
       <div class="wy-side-nav-search">
-        <a href="./." class="icon icon-home"> mathtoolbox</a>
+        <a href=".." class="icon icon-home"> mathtoolbox</a>
         <div role="search">
-  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
@@ -53,7 +60,7 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="./.">Introduction</a>
+    <a class="" href="..">Introduction</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -62,11 +69,11 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="./rbf-interpolation/">rbf-interpolation</a>
+    <a class="" href="../rbf-interpolation/">rbf-interpolation</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="./gaussian-process-regression/">gaussian-process-regression</a>
+    <a class="" href="../gaussian-process-regression/">gaussian-process-regression</a>
                 </li>
     </ul>
 	    </li>
@@ -77,7 +84,7 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="./classical-mds/">classical-mds</a>
+    <a class="" href="../classical-mds/">classical-mds</a>
                 </li>
     </ul>
 	    </li>
@@ -88,23 +95,41 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="./backtracking-line-search/">backtracking-line-search</a>
+    <a class="" href="../backtracking-line-search/">backtracking-line-search</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="./bfgs/">bfgs</a>
+    <a class="" href="../bfgs/">bfgs</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">gradient-descent</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#gradient-descent">gradient-descent</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#header">Header</a></li>
+        
+            <li><a class="toctree-l4" href="#internal-dependencies">Internal Dependencies</a></li>
+        
+            <li><a class="toctree-l4" href="#math-and-algorithm">Math and Algorithm</a></li>
+        
+            <li><a class="toctree-l4" href="#useful-resources">Useful Resources</a></li>
+        
+        </ul>
+    
+
+    </ul>
                 </li>
                 <li class="">
                     
-    <a class="" href="./gradient-descent/">gradient-descent</a>
+    <a class="" href="../l-bfgs/">l-bfgs</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="./l-bfgs/">l-bfgs</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="./strong-wolfe-conditions-line-search/">strong-wolfe-conditions-line-search</a>
+    <a class="" href="../strong-wolfe-conditions-line-search/">strong-wolfe-conditions-line-search</a>
                 </li>
     </ul>
 	    </li>
@@ -115,7 +140,7 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="./matrix-inversion/">matrix-inversion</a>
+    <a class="" href="../matrix-inversion/">matrix-inversion</a>
                 </li>
     </ul>
 	    </li>
@@ -126,19 +151,19 @@
     <ul class="subnav">
                 <li class="">
                     
-    <a class="" href="./acquisition-functions/">acquisition-functions</a>
+    <a class="" href="../acquisition-functions/">acquisition-functions</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="./constants/">constants</a>
+    <a class="" href="../constants/">constants</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="./kernel-functions/">kernel-functions</a>
+    <a class="" href="../kernel-functions/">kernel-functions</a>
                 </li>
                 <li class="">
                     
-    <a class="" href="./probability-distributions/">probability-distributions</a>
+    <a class="" href="../probability-distributions/">probability-distributions</a>
                 </li>
     </ul>
 	    </li>
@@ -153,7 +178,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="./.">mathtoolbox</a>
+        <a href="..">mathtoolbox</a>
       </nav>
 
       
@@ -161,10 +186,19 @@
         <div class="rst-content">
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
-    <li><a href="./.">Docs</a> &raquo;</li>
+    <li><a href="..">Docs</a> &raquo;</li>
     
+      
+        
+          <li>Numerical Optimization &raquo;</li>
+        
+      
     
+    <li>gradient-descent</li>
     <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/yuki-koyama/mathtoolbox/edit/master/docs/gradient-descent.md"
+          class="icon icon-github"> Edit on GitHub</a>
       
     </li>
   </ul>
@@ -173,22 +207,38 @@
           <div role="main">
             <div class="section">
               
+                <h1 id="gradient-descent">gradient-descent</h1>
+<p>Gradient descent is a gradient-based local optimization method. This is probably the simplest method in this category.</p>
+<h2 id="header">Header</h2>
+<pre><code class="cpp">#include &lt;mathtoolbox/gradient-descent.hpp&gt;
+</code></pre>
 
-  <h1 id="search">Search Results</h1>
-
-  <form id="content_search" action="search.html">
-    <span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span>
-    <input name="q" id="mkdocs-search-query" type="text" class="search_input search-query ui-autocomplete-input" placeholder="Search the Docs" autocomplete="off" autofocus title="Type search term here">
-  </form>
-
-  <div id="mkdocs-search-results" class="search-results">
-    Searching...
-  </div>
-
-
+<h2 id="internal-dependencies">Internal Dependencies</h2>
+<ul>
+<li><a href="../backtracking-line-search/">backtracking-line-search</a></li>
+</ul>
+<h2 id="math-and-algorithm">Math and Algorithm</h2>
+<h3 id="bound-conditions">Bound Conditions</h3>
+<p>This implementation supports simple lower/upper bound conditions.</p>
+<h3 id="line-search">Line Search</h3>
+<p>This implementation uses <a href="../backtracking-line-search/">backtracking-line-search</a> to find an appropriate step size.</p>
+<h2 id="useful-resources">Useful Resources</h2>
+<ul>
+<li>Gradient descent - Wikipedia. <a href="https://en.wikipedia.org/wiki/Gradient_descent">https://en.wikipedia.org/wiki/Gradient_descent</a>.</li>
+</ul>
+              
             </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../l-bfgs/" class="btn btn-neutral float-right" title="l-bfgs">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../bfgs/" class="btn btn-neutral" title="bfgs"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
@@ -214,13 +264,17 @@
           <a href="https://github.com/yuki-koyama/mathtoolbox/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
+        <span><a href="../bfgs/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../l-bfgs/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
-    <script>var base_url = '.';</script>
-    <script src="./js/theme.js" defer></script>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
       <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
-      <script src="./search/main.js" defer></script>
+      <script src="../search/main.js" defer></script>
 
 </body>
 </html>

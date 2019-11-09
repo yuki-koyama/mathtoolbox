@@ -16,15 +16,15 @@ void ExportMatrixToCsv(const std::string& file_path, const Eigen::MatrixXd& X)
 int main()
 {
     constexpr otf::FunctionType type       = otf::FunctionType::Sphere;
-    constexpr int               num_dims   = 5;
-    constexpr int               num_iters  = 20;
-    constexpr int               num_trials = 3;
+    constexpr int               num_dims   = 4;
+    constexpr int               num_iters  = 80;
+    constexpr int               num_trials = 5;
 
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
-    const auto            objective_func = [&](const Eigen::VectorXd& x) { return -0.1 * otf::GetValue(x, type); };
-    const Eigen::VectorXd lower_bound    = Eigen::VectorXd::Constant(num_dims, -1.0);
-    const Eigen::VectorXd upper_bound    = Eigen::VectorXd::Constant(num_dims, 1.0);
+    const auto objective_func         = [&](const Eigen::VectorXd& x) { return 1.0 - otf::GetValue(x, type); };
+    const Eigen::VectorXd lower_bound = Eigen::VectorXd::Constant(num_dims, -1.0);
+    const Eigen::VectorXd upper_bound = Eigen::VectorXd::Constant(num_dims, 1.0);
 
     Eigen::MatrixXd bo_result(num_iters, num_trials);
 
@@ -59,8 +59,9 @@ int main()
 
         for (int iter = 0; iter < num_iters; ++iter)
         {
-            const auto new_point = [&](){
-                const Eigen::VectorXd normalized_sample = 0.5 * (Eigen::VectorXd::Random(num_dims) + Eigen::VectorXd::Ones(num_dims));
+            const auto new_point = [&]() {
+                const Eigen::VectorXd normalized_sample =
+                    0.5 * (Eigen::VectorXd::Random(num_dims) + Eigen::VectorXd::Ones(num_dims));
                 const Eigen::VectorXd sample =
                     (normalized_sample.array() * (upper_bound - lower_bound).array()).matrix() + lower_bound;
 
@@ -71,7 +72,7 @@ int main()
 
             if (current_solution.size() == 0 || current_optimal_value > new_value)
             {
-                current_solution = new_point;
+                current_solution      = new_point;
                 current_optimal_value = new_value;
             }
 

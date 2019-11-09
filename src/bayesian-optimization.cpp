@@ -1,7 +1,9 @@
 #include <algorithm>
+#include <iostream>
 #include <mathtoolbox/acquisition-functions.hpp>
 #include <mathtoolbox/bayesian-optimization.hpp>
 #include <mathtoolbox/gaussian-process-regression.hpp>
+#include <mathtoolbox/gradient-descent.hpp>
 #include <vector>
 
 using Eigen::MatrixXd;
@@ -67,7 +69,6 @@ std::pair<Eigen::VectorXd, double> mathtoolbox::optimization::BayesianOptimizer:
             x_plus);
     };
 
-#if false
     const auto acquisition_func_deriv = [&](const VectorXd& x) {
         return GetExpectedImprovementDerivative(
             x,
@@ -77,7 +78,6 @@ std::pair<Eigen::VectorXd, double> mathtoolbox::optimization::BayesianOptimizer:
             [&](const VectorXd& x) { return m_regressor->PredictMeanDeriv(x); },
             [&](const VectorXd& x) { return m_regressor->PredictStdevDeriv(x); });
     };
-#endif
 
     // Perform global search
     // ----
@@ -86,7 +86,7 @@ std::pair<Eigen::VectorXd, double> mathtoolbox::optimization::BayesianOptimizer:
     // global search algorithm, to obtain an initial solution and then refine it by using L-BFGS-B, a local bounded
     // gradient-based algorithm.
     const VectorXd x_new = [&]() {
-        constexpr int num_samples = 2000;
+        constexpr int num_samples = 1000;
 
         std::vector<VectorXd> samples(num_samples);
         std::for_each(std::begin(samples), std::end(samples), [&](VectorXd& sample) {
@@ -101,7 +101,23 @@ std::pair<Eigen::VectorXd, double> mathtoolbox::optimization::BayesianOptimizer:
 
         const int max_index = std::distance(std::begin(values), std::max_element(std::begin(values), std::end(values)));
 
-        return samples[max_index];
+        const VectorXd x_init = samples[max_index];
+
+        VectorXd x_star;
+        unsigned num_iters;
+        RunGradientDescent(
+            x_init,
+            [&](const VectorXd& x) -> double { return -acquisition_func(x); },
+            [&](const VectorXd& x) -> VectorXd { return -acquisition_func_deriv(x); },
+            m_lower_bound,
+            m_upper_bound,
+            1e-12,
+            1e+02,
+            1000,
+            x_star,
+            num_iters);
+
+        return x_star;
     }();
 
     // Calculate the value of the new data point, whose cost is probably heavy

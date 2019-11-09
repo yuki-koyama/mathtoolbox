@@ -16,9 +16,9 @@ void ExportMatrixToCsv(const std::string& file_path, const Eigen::MatrixXd& X)
 int main()
 {
     constexpr otf::FunctionType type       = otf::FunctionType::Sphere;
-    constexpr int               num_dims   = 4;
-    constexpr int               num_iters  = 80;
-    constexpr int               num_trials = 5;
+    constexpr int               num_dims   = 5;
+    constexpr int               num_iters  = 20;
+    constexpr int               num_trials = 3;
 
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 

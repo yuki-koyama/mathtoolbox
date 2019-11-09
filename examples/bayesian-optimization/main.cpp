@@ -22,9 +22,9 @@ int main()
 
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
-    const auto objective_func         = [&](const Eigen::VectorXd& x) { return 1.0 - otf::GetValue(x, type); };
-    const Eigen::VectorXd lower_bound = Eigen::VectorXd::Constant(num_dims, -1.0);
-    const Eigen::VectorXd upper_bound = Eigen::VectorXd::Constant(num_dims, 1.0);
+    const auto            objective_func = [&](const Eigen::VectorXd& x) { return 1.0 - otf::GetValue(x, type); };
+    const Eigen::VectorXd lower_bound    = Eigen::VectorXd::Constant(num_dims, -1.0);
+    const Eigen::VectorXd upper_bound    = Eigen::VectorXd::Constant(num_dims, 1.0);
 
     Eigen::MatrixXd bo_result(num_iters, num_trials);
 

@@ -18,7 +18,8 @@ namespace mathtoolbox
         // Construction with input data
         GaussianProcessRegression(const Eigen::MatrixXd& X,
                                   const Eigen::VectorXd& y,
-                                  const KernelType       kernel_type = KernelType::ArdMatern52);
+                                  const KernelType       kernel_type            = KernelType::ArdMatern52,
+                                  const bool             use_data_normalization = true);
 
         // Estimation methods
         double PredictMean(const Eigen::VectorXd& x) const;
@@ -48,6 +49,11 @@ namespace mathtoolbox
         // Derivative data
         Eigen::MatrixXd m_K_y;
         Eigen::MatrixXd m_K_y_inv;
+
+        // Normalization parameters
+        double m_data_mu;
+        double m_data_sigma;
+        double m_data_scale;
 
         // Hyperparameters
         Eigen::VectorXd m_kernel_hyperparams;

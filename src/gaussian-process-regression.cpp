@@ -206,9 +206,14 @@ namespace
 
 mathtoolbox::GaussianProcessRegression::GaussianProcessRegression(const MatrixXd&  X,
                                                                   const VectorXd&  y,
-                                                                  const KernelType kernel_type)
-    : m_X(X), m_y(y)
+                                                                  const KernelType kernel_type,
+                                                                  const bool       use_data_normalization)
+    : m_X(X)
 {
+    assert(X.cols() == y.size());
+    assert(X.cols() != 0);
+    assert(y.rows() != 0);
+
     switch (kernel_type)
     {
         case KernelType::ArdSquaredExp:
@@ -226,6 +231,25 @@ mathtoolbox::GaussianProcessRegression::GaussianProcessRegression(const MatrixXd
             break;
         }
     }
+
+    // Calculate parameters for data standardization
+    if (use_data_normalization)
+    {
+        m_data_mu    = y.mean();
+        m_data_sigma = std::max(std::sqrt((1.0 / static_cast<double>(y.size())) *
+                                          (y - VectorXd::Constant(y.size(), m_data_mu)).squaredNorm()),
+                                1e-32);
+        m_data_scale = 0.20; // This value is empirically set
+    }
+    else
+    {
+        m_data_mu    = 0.0;
+        m_data_sigma = 1.0;
+        m_data_scale = 1.0;
+    }
+
+    // Store a normalization data values
+    m_y = (m_data_scale / m_data_sigma) * (y - VectorXd::Constant(y.size(), m_data_mu));
 
     const int D = X.rows();
 
@@ -259,7 +283,7 @@ void mathtoolbox::GaussianProcessRegression::PerformMaximumLikelihood(double    
         x.segment(2, D) = length_scales_initial;
         return x;
     }();
-    const VectorXd upper = VectorXd::Constant(D + 2, 1e+03);
+    const VectorXd upper = VectorXd::Constant(D + 2, 1e+04);
     const VectorXd lower = VectorXd::Constant(D + 2, 1e-05);
 
     using Data = std::tuple<const MatrixXd&, const VectorXd&>;
@@ -373,28 +397,37 @@ void mathtoolbox::GaussianProcessRegression::PerformMaximumLikelihood(double    
 
 double mathtoolbox::GaussianProcessRegression::PredictMean(const VectorXd& x) const
 {
-    const VectorXd k = CalcSmallK(x, m_X, m_kernel_hyperparams, m_kernel);
-    return k.transpose() * (m_K_y_inv * m_y);
+    const VectorXd k               = CalcSmallK(x, m_X, m_kernel_hyperparams, m_kernel);
+    const double   normalized_mean = k.transpose() * (m_K_y_inv * m_y);
+
+    return (m_data_sigma / m_data_scale) * normalized_mean + m_data_mu;
 }
 
 double mathtoolbox::GaussianProcessRegression::PredictStdev(const VectorXd& x) const
 {
-    const VectorXd k    = CalcSmallK(x, m_X, m_kernel_hyperparams, m_kernel);
-    const double   k_xx = m_kernel_hyperparams[0];
+    const VectorXd k                = CalcSmallK(x, m_X, m_kernel_hyperparams, m_kernel);
+    const double   k_xx             = m_kernel_hyperparams[0];
+    const double   normalized_stdev = std::sqrt(k_xx - k.transpose() * (m_K_y_inv * k));
 
-    return std::sqrt(k_xx - k.transpose() * (m_K_y_inv * k));
+    return (m_data_sigma / m_data_scale) * normalized_stdev;
 }
 
 VectorXd mathtoolbox::GaussianProcessRegression::PredictMeanDeriv(const VectorXd& x) const
 {
     const MatrixXd k_deriv_x = CalcSmallKDerivSmallX(x, m_X, m_kernel_hyperparams, m_kernel_deriv_first_arg);
-    return k_deriv_x * (m_K_y_inv * m_y);
+    const VectorXd normalized_mean_deriv = k_deriv_x * (m_K_y_inv * m_y);
+
+    return (m_data_sigma / m_data_scale) * normalized_mean_deriv;
 }
 
 VectorXd mathtoolbox::GaussianProcessRegression::PredictStdevDeriv(const VectorXd& x) const
 {
-    const MatrixXd k_deriv_x = CalcSmallKDerivSmallX(x, m_X, m_kernel_hyperparams, m_kernel_deriv_first_arg);
-    const VectorXd k         = CalcSmallK(x, m_X, m_kernel_hyperparams, m_kernel);
-    const double   sigma     = PredictStdev(x);
-    return -(1.0 / sigma) * k_deriv_x * (m_K_y_inv * k);
+    const MatrixXd k_deriv_x        = CalcSmallKDerivSmallX(x, m_X, m_kernel_hyperparams, m_kernel_deriv_first_arg);
+    const VectorXd k                = CalcSmallK(x, m_X, m_kernel_hyperparams, m_kernel);
+    const double   k_xx             = m_kernel_hyperparams[0];
+    const VectorXd K_y_inv_k        = m_K_y_inv * k;
+    const double   normalized_stdev = std::sqrt(k_xx - k.transpose() * K_y_inv_k);
+    const VectorXd normalized_stdev_deriv = -(1.0 / normalized_stdev) * k_deriv_x * K_y_inv_k;
+
+    return (m_data_sigma / m_data_scale) * normalized_stdev_deriv;
 }

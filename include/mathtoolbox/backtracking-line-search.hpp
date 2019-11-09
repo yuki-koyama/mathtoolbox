@@ -3,6 +3,7 @@
 
 #include <Eigen/Core>
 #include <functional>
+#include <iostream>
 
 namespace mathtoolbox
 {
@@ -20,26 +21,26 @@ namespace mathtoolbox
                                                 const Eigen::VectorXd&                               p,
                                                 const double                                         alpha_init,
                                                 const double                                         rho,
-                                                const double                                         c)
+                                                const double                                         c = 1e-04)
         {
-            constexpr unsigned int num_max_iterations = 50;
+            constexpr unsigned int max_num_iters = 50;
 
-            unsigned counter = 0;
-            double   alpha   = alpha_init;
-            while (true)
+            double alpha = alpha_init;
+
+            for (int iter = 0; iter < max_num_iters; ++iter)
             {
                 // Equation 3.4
                 const bool armijo_condition = f(x + alpha * p) <= f(x) + c * alpha * grad.transpose() * p;
 
-                if (armijo_condition || counter == num_max_iterations)
+                if (armijo_condition)
                 {
-                    break;
+                    return alpha;
                 }
 
                 alpha *= rho;
-
-                ++counter;
             }
+
+            std::cerr << "Warning: The line search did not converge." << std::endl;
             return alpha;
         }
     } // namespace optimization

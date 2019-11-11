@@ -57,8 +57,10 @@ std::pair<Eigen::VectorXd, double> mathtoolbox::optimization::BayesianOptimizer:
     const int      num_dims = x_plus.size();
 
     m_regressor = std::make_shared<GaussianProcessRegression>(m_X, m_y, kernel_type);
-#if false
-    m_regressor->PerformMaximumLikelihood(0.1, 2e-05, VectorXd::Constant(num_dims, 1.0));
+#if true
+    m_regressor->SetHyperparams(0.20, 2e-05, VectorXd::Constant(num_dims, 0.20));
+#else
+    m_regressor->PerformMaximumLikelihood(0.20, 2e-05, VectorXd::Constant(num_dims, 0.20));
 #endif
 
     const auto acquisition_func = [&](const VectorXd& x) {

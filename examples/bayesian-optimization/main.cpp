@@ -39,7 +39,7 @@ int main()
             const auto new_point = optimizer.Step();
 
             const Eigen::VectorXd current_solution      = optimizer.GetCurrentOptimizer();
-            const double          current_optimal_value = -optimizer.EvaluatePoint(current_solution);
+            const double          current_optimal_value = optimizer.EvaluatePoint(current_solution);
 
             std::cout << current_solution.transpose().format(Eigen::IOFormat(2));
             std::cout << " (" << current_optimal_value << ")" << std::endl;
@@ -68,9 +68,9 @@ int main()
                 return sample;
             }();
 
-            const double new_value = -objective_func(new_point);
+            const double new_value = objective_func(new_point);
 
-            if (current_solution.size() == 0 || current_optimal_value > new_value)
+            if (current_solution.size() == 0 || current_optimal_value < new_value)
             {
                 current_solution      = new_point;
                 current_optimal_value = new_value;

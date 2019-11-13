@@ -15,6 +15,7 @@ nav:
     - 'classical-mds.md'
   - 'Numerical Optimization':
     - 'backtracking-line-search.md'
+    - 'bayesian-optimization.md'
     - 'bfgs.md'
     - 'gradient-descent.md'
     - 'l-bfgs.md'

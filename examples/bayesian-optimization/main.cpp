@@ -22,7 +22,7 @@ int main()
 
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
-    const auto            objective_func = [&](const Eigen::VectorXd& x) { return 1.0 - otf::GetValue(x, type); };
+    const auto            objective_func = [&](const Eigen::VectorXd& x) { return -otf::GetValue(x, type); };
     const Eigen::VectorXd lower_bound    = Eigen::VectorXd::Constant(num_dims, -1.0);
     const Eigen::VectorXd upper_bound    = Eigen::VectorXd::Constant(num_dims, 1.0);
 
@@ -48,7 +48,7 @@ int main()
         }
     }
 
-    Eigen::MatrixXd random_result(num_iters, num_trials);
+    Eigen::MatrixXd rand_result(num_iters, num_trials);
 
     for (int trial = 0; trial < num_trials; ++trial)
     {
@@ -79,7 +79,7 @@ int main()
             std::cout << current_solution.transpose().format(Eigen::IOFormat(2));
             std::cout << " (" << current_optimal_value << ")" << std::endl;
 
-            random_result(iter, trial) = current_optimal_value;
+            rand_result(iter, trial) = current_optimal_value;
         }
     }
 
@@ -89,7 +89,7 @@ int main()
     std::cout << "Expected solution: " << expected_solution.transpose() << " (" << expected_value << ")" << std::endl;
 
     ExportMatrixToCsv("./bo_result.csv", bo_result);
-    ExportMatrixToCsv("./random_result.csv", random_result);
+    ExportMatrixToCsv("./rand_result.csv", rand_result);
 
     return 0;
 }

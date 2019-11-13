@@ -18,11 +18,16 @@ namespace mathtoolbox
         // Construction with input data
         GaussianProcessRegression(const Eigen::MatrixXd& X,
                                   const Eigen::VectorXd& y,
-                                  const KernelType       kernel_type = KernelType::ArdMatern52);
+                                  const KernelType       kernel_type            = KernelType::ArdMatern52,
+                                  const bool             use_data_normalization = true);
 
         // Estimation methods
         double PredictMean(const Eigen::VectorXd& x) const;
-        double PredictVariance(const Eigen::VectorXd& x) const;
+        double PredictStdev(const Eigen::VectorXd& x) const;
+
+        // Derivative estimation methods
+        Eigen::VectorXd PredictMeanDeriv(const Eigen::VectorXd& x) const;
+        Eigen::VectorXd PredictStdevDeriv(const Eigen::VectorXd& x) const;
 
         // Hyperparameters setup methods
         void SetHyperparams(double sigma_squared_f, double sigma_squared_n, const Eigen::VectorXd& length_scales);
@@ -43,13 +48,19 @@ namespace mathtoolbox
         Eigen::MatrixXd m_K_y;
         Eigen::MatrixXd m_K_y_inv;
 
+        // Normalization parameters
+        double m_data_mu;
+        double m_data_sigma;
+        double m_data_scale;
+
         // Hyperparameters
         Eigen::VectorXd m_kernel_hyperparams;
         double          m_sigma_squared_n;
 
         // Kernel functions
-        Kernel                 m_kernel;
-        KernelThetaIDerivative m_kernel_deriv_theta_i;
+        Kernel                   m_kernel;
+        KernelThetaIDerivative   m_kernel_deriv_theta_i;
+        KernelFirstArgDerivative m_kernel_deriv_first_arg;
     };
 } // namespace mathtoolbox
 

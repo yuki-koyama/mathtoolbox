@@ -21,6 +21,7 @@ A library of mathematical tools (regression, interpolation, dimensionality reduc
 ### Numerical Optimization
 
 - [`backtracking-line-search`: Backtracking line search](https://yuki-koyama.github.io/mathtoolbox/backtracking-line-search/)
+- [`bayesian-optimization`: Bayesian optimization](https://yuki-koyama.github.io/mathtoolbox/bayesian-optimization/)
 - [`bfgs`: BFGS method](https://yuki-koyama.github.io/mathtoolbox/bfgs/)
 - [`gradient-descent`: Gradient descent method](https://yuki-koyama.github.io/mathtoolbox/gradient-descent/)
 - [`l-bfgs`: Limited-memory BFGS method](https://yuki-koyama.github.io/mathtoolbox/l-bfgs/)

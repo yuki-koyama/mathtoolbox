@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: packages
-      run: apt install libeigen3-dev
+      run: sudo apt-get install libeigen3-dev
     - name: cmake
       run: cmake .
     - name: make

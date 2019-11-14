@@ -1,0 +1,23 @@
+name: build-test
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: packages
+      run: sudo apt-get install libeigen3-dev
+    - name: submodule
+      run: git submodule update --init --recursive
+    - name: pip
+      run: pip3 install numpy
+    - name: cmake
+      run: cmake . -DMATHTOOLBOX_BUILD_EXAMPLES=ON -DMATHTOOLBOX_PYTHON_BINDINGS=ON
+    - name: make
+      run: make
+    - name: ctest
+      run: ctest

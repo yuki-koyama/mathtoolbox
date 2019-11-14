@@ -14,7 +14,15 @@ jobs:
     - name: submodule
       run: git submodule update --init --recursive
     - name: pyenv
-      run: pyenv global 3.7 && pip install numpy
+      run: |
+        git clone https://github.com/pyenv/pyenv.git ~/.pyenv
+        export PYENV_ROOT=$HOME/.pyenv
+        export PATH=${PYENV_ROOT}/bin:$PATH
+        eval "$(pyenv init -)"
+        pyenv install -v 3.7
+        pyenv global 3.7
+    - name: pip
+      run: pip install numpy
     - name: cmake
       run: cmake . -DMATHTOOLBOX_BUILD_EXAMPLES=ON -DMATHTOOLBOX_PYTHON_BINDINGS=ON
     - name: make

@@ -20,4 +20,4 @@ jobs:
     - name: make
       run: make
     - name: ctest
-      run: ctest -VV
+      run: ctest

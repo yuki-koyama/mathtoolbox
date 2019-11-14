@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: build-test
 
 on: [push]
 
@@ -28,4 +28,4 @@ jobs:
     - name: make
       run: make
     - name: ctest
-      run: ctest
+      run: ctest -VV

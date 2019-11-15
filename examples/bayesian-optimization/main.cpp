@@ -17,8 +17,8 @@ int main()
 {
     constexpr otf::FunctionType type       = otf::FunctionType::Sphere;
     constexpr int               num_dims   = 5;
-    constexpr int               num_iters  = 20;
-    constexpr int               num_trials = 3;
+    constexpr int               num_iters  = 15;
+    constexpr int               num_trials = 2;
 
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 

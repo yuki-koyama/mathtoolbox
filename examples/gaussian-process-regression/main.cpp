@@ -5,6 +5,7 @@
 #include <mathtoolbox/gaussian-process-regression.hpp>
 #include <random>
 #include <string>
+#include <timer.hpp>
 #include <vector>
 
 using Eigen::MatrixXd;
@@ -48,7 +49,12 @@ int main(int argc, char** argv)
 
     // Instantiate the interpolation object
     mathtoolbox::GaussianProcessRegression regressor(X, y, kernel_type);
-    regressor.PerformMaximumLikelihood(0.50, 0.010, VectorXd::Constant(1, 0.50));
+
+    // Perform hyperparameter estimation
+    {
+        timer::Timer t("maximum likelihood estimation");
+        regressor.PerformMaximumLikelihood(0.50, 0.010, VectorXd::Constant(1, 0.50));
+    }
 
     // Define constants for export
     constexpr int    resolution       = 200;

@@ -228,6 +228,8 @@
 </ul>
 <h2 id="math-and-algorithm">Math and Algorithm</h2>
 <p>(TODO)</p>
+<h3 id="acquisition-functions">Acquisition Functions</h3>
+<p>(TODO)</p>
 <h2 id="examples">Examples</h2>
 <p>The following plot shows a result of optimizing a simple objective function:
 <script type="math/tex; mode=display">
@@ -235,6 +237,22 @@
 </script>
 50 times with random initial solutions. As a baseline, it also shows a result by the same setting except for using random uniform sampling instead of BO.</p>
 <p><img alt="" src="bo-vs-rand.png" /></p>
+<pre><code class="cpp">// Define the target problem
+const int  num_dims    = 5;
+const auto f           = [](const Eigen::VectorXd&amp; x) { return - x.squaredNorm(); };
+const auto lower_bound = Eigen::VectorXd::Constant(num_dims, -1.0);
+const auto upper_bound = Eigen::VectorXd::Constant(num_dims, +1.0);
+
+// Instantiate an optimizer
+mathtoolbox::BayesianOptimizer optimizer{f, lower_bound, upper_bound};
+
+// Perform optimization iteration
+for (int i = 0; i &lt; 50; ++i) { optimizer.Step(); }
+
+// Retrieve the found solution
+const Eigen::VectorXd x_star = optimizer.GetCurrentSolution();
+</code></pre>
+
 <h2 id="useful-resources">Useful Resources</h2>
 <ul>
 <li>Yuki Koyama, Issei Sato, Daisuke Sakamoto, and Takeo Igarashi. 2017. Sequential line search for efficient visual design optimization by crowds. ACM Trans. Graph. 36, 4, pp.48:1--48:11 (2017). DOI: <a href="https://doi.org/10.1145/3072959.3073598">https://doi.org/10.1145/3072959.3073598</a></li>

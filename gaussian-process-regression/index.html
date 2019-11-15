@@ -299,7 +299,7 @@ m(\mathbf{x}) = 0.
 \boldsymbol{\theta}^\text{ML} = \mathop{\rm arg~max}\limits_{\boldsymbol{\theta}} p(\mathbf{y} \mid \mathbf{X}, \boldsymbol{\theta}).
 </script>
 </p>
-<p>In this implementation, this maximization problem is solved by the L-BFGS method (a gradient-based local optimization algorithm) from the NLopt library <a href="https://nlopt.readthedocs.io/">https://nlopt.readthedocs.io/</a>. Initial solutions for this maximization need to be specified.</p>
+<p>In this implementation, this maximization problem is solved by <a href="../l-bfgs">the L-BFGS method</a> (a gradient-based local optimization algorithm). An initial solution for this maximization needs to be specified.</p>
 <h2 id="usage">Usage</h2>
 <h3 id="instantiation-and-data-specification">Instantiation and Data Specification</h3>
 <p>A GPR object is instantiated with data specification in its constructor:</p>
@@ -321,13 +321,13 @@ m(\mathbf{x}) = 0.
                               const Eigen::VectorXd&amp; length_scales_initial);
 </code></pre>
 
-<h3 id="estimation">Estimation</h3>
-<p>Once a GPR object is instantiated and its hyperparameters are set, it is ready for estimation. For an unknown location <script type="math/tex"> \mathbf{x} </script>, the GPR object estimates the most likely value <script type="math/tex"> f </script> by the following method:</p>
+<h3 id="prediction">Prediction</h3>
+<p>Once a GPR object is instantiated and its hyperparameters are set, it is ready for prediction. For an unknown location <script type="math/tex"> \mathbf{x} </script>, the GPR object predicts the most likely value <script type="math/tex"> f </script> by the following method:</p>
 <pre><code class="cpp">double PredictMean(const Eigen::VectorXd&amp; x) const;
 </code></pre>
 
-<p>It also estimates the variance <script type="math/tex"> \text{Var}(f) </script> by the following method:</p>
-<pre><code class="cpp">double PredictVariance(const Eigen::VectorXd&amp; x) const;
+<p>It also predicts the standard deviation <script type="math/tex"> \sqrt{\text{Var}(f)} </script> by the following method:</p>
+<pre><code class="cpp">double PredictStdev(const Eigen::VectorXd&amp; x) const;
 </code></pre>
 
 <h2 id="useful-resources">Useful Resources</h2>

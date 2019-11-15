@@ -101,7 +101,7 @@ $$
 \boldsymbol{\theta}^\text{ML} = \mathop{\rm arg~max}\limits_{\boldsymbol{\theta}} p(\mathbf{y} \mid \mathbf{X}, \boldsymbol{\theta}).
 $$
 
-In this implementation, this maximization problem is solved by the L-BFGS method (a gradient-based local optimization algorithm) from the NLopt library <https://nlopt.readthedocs.io/>. Initial solutions for this maximization need to be specified.
+In this implementation, this maximization problem is solved by [the L-BFGS method](../l-bfgs) (a gradient-based local optimization algorithm). An initial solution for this maximization needs to be specified.
 
 ## Usage
 
@@ -129,15 +129,15 @@ void PerformMaximumLikelihood(double sigma_squared_f_initial,
                               const Eigen::VectorXd& length_scales_initial);
 ```
 
-### Estimation
+### Prediction
 
-Once a GPR object is instantiated and its hyperparameters are set, it is ready for estimation. For an unknown location $ \mathbf{x} $, the GPR object estimates the most likely value $ f $ by the following method:
+Once a GPR object is instantiated and its hyperparameters are set, it is ready for prediction. For an unknown location $ \mathbf{x} $, the GPR object predicts the most likely value $ f $ by the following method:
 ```cpp
 double PredictMean(const Eigen::VectorXd& x) const;
 ```
-It also estimates the variance $ \text{Var}(f) $ by the following method:
+It also predicts the standard deviation $ \sqrt{\text{Var}(f)} $ by the following method:
 ```cpp
-double PredictVariance(const Eigen::VectorXd& x) const;
+double PredictStdev(const Eigen::VectorXd& x) const;
 ```
 
 ## Useful Resources

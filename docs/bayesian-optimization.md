@@ -20,6 +20,10 @@ BO is likely to find reasonable solutions with fewer function evaluations than o
 
 (TODO)
 
+### Acquisition Functions
+
+(TODO)
+
 ## Examples
 
 The following plot shows a result of optimizing a simple objective function:
@@ -29,6 +33,23 @@ $$
 50 times with random initial solutions. As a baseline, it also shows a result by the same setting except for using random uniform sampling instead of BO.
 
 ![](./bayesian-optimization/bo-vs-rand.png)
+
+```cpp
+// Define the target problem
+const int  num_dims    = 5;
+const auto f           = [](const Eigen::VectorXd& x) { return - x.squaredNorm(); };
+const auto lower_bound = Eigen::VectorXd::Constant(num_dims, -1.0);
+const auto upper_bound = Eigen::VectorXd::Constant(num_dims, +1.0);
+
+// Instantiate an optimizer
+mathtoolbox::BayesianOptimizer optimizer{f, lower_bound, upper_bound};
+
+// Perform optimization iteration
+for (int i = 0; i < 50; ++i) { optimizer.Step(); }
+
+// Retrieve the found solution
+const Eigen::VectorXd x_star = optimizer.GetCurrentSolution();
+```
 
 ## Useful Resources
 

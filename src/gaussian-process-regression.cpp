@@ -290,7 +290,7 @@ void mathtoolbox::GaussianProcessRegression::PerformMaximumLikelihood(double    
     using Data = std::tuple<const MatrixXd&, const VectorXd&>;
     Data data(m_X, m_y);
 
-    // Currently, the mathtoolbox does not have any numerical optimization algorithms that support lower- and
+    // Currently, the mathtoolbox does not have efficient numerical optimization algorithms that support lower- and
     // upper-bound conditions. The hyperparameters here should always be positive for evaluating the objective
     // function. Also, they should not be very large values because the covariance matrix becomes difficult to
     // inverse. To resolve these issues, here, the search variables are encoded using a variant of the logit

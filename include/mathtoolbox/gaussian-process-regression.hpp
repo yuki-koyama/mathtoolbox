@@ -1,6 +1,7 @@
 #ifndef MATHTOOLBOX_GAUSSIAN_PROCESS_REGRESSION_HPP
 #define MATHTOOLBOX_GAUSSIAN_PROCESS_REGRESSION_HPP
 
+#include <Eigen/Cholesky>
 #include <Eigen/Core>
 #include <mathtoolbox/kernel-functions.hpp>
 
@@ -45,8 +46,9 @@ namespace mathtoolbox
         Eigen::VectorXd m_y;
 
         // Derivative data
-        Eigen::MatrixXd m_K_y;
-        Eigen::MatrixXd m_K_y_inv;
+        Eigen::MatrixXd             m_K_y;
+        Eigen::LLT<Eigen::MatrixXd> m_K_y_llt;
+        Eigen::VectorXd             m_K_y_inv_y;
 
         // Normalization parameters
         double m_data_mu;

@@ -263,8 +263,9 @@ void mathtoolbox::GaussianProcessRegression::SetHyperparams(double          sigm
     this->m_kernel_hyperparams = Concat(sigma_squared_f, length_scales);
     this->m_sigma_squared_n    = sigma_squared_n;
 
-    m_K_y     = CalcLargeKY(m_X, m_sigma_squared_n, m_kernel_hyperparams, m_kernel);
-    m_K_y_inv = m_K_y.inverse();
+    m_K_y       = CalcLargeKY(m_X, m_sigma_squared_n, m_kernel_hyperparams, m_kernel);
+    m_K_y_llt   = Eigen::LLT<Eigen::MatrixXd>(m_K_y);
+    m_K_y_inv_y = m_K_y_llt.solve(m_y);
 }
 
 void mathtoolbox::GaussianProcessRegression::PerformMaximumLikelihood(double          sigma_squared_f_initial,
@@ -391,14 +392,15 @@ void mathtoolbox::GaussianProcessRegression::PerformMaximumLikelihood(double    
     std::cout << "sigma_squared_n: " << m_sigma_squared_n << std::endl;
     std::cout << "length_scales  : " << m_kernel_hyperparams.segment(1, D).transpose() << std::endl;
 
-    m_K_y     = CalcLargeKY(m_X, m_sigma_squared_n, m_kernel_hyperparams, m_kernel);
-    m_K_y_inv = m_K_y.inverse();
+    m_K_y       = CalcLargeKY(m_X, m_sigma_squared_n, m_kernel_hyperparams, m_kernel);
+    m_K_y_llt   = Eigen::LLT<Eigen::MatrixXd>(m_K_y);
+    m_K_y_inv_y = m_K_y_llt.solve(m_y);
 }
 
 double mathtoolbox::GaussianProcessRegression::PredictMean(const VectorXd& x) const
 {
     const VectorXd k               = CalcSmallK(x, m_X, m_kernel_hyperparams, m_kernel);
-    const double   normalized_mean = k.transpose() * (m_K_y_inv * m_y);
+    const double   normalized_mean = k.transpose() * m_K_y_inv_y;
 
     return (m_data_sigma / m_data_scale) * normalized_mean + m_data_mu;
 }
@@ -407,7 +409,7 @@ double mathtoolbox::GaussianProcessRegression::PredictStdev(const VectorXd& x) c
 {
     const VectorXd k                = CalcSmallK(x, m_X, m_kernel_hyperparams, m_kernel);
     const double   k_xx             = m_kernel_hyperparams[0];
-    const double   normalized_stdev = std::sqrt(k_xx - k.transpose() * (m_K_y_inv * k));
+    const double   normalized_stdev = std::sqrt(k_xx - k.transpose() * m_K_y_llt.solve(k));
 
     return (m_data_sigma / m_data_scale) * normalized_stdev;
 }
@@ -415,7 +417,7 @@ double mathtoolbox::GaussianProcessRegression::PredictStdev(const VectorXd& x) c
 VectorXd mathtoolbox::GaussianProcessRegression::PredictMeanDeriv(const VectorXd& x) const
 {
     const MatrixXd k_deriv_x = CalcSmallKDerivSmallX(x, m_X, m_kernel_hyperparams, m_kernel_deriv_first_arg);
-    const VectorXd normalized_mean_deriv = k_deriv_x * (m_K_y_inv * m_y);
+    const VectorXd normalized_mean_deriv = k_deriv_x * m_K_y_inv_y;
 
     return (m_data_sigma / m_data_scale) * normalized_mean_deriv;
 }
@@ -425,7 +427,7 @@ VectorXd mathtoolbox::GaussianProcessRegression::PredictStdevDeriv(const VectorX
     const MatrixXd k_deriv_x        = CalcSmallKDerivSmallX(x, m_X, m_kernel_hyperparams, m_kernel_deriv_first_arg);
     const VectorXd k                = CalcSmallK(x, m_X, m_kernel_hyperparams, m_kernel);
     const double   k_xx             = m_kernel_hyperparams[0];
-    const VectorXd K_y_inv_k        = m_K_y_inv * k;
+    const VectorXd K_y_inv_k        = m_K_y_llt.solve(k);
     const double   normalized_stdev = std::sqrt(k_xx - k.transpose() * K_y_inv_k);
     const VectorXd normalized_stdev_deriv = -(1.0 / normalized_stdev) * k_deriv_x * K_y_inv_k;
 

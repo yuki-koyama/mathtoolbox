@@ -1,5 +1,3 @@
-#include <Eigen/Cholesky>
-#include <Eigen/LU>
 #include <iostream>
 #include <mathtoolbox/constants.hpp>
 #include <mathtoolbox/gaussian-process-regression.hpp>
@@ -118,7 +116,7 @@ namespace
         assert(num_points > 0);
         assert(x.size() == num_dims);
 
-        Eigen::MatrixXd k_deriv_x(num_dims, num_points);
+        MatrixXd k_deriv_x(num_dims, num_points);
         for (int i = 0; i < num_points; ++i)
         {
             k_deriv_x.col(i) = kernel_deriv_first_arg(x, X.col(i), kernel_hyperparams);
@@ -163,16 +161,16 @@ namespace
     {
         const int D = X.rows();
 
-        const MatrixXd K_y       = CalcLargeKY(X, sigma_squared_n, kernel_hyperparams, kernel);
-        const MatrixXd K_y_inv   = K_y.inverse();
-        const VectorXd K_y_inv_y = K_y_inv * y;
+        const MatrixXd             K_y       = CalcLargeKY(X, sigma_squared_n, kernel_hyperparams, kernel);
+        const Eigen::LLT<MatrixXd> K_y_llt   = Eigen::LLT<MatrixXd>(K_y);
+        const VectorXd             K_y_inv_y = K_y_llt.solve(y);
 
         const double log_likeliehood_deriv_sigma_squared_f = [&]() {
             // Equation 5.9 [Rasmussen and Williams 2006]
             const MatrixXd K_deriv_sigma_squared_f =
                 CalcLargeKYDerivKernelHyperparamsI(X, kernel_hyperparams, 0, kernel_deriv_theta_i);
             const double term1 = +0.5 * K_y_inv_y.transpose() * K_deriv_sigma_squared_f * K_y_inv_y;
-            const double term2 = -0.5 * (K_y_inv * K_deriv_sigma_squared_f).trace();
+            const double term2 = -0.5 * K_y_llt.solve(K_deriv_sigma_squared_f).trace();
             return term1 + term2;
         }();
 
@@ -180,7 +178,7 @@ namespace
             // Equation 5.9 [Rasmussen and Williams 2006]
             const MatrixXd K_deriv_sigma_squared_n = CalcLargeKDerivSigmaSquaredN(X, sigma_squared_n);
             const double   term1                   = +0.5 * K_y_inv_y.transpose() * K_deriv_sigma_squared_n * K_y_inv_y;
-            const double   term2                   = -0.5 * (K_y_inv * K_deriv_sigma_squared_n).trace();
+            const double   term2                   = -0.5 * K_y_llt.solve(K_deriv_sigma_squared_n).trace();
             return term1 + term2;
         }();
 
@@ -192,7 +190,7 @@ namespace
                 const MatrixXd K_gradient_length_scale_i =
                     CalcLargeKYDerivKernelHyperparamsI(X, kernel_hyperparams, i + 1, kernel_deriv_theta_i);
                 const double term1 = +0.5 * K_y_inv_y.transpose() * K_gradient_length_scale_i * K_y_inv_y;
-                const double term2 = -0.5 * (K_y_inv * K_gradient_length_scale_i).trace();
+                const double term2 = -0.5 * K_y_llt.solve(K_gradient_length_scale_i).trace();
                 log_likelihood_deriv_length_scales(i) = term1 + term2;
             }
             return log_likelihood_deriv_length_scales;
@@ -264,7 +262,7 @@ void mathtoolbox::GaussianProcessRegression::SetHyperparams(double          sigm
     this->m_sigma_squared_n    = sigma_squared_n;
 
     m_K_y       = CalcLargeKY(m_X, m_sigma_squared_n, m_kernel_hyperparams, m_kernel);
-    m_K_y_llt   = Eigen::LLT<Eigen::MatrixXd>(m_K_y);
+    m_K_y_llt   = Eigen::LLT<MatrixXd>(m_K_y);
     m_K_y_inv_y = m_K_y_llt.solve(m_y);
 }
 
@@ -393,7 +391,7 @@ void mathtoolbox::GaussianProcessRegression::PerformMaximumLikelihood(double    
     std::cout << "length_scales  : " << m_kernel_hyperparams.segment(1, D).transpose() << std::endl;
 
     m_K_y       = CalcLargeKY(m_X, m_sigma_squared_n, m_kernel_hyperparams, m_kernel);
-    m_K_y_llt   = Eigen::LLT<Eigen::MatrixXd>(m_K_y);
+    m_K_y_llt   = Eigen::LLT<MatrixXd>(m_K_y);
     m_K_y_inv_y = m_K_y_llt.solve(m_y);
 }
 

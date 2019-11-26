@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iostream>
+#include <limits>
 #include <mathtoolbox/acquisition-functions.hpp>
 #include <mathtoolbox/bayesian-optimization.hpp>
 #include <mathtoolbox/gaussian-process-regression.hpp>
@@ -141,6 +142,16 @@ VectorXd mathtoolbox::optimization::BayesianOptimizer::GetCurrentOptimizer() con
     m_y.maxCoeff(&index);
 
     return m_X.col(index);
+}
+
+double mathtoolbox::optimization::BayesianOptimizer::PredictMean(const Eigen::VectorXd& x) const
+{
+    return m_regressor == nullptr ? std::numeric_limits<double>::quiet_NaN() : m_regressor->PredictMean(x);
+}
+
+double mathtoolbox::optimization::BayesianOptimizer::PredictStdev(const Eigen::VectorXd& x) const
+{
+    return m_regressor == nullptr ? std::numeric_limits<double>::quiet_NaN() : m_regressor->PredictStdev(x);
 }
 
 void mathtoolbox::optimization::BayesianOptimizer::AddDataEntry(const VectorXd& x_new, const double y_new)

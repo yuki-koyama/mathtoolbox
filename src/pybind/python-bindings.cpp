@@ -32,5 +32,7 @@ PYBIND11_MODULE(pymathtoolbox, m)
                       const Eigen::VectorXd&>())
         .def("step", &mathtoolbox::optimization::BayesianOptimizer::Step)
         .def("evaluate_point", &mathtoolbox::optimization::BayesianOptimizer::EvaluatePoint)
-        .def("get_current_optimizer", &mathtoolbox::optimization::BayesianOptimizer::GetCurrentOptimizer);
+        .def("get_current_optimizer", &mathtoolbox::optimization::BayesianOptimizer::GetCurrentOptimizer)
+        .def("predict_mean", &mathtoolbox::optimization::BayesianOptimizer::PredictMean)
+        .def("predict_stdev", &mathtoolbox::optimization::BayesianOptimizer::PredictStdev);
 }

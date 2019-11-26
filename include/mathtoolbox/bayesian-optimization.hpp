@@ -34,6 +34,14 @@ namespace mathtoolbox
             /// \return Evaluated function value
             double EvaluatePoint(const Eigen::VectorXd& x) const { return m_f(x); }
 
+            /// \brief Predict the mean value
+            /// \return Predicted mean value
+            double PredictMean(const Eigen::VectorXd& x) const;
+
+            /// \brief Predict the standard deviation value
+            /// \return Predicted standard deviation value
+            double PredictStdev(const Eigen::VectorXd& x) const;
+
             /// \brief Retrieve the optimizer found so far
             /// \return Optimizer found so far
             Eigen::VectorXd GetCurrentOptimizer() const;

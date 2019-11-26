@@ -1,7 +1,13 @@
 #include <cstdlib>
+#include <functional>
+#include <mathtoolbox/bayesian-optimization.hpp>
 #include <mathtoolbox/classical-mds.hpp>
-#include <pybind11/pybind11.h>
 #include <pybind11/eigen.h>
+#include <pybind11/functional.h>
+#include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
+
+namespace py = pybind11;
 
 void SetSeed(const unsigned seed)
 {
@@ -17,6 +23,14 @@ PYBIND11_MODULE(pymathtoolbox, m)
     m.def("compute_classical_mds",
           &mathtoolbox::ComputeClassicalMds,
           "A function which computes classical MDS",
-          pybind11::arg("D"),
-          pybind11::arg("dim"));
+          py::arg("D"),
+          py::arg("dim"));
+
+    py::class_<mathtoolbox::optimization::BayesianOptimizer>(m, "BayesianOptimizer")
+        .def(py::init<const std::function<double(const Eigen::VectorXd&)>&,
+                      const Eigen::VectorXd&,
+                      const Eigen::VectorXd&>())
+        .def("step", &mathtoolbox::optimization::BayesianOptimizer::Step)
+        .def("evaluate_point", &mathtoolbox::optimization::BayesianOptimizer::EvaluatePoint)
+        .def("get_current_optimizer", &mathtoolbox::optimization::BayesianOptimizer::GetCurrentOptimizer);
 }

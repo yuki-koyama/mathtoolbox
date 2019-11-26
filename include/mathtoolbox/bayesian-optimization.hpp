@@ -60,6 +60,7 @@ namespace mathtoolbox
             std::shared_ptr<GaussianProcessRegression> m_regressor;
 
             void AddDataEntry(const Eigen::VectorXd& x_new, const double y_new);
+            void ConstructSurrogateFunction();
         };
     } // namespace optimization
 } // namespace mathtoolbox

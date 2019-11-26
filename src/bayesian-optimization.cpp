@@ -38,31 +38,13 @@ std::pair<Eigen::VectorXd, double> mathtoolbox::optimization::BayesianOptimizer:
         const double y_new = EvaluatePoint(x_new);
 
         AddDataEntry(x_new, y_new);
+        ConstructSurrogateFunction();
 
         return {x_new, y_new};
     }
 
-    const GaussianProcessRegression::KernelType kernel_type = [&]() {
-        switch (m_kernel_type)
-        {
-            case KernelType::ArdSquaredExp:
-                return GaussianProcessRegression::KernelType::ArdSquaredExp;
-            case KernelType::ArdMatern52:
-                return GaussianProcessRegression::KernelType::ArdMatern52;
-            default:
-                assert(false);
-        }
-    }();
-
     const VectorXd x_plus   = GetCurrentOptimizer();
     const int      num_dims = x_plus.size();
-
-    m_regressor = std::make_shared<GaussianProcessRegression>(m_X, m_y, kernel_type);
-#if true
-    m_regressor->SetHyperparams(0.20, 2e-05, VectorXd::Constant(num_dims, 0.20));
-#else
-    m_regressor->PerformMaximumLikelihood(0.20, 2e-05, VectorXd::Constant(num_dims, 0.20));
-#endif
 
     const auto acquisition_func = [&](const VectorXd& x) {
         return GetExpectedImprovement(
@@ -129,6 +111,9 @@ std::pair<Eigen::VectorXd, double> mathtoolbox::optimization::BayesianOptimizer:
     // Add the new data point
     AddDataEntry(x_new, y_new);
 
+    // Update the surrogate function
+    ConstructSurrogateFunction();
+
     // Return the new data point
     return {x_new, y_new};
 }
@@ -175,4 +160,31 @@ void mathtoolbox::optimization::BayesianOptimizer::AddDataEntry(const VectorXd& 
     m_X.col(X_old.cols())                   = x_new;
     m_y.segment(0, y_old.size())            = y_old;
     m_y(y_old.size())                       = y_new;
+}
+
+void mathtoolbox::optimization::BayesianOptimizer::ConstructSurrogateFunction()
+{
+    assert(m_X.cols() != 0);
+    assert(m_y.size() != 0);
+
+    const GaussianProcessRegression::KernelType kernel_type = [&]() {
+        switch (m_kernel_type)
+        {
+            case KernelType::ArdSquaredExp:
+                return GaussianProcessRegression::KernelType::ArdSquaredExp;
+            case KernelType::ArdMatern52:
+                return GaussianProcessRegression::KernelType::ArdMatern52;
+            default:
+                assert(false);
+        }
+    }();
+
+    const int num_dims = m_X.rows();
+
+        m_regressor = std::make_shared<GaussianProcessRegression>(m_X, m_y, kernel_type);
+    #if true
+        m_regressor->SetHyperparams(0.20, 2e-05, VectorXd::Constant(num_dims, 0.20));
+    #else
+        m_regressor->PerformMaximumLikelihood(0.20, 2e-05, VectorXd::Constant(num_dims, 0.20));
+    #endif
 }

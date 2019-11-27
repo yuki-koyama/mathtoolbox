@@ -55,6 +55,9 @@ for i in range(NUM_ITERS):
     lower_values = mean_values - 1.95996398 * stdev_values
     upper_values = mean_values + 1.95996398 * stdev_values
 
+    vec_func = np.vectorize(lambda x: optimizer.calc_acquisition_value(np.array([x])))
+    acquisition_values = vec_func(x_samples)
+
     # Plot the predicted confidence interval
     ax.fill_between(x_samples,
                     lower_values,
@@ -63,6 +66,9 @@ for i in range(NUM_ITERS):
 
     # Plot the predicted mean
     ax.plot(x_samples, mean_values)
+
+    # Plot the acquisition function
+    ax.plot(x_samples, acquisition_values)
 
     # Plot the target objective function
     vec_func = np.vectorize(lambda x: objective_func(np.array([x])))

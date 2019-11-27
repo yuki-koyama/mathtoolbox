@@ -42,6 +42,10 @@ namespace mathtoolbox
             /// \return Predicted standard deviation value
             double PredictStdev(const Eigen::VectorXd& x) const;
 
+            /// \brief Calculate the acquisition function value at the point
+            /// \return Acquisition function value at the point
+            double CalcAcquisitionValue(const Eigen::VectorXd& x) const;
+
             /// \brief Retrieve the optimizer found so far
             /// \return Optimizer found so far
             Eigen::VectorXd GetCurrentOptimizer() const;

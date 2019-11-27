@@ -18,6 +18,8 @@ pymathtoolbox.set_seed(random.randint(0, 65535))
 # Define constants
 NUM_ITERS = 15
 CONFIDENT_REGION_ALPHA = 0.2
+FIG_SIZE = (4, 4)
+Y_RANGE = (-0.5, 2.5)
 
 # Define the bounding box
 lower_bound = np.zeros(1)
@@ -37,8 +39,9 @@ for i in range(NUM_ITERS):
     optimizer.step()
 
     # Prepare a plot
-    fig = plt.figure()
+    fig = plt.figure(figsize=FIG_SIZE)
     ax = fig.add_subplot(1, 1, 1)
+    ax.set_ylim(Y_RANGE)
 
     # Calculate sequences of relevant stats values
     x_samples = np.arange(0.0, 1.0, 0.001)
@@ -63,7 +66,7 @@ for i in range(NUM_ITERS):
 
     # Plot the target objective function
     vec_func = np.vectorize(lambda x: objective_func(np.array([x])))
-    ax.plot(x_samples, vec_func(x_samples))
+    ax.plot(x_samples, vec_func(x_samples), linestyle="dashed")
 
     # Plot the current maximizer
     x_plus = optimizer.get_current_optimizer()

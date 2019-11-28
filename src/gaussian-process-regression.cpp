@@ -233,11 +233,21 @@ mathtoolbox::GaussianProcessRegression::GaussianProcessRegression(const MatrixXd
     // Calculate parameters for data standardization
     if (use_data_normalization)
     {
-        m_data_mu    = y.mean();
-        m_data_sigma = std::max(std::sqrt((1.0 / static_cast<double>(y.size())) *
-                                          (y - VectorXd::Constant(y.size(), m_data_mu)).squaredNorm()),
-                                1e-32);
-        m_data_scale = 0.20; // This value is empirically set
+        m_data_mu = y.mean();
+
+        if (y.size() == 1)
+        {
+            m_data_sigma = 1.0;
+            m_data_scale = 1.0;
+        }
+        else
+        {
+            const double inv_size = (1.0 / static_cast<double>(y.size()));
+            const double var      = inv_size * (y - VectorXd::Constant(y.size(), m_data_mu)).squaredNorm();
+
+            m_data_sigma = std::max(std::sqrt(var), 1e-32);
+            m_data_scale = 0.20; // This value is empirically set
+        }
     }
     else
     {

@@ -50,6 +50,9 @@ namespace mathtoolbox
             /// \return Optimizer found so far
             Eigen::VectorXd GetCurrentOptimizer() const;
 
+            /// \brief Get the observed data points and their values
+            std::pair<Eigen::MatrixXd, Eigen::VectorXd> GetData() const { return {m_X, m_y}; }
+
         private:
             const std::function<double(const Eigen::VectorXd&)> m_f;
 

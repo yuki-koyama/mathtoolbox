@@ -35,5 +35,6 @@ PYBIND11_MODULE(pymathtoolbox, m)
         .def("get_current_optimizer", &mathtoolbox::optimization::BayesianOptimizer::GetCurrentOptimizer)
         .def("predict_mean", &mathtoolbox::optimization::BayesianOptimizer::PredictMean)
         .def("predict_stdev", &mathtoolbox::optimization::BayesianOptimizer::PredictStdev)
-        .def("calc_acquisition_value", &mathtoolbox::optimization::BayesianOptimizer::CalcAcquisitionValue);
+        .def("calc_acquisition_value", &mathtoolbox::optimization::BayesianOptimizer::CalcAcquisitionValue)
+        .def("get_data", &mathtoolbox::optimization::BayesianOptimizer::GetData);
 }

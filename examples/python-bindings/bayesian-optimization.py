@@ -92,7 +92,7 @@ for i in range(NUM_ITERS):
     ax.plot(x_samples, acquisition_values)
 
     # Export the figure as an image file
-    output_path = "./bayesian-optimization-" + str(i + 1) + "." + IMAGE_FORMAT
+    output_path = "./bayesian-optimization-" + "{:03}".format(i + 1) + "." + IMAGE_FORMAT
 
     fig.tight_layout()
     fig.savefig(output_path)

@@ -9,7 +9,7 @@ import seaborn as sns
 # Define the objective function
 def objective_func(x: np.ndarray) -> float:
     assert x.shape == (1, )
-    return - 1.5 * x[0] * math.sin(x[0] * 13.0)
+    return -1.5 * x[0] * math.sin(x[0] * 13.0)
 
 
 # Initialize the random seed
@@ -52,7 +52,8 @@ for i in range(NUM_ITERS):
     lower_values = mean_values - stdev_values
     upper_values = mean_values + stdev_values
 
-    vec_func = np.vectorize(lambda x: optimizer.calc_acquisition_value(np.array([x])))
+    vec_func = np.vectorize(lambda x: optimizer.calc_acquisition_value(
+        np.array([x])))
     acquisition_values = vec_func(x_samples)
 
     # Prepare a figure object
@@ -75,7 +76,10 @@ for i in range(NUM_ITERS):
 
     # Plot the target objective function
     vec_func = np.vectorize(lambda x: objective_func(np.array([x])))
-    ax.plot(x_samples, vec_func(x_samples), linestyle="dashed", label="Objective function")
+    ax.plot(x_samples,
+            vec_func(x_samples),
+            linestyle="dashed",
+            label="Objective function")
 
     # Plot the new sampling
     ax.plot(x_new, y_new, marker='.')
@@ -98,7 +102,7 @@ for i in range(NUM_ITERS):
     ax.legend(loc="upper left")
 
     # Export the figure as an image file
-    output_path = "./bayesian-optimization-" + "{:03}".format(i + 1) + "." + IMAGE_FORMAT
+    output_path = "./out-" + "{:03}".format(i + 1) + "." + IMAGE_FORMAT
 
     # fig.tight_layout()
     fig.savefig(output_path)

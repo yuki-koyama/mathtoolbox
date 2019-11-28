@@ -52,8 +52,8 @@ for i in range(NUM_ITERS):
     vec_func = np.vectorize(lambda x: optimizer.predict_stdev(np.array([x])))
     stdev_values = vec_func(x_samples)
 
-    lower_values = mean_values - 1.95996398 * stdev_values
-    upper_values = mean_values + 1.95996398 * stdev_values
+    lower_values = mean_values - stdev_values
+    upper_values = mean_values + stdev_values
 
     vec_func = np.vectorize(lambda x: optimizer.calc_acquisition_value(np.array([x])))
     acquisition_values = vec_func(x_samples)

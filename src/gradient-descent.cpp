@@ -32,10 +32,11 @@ void mathtoolbox::optimization::RunGradientDescent(const VectorXd&              
     for (int iter = 0; iter < max_num_iters; ++iter)
     {
         // Calculate the next candidate position
-        const VectorXd grad      = g(x_star);
-        const VectorXd p         = -grad;
-        const double   step_size = RunBacktrackingLineSearch(f, grad, x_star, p, default_alpha, 0.5);
-        VectorXd       x_new     = x_star + step_size * p;
+        const VectorXd grad = g(x_star);
+        const VectorXd p    = -grad; // TODO: Freeze dimensions that are on the boundary and are directed outside
+        const double   step_size =
+            RunBacktrackingBoundedLineSearch(f, grad, x_star, p, lower_bound, upper_bound, default_alpha, 0.5);
+        VectorXd x_new = x_star + step_size * p;
 
         // Enforce bounding-box conditions by simple projection
         if (is_lower_bounded)

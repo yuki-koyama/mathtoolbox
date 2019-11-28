@@ -26,6 +26,12 @@ BO is likely to find reasonable solutions with fewer function evaluations than o
 
 ## Examples
 
+### 1D Function
+
+![](./bayesian-optimization/1d.gif)
+
+### Performance
+
 The following plot shows a result of optimizing a simple objective function:
 $$
 \max_{\mathbf{x} \in [-1, 1]^{5}} \{ - \| \mathbf{x} \|^{2} \}

@@ -92,6 +92,10 @@ Ubuntu:
 sudo apt install libeigen3-dev
 ```
 
+## Gallery
+
+![](docs/bayesian-optimization/1d.gif)
+
 ## Projects Using mathtoolbox
 
 - SelPh <https://github.com/yuki-koyama/selph> (for `classical-mds`)

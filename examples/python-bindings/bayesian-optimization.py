@@ -36,7 +36,7 @@ plt.rcParams['font.sans-serif'] = ["Linux Biolinum"]
 
 for i in range(NUM_ITERS):
     # Proceed the optimization step
-    optimizer.step()
+    x_new, y_new = optimizer.step()
 
     # Prepare a plot
     fig = plt.figure(figsize=FIG_SIZE)
@@ -73,6 +73,9 @@ for i in range(NUM_ITERS):
     # Plot the target objective function
     vec_func = np.vectorize(lambda x: objective_func(np.array([x])))
     ax.plot(x_samples, vec_func(x_samples), linestyle="dashed")
+
+    # Plot the new sampling
+    ax.plot(x_new, y_new, marker='.')
 
     # Plot the current maximizer
     x_plus = optimizer.get_current_optimizer()

@@ -9,17 +9,17 @@ import seaborn as sns
 # Define the objective function
 def objective_func(x: np.ndarray) -> float:
     assert x.shape == (1, )
-    return 1.0 - 1.5 * x[0] * math.sin(x[0] * 13.0)
+    return - 1.5 * x[0] * math.sin(x[0] * 13.0)
 
 
 # Initialize the random seed
 pymathtoolbox.set_seed(random.randint(0, 65535))
 
 # Define constants
-NUM_ITERS = 15
+NUM_ITERS = 12
 CONFIDENT_REGION_ALPHA = 0.2
-FIG_SIZE = (4, 6)
-Y_RANGE = (-0.5, 2.5)
+FIG_SIZE = (4, 4)
+Y_RANGE = (-1.2, 1.7)
 IMAGE_FORMAT = "png"
 DPI = 150
 
@@ -56,11 +56,12 @@ for i in range(NUM_ITERS):
     acquisition_values = vec_func(x_samples)
 
     # Prepare a figure object
-    fig = plt.figure(figsize=FIG_SIZE, dpi=DPI)
+    fig = plt.figure(figsize=FIG_SIZE, dpi=DPI, constrained_layout=True)
+    grid_spec = fig.add_gridspec(3, 1)
+    fig.suptitle("Bayesian Optimization [#iterations = {:02}]".format(i + 1))
 
     # Begin to draw the top plot
-    ax = fig.add_subplot(2, 1, 1)
-    ax.set_title("Objective & Surrogate Functions")
+    ax = fig.add_subplot(grid_spec[0:2, 0])
     ax.set_ylim(Y_RANGE)
 
     # Plot the predicted confidence interval
@@ -70,11 +71,11 @@ for i in range(NUM_ITERS):
                     alpha=CONFIDENT_REGION_ALPHA)
 
     # Plot the predicted mean
-    ax.plot(x_samples, mean_values)
+    ax.plot(x_samples, mean_values, label="Surrogate function")
 
     # Plot the target objective function
     vec_func = np.vectorize(lambda x: objective_func(np.array([x])))
-    ax.plot(x_samples, vec_func(x_samples), linestyle="dashed")
+    ax.plot(x_samples, vec_func(x_samples), linestyle="dashed", label="Objective function")
 
     # Plot the new sampling
     ax.plot(x_new, y_new, marker='.')
@@ -83,16 +84,21 @@ for i in range(NUM_ITERS):
     x_plus = optimizer.get_current_optimizer()
     ax.plot(x_plus, objective_func(x_plus), marker='o')
 
+    # Show legends
+    ax.legend(loc="upper left")
+
     # Begin to draw the bottom plot
-    ax = fig.add_subplot(2, 1, 2)
+    ax = fig.add_subplot(grid_spec[2, 0])
     ax.yaxis.set_visible(False)
-    ax.set_title("Acquisition Function")
 
     # Plot the acquisition function
-    ax.plot(x_samples, acquisition_values)
+    ax.plot(x_samples, acquisition_values, label="Acquisition function")
+
+    # Show legends
+    ax.legend(loc="upper left")
 
     # Export the figure as an image file
     output_path = "./bayesian-optimization-" + "{:03}".format(i + 1) + "." + IMAGE_FORMAT
 
-    fig.tight_layout()
+    # fig.tight_layout()
     fig.savefig(output_path)

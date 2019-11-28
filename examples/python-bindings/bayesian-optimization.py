@@ -38,7 +38,7 @@ plt.rcParams['font.sans-serif'] = ["Linux Biolinum"]
 
 for i in range(NUM_ITERS):
     # Proceed the optimization step
-    x_new, y_new = optimizer.step()
+    optimizer.step()
 
     # Calculate sequences of relevant stats values
     x_samples = np.arange(0.0, 1.0, 0.001)
@@ -55,6 +55,8 @@ for i in range(NUM_ITERS):
     vec_func = np.vectorize(lambda x: optimizer.calc_acquisition_value(
         np.array([x])))
     acquisition_values = vec_func(x_samples)
+
+    large_x, small_y = optimizer.get_data()
 
     # Prepare a figure object
     fig = plt.figure(figsize=FIG_SIZE, dpi=DPI, constrained_layout=True)
@@ -81,12 +83,12 @@ for i in range(NUM_ITERS):
             linestyle="dashed",
             label="Objective function")
 
-    # Plot the new sampling
-    ax.plot(x_new, y_new, marker='.')
+    # Plot the observed sampling points
+    ax.plot(np.transpose(large_x), small_y, marker="o", linewidth=0.0, markersize=4.0)
 
     # Plot the current maximizer
     x_plus = optimizer.get_current_optimizer()
-    ax.plot(x_plus, objective_func(x_plus), marker='o')
+    ax.plot(x_plus, objective_func(x_plus), marker='o', linewidth=0.0, markersize=4.0)
 
     # Show legends
     ax.legend(loc="upper left")

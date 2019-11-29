@@ -84,11 +84,19 @@ for i in range(NUM_ITERS):
             label="Objective function")
 
     # Plot the observed sampling points
-    ax.plot(np.transpose(large_x), small_y, marker="o", linewidth=0.0, markersize=4.0)
+    ax.plot(np.transpose(large_x),
+            small_y,
+            marker="o",
+            linewidth=0.0,
+            markersize=4.0)
 
     # Plot the current maximizer
     x_plus = optimizer.get_current_optimizer()
-    ax.plot(x_plus, objective_func(x_plus), marker='o', linewidth=0.0, markersize=4.0)
+    ax.plot(x_plus,
+            objective_func(x_plus),
+            marker='o',
+            linewidth=0.0,
+            markersize=4.0)
 
     # Show legends
     ax.legend(loc="upper left")
@@ -105,6 +113,4 @@ for i in range(NUM_ITERS):
 
     # Export the figure as an image file
     output_path = "./out-" + "{:03}".format(i + 1) + "." + IMAGE_FORMAT
-
-    # fig.tight_layout()
     fig.savefig(output_path)

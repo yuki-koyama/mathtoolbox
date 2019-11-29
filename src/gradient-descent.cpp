@@ -17,6 +17,7 @@ void mathtoolbox::optimization::RunGradientDescent(const VectorXd&              
 {
     assert(x_init.size() > 0);
 
+    const int  num_dims         = x_init.size();
     const bool is_lower_bounded = (lower_bound.size() != 0);
     const bool is_upper_bounded = (upper_bound.size() != 0);
 
@@ -33,8 +34,23 @@ void mathtoolbox::optimization::RunGradientDescent(const VectorXd&              
     {
         // Calculate the next candidate position
         const VectorXd grad = g(x_star);
-        const VectorXd p    = -grad; // TODO: Freeze dimensions that are on the boundary and are directed outside
-        const double   step_size =
+        const VectorXd p    = [&]() {
+            // Initialize the direction
+            VectorXd p = -grad;
+
+            // Freeze dimensions that are on the boundary and are directed outside
+            for (int dim = 0; dim < num_dims; ++dim)
+            {
+                if ((is_lower_bounded && p(dim) - lower_bound(dim) < epsilon && grad(dim) > 0.0) ||
+                    (is_upper_bounded && upper_bound(dim) - p(dim) < epsilon && grad(dim) < 0.0))
+                {
+                    p(dim) = 0.0;
+                }
+            }
+
+            return p;
+        }();
+        const double step_size =
             RunBacktrackingBoundedLineSearch(f, grad, x_star, p, lower_bound, upper_bound, default_alpha, 0.5);
         VectorXd x_new = x_star + step_size * p;
 

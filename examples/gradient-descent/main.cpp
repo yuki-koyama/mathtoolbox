@@ -16,8 +16,8 @@ int main()
     const auto            f      = [](const Eigen::VectorXd& x) { return otf::GetValue(x, type); };
     const auto            g      = [](const Eigen::VectorXd& x) { return otf::GetGrad(x, type); };
 
-    const Eigen::VectorXd lower_bound;
-    const Eigen::VectorXd upper_bound;
+    const Eigen::VectorXd lower_bound; // Empty vector indicates no lower bound constraint
+    const Eigen::VectorXd upper_bound; // Empty vector indicates no upper bound constraint
 
     constexpr double epsilon       = 1e-12;
     constexpr double default_alpha = 1e-01;

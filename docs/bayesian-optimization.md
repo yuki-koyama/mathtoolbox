@@ -18,15 +18,21 @@ BO is likely to find reasonable solutions with fewer function evaluations than o
 
 ## Math and Algorithm
 
+### Surrogate Function Representation
+
+This implementation assumes the Gaussian process prior. That is, it performs Gaussian process regression using the observed data.
+
 (TODO)
 
 ### Acquisition Functions
+
+Currently, it supports the expected improvement (EI) function only.
 
 (TODO)
 
 ## Examples
 
-### 1D Function
+### Optimizing a One-Dimensional Function
 
 ![](./bayesian-optimization/1d.gif)
 
@@ -60,4 +66,5 @@ const Eigen::VectorXd x_star = optimizer.GetCurrentSolution();
 ## Useful Resources
 
 - Yuki Koyama, Issei Sato, Daisuke Sakamoto, and Takeo Igarashi. 2017. Sequential line search for efficient visual design optimization by crowds. ACM Trans. Graph. 36, 4, pp.48:1--48:11 (2017). DOI: <https://doi.org/10.1145/3072959.3073598>
+- Bobak Shahriari, Kevin Swersky, Ziyu Wang, Ryan P. Adams, and Nando de Freitas. 2016. Taking the Human Out of the Loop: A Review of Bayesian Optimization. Proc. IEEE 104, 1, pp.148--175 (2016). DOI: <https://doi.org/10.1109/JPROC.2015.2494218>
 - (TODO)

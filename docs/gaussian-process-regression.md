@@ -80,6 +80,16 @@ $$
 m(\mathbf{x}) = 0.
 $$
 
+### Data Normalization
+
+Optionally, this implementation offers an automatic data normalization functionality. If this is enabled, it applies the following normalization:
+
+$$
+y_{i} \leftarrow s \cdot \frac{y_{i} - \mu}{\sigma} \:\: \text{for} \:\: i = 1, \ldots, N,
+$$
+
+where $ s $ is an empirically selected scaling coefficient. This normalization is sometimes useful for the regression to be more robust for various datasets without drastically changing hyperparameters.
+
 ### Selecting Hyperparameters
 
 There are two options for setting hyperparameters:

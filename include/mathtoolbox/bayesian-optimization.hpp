@@ -17,7 +17,9 @@ namespace mathtoolbox
             ArdMatern52
         };
 
-        // Class-style API
+        /// \brief An optimizer class for managing Bayesian optimization iterations
+        ///
+        /// \details This optimizer solves a maximization problem with a black-box function.
         class BayesianOptimizer
         {
         public:

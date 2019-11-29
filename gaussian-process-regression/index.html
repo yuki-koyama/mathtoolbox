@@ -280,6 +280,14 @@ r^{2}(\mathbf{x}_{p}, \mathbf{x}_{q}; \boldsymbol{\ell}) = (\mathbf{x}_p - \math
 m(\mathbf{x}) = 0.
 </script>
 </p>
+<h3 id="data-normalization">Data Normalization</h3>
+<p>Optionally, this implementation offers an automatic data normalization functionality. If this is enabled, it applies the following normalization:</p>
+<p>
+<script type="math/tex; mode=display">
+y_{i} \leftarrow s \cdot \frac{y_{i} - \mu}{\sigma} \:\: \text{for} \:\: i = 1, \ldots, N,
+</script>
+</p>
+<p>where <script type="math/tex"> s </script> is an empirically selected scaling coefficient. This normalization is sometimes useful for the regression to be more robust for various datasets without drastically changing hyperparameters.</p>
 <h3 id="selecting-hyperparameters">Selecting Hyperparameters</h3>
 <p>There are two options for setting hyperparameters:</p>
 <ul>

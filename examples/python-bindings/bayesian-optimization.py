@@ -94,7 +94,7 @@ for i in range(NUM_ITERS):
     x_plus = optimizer.get_current_optimizer()
     ax.plot(x_plus,
             objective_func(x_plus),
-            marker='o',
+            marker="o",
             linewidth=0.0,
             markersize=4.0)
 

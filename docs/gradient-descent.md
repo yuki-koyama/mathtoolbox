@@ -14,13 +14,17 @@ Gradient descent is a gradient-based local optimization method. This is probably
 
 ## Math and Algorithm
 
+### Line Search
+
+This implementation uses [backtracking-line-search](../backtracking-line-search/) to find an appropriate step size. The initial step size needs to be specified as `default_alpha`.
+
+### Stopping Criteria
+
+(TODO)
+
 ### Bound Conditions
 
 This implementation supports simple lower/upper bound conditions.
-
-### Line Search
-
-This implementation uses [backtracking-line-search](../backtracking-line-search/) to find an appropriate step size.
 
 ## Useful Resources
 

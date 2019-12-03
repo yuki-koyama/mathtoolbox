@@ -94,7 +94,13 @@ sudo apt install libeigen3-dev
 
 ## Gallery
 
+Bayesian optimization (`bayesian-optimization`) solves a one-dimensional optimization problem using only a small number of function-evaluation queries.
+
 ![](./bayesian-optimization/1d.gif)
+
+Classical multi-dimensional scaling (`classical-mds`) is applied to pixel RGB values of a target image to embed them into a two-dimensional space.
+
+![](./classical-mds/classical-mds-image-out.jpg)
 
 ## Projects Using mathtoolbox
 

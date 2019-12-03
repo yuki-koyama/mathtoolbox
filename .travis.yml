@@ -20,7 +20,7 @@ addons:
 
 before_script:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pyenv global 3.7; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pip install numpy; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pip install numpy scipy; fi
 
 script:
   - cmake -DMATHTOOLBOX_BUILD_EXAMPLES=ON -DMATHTOOLBOX_PYTHON_BINDINGS=ON .

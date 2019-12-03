@@ -6,7 +6,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v1
     - name: packages
@@ -14,7 +14,7 @@ jobs:
     - name: submodule
       run: git submodule update --init --recursive
     - name: pip
-      run: pip3 install numpy
+      run: pip3 install numpy scipy
     - name: cmake
       run: cmake . -DMATHTOOLBOX_BUILD_EXAMPLES=ON -DMATHTOOLBOX_PYTHON_BINDINGS=ON
     - name: make

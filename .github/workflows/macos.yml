@@ -9,12 +9,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
+    - uses: actions/setup-python@v1
+      with:
+        python-version: '3.7'
     - name: packages
       run: brew install eigen
     - name: submodule
       run: git submodule update --init --recursive
     - name: pip
-      run: pip3 install numpy scipy
+      run: pip install numpy scipy
     - name: cmake
       run: cmake . -DMATHTOOLBOX_BUILD_EXAMPLES=ON -DMATHTOOLBOX_PYTHON_BINDINGS=ON
     - name: make

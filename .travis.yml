@@ -11,7 +11,7 @@ dist: xenial
 
 addons:
   homebrew:
-    # update: true
+    update: true
     packages:
     - eigen
   apt:

@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: packages
-      run: brew eigen
+      run: brew install eigen
     - name: submodule
       run: git submodule update --init --recursive
     - name: pip

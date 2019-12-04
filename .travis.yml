@@ -11,7 +11,7 @@ dist: xenial
 
 addons:
   homebrew:
-    update: true
+    # update: true
     packages:
     - eigen
   apt:
@@ -21,9 +21,9 @@ addons:
 before_script:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pyenv global 3.7; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then pip install numpy scipy; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then pip3 install numpy scipy; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then pip3 install scipy; fi
 
 script:
   - cmake -DMATHTOOLBOX_BUILD_EXAMPLES=ON -DMATHTOOLBOX_PYTHON_BINDINGS=ON .
-  - make
-  - ctest -V
+  - make VERBOSE=1
+  - ctest

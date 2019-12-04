@@ -1,11 +1,15 @@
-name: ubuntu-18.04
+name: ubuntu
 
 on: [push]
 
 jobs:
-  build:
+  build-test:
 
-    runs-on: ubuntu-18.04
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-16.04, ubuntu-18.04]
 
     steps:
     - uses: actions/checkout@v1

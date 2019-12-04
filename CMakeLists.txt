@@ -1,10 +1,11 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.3)
 
 project(mathtoolbox CXX)
 
 set(CMAKE_CXX_STANDARD 11)
 if(MATHTOOLBOX_PYTHON_BINDINGS)
 	set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+	set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 endif()
 
 ######################################################################
@@ -31,7 +32,6 @@ endif()
 
 if(MATHTOOLBOX_PYTHON_BINDINGS)
 	set(PYBIND11_INSTALL        OFF CACHE INTERNAL "" FORCE)
-	set(PYBIND11_PYTHON_VERSION ""  CACHE INTERNAL "" FORCE)
 	set(PYBIND11_TEST           OFF CACHE INTERNAL "" FORCE)
 	set(USE_PYTHON_INCLUDE_DIR  OFF CACHE INTERNAL "" FORCE)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/pybind11)

@@ -1,6 +1,7 @@
 # mathtoolbox
 
-![](https://github.com/yuki-koyama/mathtoolbox/workflows/build-test/badge.svg)
+![](https://github.com/yuki-koyama/mathtoolbox/workflows/macos/badge.svg)
+![](https://github.com/yuki-koyama/mathtoolbox/workflows/ubuntu/badge.svg)
 [![Build Status](https://travis-ci.com/yuki-koyama/mathtoolbox.svg?branch=master)](https://travis-ci.com/yuki-koyama/mathtoolbox)
 ![GitHub](https://img.shields.io/github/license/yuki-koyama/mathtoolbox)
 

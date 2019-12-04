@@ -1,16 +1,16 @@
-name: macos
+name: ubuntu-16.04
 
 on: [push]
 
 jobs:
   build:
 
-    runs-on: macos-latest
+    runs-on: ubuntu-16.04
 
     steps:
     - uses: actions/checkout@v1
     - name: packages
-      run: brew install eigen
+      run: sudo apt-get install libeigen3-dev
     - name: submodule
       run: git submodule update --init --recursive
     - name: pip

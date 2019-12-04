@@ -22,7 +22,7 @@ jobs:
     - name: pip
       run: pip install numpy scipy
     - name: cmake
-      run: cmake . -DMATHTOOLBOX_BUILD_EXAMPLES=ON -DMATHTOOLBOX_PYTHON_BINDINGS=ON
+      run: cmake . -DMATHTOOLBOX_BUILD_EXAMPLES=ON -DMATHTOOLBOX_PYTHON_BINDINGS=ON -DPYBIND11_PYTHON_VERSION=${{ matrix.python-version }}
     - name: make
       run: make
     - name: ctest

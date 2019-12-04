@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.com/yuki-koyama/mathtoolbox.svg?branch=master)](https://travis-ci.com/yuki-koyama/mathtoolbox)
 ![GitHub](https://img.shields.io/github/license/yuki-koyama/mathtoolbox)
 
-A library of mathematical tools (regression, interpolation, dimensionality reduction, clustering, etc.) written in C++11 and [Eigen](http://eigen.tuxfamily.org/).
+Mathematical tools (interpolation, dimensionality reduction, optimization, etc.) written in C++11 and [Eigen](http://eigen.tuxfamily.org/).
 
 ![](docs/header.png)
 

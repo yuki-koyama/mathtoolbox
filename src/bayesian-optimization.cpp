@@ -129,6 +129,11 @@ VectorXd mathtoolbox::optimization::BayesianOptimizer::GetCurrentOptimizer() con
     return m_X.col(index);
 }
 
+double mathtoolbox::optimization::BayesianOptimizer::EvaluatePoint(const VectorXd& x) const
+{
+    return m_f(x);
+}
+
 double mathtoolbox::optimization::BayesianOptimizer::PredictMean(const VectorXd& x) const
 {
     return m_regressor == nullptr ? std::numeric_limits<double>::quiet_NaN() : m_regressor->PredictMean(x);
@@ -148,6 +153,11 @@ double mathtoolbox::optimization::BayesianOptimizer::CalcAcquisitionValue(const 
         [&](const VectorXd& x) { return m_regressor->PredictMean(x); },
         [&](const VectorXd& x) { return m_regressor->PredictStdev(x); },
         x_plus);
+}
+
+std::pair<MatrixXd, VectorXd> mathtoolbox::optimization::BayesianOptimizer::GetData() const
+{
+    return {m_X, m_y};
 }
 
 void mathtoolbox::optimization::BayesianOptimizer::AddDataEntry(const VectorXd& x_new, const double y_new)

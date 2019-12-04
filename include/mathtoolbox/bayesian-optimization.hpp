@@ -34,7 +34,7 @@ namespace mathtoolbox
 
             /// \brief Calculate the function value
             /// \return Evaluated function value
-            double EvaluatePoint(const Eigen::VectorXd& x) const { return m_f(x); }
+            double EvaluatePoint(const Eigen::VectorXd& x) const;
 
             /// \brief Predict the mean value
             /// \return Predicted mean value
@@ -53,7 +53,7 @@ namespace mathtoolbox
             Eigen::VectorXd GetCurrentOptimizer() const;
 
             /// \brief Get the observed data points and their values
-            std::pair<Eigen::MatrixXd, Eigen::VectorXd> GetData() const { return {m_X, m_y}; }
+            std::pair<Eigen::MatrixXd, Eigen::VectorXd> GetData() const;
 
         private:
             const std::function<double(const Eigen::VectorXd&)> m_f;

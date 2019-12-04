@@ -5,6 +5,7 @@ project(mathtoolbox CXX)
 set(CMAKE_CXX_STANDARD 11)
 if(MATHTOOLBOX_PYTHON_BINDINGS)
 	set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+	set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 endif()
 
 ######################################################################

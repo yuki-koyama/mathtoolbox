@@ -116,7 +116,7 @@ sudo apt install cmake libeigen3-dev
 
 ### Examples
 
-See [python-examples](https://github.com/yuki-koyama/mathtoolbox/python-examples).
+See [python-examples](https://github.com/yuki-koyama/mathtoolbox/tree/master/python-examples).
 
 ## Gallery
 

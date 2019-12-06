@@ -22,6 +22,6 @@ jobs:
     - name: pip-pymathtoolbox
       run: pip install ./
     - name: pip-others-for-testing
-      run: pip install numpy scipy
+      run: pip install scipy
     - name: test
       run: python ./python-examples/classical-mds.py

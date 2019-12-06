@@ -1,0 +1,33 @@
+name: macOS-python
+
+on: [push]
+
+jobs:
+  build-test:
+
+    runs-on: macos-latest
+
+    strategy:
+      matrix:
+        python-version: [ '3.6', '3.7' ]
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-python@v1
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: install-build-dependencies
+      run: brew install eigen
+    - name: submodule
+      run: git submodule update --init --recursive
+    - name: pip-install-pymathtoolbox
+      run: pip install ./
+    - name: install-test-dependencies
+      run: |
+        pip install matplotlib pillow seaborn scipy
+        brew tap homebrew/cask-fonts && brew cask install font-linux-biolinum
+    - name: test
+      run: |
+        python ./python-examples/bayesian-optimization.py
+        python ./python-examples/classical-mds.py
+        python ./python-examples/classical-mds-image.py

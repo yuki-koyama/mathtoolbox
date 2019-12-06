@@ -71,7 +71,9 @@
         
             <li><a class="toctree-l3" href="#dependencies">Dependencies</a></li>
         
-            <li><a class="toctree-l3" href="#build-and-installation">Build and Installation</a></li>
+            <li><a class="toctree-l3" href="#use-as-a-c-library">Use as a C++ Library</a></li>
+        
+            <li><a class="toctree-l3" href="#use-as-a-python-library">Use as a Python Library</a></li>
         
             <li><a class="toctree-l3" href="#gallery">Gallery</a></li>
         
@@ -212,9 +214,10 @@
             <div class="section">
               
                 <h1 id="mathtoolbox">mathtoolbox</h1>
-<p><img alt="" src="https://github.com/yuki-koyama/mathtoolbox/workflows/macos/badge.svg" />
-<img alt="" src="https://github.com/yuki-koyama/mathtoolbox/workflows/ubuntu/badge.svg" />
-<a href="https://travis-ci.com/yuki-koyama/mathtoolbox"><img alt="Build Status" src="https://travis-ci.com/yuki-koyama/mathtoolbox.svg?branch=master" /></a>
+<p><img alt="" src="https://github.com/yuki-koyama/mathtoolbox/workflows/macOS/badge.svg" />
+<img alt="" src="https://github.com/yuki-koyama/mathtoolbox/workflows/Ubuntu/badge.svg" />
+<img alt="" src="https://github.com/yuki-koyama/mathtoolbox/workflows/macOS-python/badge.svg" />
+<img alt="" src="https://github.com/yuki-koyama/mathtoolbox/workflows/Ubuntu-python/badge.svg" />
 <img alt="GitHub" src="https://img.shields.io/github/license/yuki-koyama/mathtoolbox" /></p>
 <p>Mathematical tools (interpolation, dimensionality reduction, optimization, etc.) written in C++11 and <a href="http://eigen.tuxfamily.org/">Eigen</a>.</p>
 <p><img alt="" src="header.png" /></p>
@@ -251,7 +254,7 @@
 <h2 id="dependencies">Dependencies</h2>
 <h3 id="main-library">Main Library</h3>
 <ul>
-<li>Eigen <a href="http://eigen.tuxfamily.org/">http://eigen.tuxfamily.org/</a> (<code>brew install eigen</code>)</li>
+<li>Eigen <a href="http://eigen.tuxfamily.org/">http://eigen.tuxfamily.org/</a> (<code>brew install eigen</code> / <code>sudo apt install libeigen3-dev</code>)</li>
 </ul>
 <h3 id="python-bindings">Python Bindings</h3>
 <ul>
@@ -261,7 +264,7 @@
 <ul>
 <li>optimization-test-function <a href="https://github.com/yuki-koyama/optimization-test-functions">https://github.com/yuki-koyama/optimization-test-functions</a> (included as gitsubmodule)</li>
 </ul>
-<h2 id="build-and-installation">Build and Installation</h2>
+<h2 id="use-as-a-c-library">Use as a C++ Library</h2>
 <p>mathtoolbox uses CMake <a href="https://cmake.org/">https://cmake.org/</a> for building source codes. This library can be built, for example, by</p>
 <pre><code>git clone https://github.com/yuki-koyama/mathtoolbox.git --recursive
 cd mathtoolbox
@@ -294,6 +297,22 @@ make
 <pre><code>sudo apt install libeigen3-dev
 </code></pre>
 
+<h2 id="use-as-a-python-library">Use as a Python Library</h2>
+<p>pymathtoolbox is a (sub)set of Python bindings of mathtoolbox. Python <code>3.6</code> and <code>3.7</code> are supporetd. It can be installed via PyPI:</p>
+<pre><code>pip install git+https://github.com/yuki-koyama/mathtoolbox
+</code></pre>
+
+<h3 id="prerequisites_1">Prerequisites</h3>
+<p>macOS</p>
+<pre><code>brew install cmake eigen
+</code></pre>
+
+<p>Ubuntu 16.04/18.04</p>
+<pre><code>sudo apt install cmake libeigen3-dev
+</code></pre>
+
+<h3 id="examples_1">Examples</h3>
+<p>See <a href="https://github.com/yuki-koyama/mathtoolbox/python-examples">python-examples</a>.</p>
 <h2 id="gallery">Gallery</h2>
 <p>Bayesian optimization (<code>bayesian-optimization</code>) solves a one-dimensional optimization problem using only a small number of function-evaluation queries.</p>
 <p><img alt="" src="bayesian-optimization/1d.gif" /></p>
@@ -357,5 +376,5 @@ make
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2019-12-04 15:22:23
+Build Date UTC : 2019-12-06 11:16:05
 -->

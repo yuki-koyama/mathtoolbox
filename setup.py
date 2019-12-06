@@ -1,5 +1,6 @@
 import os
 import subprocess
+import sys
 from setuptools import setup, Extension, find_packages
 from setuptools.command.build_ext import build_ext
 
@@ -28,11 +29,15 @@ class CMakeBuild(build_ext):
 
         cfg = 'Debug' if self.debug else 'Release'
 
+        target_version = str(sys.version_info.major) + "." + str(
+            sys.version_info.minor)
+
         cmake_args = [
             "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=" + extdir,
             "-DCMAKE_BUILD_TYPE=" + cfg,
             "-DMATHTOOLBOX_PYTHON_BINDINGS=ON",
             "-DMATHTOOLBOX_BUILD_EXAMPLES=OFF",
+            "-DPYBIND11_PYTHON_VERSION=" + target_version,
         ]
 
         cmake_list_dir = os.path.abspath(os.path.dirname(__file__))

@@ -1,4 +1,4 @@
-name: macos
+name: macOS-python
 
 on: [push]
 
@@ -21,3 +21,5 @@ jobs:
       run: git submodule update --init --recursive
     - name: pip
       run: pip install ./
+    - name: test
+      run: python ./python-examples/classical-mds.py

@@ -9,7 +9,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: packages
+    - name: install-build-dependencies
       run: brew install eigen
     - name: submodule
       run: git submodule update --init --recursive

@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: packages
+    - name: install-build-dependencies
       run: sudo apt-get install libeigen3-dev
     - name: submodule
       run: git submodule update --init --recursive

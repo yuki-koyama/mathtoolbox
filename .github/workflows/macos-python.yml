@@ -16,9 +16,8 @@ jobs:
     - uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
-    - name: packages
-      run: |
-        brew install eigen
+    - name: install-build-dependencies
+      run: brew install eigen
     - name: submodule
       run: git submodule update --init --recursive
     - name: pip-install-pymathtoolbox

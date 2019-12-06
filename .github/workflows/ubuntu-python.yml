@@ -17,16 +17,14 @@ jobs:
     - uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
-    - name: packages
-      run: |
-        sudo apt-get install libeigen3-dev
+    - name: install-build-dependencies
+      run: sudo apt-get install libeigen3-dev
     - name: submodule
       run: git submodule update --init --recursive
     - name: pip-install-pymathtoolbox
       run: pip install ./
     - name: install-test-dependencies
-      run: |
-        pip install matplotlib pillow seaborn scipy
+      run: pip install matplotlib pillow seaborn scipy
     - name: test
       run: |
         python ./python-examples/bayesian-optimization.py

@@ -4,7 +4,6 @@
 ![](https://github.com/yuki-koyama/mathtoolbox/workflows/Ubuntu/badge.svg)
 ![](https://github.com/yuki-koyama/mathtoolbox/workflows/macOS-python/badge.svg)
 ![](https://github.com/yuki-koyama/mathtoolbox/workflows/Ubuntu-python/badge.svg)
-[![Build Status](https://travis-ci.com/yuki-koyama/mathtoolbox.svg?branch=master)](https://travis-ci.com/yuki-koyama/mathtoolbox)
 ![GitHub](https://img.shields.io/github/license/yuki-koyama/mathtoolbox)
 
 Mathematical tools (interpolation, dimensionality reduction, optimization, etc.) written in C++11 and [Eigen](http://eigen.tuxfamily.org/).

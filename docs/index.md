@@ -45,7 +45,7 @@ Mathematical tools (interpolation, dimensionality reduction, optimization, etc.)
 
 ### Main Library
 
-- Eigen <http://eigen.tuxfamily.org/> (`brew install eigen`)
+- Eigen <http://eigen.tuxfamily.org/> (`brew install eigen` / `sudo apt install libeigen3-dev`)
 
 ### Python Bindings
 
@@ -55,7 +55,7 @@ Mathematical tools (interpolation, dimensionality reduction, optimization, etc.)
 
 - optimization-test-function <https://github.com/yuki-koyama/optimization-test-functions> (included as gitsubmodule)
 
-## Build and Installation
+## Use as a C++ Library
 
 mathtoolbox uses CMake <https://cmake.org/> for building source codes. This library can be built, for example, by
 ```
@@ -94,6 +94,29 @@ Ubuntu:
 ```
 sudo apt install libeigen3-dev
 ```
+
+## Use as a Python Library
+
+pymathtoolbox is a (sub)set of Python bindings of mathtoolbox. Python `3.6` and `3.7` are supporetd. It can be installed via PyPI:
+```
+pip install git+https://github.com/yuki-koyama/mathtoolbox
+```
+
+### Prerequisites
+
+macOS
+```
+brew install cmake eigen
+```
+
+Ubuntu 16.04/18.04
+```
+sudo apt install cmake libeigen3-dev
+```
+
+### Examples
+
+See [python-examples](https://github.com/yuki-koyama/mathtoolbox/python-examples).
 
 ## Gallery
 

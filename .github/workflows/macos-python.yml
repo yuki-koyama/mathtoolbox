@@ -19,10 +19,12 @@ jobs:
       run: brew install eigen
     - name: submodule
       run: git submodule update --init --recursive
-    - name: pip-pymathtoolbox
+    - name: pip-install-pymathtoolbox
       run: pip install ./
-    - name: pip-others-for-testing
-      run: pip install matplotlib pillow seaborn scipy
+    - name: install-test-dependencies
+      run: |
+        pip install matplotlib pillow seaborn scipy
+        brew tap homebrew/cask-fonts && brew cask install font-linux-biolinum
     - name: test
       run: |
         python ./python-examples/bayesian-optimization.py

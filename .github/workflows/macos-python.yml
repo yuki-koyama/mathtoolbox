@@ -22,6 +22,9 @@ jobs:
     - name: pip-pymathtoolbox
       run: pip install ./
     - name: pip-others-for-testing
-      run: pip install scipy
+      run: pip install matplotlib pillow seaborn scipy
     - name: test
-      run: python ./python-examples/classical-mds.py
+      run: |
+        python ./python-examples/bayesian-optimization.py
+        python ./python-examples/classical-mds.py
+        python ./python-examples/classical-mds-image.py

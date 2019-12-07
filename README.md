@@ -97,7 +97,9 @@ sudo apt install libeigen3-dev
 
 ## Use as a Python Library
 
-pymathtoolbox is a (sub)set of Python bindings of mathtoolbox. Python `3.6` and `3.7` are supporetd. It can be installed via PyPI:
+pymathtoolbox is a (sub)set of Python bindings of mathtoolbox. Tested on Python `3.6`, `3.7`, and `3.8`.
+
+It can be installed via PyPI:
 ```
 pip install git+https://github.com/yuki-koyama/mathtoolbox
 ```

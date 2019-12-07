@@ -14,7 +14,7 @@ Mathematical tools (interpolation, dimensionality reduction, optimization, etc.)
 
 ### Scattered Data Interpolation and Function Approximation
 
-- [`rbf-interpolation`: Radial basis function (RBF) network](https://yuki-koyama.github.io/mathtoolbox/rbf-interpolation/)
+- [`rbf-interpolation`: Radial basis function (RBF) interpolation](https://yuki-koyama.github.io/mathtoolbox/rbf-interpolation/)
 - [`gaussian-process-regression`: Gaussian process regression (GPR)](https://yuki-koyama.github.io/mathtoolbox/gaussian-process-regression/)
 
 ### Dimensionality Reduction and Low-Dimensional Embedding
@@ -132,6 +132,10 @@ Classical multi-dimensional scaling (`classical-mds`) is applied to pixel RGB va
 
 - SelPh <https://github.com/yuki-koyama/selph> (for `classical-mds`)
 - Sequential Line Search <https://github.com/yuki-koyama/sequential-line-search> (for `acquisition-functions`, `kernel-functions`, and `probability-distributions`)
+
+## Contributing
+
+Bug reports, suggestions, feature requests, and PRs are highly welcomed.
 
 ## Licensing
 

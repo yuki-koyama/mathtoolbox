@@ -214,8 +214,8 @@
             <div class="section">
               
                 <h1 id="bayesian-optimization">bayesian-optimization</h1>
-<p>Bayesian optimization (BO) is a black-box global optimization algorithm. During the process, this algorithm determines the next sampling point based on Bayesian inference of the latent function.</p>
-<p>BO is likely to find reasonable solutions with fewer function evaluations than other optimization algorithms. Thus, it is suitable for problems with expensive-to-evaluate objective functions.</p>
+<p>Bayesian optimization (BO) is a black-box global optimization algorithm. During the iterative process, this algorithm determines the next sampling point based on Bayesian inference of the latent function.</p>
+<p>BO is likely to find a reasonable solution with fewer function evaluations than other optimization algorithms. Thus, it is suitable for problems with expensive-to-evaluate objective functions.</p>
 <h2 id="header">Header</h2>
 <pre><code class="cpp">#include &lt;mathtoolbox/bayesian-optimization.hpp&gt;
 </code></pre>
@@ -227,6 +227,17 @@
 <li><a href="../gaussian-process-regression/">gaussian-process-regression</a></li>
 </ul>
 <h2 id="math-and-algorithm">Math and Algorithm</h2>
+<h3 id="problem-formulation">Problem Formulation</h3>
+<p>This implementation is for solving maximization problems in the following form:
+<script type="math/tex; mode=display">
+\mathbf{x}^{*} = \mathop{\rm arg~max}\limits_{\mathbf{x} \in \mathcal{X}} \: f(\mathbf{x}),
+</script>
+where <script type="math/tex">\mathbf{x} \in \mathbb{R}^{n}</script> represents search variables, <script type="math/tex">\mathcal{X} \subset \mathbb{R}^{n}</script> is the search space, and <script type="math/tex">f : \mathcal{X} \rightarrow \mathbb{R}</script> is the objective function to be maximized.</p>
+<p>Currently, this implementation assumes that the search space <script type="math/tex">\mathcal{X}</script> is a hyperrectangle represented as
+<script type="math/tex; mode=display">
+\mathcal{X} = \{ \mathbf{x} \mid l_{i} \leq x_{i} \leq u_{i}, i = 1, \ldots, n \}.
+</script>
+</p>
 <h3 id="surrogate-function-representation">Surrogate Function Representation</h3>
 <p>This implementation assumes the Gaussian process prior. That is, it performs Gaussian process regression using the observed data.</p>
 <p>(TODO)</p>

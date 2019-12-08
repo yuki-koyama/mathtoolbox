@@ -1,8 +1,8 @@
 # bayesian-optimization
 
-Bayesian optimization (BO) is a black-box global optimization algorithm. During the process, this algorithm determines the next sampling point based on Bayesian inference of the latent function.
+Bayesian optimization (BO) is a black-box global optimization algorithm. During the iterative process, this algorithm determines the next sampling point based on Bayesian inference of the latent function.
 
-BO is likely to find reasonable solutions with fewer function evaluations than other optimization algorithms. Thus, it is suitable for problems with expensive-to-evaluate objective functions.
+BO is likely to find a reasonable solution with fewer function evaluations than other optimization algorithms. Thus, it is suitable for problems with expensive-to-evaluate objective functions.
 
 ## Header
 
@@ -17,6 +17,19 @@ BO is likely to find reasonable solutions with fewer function evaluations than o
 - [gaussian-process-regression](../gaussian-process-regression/)
 
 ## Math and Algorithm
+
+### Problem Formulation
+
+This implementation is for solving maximization problems in the following form:
+$$
+\mathbf{x}^{*} = \mathop{\rm arg~max}\limits_{\mathbf{x} \in \mathcal{X}} \: f(\mathbf{x}),
+$$
+where $\mathbf{x} \in \mathbb{R}^{n}$ represents search variables, $\mathcal{X} \subset \mathbb{R}^{n}$ is the search space, and $f : \mathcal{X} \rightarrow \mathbb{R}$ is the objective function to be maximized.
+
+Currently, this implementation assumes that the search space $\mathcal{X}$ is a hyperrectangle represented as
+$$
+\mathcal{X} = \{ \mathbf{x} \mid l_{i} \leq x_{i} \leq u_{i}, i = 1, \ldots, n \}.
+$$
 
 ### Surrogate Function Representation
 

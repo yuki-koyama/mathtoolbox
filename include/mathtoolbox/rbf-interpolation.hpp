@@ -38,7 +38,8 @@ namespace mathtoolbox
         double EvaluateValue(const double r) const override
         {
             assert(r >= 0.0);
-            return r * r * std::log(r);
+            const double value = r * r * std::log(r);
+            return std::isnan(value) ? 0.0 : value;
         }
     };
 

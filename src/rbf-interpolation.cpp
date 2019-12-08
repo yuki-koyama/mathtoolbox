@@ -1,21 +1,12 @@
-#include <Eigen/LU>
+#include <Eigen/Cholesky>
 #include <cmath>
 #include <mathtoolbox/rbf-interpolation.hpp>
 
-using Eigen::FullPivLU;
+using Eigen::LLT;
 using Eigen::Map;
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 using std::vector;
-
-namespace
-{
-    inline VectorXd SolveLinearSystem(const MatrixXd& A, const VectorXd& y)
-    {
-        FullPivLU<MatrixXd> lu(A);
-        return lu.solve(y);
-    }
-} // namespace
 
 mathtoolbox::RbfInterpolation::RbfInterpolation(const std::shared_ptr<AbstractRbfKernel> rbf_kernel)
     : m_rbf_kernel(rbf_kernel)
@@ -38,14 +29,17 @@ void mathtoolbox::RbfInterpolation::ComputeWeights(bool use_regularization, doub
     {
         for (int j = i; j < dim; ++j)
         {
-            Phi(i, j) = Phi(j, i) = GetRbfValue(X.col(i), X.col(j));
+            const double value = GetRbfValue(X.col(i), X.col(j));
+
+            Phi(i, j) = value;
+            Phi(j, i) = value;
         }
     }
 
     const MatrixXd A = use_regularization ? Phi.transpose() * Phi + lambda * MatrixXd::Identity(dim, dim) : Phi;
     const VectorXd b = use_regularization ? Phi.transpose() * y : y;
 
-    w = SolveLinearSystem(A, b);
+    w = LLT<MatrixXd>(A).solve(b);
 }
 
 double mathtoolbox::RbfInterpolation::GetValue(const VectorXd& x) const

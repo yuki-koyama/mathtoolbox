@@ -31,8 +31,7 @@ int main()
     }
 
     // Instantiate an interpolator
-    constexpr mathtoolbox::RbfType rbf_type = mathtoolbox::RbfType::ThinPlateSpline;
-    mathtoolbox::RbfInterpolation  rbf_interpolation(rbf_type);
+    mathtoolbox::RbfInterpolation rbf_interpolation;
 
     // Set data
     rbf_interpolation.SetData(X, y);

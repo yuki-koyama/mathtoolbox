@@ -2,22 +2,51 @@
 #define MATHTOOLBOX_RBF_INTERPOLATION_HPP
 
 #include <Eigen/Core>
+#include <cmath>
+#include <memory>
 #include <vector>
 
 namespace mathtoolbox
 {
-    enum class RbfType
+    class AbstractRbfKernel
     {
-        Gaussian,         // f(r) = exp(-(epsilon * r)^2)
-        ThinPlateSpline,  // f(r) = (r^2) * log(r)
-        InverseQuadratic, // f(r) = (1 + (epsilon * r)^2)^(-1)
-        Linear,           // f(r) = r
+    public:
+        AbstractRbfKernel() {}
+
+        virtual double EvaluateValue(const double r) const = 0;
+    };
+
+    class GaussianRbfKernel final : public AbstractRbfKernel
+    {
+    public:
+        GaussianRbfKernel(const double theta) : m_theta(theta) {}
+
+        double EvaluateValue(const double r) const override
+        {
+            assert(r >= 0.0);
+            return std::exp(-m_theta * r * r);
+        }
+
+        const double m_theta;
+    };
+
+    class ThinPlateSplineRbfKernel final : public AbstractRbfKernel
+    {
+    public:
+        ThinPlateSplineRbfKernel() {}
+
+        double EvaluateValue(const double r) const override
+        {
+            assert(r >= 0.0);
+            return r * r * std::log(r);
+        }
     };
 
     class RbfInterpolation
     {
     public:
-        RbfInterpolation(RbfType rbf_type = RbfType::ThinPlateSpline, double epsilon = 2.0);
+        RbfInterpolation(
+            const std::shared_ptr<AbstractRbfKernel> rbf_kernel = std::make_shared<ThinPlateSplineRbfKernel>());
 
         // API
         void   SetData(const Eigen::MatrixXd& X, const Eigen::VectorXd& y);
@@ -30,11 +59,8 @@ namespace mathtoolbox
         const Eigen::VectorXd& GetW() const { return w; }
 
     private:
-        // Function type
-        RbfType rbf_type;
-
-        // A control parameter used in some kernel functions
-        double epsilon;
+        // RBF kernel
+        const std::shared_ptr<AbstractRbfKernel> m_rbf_kernel;
 
         // Data points
         Eigen::MatrixXd X;

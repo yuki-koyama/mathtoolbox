@@ -8,19 +8,19 @@ using Eigen::MatrixXd;
 using Eigen::VectorXd;
 using std::vector;
 
-mathtoolbox::RbfInterpolation::RbfInterpolation(const std::shared_ptr<AbstractRbfKernel> rbf_kernel)
+mathtoolbox::RbfInterpolator::RbfInterpolator(const std::shared_ptr<AbstractRbfKernel> rbf_kernel)
     : m_rbf_kernel(rbf_kernel)
 {
 }
 
-void mathtoolbox::RbfInterpolation::SetData(const Eigen::MatrixXd& X, const Eigen::VectorXd& y)
+void mathtoolbox::RbfInterpolator::SetData(const Eigen::MatrixXd& X, const Eigen::VectorXd& y)
 {
     assert(y.rows() == X.cols());
     this->m_X = X;
     this->m_y = y;
 }
 
-void mathtoolbox::RbfInterpolation::ComputeWeights(bool use_regularization, double lambda)
+void mathtoolbox::RbfInterpolator::ComputeWeights(bool use_regularization, double lambda)
 {
     const int dim = m_y.rows();
 
@@ -42,7 +42,7 @@ void mathtoolbox::RbfInterpolation::ComputeWeights(bool use_regularization, doub
     m_w = LLT<MatrixXd>(A).solve(b);
 }
 
-double mathtoolbox::RbfInterpolation::GetValue(const VectorXd& x) const
+double mathtoolbox::RbfInterpolator::GetValue(const VectorXd& x) const
 {
     const int dim = m_w.rows();
 
@@ -55,7 +55,7 @@ double mathtoolbox::RbfInterpolation::GetValue(const VectorXd& x) const
     return result;
 }
 
-double mathtoolbox::RbfInterpolation::GetRbfValue(const VectorXd& xi, const VectorXd& xj) const
+double mathtoolbox::RbfInterpolator::GetRbfValue(const VectorXd& xi, const VectorXd& xj) const
 {
     assert(xi.rows() == xj.rows());
 

@@ -61,10 +61,10 @@ namespace mathtoolbox
         const double m_theta;
     };
 
-    class RbfInterpolation
+    class RbfInterpolator
     {
     public:
-        RbfInterpolation(
+        RbfInterpolator(
             const std::shared_ptr<AbstractRbfKernel> rbf_kernel = std::make_shared<ThinPlateSplineRbfKernel>());
 
         // API

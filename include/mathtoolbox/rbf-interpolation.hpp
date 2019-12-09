@@ -55,23 +55,20 @@ namespace mathtoolbox
         double GetValue(const Eigen::VectorXd& x) const;
 
         // Getter methods
-        const Eigen::VectorXd& GetY() const { return y; }
-        const Eigen::MatrixXd& GetX() const { return X; }
-        const Eigen::VectorXd& GetW() const { return w; }
+        const Eigen::VectorXd& GetY() const { return m_y; }
+        const Eigen::MatrixXd& GetX() const { return m_X; }
+        const Eigen::VectorXd& GetW() const { return m_w; }
 
     private:
         // RBF kernel
         const std::shared_ptr<AbstractRbfKernel> m_rbf_kernel;
 
         // Data points
-        Eigen::MatrixXd X;
-        Eigen::VectorXd y;
+        Eigen::MatrixXd m_X;
+        Eigen::VectorXd m_y;
 
         // Weights
-        Eigen::VectorXd w;
-
-        // Returns f(r)
-        double GetRbfValue(double r) const;
+        Eigen::VectorXd m_w;
 
         // Returns f(||xj - xi||)
         double GetRbfValue(const Eigen::VectorXd& xi, const Eigen::VectorXd& xj) const;

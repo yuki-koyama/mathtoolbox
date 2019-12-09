@@ -19,7 +19,7 @@ namespace mathtoolbox
     class GaussianRbfKernel final : public AbstractRbfKernel
     {
     public:
-        GaussianRbfKernel(const double theta) : m_theta(theta) {}
+        GaussianRbfKernel(const double theta = 1.0) : m_theta(theta) {}
 
         double EvaluateValue(const double r) const override
         {
@@ -41,6 +41,24 @@ namespace mathtoolbox
             const double value = r * r * std::log(r);
             return std::isnan(value) ? 0.0 : value;
         }
+    };
+
+    class LinearRbfKernel final : AbstractRbfKernel
+    {
+    public:
+        LinearRbfKernel() {}
+
+        double EvaluateValue(const double r) const override { return std::abs(r); }
+    };
+
+    class InverseQuadraticRbfKernel final : public AbstractRbfKernel
+    {
+    public:
+        InverseQuadraticRbfKernel(const double theta = 1.0) : m_theta(theta) {}
+
+        double EvaluateValue(const double r) const override { return 1.0 / std::sqrt(r * r + m_theta * m_theta); }
+
+        const double m_theta;
     };
 
     class RbfInterpolation

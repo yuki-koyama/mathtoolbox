@@ -12,9 +12,6 @@ def objective_func(x: np.ndarray) -> float:
     return -1.5 * x[0] * math.sin(x[0] * 13.0)
 
 
-# Initialize the random seed
-pymathtoolbox.set_seed(random.randint(0, 65535))
-
 # Define constants
 NUM_SAMPLES = 50
 FIG_SIZE = (8, 4)

@@ -3,6 +3,7 @@
 
 #include <Eigen/Core>
 #include <cmath>
+#include <functional>
 #include <memory>
 #include <vector>
 
@@ -12,8 +13,9 @@ namespace mathtoolbox
     {
     public:
         AbstractRbfKernel() {}
+        virtual ~AbstractRbfKernel(){};
 
-        virtual double EvaluateValue(const double r) const = 0;
+        virtual double operator()(const double r) const = 0;
     };
 
     class GaussianRbfKernel final : public AbstractRbfKernel
@@ -21,12 +23,13 @@ namespace mathtoolbox
     public:
         GaussianRbfKernel(const double theta = 1.0) : m_theta(theta) {}
 
-        double EvaluateValue(const double r) const override
+        double operator()(const double r) const override
         {
             assert(r >= 0.0);
             return std::exp(-m_theta * r * r);
         }
 
+    private:
         const double m_theta;
     };
 
@@ -35,7 +38,7 @@ namespace mathtoolbox
     public:
         ThinPlateSplineRbfKernel() {}
 
-        double EvaluateValue(const double r) const override
+        double operator()(const double r) const override
         {
             assert(r >= 0.0);
             const double value = r * r * std::log(r);
@@ -48,7 +51,7 @@ namespace mathtoolbox
     public:
         LinearRbfKernel() {}
 
-        double EvaluateValue(const double r) const override { return std::abs(r); }
+        double operator()(const double r) const override { return std::abs(r); }
     };
 
     class InverseQuadraticRbfKernel final : public AbstractRbfKernel
@@ -56,16 +59,16 @@ namespace mathtoolbox
     public:
         InverseQuadraticRbfKernel(const double theta = 1.0) : m_theta(theta) {}
 
-        double EvaluateValue(const double r) const override { return 1.0 / std::sqrt(r * r + m_theta * m_theta); }
+        double operator()(const double r) const override { return 1.0 / std::sqrt(r * r + m_theta * m_theta); }
 
+    private:
         const double m_theta;
     };
 
     class RbfInterpolator
     {
     public:
-        RbfInterpolator(
-            const std::shared_ptr<AbstractRbfKernel> rbf_kernel = std::make_shared<ThinPlateSplineRbfKernel>());
+        RbfInterpolator(const std::function<double(const double)>& rbf_kernel = ThinPlateSplineRbfKernel());
 
         /// \brief Set data points and their values
         void SetData(const Eigen::MatrixXd& X, const Eigen::VectorXd& y);
@@ -80,7 +83,7 @@ namespace mathtoolbox
 
     private:
         // RBF kernel
-        const std::shared_ptr<AbstractRbfKernel> m_rbf_kernel;
+        const std::function<double(double)> m_rbf_kernel;
 
         // Data points
         Eigen::MatrixXd m_X;

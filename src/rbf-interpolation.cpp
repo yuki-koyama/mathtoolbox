@@ -8,7 +8,7 @@ using Eigen::MatrixXd;
 using Eigen::VectorXd;
 using std::vector;
 
-mathtoolbox::RbfInterpolator::RbfInterpolator(const std::shared_ptr<AbstractRbfKernel> rbf_kernel)
+mathtoolbox::RbfInterpolator::RbfInterpolator(const std::function<double(const double)>& rbf_kernel)
     : m_rbf_kernel(rbf_kernel)
 {
 }
@@ -59,5 +59,5 @@ double mathtoolbox::RbfInterpolator::CalcRbfValue(const VectorXd& xi, const Vect
 {
     assert(xi.rows() == xj.rows());
 
-    return m_rbf_kernel->EvaluateValue((xj - xi).norm());
+    return m_rbf_kernel((xj - xi).norm());
 }

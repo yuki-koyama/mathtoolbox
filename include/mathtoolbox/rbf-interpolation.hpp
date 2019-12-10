@@ -72,7 +72,7 @@ namespace mathtoolbox
 
         /// \brief Calculate the interpolation weights
         /// \details This method should be called after setting the data
-        void CalcWeights(bool use_regularization = false, double lambda = 0.001);
+        void CalcWeights(const bool use_regularization = false, const double lambda = 0.001);
 
         /// \brief Calculate the interpolatetd value at the specified data point
         /// \details This method should be called after calculating the weights

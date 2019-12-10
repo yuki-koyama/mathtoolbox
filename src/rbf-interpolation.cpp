@@ -20,7 +20,7 @@ void mathtoolbox::RbfInterpolator::SetData(const Eigen::MatrixXd& X, const Eigen
     this->m_y = y;
 }
 
-void mathtoolbox::RbfInterpolator::CalcWeights(bool use_regularization, double lambda)
+void mathtoolbox::RbfInterpolator::CalcWeights(const bool use_regularization, const double lambda)
 {
     const int dim = m_y.rows();
 

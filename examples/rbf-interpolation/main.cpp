@@ -31,7 +31,7 @@ int main()
     }
 
     // Define interpolation settings
-    const auto     kernel             = std::make_shared<mathtoolbox::ThinPlateSplineRbfKernel>();
+    const auto     kernel             = mathtoolbox::ThinPlateSplineRbfKernel();
     constexpr bool use_regularization = true;
 
     // Instantiate an interpolator

@@ -28,7 +28,7 @@ DPI = 200
 # Set style
 sns.set()
 sns.set_context()
-plt.rcParams['font.sans-serif'] = ["Linux Biolinum"]
+plt.rcParams['font.sans-serif'] = ["Linux Biolinum O", "Linux Biolinum"]
 
 # Draw plot
 fig = plt.figure(figsize=FIG_SIZE, dpi=DPI)

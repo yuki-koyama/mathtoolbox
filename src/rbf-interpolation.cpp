@@ -20,7 +20,7 @@ void mathtoolbox::RbfInterpolator::SetData(const Eigen::MatrixXd& X, const Eigen
     this->m_y = y;
 }
 
-void mathtoolbox::RbfInterpolator::ComputeWeights(bool use_regularization, double lambda)
+void mathtoolbox::RbfInterpolator::CalcWeights(bool use_regularization, double lambda)
 {
     const int dim = m_y.rows();
 
@@ -29,7 +29,7 @@ void mathtoolbox::RbfInterpolator::ComputeWeights(bool use_regularization, doubl
     {
         for (int j = i; j < dim; ++j)
         {
-            const double value = GetRbfValue(m_X.col(i), m_X.col(j));
+            const double value = CalcRbfValue(m_X.col(i), m_X.col(j));
 
             Phi(i, j) = value;
             Phi(j, i) = value;
@@ -42,20 +42,20 @@ void mathtoolbox::RbfInterpolator::ComputeWeights(bool use_regularization, doubl
     m_w = LLT<MatrixXd>(A).solve(b);
 }
 
-double mathtoolbox::RbfInterpolator::GetValue(const VectorXd& x) const
+double mathtoolbox::RbfInterpolator::CalcValue(const VectorXd& x) const
 {
     const int dim = m_w.rows();
 
     double result = 0.0;
     for (int i = 0; i < dim; ++i)
     {
-        result += m_w(i) * GetRbfValue(x, m_X.col(i));
+        result += m_w(i) * CalcRbfValue(x, m_X.col(i));
     }
 
     return result;
 }
 
-double mathtoolbox::RbfInterpolator::GetRbfValue(const VectorXd& xi, const VectorXd& xj) const
+double mathtoolbox::RbfInterpolator::CalcRbfValue(const VectorXd& xi, const VectorXd& xj) const
 {
     assert(xi.rows() == xj.rows());
 

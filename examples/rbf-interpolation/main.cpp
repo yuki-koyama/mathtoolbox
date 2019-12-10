@@ -38,7 +38,7 @@ int main()
 
     // Compute internal weights with or without regularization
     constexpr bool use_regularization = true;
-    rbf_interpolator.ComputeWeights(use_regularization);
+    rbf_interpolator.CalcWeights(use_regularization);
 
     // Calculate and print interpolated values on randomly sampled points in CSV format
     constexpr int number_of_test_samples = 100;
@@ -46,7 +46,7 @@ int main()
     for (int i = 0; i < number_of_test_samples; ++i)
     {
         const Vector2d x = Vector2d(uniform_dist(engine), uniform_dist(engine));
-        const double   y = rbf_interpolator.GetValue(x);
+        const double   y = rbf_interpolator.CalcValue(x);
 
         std::cout << x(0) << "," << x(1) << "," << y << std::endl;
     }

@@ -67,15 +67,16 @@ namespace mathtoolbox
         RbfInterpolator(
             const std::shared_ptr<AbstractRbfKernel> rbf_kernel = std::make_shared<ThinPlateSplineRbfKernel>());
 
-        // API
-        void   SetData(const Eigen::MatrixXd& X, const Eigen::VectorXd& y);
-        void   ComputeWeights(bool use_regularization = false, double lambda = 0.001);
-        double GetValue(const Eigen::VectorXd& x) const;
+        /// \brief Set data points and their values
+        void SetData(const Eigen::MatrixXd& X, const Eigen::VectorXd& y);
 
-        // Getter methods
-        const Eigen::VectorXd& GetY() const { return m_y; }
-        const Eigen::MatrixXd& GetX() const { return m_X; }
-        const Eigen::VectorXd& GetW() const { return m_w; }
+        /// \brief Calculate the interpolation weights
+        /// \details This method should be called after setting the data
+        void CalcWeights(bool use_regularization = false, double lambda = 0.001);
+
+        /// \brief Calculate the interpolatetd value at the specified data point
+        /// \details This method should be called after calculating the weights
+        double CalcValue(const Eigen::VectorXd& x) const;
 
     private:
         // RBF kernel
@@ -89,7 +90,7 @@ namespace mathtoolbox
         Eigen::VectorXd m_w;
 
         // Returns f(||xj - xi||)
-        double GetRbfValue(const Eigen::VectorXd& xi, const Eigen::VectorXd& xj) const;
+        double CalcRbfValue(const Eigen::VectorXd& xi, const Eigen::VectorXd& xj) const;
     };
 } // namespace mathtoolbox
 

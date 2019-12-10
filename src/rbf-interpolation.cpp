@@ -1,8 +1,8 @@
-#include <Eigen/Cholesky>
+#include <Eigen/LU>
 #include <cmath>
 #include <mathtoolbox/rbf-interpolation.hpp>
 
-using Eigen::LLT;
+using Eigen::PartialPivLU;
 using Eigen::Map;
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
@@ -39,7 +39,7 @@ void mathtoolbox::RbfInterpolator::CalcWeights(const bool use_regularization, co
     const MatrixXd A = use_regularization ? Phi.transpose() * Phi + lambda * MatrixXd::Identity(dim, dim) : Phi;
     const VectorXd b = use_regularization ? Phi.transpose() * m_y : m_y;
 
-    m_w = LLT<MatrixXd>(A).solve(b);
+    m_w = PartialPivLU<MatrixXd>(A).solve(b);
 }
 
 double mathtoolbox::RbfInterpolator::CalcValue(const VectorXd& x) const

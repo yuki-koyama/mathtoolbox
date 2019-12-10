@@ -34,7 +34,7 @@ optimizer = pymathtoolbox.BayesianOptimizer(objective_func, lower_bound,
 # Set up the plot design
 sns.set()
 sns.set_context()
-plt.rcParams['font.sans-serif'] = ["Linux Biolinum"]
+plt.rcParams['font.sans-serif'] = ["Linux Biolinum O", "Linux Biolinum"]
 
 for i in range(NUM_ITERS):
     # Proceed the optimization step

@@ -213,6 +213,7 @@
               
                 <h1 id="rbf-interpolation">rbf-interpolation</h1>
 <p>Radial basis function (RBF) network for scattered data interpolation and function approximation.</p>
+<p><img alt="" src="result.png" /></p>
 <h2 id="header">Header</h2>
 <pre><code class="cpp">#include &lt;mathtoolbox/rbf-interpolation.hpp&gt;
 </code></pre>
@@ -225,19 +226,18 @@
 \{ (\mathbf{x}_i, y_i) \}_{i = 1, \ldots, n},
 </script>
 </p>
-<p>this technique calculates an interpolated value <script type="math/tex"> y </script> for a specified point <script type="math/tex"> \mathbf{x} </script> by</p>
+<p>this technique calculates an interpolated value <script type="math/tex"> y \in \mathbb{R} </script> for a specified point <script type="math/tex"> \mathbf{x} \in \mathbb{R}^{m} </script> by</p>
 <p>
 <script type="math/tex; mode=display">
 y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} \|),
 </script>
 </p>
-<p>where <script type="math/tex"> \phi(\cdot) </script> is a user-selected RBF and <script type="math/tex"> w_1, \cdots, w_n </script> are weights that are calculated in pre-computation.</p>
-<p><img alt="" src="simple-interpolation.png" /></p>
+<p>where <script type="math/tex"> \phi : \mathbb{R}_{> 0} \rightarrow \mathbb{R} </script> is a user-selected RBF and <script type="math/tex"> w_1, \cdots, w_n </script> are weights that are calculated in pre-computation.</p>
 <h3 id="pre-computation">Pre-Computation</h3>
 <p>The weight values need to be calculated in pre-computation. Let</p>
 <p>
 <script type="math/tex; mode=display">
-\mathbf{w} = \begin{bmatrix} w_1 & \cdots & w_n \end{bmatrix}^T
+\mathbf{w} = \begin{bmatrix} w_1 & \cdots & w_n \end{bmatrix}^T \in \mathbb{R}^{n}
 </script>
 </p>
 <p>and</p>
@@ -248,7 +248,7 @@ y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} 
     \phi_{1, 1} & \cdots & \phi_{1, n} \\
     \vdots      & \ddots & \vdots      \\
     \phi_{n, 1} & \cdots & \phi_{n, n}
-  \end{bmatrix},
+  \end{bmatrix} \in \mathbb{R}^{n \times n},
 </script>
 </p>
 <p>where</p>
@@ -264,10 +264,12 @@ y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} 
 </script>
 </p>
 <p>LU decomposition can be used for solving this problem.</p>
+<p><img alt="" src="exact.png" /></p>
+<p>This approach offers <em>exact</em> interpolation: the interpolated function passes through all the scattered data points exactly.</p>
 <h3 id="pre-computation-with-regularization">Pre-Computation with Regularization</h3>
-<p>The original formulation above is not robust (i.e., overfitting can occur) when the data points are dense and noisy.</p>
-<p><img alt="" src="without-regularization.png" /></p>
-<p>For such scenarios, it is possible to add a <em>regularization</em> term into pre-computation. That is, the following minimization problem is solved:</p>
+<p>The original formulation above is not robust when the data points are dense and noisy. For such cases, it is effective to use a feature called <em>regularization</em> in pre-computation. In other words, this feature enables scattered data <em>approximation</em> rather than scattered data <em>(exact) interpolation</em>.</p>
+<p><img alt="" src="regularization.png" /></p>
+<p>This feature is achieved by considering a regularization term in the calculation of the weight values. More specifically, the following minimization problem is solved:</p>
 <p>
 <script type="math/tex; mode=display">
 \min_{\mathbf{w}} \left\{ \| \mathbf{\Phi} \mathbf{w} - \mathbf{y} \|^2 + \lambda \| \mathbf{w} \|^2 \right\}.
@@ -284,22 +286,22 @@ y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} 
 \end{eqnarray*}
 </script>
 </p>
-<p>Thus, the solution of the above minimization problem can be obtained by solving the below linear system:</p>
+<p>Thus, the solution of the above minimization problem is obtained by solving the below linear system:</p>
 <p>
 <script type="math/tex; mode=display">
 (\mathbf{\Phi}^T \mathbf{\Phi} + \lambda \mathbf{I}) \mathbf{w} = \mathbf{\Phi}^T \mathbf{y}.
 </script>
 </p>
-<p><img alt="" src="with-regularization.png" /></p>
 <h2 id="usage">Usage</h2>
-<p>First, instantiate the class <code>RbfInterpolation</code>. Via the constructor, an RBF can be specified from the following options:</p>
+<p>First, instantiate the class <code>RbfInterpolator</code>. In its constructor, an arbitrary RBF kernel (in the form of <code>std::function&lt;double(double)&gt;</code>) can be specified.</p>
+<p>The followings are pre-implemented as function objects and can be easily specified:</p>
 <ul>
-<li><code>Gaussian</code></li>
-<li><code>ThinPlateSpline</code></li>
-<li><code>InverseQuadratic</code></li>
-<li><code>Linear</code></li>
+<li><code>GaussianRbfKernel</code></li>
+<li><code>ThinPlateSplineRbfKernel</code></li>
+<li><code>InverseQuadraticRbfKernel</code></li>
+<li><code>LinearRbfKernel</code></li>
 </ul>
-<p>By default, <code>ThinPlateSpline</code> (i.e., <script type="math/tex"> \phi(x) = x^2 \log(x) </script>) is chosen.</p>
+<p>If no kernel is passed to the constructor, <code>ThinPlateSplineRbfKernel</code> (i.e., <script type="math/tex"> \phi(x) = x^2 \log(x) </script>) is chosen by default.</p>
 <p>Then, set the target scattered data by the method:</p>
 <pre><code class="cpp">void SetData(const Eigen::MatrixXd&amp; X, const Eigen::VectorXd&amp; y);
 </code></pre>
@@ -313,18 +315,18 @@ y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} 
 <p>represents the data points and</p>
 <p>
 <script type="math/tex; mode=display">
-\mathbf{y} = \begin{bmatrix} y_1 & \cdots & y_n \end{bmatrix}^T
+\mathbf{y} = \begin{bmatrix} y_1 & \cdots & y_n \end{bmatrix}^T \in \mathbb{R}^{m}
 </script>
 </p>
 <p>represents their values.</p>
 <p>Next, calculate the weight values by the method:</p>
-<pre><code class="cpp">void ComputeWeights(bool use_regularization = false,
-                    double lambda = 0.001);
+<pre><code class="cpp">void ComputeWeights(const bool   use_regularization = false,
+                    const double lambda             = 0.001);
 </code></pre>
 
-<p>When <code>use_regularization</code> is set <code>true</code>, the weights are calculated in the manner of scattered data approximation, rather than scattered data interpolation. When the data is noisy, approximation is usually a better choice.</p>
+<p>When <code>use_regularization</code> is set <code>true</code>, the weights are calculated in the manner of scattered data <em>approximation</em>, rather than scattered data interpolation. When the data is noisy, approximation is usually a better choice.</p>
 <p>Once the above procedures are performed, the instance is ready to calculate interpolated values. This is performed by the method</p>
-<pre><code class="cpp">double GetValue(const Eigen::VectorXd&amp; x) const;
+<pre><code class="cpp">double CalcValue(const Eigen::VectorXd&amp; x) const;
 </code></pre>
 
 <h2 id="useful-resources">Useful Resources</h2>

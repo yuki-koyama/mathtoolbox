@@ -2,9 +2,9 @@
 #include <cmath>
 #include <mathtoolbox/rbf-interpolation.hpp>
 
-using Eigen::PartialPivLU;
 using Eigen::Map;
 using Eigen::MatrixXd;
+using Eigen::PartialPivLU;
 using Eigen::VectorXd;
 using std::vector;
 

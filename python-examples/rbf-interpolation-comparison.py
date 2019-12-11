@@ -76,7 +76,7 @@ for index, condition in enumerate(conditions):
             label="Observed data",
             color=sns.color_palette()[0])
 
-    # Plot the predicted mean
+    # Plot the interpolated values
     ax.plot(x_samples,
             values,
             label="Interpolated values",

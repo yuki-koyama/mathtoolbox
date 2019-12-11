@@ -18,7 +18,7 @@ mathtoolbox::optimization::BayesianOptimizer::BayesianOptimizer(const std::funct
 {
 }
 
-std::pair<Eigen::VectorXd, double> mathtoolbox::optimization::BayesianOptimizer::Step()
+std::pair<VectorXd, double> mathtoolbox::optimization::BayesianOptimizer::Step()
 {
     // Check if this is the first step, and if so, use a randomly sampled point as the initial solution
     if (m_X.cols() == 0)

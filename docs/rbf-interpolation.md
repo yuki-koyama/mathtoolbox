@@ -20,13 +20,13 @@ $$
 \{ (\mathbf{x}_i, y_i) \}_{i = 1, \ldots, n},
 $$
 
-this technique calculates an interpolated value $ y $ for a specified point $ \mathbf{x} $ by
+this technique calculates an interpolated value $ y \in \mathbb{R} $ for a specified point $ \mathbf{x} \in \mathbb{R}^{m} $ by
 
 $$
 y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} \|),
 $$
 
-where $ \phi(\cdot) $ is a user-selected RBF and $ w_1, \cdots, w_n $ are weights that are calculated in pre-computation.
+where $ \phi : \mathbb{R}_{> 0} \rightarrow \mathbb{R} $ is a user-selected RBF and $ w_1, \cdots, w_n $ are weights that are calculated in pre-computation.
 
 ![](rbf-interpolation/simple-interpolation.png)
 
@@ -35,7 +35,7 @@ where $ \phi(\cdot) $ is a user-selected RBF and $ w_1, \cdots, w_n $ are weight
 The weight values need to be calculated in pre-computation. Let
 
 $$
-\mathbf{w} = \begin{bmatrix} w_1 & \cdots & w_n \end{bmatrix}^T
+\mathbf{w} = \begin{bmatrix} w_1 & \cdots & w_n \end{bmatrix}^T \in \mathbb{R}^{n}
 $$
 
 and
@@ -46,7 +46,7 @@ $$
     \phi_{1, 1} & \cdots & \phi_{1, n} \\
     \vdots      & \ddots & \vdots      \\
     \phi_{n, 1} & \cdots & \phi_{n, n}
-  \end{bmatrix},
+  \end{bmatrix} \in \mathbb{R}^{n \times n},
 $$
 
 where
@@ -65,7 +65,7 @@ LU decomposition can be used for solving this problem.
 
 ### Pre-Computation with Regularization
 
-The original formulation above is not robust when the data points are dense and noisy. For such cases, it is effective to use a feature called *regularization* in pre-computation. In other words, this feature enables scattered data *approximation*, not scattered data *(exact) interpolation*.
+The original formulation above is not robust when the data points are dense and noisy. For such cases, it is effective to use a feature called *regularization* in pre-computation. In other words, this feature enables scattered data *approximation* rather than scattered data *(exact) interpolation*.
 
 ![](rbf-interpolation/regularization.png)
 
@@ -118,7 +118,7 @@ $$
 represents the data points and
 
 $$
-\mathbf{y} = \begin{bmatrix} y_1 & \cdots & y_n \end{bmatrix}^T
+\mathbf{y} = \begin{bmatrix} y_1 & \cdots & y_n \end{bmatrix}^T \in \mathbb{R}^{m}
 $$
 
 represents their values.

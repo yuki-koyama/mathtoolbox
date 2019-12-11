@@ -2,12 +2,14 @@
 #include <functional>
 #include <mathtoolbox/bayesian-optimization.hpp>
 #include <mathtoolbox/classical-mds.hpp>
+#include <mathtoolbox/rbf-interpolation.hpp>
 #include <pybind11/eigen.h>
 #include <pybind11/functional.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
 namespace py = pybind11;
+namespace mt = mathtoolbox;
 
 void SetSeed(const unsigned seed)
 {
@@ -18,23 +20,51 @@ PYBIND11_MODULE(pymathtoolbox, m)
 {
     m.doc() = "mathtoolbox python bindings";
 
-    m.def("set_seed", &SetSeed);
+    m.def("set_seed", &SetSeed, py::arg("seed"));
 
     m.def("compute_classical_mds",
-          &mathtoolbox::ComputeClassicalMds,
+          &mt::ComputeClassicalMds,
           "A function which computes classical MDS",
           py::arg("D"),
           py::arg("dim"));
 
-    py::class_<mathtoolbox::optimization::BayesianOptimizer>(m, "BayesianOptimizer")
+    py::class_<mt::optimization::BayesianOptimizer>(m, "BayesianOptimizer")
         .def(py::init<const std::function<double(const Eigen::VectorXd&)>&,
                       const Eigen::VectorXd&,
-                      const Eigen::VectorXd&>())
-        .def("step", &mathtoolbox::optimization::BayesianOptimizer::Step)
-        .def("evaluate_point", &mathtoolbox::optimization::BayesianOptimizer::EvaluatePoint)
-        .def("get_current_optimizer", &mathtoolbox::optimization::BayesianOptimizer::GetCurrentOptimizer)
-        .def("predict_mean", &mathtoolbox::optimization::BayesianOptimizer::PredictMean)
-        .def("predict_stdev", &mathtoolbox::optimization::BayesianOptimizer::PredictStdev)
-        .def("calc_acquisition_value", &mathtoolbox::optimization::BayesianOptimizer::CalcAcquisitionValue)
-        .def("get_data", &mathtoolbox::optimization::BayesianOptimizer::GetData);
+                      const Eigen::VectorXd&>(),
+             py::arg("f"),
+             py::arg("lower_bound"),
+             py::arg("upper_bound"))
+        .def("step", &mt::optimization::BayesianOptimizer::Step)
+        .def("evaluate_point", &mt::optimization::BayesianOptimizer::EvaluatePoint)
+        .def("get_current_optimizer", &mt::optimization::BayesianOptimizer::GetCurrentOptimizer)
+        .def("predict_mean", &mt::optimization::BayesianOptimizer::PredictMean)
+        .def("predict_stdev", &mt::optimization::BayesianOptimizer::PredictStdev)
+        .def("calc_acquisition_value", &mt::optimization::BayesianOptimizer::CalcAcquisitionValue)
+        .def("get_data", &mt::optimization::BayesianOptimizer::GetData);
+
+    py::class_<mt::GaussianRbfKernel>(m, "GaussianRbfKernel")
+        .def(py::init<double>(), py::arg("theta"))
+        .def("__call__", &mt::GaussianRbfKernel::operator(), py::arg("r"));
+
+    py::class_<mt::ThinPlateSplineRbfKernel>(m, "ThinPlateSplineRbfKernel")
+        .def(py::init<>())
+        .def("__call__", &mt::ThinPlateSplineRbfKernel::operator(), py::arg("r"));
+
+    py::class_<mt::LinearRbfKernel>(m, "LinearRbfKernel")
+        .def(py::init<>())
+        .def("__call__", &mt::LinearRbfKernel::operator(), py::arg("r"));
+
+    py::class_<mt::InverseQuadraticRbfKernel>(m, "InverseQuadraticRbfKernel")
+        .def(py::init<double>(), py::arg("theta"))
+        .def("__call__", &mt::InverseQuadraticRbfKernel::operator(), py::arg("r"));
+
+    py::class_<mt::RbfInterpolator>(m, "RbfInterpolator")
+        .def(py::init<std::function<double(double)>>(), py::arg("rbf_kernel") = mt::ThinPlateSplineRbfKernel())
+        .def("set_data", &mt::RbfInterpolator::SetData, py::arg("X"), py::arg("y"))
+        .def("calc_weights",
+             &mt::RbfInterpolator::CalcWeights,
+             py::arg("use_regularization") = false,
+             py::arg("lambda")             = 0.001)
+        .def("calc_value", &mt::RbfInterpolator::CalcValue, py::arg("x"));
 }

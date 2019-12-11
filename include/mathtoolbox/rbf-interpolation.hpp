@@ -2,52 +2,98 @@
 #define MATHTOOLBOX_RBF_INTERPOLATION_HPP
 
 #include <Eigen/Core>
+#include <cmath>
+#include <functional>
+#include <memory>
 #include <vector>
 
 namespace mathtoolbox
 {
-    enum class RbfType
-    {
-        Gaussian,         // f(r) = exp(-(epsilon * r)^2)
-        ThinPlateSpline,  // f(r) = (r^2) * log(r)
-        InverseQuadratic, // f(r) = (1 + (epsilon * r)^2)^(-1)
-        Linear,           // f(r) = r
-    };
-
-    class RbfInterpolation
+    class AbstractRbfKernel
     {
     public:
-        RbfInterpolation(RbfType rbf_type = RbfType::ThinPlateSpline, double epsilon = 2.0);
+        AbstractRbfKernel() {}
+        virtual ~AbstractRbfKernel(){};
 
-        // API
-        void   SetData(const Eigen::MatrixXd& X, const Eigen::VectorXd& y);
-        void   ComputeWeights(bool use_regularization = false, double lambda = 0.001);
-        double GetValue(const Eigen::VectorXd& x) const;
+        virtual double operator()(const double r) const = 0;
+    };
 
-        // Getter methods
-        const Eigen::VectorXd& GetY() const { return y; }
-        const Eigen::MatrixXd& GetX() const { return X; }
-        const Eigen::VectorXd& GetW() const { return w; }
+    class GaussianRbfKernel final : public AbstractRbfKernel
+    {
+    public:
+        GaussianRbfKernel(const double theta = 1.0) : m_theta(theta) {}
+
+        double operator()(const double r) const override
+        {
+            assert(r >= 0.0);
+            return std::exp(-m_theta * r * r);
+        }
 
     private:
-        // Function type
-        RbfType rbf_type;
+        const double m_theta;
+    };
 
-        // A control parameter used in some kernel functions
-        double epsilon;
+    class ThinPlateSplineRbfKernel final : public AbstractRbfKernel
+    {
+    public:
+        ThinPlateSplineRbfKernel() {}
+
+        double operator()(const double r) const override
+        {
+            assert(r >= 0.0);
+            const double value = r * r * std::log(r);
+            return std::isnan(value) ? 0.0 : value;
+        }
+    };
+
+    class LinearRbfKernel final : AbstractRbfKernel
+    {
+    public:
+        LinearRbfKernel() {}
+
+        double operator()(const double r) const override { return std::abs(r); }
+    };
+
+    class InverseQuadraticRbfKernel final : public AbstractRbfKernel
+    {
+    public:
+        InverseQuadraticRbfKernel(const double theta = 1.0) : m_theta(theta) {}
+
+        double operator()(const double r) const override { return 1.0 / std::sqrt(r * r + m_theta * m_theta); }
+
+    private:
+        const double m_theta;
+    };
+
+    class RbfInterpolator
+    {
+    public:
+        RbfInterpolator(const std::function<double(const double)>& rbf_kernel = ThinPlateSplineRbfKernel());
+
+        /// \brief Set data points and their values
+        void SetData(const Eigen::MatrixXd& X, const Eigen::VectorXd& y);
+
+        /// \brief Calculate the interpolation weights
+        /// \details This method should be called after setting the data
+        void CalcWeights(const bool use_regularization = false, const double lambda = 0.001);
+
+        /// \brief Calculate the interpolatetd value at the specified data point
+        /// \details This method should be called after calculating the weights
+        double CalcValue(const Eigen::VectorXd& x) const;
+
+    private:
+        // RBF kernel
+        const std::function<double(double)> m_rbf_kernel;
 
         // Data points
-        Eigen::MatrixXd X;
-        Eigen::VectorXd y;
+        Eigen::MatrixXd m_X;
+        Eigen::VectorXd m_y;
 
         // Weights
-        Eigen::VectorXd w;
-
-        // Returns f(r)
-        double GetRbfValue(double r) const;
+        Eigen::VectorXd m_w;
 
         // Returns f(||xj - xi||)
-        double GetRbfValue(const Eigen::VectorXd& xi, const Eigen::VectorXd& xj) const;
+        double CalcRbfValue(const Eigen::VectorXd& xi, const Eigen::VectorXd& xj) const;
     };
 } // namespace mathtoolbox
 

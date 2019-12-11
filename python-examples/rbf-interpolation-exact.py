@@ -13,32 +13,29 @@ def objective_func(x: np.ndarray) -> float:
 
 
 # Define constants
-NUM_SAMPLES = 50
+NUM_SAMPLES = 12
 FIG_SIZE = (8, 4)
 Y_RANGE = (-1.2, 1.7)
 IMAGE_FORMAT = "png"
 DPI = 200
-NOISE_INTENSITY = 0.1
 
 # Generate data points
 large_x = np.random.rand(1, NUM_SAMPLES)
 small_y = np.ndarray(NUM_SAMPLES, )
 
 for i in range(NUM_SAMPLES):
-    noise = NOISE_INTENSITY * np.random.randn(1, )
-    small_y[i] = objective_func(large_x[:, i]) + noise
+    small_y[i] = objective_func(large_x[:, i])
 
 # Define interpolation settings
-use_regularization = True
-regularization_weight = 1e-05
-rbf_kernel = pymathtoolbox.GaussianRbfKernel(theta=10.0)
+use_regularization = False
+rbf_kernel = pymathtoolbox.GaussianRbfKernel(theta=50.0)
 
 # Instantiate the interpolator
 interpolator = pymathtoolbox.RbfInterpolator(rbf_kernel)
 
 # Prepare interpolator
 interpolator.set_data(large_x, small_y)
-interpolator.calc_weights(use_regularization, regularization_weight)
+interpolator.calc_weights(use_regularization)
 
 # Set up the plot design
 sns.set()
@@ -76,7 +73,7 @@ ax.plot(x_samples,
 ax.legend(loc="upper left")
 
 # Set title
-fig.suptitle("Radial Basis Function (RBF) Interpolation")
+fig.suptitle("Exact RBF Interpolation")
 
 # Export the figure as an image file
 output_path = "./rbf-interpolation-out." + IMAGE_FORMAT

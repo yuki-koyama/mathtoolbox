@@ -28,8 +28,6 @@ $$
 
 where $ \phi : \mathbb{R}_{> 0} \rightarrow \mathbb{R} $ is a user-selected RBF and $ w_1, \cdots, w_n $ are weights that are calculated in pre-computation.
 
-![](rbf-interpolation/simple-interpolation.png)
-
 ### Pre-Computation
 
 The weight values need to be calculated in pre-computation. Let
@@ -62,6 +60,10 @@ $$
 $$
 
 LU decomposition can be used for solving this problem.
+
+![](rbf-interpolation/exact.png)
+
+This approach offers *exact* interpolation: the interpolated function passes through all the scattered data points exactly.
 
 ### Pre-Computation with Regularization
 

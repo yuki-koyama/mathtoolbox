@@ -45,7 +45,7 @@ conditions = [
         "use_regularization": True,
     },
 ]
-regularization_weights = 1e-03
+regularization_weight = 1e-03
 rbf_kernel = pymathtoolbox.ThinPlateSplineRbfKernel()
 
 for index, condition in enumerate(conditions):
@@ -56,7 +56,7 @@ for index, condition in enumerate(conditions):
 
     # Prepare interpolator
     interpolator.set_data(large_x, small_y)
-    interpolator.calc_weights(use_regularization, regularization_weights)
+    interpolator.calc_weights(use_regularization, regularization_weight)
 
     # Calculate sequences of interpolated values
     x_samples = np.arange(0.0, 1.0, 0.001)

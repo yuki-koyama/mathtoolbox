@@ -10,6 +10,13 @@ Gaussian process regression (GPR) for scattered data interpolation and function 
 #include <mathtoolbox/gaussian-process-regression.hpp>
 ```
 
+## Internal Dependencies
+
+- [constants](../constants)
+- [kernel-functions](../kernel-functions/)
+- [l-bfgs](../l-bfgs)
+- [log-determinant](../log-determinant/)
+
 ## Overview
 
 ### Input

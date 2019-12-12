@@ -200,12 +200,14 @@ void mathtoolbox::optimization::BayesianOptimizer::ConstructSurrogateFunction()
         }
     }();
 
-    const int num_dims = m_X.rows();
+    const int      num_dims = m_X.rows();
+    const VectorXd default_kernel_hyperparams =
+        (VectorXd(num_dims + 1) << 0.20, VectorXd::Constant(num_dims, 0.20)).finished();
 
     m_regressor = std::make_shared<GaussianProcessRegression>(m_X, m_y, kernel_type);
 #if true
-    m_regressor->SetHyperparams(0.20, 2e-05, VectorXd::Constant(num_dims, 0.20));
+    m_regressor->SetHyperparams(default_kernel_hyperparams, 2e-05);
 #else
-    m_regressor->PerformMaximumLikelihood(0.20, 2e-05, VectorXd::Constant(num_dims, 0.20));
+    m_regressor->PerformMaximumLikelihood(default_kernel_hyperparams, 2e-05);
 #endif
 }

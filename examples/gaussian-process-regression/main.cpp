@@ -51,9 +51,10 @@ int main(int argc, char** argv)
     mathtoolbox::GaussianProcessRegression regressor(X, y, kernel_type);
 
     // Perform hyperparameter estimation
+    const Eigen::Vector2d default_kernel_hyperparams{0.50, 0.50};
     {
         timer::Timer t("maximum likelihood estimation");
-        regressor.PerformMaximumLikelihood(0.50, 0.010, VectorXd::Constant(1, 0.50));
+        regressor.PerformMaximumLikelihood(default_kernel_hyperparams, 0.010);
     }
 
     // Define constants for export

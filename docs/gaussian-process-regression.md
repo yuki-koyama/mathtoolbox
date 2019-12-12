@@ -123,10 +123,10 @@ In this implementation, this maximization problem is solved by [the L-BFGS metho
 
 A GPR object is instantiated with data specification in its constructor:
 ```cpp
-GaussianProcessRegression(const Eigen::MatrixXd& X,
-                          const Eigen::VectorXd& y,
-                          const KernelType       kernel_type = KernelType::ArdMatern52,
-                          const bool             use_data_normalization = true);
+GaussianProcessRegressor(const Eigen::MatrixXd& X,
+                         const Eigen::VectorXd& y,
+                         const KernelType       kernel_type = KernelType::ArdMatern52,
+                         const bool             use_data_normalization = true);
 ```
 
 ### Hyperparameter Selection

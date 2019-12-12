@@ -2,6 +2,7 @@
 #include <mathtoolbox/constants.hpp>
 #include <mathtoolbox/gaussian-process-regression.hpp>
 #include <mathtoolbox/kernel-functions.hpp>
+#include <mathtoolbox/log-determinant.hpp>
 #include <mathtoolbox/numerical-optimization.hpp>
 #include <tuple>
 
@@ -10,25 +11,8 @@ using Eigen::VectorXd;
 
 namespace
 {
-    inline VectorXd Concat(const VectorXd& a, const double b)
-    {
-        VectorXd result(a.size() + 1);
-
-        result.segment(0, a.size()) = a;
-        result(a.size())            = b;
-
-        return result;
-    }
-
-    inline VectorXd Concat(const double a, const VectorXd& b)
-    {
-        VectorXd result(1 + b.size());
-
-        result(0)                   = a;
-        result.segment(1, b.size()) = b;
-
-        return result;
-    }
+    inline VectorXd Concat(const VectorXd& a, const double b) { return (VectorXd(a.size() + 1) << a, b).finished(); }
+    inline VectorXd Concat(const double a, const VectorXd& b) { return (VectorXd(1 + b.size()) << a, b).finished(); }
 
     MatrixXd CalcLargeKF(const MatrixXd& X, const VectorXd& kernel_hyperparams, const mathtoolbox::Kernel& kernel)
     {
@@ -136,7 +120,7 @@ namespace
         const Eigen::LLT<MatrixXd> K_y_llt(K_y);
 
         const VectorXd K_y_inv_y   = K_y_llt.solve(y);
-        const double   log_K_y_det = 2.0 * K_y_llt.matrixL().toDenseMatrix().diagonal().array().log().sum();
+        const double   log_K_y_det = mathtoolbox::CalcLogDetOfSymmetricPositiveDefiniteMatrix(K_y_llt);
 
         // Equation 5.8 [Rasmussen and Williams 2006]
         const double term1 = -0.5 * y.transpose() * K_y_inv_y;

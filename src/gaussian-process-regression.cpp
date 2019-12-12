@@ -258,8 +258,8 @@ mathtoolbox::GaussianProcessRegression::GaussianProcessRegression(const MatrixXd
 void mathtoolbox::GaussianProcessRegression::SetHyperparams(const Eigen::VectorXd& kernel_hyperparams,
                                                             const double           sigma_squared_n)
 {
-    this->m_kernel_hyperparams = kernel_hyperparams;
-    this->m_sigma_squared_n    = sigma_squared_n;
+    m_kernel_hyperparams = kernel_hyperparams;
+    m_sigma_squared_n    = sigma_squared_n;
 
     m_K_y       = CalcLargeKY(m_X, m_sigma_squared_n, m_kernel_hyperparams, m_kernel);
     m_K_y_llt   = Eigen::LLT<MatrixXd>(m_K_y);
@@ -275,8 +275,8 @@ void mathtoolbox::GaussianProcessRegression::PerformMaximumLikelihood(const Eige
     assert(m_kernel_hyperparams.size() == num_kernel_hyperparams);
 
     const VectorXd x_initial = Concat(kernel_hyperparams_initial, sigma_squared_n_initial);
-    const VectorXd upper = VectorXd::Constant(num_kernel_hyperparams + 1, 1e+03);
-    const VectorXd lower = VectorXd::Constant(num_kernel_hyperparams + 1, 1e-06);
+    const VectorXd upper     = VectorXd::Constant(num_kernel_hyperparams + 1, 1e+03);
+    const VectorXd lower     = VectorXd::Constant(num_kernel_hyperparams + 1, 1e-06);
 
     using Data = std::tuple<const MatrixXd&, const VectorXd&>;
     Data data(m_X, m_y);
@@ -334,15 +334,13 @@ void mathtoolbox::GaussianProcessRegression::PerformMaximumLikelihood(const Eige
     std::function<double(const VectorXd&)> f = [&](const VectorXd& x) -> double {
         const auto decoded_x = decode_vector(x);
 
-        const double   sigma_squared_f = decoded_x[0];
-        const double   sigma_squared_n = decoded_x[1];
-        const VectorXd length_scales   = decoded_x.segment(2, x.size() - 2);
+        const VectorXd kernel_hyperparams = decoded_x.segment(0, x.size() - 1);
+        const double   sigma_squared_n    = decoded_x(x.size() - 1);
 
         const MatrixXd& X = std::get<0>(data);
         const VectorXd& y = std::get<1>(data);
 
-        const double log_likelihood =
-            CalcLogLikelihood(X, y, sigma_squared_n, Concat(sigma_squared_f, length_scales), m_kernel);
+        const double log_likelihood = CalcLogLikelihood(X, y, sigma_squared_n, kernel_hyperparams, m_kernel);
 
         return log_likelihood;
     };
@@ -350,15 +348,14 @@ void mathtoolbox::GaussianProcessRegression::PerformMaximumLikelihood(const Eige
     std::function<VectorXd(const VectorXd&)> g = [&](const VectorXd& x) -> VectorXd {
         const auto decoded_x = decode_vector(x);
 
-        const double   sigma_squared_f = decoded_x[0];
-        const double   sigma_squared_n = decoded_x[1];
-        const VectorXd length_scales   = decoded_x.segment(2, x.size() - 2);
+        const VectorXd kernel_hyperparams = decoded_x.segment(0, x.size() - 1);
+        const double   sigma_squared_n    = decoded_x(x.size() - 1);
 
         const MatrixXd& X = std::get<0>(data);
         const VectorXd& y = std::get<1>(data);
 
-        const VectorXd log_likelihood_deriv = CalcLogLikelihoodDeriv(
-            X, y, sigma_squared_n, Concat(sigma_squared_f, length_scales), m_kernel, m_kernel_deriv_theta_i);
+        const VectorXd log_likelihood_deriv =
+            CalcLogLikelihoodDeriv(X, y, sigma_squared_n, kernel_hyperparams, m_kernel, m_kernel_deriv_theta_i);
 
         return (log_likelihood_deriv.array() * calc_decode_vector_deriv(x).array()).matrix();
     };

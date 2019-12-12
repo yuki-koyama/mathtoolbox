@@ -259,9 +259,12 @@ mathtoolbox::GaussianProcessRegression::GaussianProcessRegression(const MatrixXd
     // Store a normalization data values
     m_y = (m_data_scale / m_data_sigma) * (y - VectorXd::Constant(y.size(), m_data_mu));
 
-    const int D = X.rows();
+    // Set default hyperparameters
+    const int        num_dims                   = X.rows();
+    const VectorXd   default_kernel_hyperparams = Concat(0.10, VectorXd::Constant(num_dims, 0.10));
+    constexpr double default_noise_level        = 1e-05;
 
-    SetHyperparams(0.10, 1e-05, VectorXd::Constant(D, 0.10));
+    SetHyperparams(default_kernel_hyperparams, default_noise_level);
 }
 
 void mathtoolbox::GaussianProcessRegression::SetHyperparams(const Eigen::VectorXd& kernel_hyperparams,

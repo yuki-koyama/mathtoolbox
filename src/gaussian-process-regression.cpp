@@ -276,24 +276,22 @@ void mathtoolbox::GaussianProcessRegression::SetHyperparams(double          sigm
     m_K_y_inv_y = m_K_y_llt.solve(m_y);
 }
 
-void mathtoolbox::GaussianProcessRegression::PerformMaximumLikelihood(double          sigma_squared_f_initial,
-                                                                      double          sigma_squared_n_initial,
-                                                                      const VectorXd& length_scales_initial)
+void mathtoolbox::GaussianProcessRegression::PerformMaximumLikelihood(const Eigen::VectorXd& kernel_hyperparams_initial,
+                                                                      const double           sigma_squared_n_initial)
 {
-    const int D = m_X.rows();
+    const int num_dims               = m_X.rows();
+    const int num_kernel_hyperparams = kernel_hyperparams_initial.size();
 
-    assert(m_kernel_hyperparams.size() == D + 1);
-    assert(length_scales_initial.rows() == D);
+    assert(m_kernel_hyperparams.size() == num_kernel_hyperparams);
 
     const VectorXd x_initial = [&]() {
-        VectorXd x(D + 2);
-        x(0)            = sigma_squared_f_initial;
-        x(1)            = sigma_squared_n_initial;
-        x.segment(2, D) = length_scales_initial;
+        VectorXd x(num_kernel_hyperparams + 1);
+        x.segment(0, num_kernel_hyperparams) = kernel_hyperparams_initial;
+        x(num_kernel_hyperparams)            = sigma_squared_n_initial;
         return x;
     }();
-    const VectorXd upper = VectorXd::Constant(D + 2, 1e+04);
-    const VectorXd lower = VectorXd::Constant(D + 2, 1e-05);
+    const VectorXd upper = VectorXd::Constant(num_kernel_hyperparams + 1, 1e+03);
+    const VectorXd lower = VectorXd::Constant(num_kernel_hyperparams + 1, 1e-06);
 
     using Data = std::tuple<const MatrixXd&, const VectorXd&>;
     Data data(m_X, m_y);
@@ -392,13 +390,13 @@ void mathtoolbox::GaussianProcessRegression::PerformMaximumLikelihood(double    
     const auto     result    = optimization::RunOptimization(input);
     const VectorXd x_optimal = decode_vector(result.x_star);
 
-    m_kernel_hyperparams[0]            = x_optimal[0];
-    m_kernel_hyperparams.segment(1, D) = x_optimal.segment(2, D);
-    m_sigma_squared_n                  = x_optimal[1];
+    m_kernel_hyperparams = x_optimal.segment(0, num_kernel_hyperparams);
+    m_sigma_squared_n    = x_optimal(num_kernel_hyperparams);
 
+    assert(m_kernel_hyperparams.size() == num_dims + 1);
     std::cout << "sigma_squared_f: " << m_kernel_hyperparams[0] << std::endl;
     std::cout << "sigma_squared_n: " << m_sigma_squared_n << std::endl;
-    std::cout << "length_scales  : " << m_kernel_hyperparams.segment(1, D).transpose() << std::endl;
+    std::cout << "length_scales  : " << m_kernel_hyperparams.segment(1, num_dims).transpose() << std::endl;
 
     m_K_y       = CalcLargeKY(m_X, m_sigma_squared_n, m_kernel_hyperparams, m_kernel);
     m_K_y_llt   = Eigen::LLT<MatrixXd>(m_K_y);

@@ -32,9 +32,8 @@ namespace mathtoolbox
 
         // Hyperparameters setup methods
         void SetHyperparams(double sigma_squared_f, double sigma_squared_n, const Eigen::VectorXd& length_scales);
-        void PerformMaximumLikelihood(double                 sigma_squared_f_initial,
-                                      double                 sigma_squared_n_initial,
-                                      const Eigen::VectorXd& length_scales_initial);
+        void PerformMaximumLikelihood(const Eigen::VectorXd& kernel_hyperparams_initial,
+                                      const double           sigma_squared_n_initial);
 
         // Getter methods
         const Eigen::MatrixXd& GetLargeX() const { return m_X; }

@@ -264,11 +264,10 @@ mathtoolbox::GaussianProcessRegression::GaussianProcessRegression(const MatrixXd
     SetHyperparams(0.10, 1e-05, VectorXd::Constant(D, 0.10));
 }
 
-void mathtoolbox::GaussianProcessRegression::SetHyperparams(double          sigma_squared_f,
-                                                            double          sigma_squared_n,
-                                                            const VectorXd& length_scales)
+void mathtoolbox::GaussianProcessRegression::SetHyperparams(const Eigen::VectorXd& kernel_hyperparams,
+                                                            const double           sigma_squared_n)
 {
-    this->m_kernel_hyperparams = Concat(sigma_squared_f, length_scales);
+    this->m_kernel_hyperparams = kernel_hyperparams;
     this->m_sigma_squared_n    = sigma_squared_n;
 
     m_K_y       = CalcLargeKY(m_X, m_sigma_squared_n, m_kernel_hyperparams, m_kernel);

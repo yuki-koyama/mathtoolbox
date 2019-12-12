@@ -31,7 +31,7 @@ namespace mathtoolbox
         Eigen::VectorXd PredictStdevDeriv(const Eigen::VectorXd& x) const;
 
         // Hyperparameters setup methods
-        void SetHyperparams(double sigma_squared_f, double sigma_squared_n, const Eigen::VectorXd& length_scales);
+        void SetHyperparams(const Eigen::VectorXd& kernel_hyperparams, const double m_sigma_squared_n);
         void PerformMaximumLikelihood(const Eigen::VectorXd& kernel_hyperparams_initial,
                                       const double           sigma_squared_n_initial);
 

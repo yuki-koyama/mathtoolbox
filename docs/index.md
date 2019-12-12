@@ -32,6 +32,7 @@ Mathematical tools (interpolation, dimensionality reduction, optimization, etc.)
 
 ### Linear Algebra
 
+- [`log-determinant`: Log-determinant](https://yuki-koyama.github.io/mathtoolbox/log-determinant/)
 - [`matrix-inversion`: Matrix inversion techniques](https://yuki-koyama.github.io/mathtoolbox/matrix-inversion/)
 
 ### Utilities

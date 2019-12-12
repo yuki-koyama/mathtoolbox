@@ -50,9 +50,9 @@ $ \sigma_n^{2} $ (the noise variance) is considered as one of the hyperparamters
 
 Given the data and the _Gaussian process_ assumption, GPR can calculate the most likely value $ f_{*} $ and its variance $ \text{Var}(f_{*}) $ for an arbitrary location $ \mathbf{x}_{*} $.
 
-The variance roughly indicates how uncertain the estimation is. For example, when this value is large, the estimated value may not be very trustful (this often occurs in regions with less data points).
+The variance indicates how uncertain the estimation is. For example, when this value is large, the estimated value may not be very trustful (this often occurs in regions with less data points).
 
-Note that, as the predicted value follows a Gaussian, its 95%-confidence interval can be obtained by $ [ f_{*} - 1.96 \sqrt{\text{Var}(f_{*})}, f_{*} + 1.96 \sqrt{\text{Var}(f_{*})} ] $.
+As the predicted value follows a Gaussian, its 95%-confidence interval can be obtained by $ [ f_{*} - 1.96 \sqrt{\text{Var}(f_{*})}, f_{*} + 1.96 \sqrt{\text{Var}(f_{*})} ] $.
 
 ## Math
 
@@ -70,7 +70,11 @@ $$
 r^{2}(\mathbf{x}_{p}, \mathbf{x}_{q}; \boldsymbol{\ell}) = (\mathbf{x}_p - \mathbf{x}_q)^{T} \text{diag}(\boldsymbol{\ell})^{-2} (\mathbf{x}_p - \mathbf{x}_q)
 $$
 
-and $ \sigma_f^{2} $ (the signal variance) and $ \boldsymbol{\ell} $ (the characteristic length-scales) are its hyperparameters.
+and $ \sigma_f^{2} $ (the signal variance) and $ \boldsymbol{\ell} $ (the characteristic length-scales) are its hyperparameters. That is,
+
+$$
+\boldsymbol{\theta}_\text{kernel} = \begin{bmatrix} \sigma_f^{2} \\ \boldsymbol{\ell} \end{bmatrix} \in \mathbb{R}^{D + 1}.
+$$
 
 ### Mean Function
 
@@ -102,7 +106,7 @@ There are two options for setting hyperparameters:
 Let $ \boldsymbol{\theta} $ be a concatenation of hyperparameters; that is,
 
 $$
-\boldsymbol{\theta} = \begin{bmatrix} \sigma_{f}^{2} \\ \sigma_{n}^{2} \\ \boldsymbol{\ell} \end{bmatrix} \in \mathbb{R}^{D + 2}.
+\boldsymbol{\theta} = \begin{bmatrix} \boldsymbol{\theta}_\text{kernel} \\ \sigma_{n}^{2} \end{bmatrix} \in \mathbb{R}^{D + 2}.
 $$
 
 In this approach, these hyperparameters are determined by solving the following numerical optimization problem:
@@ -121,22 +125,20 @@ A GPR object is instantiated with data specification in its constructor:
 ```cpp
 GaussianProcessRegression(const Eigen::MatrixXd& X,
                           const Eigen::VectorXd& y,
-                          const KernelType       kernel_type = KernelType::ArdMatern52);
+                          const KernelType       kernel_type = KernelType::ArdMatern52,
+                          const bool             use_data_normalization = true);
 ```
 
 ### Hyperparameter Selection
 
 Hyperparameters are set by either
 ```cpp
-void SetHyperparameters(double sigma_squared_f,
-                        double sigma_squared_n,
-                        const Eigen::VectorXd& length_scales);
+void SetHyperparams(const Eigen::VectorXd& kernel_hyperparams, const double m_sigma_squared_n);
 ```
 or
 ```cpp
-void PerformMaximumLikelihood(double sigma_squared_f_initial,
-                              double sigma_squared_n_initial,
-                              const Eigen::VectorXd& length_scales_initial);
+void PerformMaximumLikelihood(const Eigen::VectorXd& kernel_hyperparams_initial,
+                              const double           sigma_squared_n_initial);
 ```
 
 ### Prediction

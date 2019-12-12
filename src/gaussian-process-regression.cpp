@@ -126,8 +126,8 @@ namespace
 
     double CalcLogLikelihood(const MatrixXd&            X,
                              const VectorXd&            y,
-                             const double               sigma_squared_n,
                              const VectorXd&            kernel_hyperparams,
+                             const double               sigma_squared_n,
                              const mathtoolbox::Kernel& kernel)
     {
         const int      N   = X.cols();
@@ -153,8 +153,8 @@ namespace
 
     VectorXd CalcLogLikelihoodDeriv(const MatrixXd&                            X,
                                     const VectorXd&                            y,
-                                    const double                               sigma_squared_n,
                                     const VectorXd&                            kernel_hyperparams,
+                                    const double                               sigma_squared_n,
                                     const mathtoolbox::Kernel&                 kernel,
                                     const mathtoolbox::KernelThetaIDerivative& kernel_deriv_theta_i)
     {
@@ -340,7 +340,7 @@ void mathtoolbox::GaussianProcessRegression::PerformMaximumLikelihood(const Eige
         const MatrixXd& X = std::get<0>(data);
         const VectorXd& y = std::get<1>(data);
 
-        const double log_likelihood = CalcLogLikelihood(X, y, sigma_squared_n, kernel_hyperparams, m_kernel);
+        const double log_likelihood = CalcLogLikelihood(X, y, kernel_hyperparams, sigma_squared_n, m_kernel);
 
         return log_likelihood;
     };
@@ -355,7 +355,7 @@ void mathtoolbox::GaussianProcessRegression::PerformMaximumLikelihood(const Eige
         const VectorXd& y = std::get<1>(data);
 
         const VectorXd log_likelihood_deriv =
-            CalcLogLikelihoodDeriv(X, y, sigma_squared_n, kernel_hyperparams, m_kernel, m_kernel_deriv_theta_i);
+            CalcLogLikelihoodDeriv(X, y, kernel_hyperparams, sigma_squared_n, m_kernel, m_kernel_deriv_theta_i);
 
         return (log_likelihood_deriv.array() * calc_decode_vector_deriv(x).array()).matrix();
     };

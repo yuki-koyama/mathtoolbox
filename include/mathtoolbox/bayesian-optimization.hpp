@@ -7,7 +7,7 @@
 
 namespace mathtoolbox
 {
-    class GaussianProcessRegression;
+    class GaussianProcessRegressor;
 
     namespace optimization
     {
@@ -66,7 +66,7 @@ namespace mathtoolbox
             Eigen::MatrixXd m_X;
             Eigen::VectorXd m_y;
 
-            std::shared_ptr<GaussianProcessRegression> m_regressor;
+            std::shared_ptr<GaussianProcessRegressor> m_regressor;
 
             void AddDataEntry(const Eigen::VectorXd& x_new, const double y_new);
             void ConstructSurrogateFunction();

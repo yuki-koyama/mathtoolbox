@@ -7,7 +7,7 @@
 
 namespace mathtoolbox
 {
-    class GaussianProcessRegression
+    class GaussianProcessRegressor
     {
     public:
         enum class KernelType
@@ -17,10 +17,10 @@ namespace mathtoolbox
         };
 
         /// \brief Construct an instance with input data
-        GaussianProcessRegression(const Eigen::MatrixXd& X,
-                                  const Eigen::VectorXd& y,
-                                  const KernelType       kernel_type            = KernelType::ArdMatern52,
-                                  const bool             use_data_normalization = true);
+        GaussianProcessRegressor(const Eigen::MatrixXd& X,
+                                 const Eigen::VectorXd& y,
+                                 const KernelType       kernel_type            = KernelType::ArdMatern52,
+                                 const bool             use_data_normalization = true);
 
         /// \brief Calculate the mean of the predicted distribution
         double PredictMean(const Eigen::VectorXd& x) const;

@@ -188,13 +188,13 @@ void mathtoolbox::optimization::BayesianOptimizer::ConstructSurrogateFunction()
     assert(m_X.cols() != 0);
     assert(m_y.size() != 0);
 
-    const GaussianProcessRegression::KernelType kernel_type = [&]() {
+    const GaussianProcessRegressor::KernelType kernel_type = [&]() {
         switch (m_kernel_type)
         {
             case KernelType::ArdSquaredExp:
-                return GaussianProcessRegression::KernelType::ArdSquaredExp;
+                return GaussianProcessRegressor::KernelType::ArdSquaredExp;
             case KernelType::ArdMatern52:
-                return GaussianProcessRegression::KernelType::ArdMatern52;
+                return GaussianProcessRegressor::KernelType::ArdMatern52;
             default:
                 assert(false);
         }
@@ -204,7 +204,7 @@ void mathtoolbox::optimization::BayesianOptimizer::ConstructSurrogateFunction()
     const VectorXd default_kernel_hyperparams =
         (VectorXd(num_dims + 1) << 0.20, VectorXd::Constant(num_dims, 0.20)).finished();
 
-    m_regressor = std::make_shared<GaussianProcessRegression>(m_X, m_y, kernel_type);
+    m_regressor = std::make_shared<GaussianProcessRegressor>(m_X, m_y, kernel_type);
 #if true
     m_regressor->SetHyperparams(default_kernel_hyperparams, 2e-05);
 #else

@@ -190,10 +190,10 @@ namespace
     }
 } // namespace
 
-mathtoolbox::GaussianProcessRegression::GaussianProcessRegression(const MatrixXd&  X,
-                                                                  const VectorXd&  y,
-                                                                  const KernelType kernel_type,
-                                                                  const bool       use_data_normalization)
+mathtoolbox::GaussianProcessRegressor::GaussianProcessRegressor(const MatrixXd&  X,
+                                                                const VectorXd&  y,
+                                                                const KernelType kernel_type,
+                                                                const bool       use_data_normalization)
     : m_X(X)
 {
     assert(X.cols() == y.size());
@@ -255,8 +255,8 @@ mathtoolbox::GaussianProcessRegression::GaussianProcessRegression(const MatrixXd
     SetHyperparams(default_kernel_hyperparams, default_noise_level);
 }
 
-void mathtoolbox::GaussianProcessRegression::SetHyperparams(const Eigen::VectorXd& kernel_hyperparams,
-                                                            const double           sigma_squared_n)
+void mathtoolbox::GaussianProcessRegressor::SetHyperparams(const Eigen::VectorXd& kernel_hyperparams,
+                                                           const double           sigma_squared_n)
 {
     m_kernel_hyperparams = kernel_hyperparams;
     m_sigma_squared_n    = sigma_squared_n;
@@ -266,8 +266,8 @@ void mathtoolbox::GaussianProcessRegression::SetHyperparams(const Eigen::VectorX
     m_K_y_inv_y = m_K_y_llt.solve(m_y);
 }
 
-void mathtoolbox::GaussianProcessRegression::PerformMaximumLikelihood(const Eigen::VectorXd& kernel_hyperparams_initial,
-                                                                      const double           sigma_squared_n_initial)
+void mathtoolbox::GaussianProcessRegressor::PerformMaximumLikelihood(const Eigen::VectorXd& kernel_hyperparams_initial,
+                                                                     const double           sigma_squared_n_initial)
 {
     const int num_dims               = m_X.rows();
     const int num_kernel_hyperparams = kernel_hyperparams_initial.size();
@@ -385,7 +385,7 @@ void mathtoolbox::GaussianProcessRegression::PerformMaximumLikelihood(const Eige
     m_K_y_inv_y = m_K_y_llt.solve(m_y);
 }
 
-double mathtoolbox::GaussianProcessRegression::PredictMean(const VectorXd& x) const
+double mathtoolbox::GaussianProcessRegressor::PredictMean(const VectorXd& x) const
 {
     const VectorXd k               = CalcSmallK(x, m_X, m_kernel_hyperparams, m_kernel);
     const double   normalized_mean = k.transpose() * m_K_y_inv_y;
@@ -393,7 +393,7 @@ double mathtoolbox::GaussianProcessRegression::PredictMean(const VectorXd& x) co
     return (m_data_sigma / m_data_scale) * normalized_mean + m_data_mu;
 }
 
-double mathtoolbox::GaussianProcessRegression::PredictStdev(const VectorXd& x) const
+double mathtoolbox::GaussianProcessRegressor::PredictStdev(const VectorXd& x) const
 {
     const VectorXd k                = CalcSmallK(x, m_X, m_kernel_hyperparams, m_kernel);
     const double   k_xx             = m_kernel_hyperparams[0];
@@ -402,7 +402,7 @@ double mathtoolbox::GaussianProcessRegression::PredictStdev(const VectorXd& x) c
     return (m_data_sigma / m_data_scale) * normalized_stdev;
 }
 
-VectorXd mathtoolbox::GaussianProcessRegression::PredictMeanDeriv(const VectorXd& x) const
+VectorXd mathtoolbox::GaussianProcessRegressor::PredictMeanDeriv(const VectorXd& x) const
 {
     const MatrixXd k_deriv_x = CalcSmallKDerivSmallX(x, m_X, m_kernel_hyperparams, m_kernel_deriv_first_arg);
     const VectorXd normalized_mean_deriv = k_deriv_x * m_K_y_inv_y;
@@ -410,7 +410,7 @@ VectorXd mathtoolbox::GaussianProcessRegression::PredictMeanDeriv(const VectorXd
     return (m_data_sigma / m_data_scale) * normalized_mean_deriv;
 }
 
-VectorXd mathtoolbox::GaussianProcessRegression::PredictStdevDeriv(const VectorXd& x) const
+VectorXd mathtoolbox::GaussianProcessRegressor::PredictStdevDeriv(const VectorXd& x) const
 {
     const MatrixXd k_deriv_x        = CalcSmallKDerivSmallX(x, m_X, m_kernel_hyperparams, m_kernel_deriv_first_arg);
     const VectorXd k                = CalcSmallK(x, m_X, m_kernel_hyperparams, m_kernel);

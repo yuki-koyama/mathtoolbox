@@ -45,10 +45,10 @@ int main(int argc, char** argv)
     scattered_data_stream.close();
 
     // Define the kernel type
-    const auto kernel_type = mathtoolbox::GaussianProcessRegression::KernelType::ArdMatern52;
+    const auto kernel_type = mathtoolbox::GaussianProcessRegressor::KernelType::ArdMatern52;
 
     // Instantiate the interpolation object
-    mathtoolbox::GaussianProcessRegression regressor(X, y, kernel_type);
+    mathtoolbox::GaussianProcessRegressor regressor(X, y, kernel_type);
 
     // Perform hyperparameter estimation
     const Eigen::Vector2d default_kernel_hyperparams{0.50, 0.50};

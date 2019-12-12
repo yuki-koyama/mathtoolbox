@@ -16,28 +16,32 @@ namespace mathtoolbox
             ArdMatern52
         };
 
-        // Construction with input data
+        /// \brief Construct an instance with input data
         GaussianProcessRegression(const Eigen::MatrixXd& X,
                                   const Eigen::VectorXd& y,
                                   const KernelType       kernel_type            = KernelType::ArdMatern52,
                                   const bool             use_data_normalization = true);
 
-        // Estimation methods
+        /// \brief Calculate the mean of the predicted distribution
         double PredictMean(const Eigen::VectorXd& x) const;
+
+        /// \brief Calculate the standard deviation of the predicted distribution
         double PredictStdev(const Eigen::VectorXd& x) const;
 
-        // Derivative estimation methods
+        /// \brief Calculate the derivative of the mean of the predicted distribution
         Eigen::VectorXd PredictMeanDeriv(const Eigen::VectorXd& x) const;
+
+        /// \brief Calculate the derivative of the standard deviation of the predicted distribution
         Eigen::VectorXd PredictStdevDeriv(const Eigen::VectorXd& x) const;
 
-        // Hyperparameters setup methods
+        /// \brief Set hyperparameters directly
+        ///
+        /// \details Covariance matrix calculation will run within this method.
         void SetHyperparams(const Eigen::VectorXd& kernel_hyperparams, const double m_sigma_squared_n);
+
+        /// \brief Perform maximum likelihood estimation of the hyperparameters
         void PerformMaximumLikelihood(const Eigen::VectorXd& kernel_hyperparams_initial,
                                       const double           sigma_squared_n_initial);
-
-        // Getter methods
-        const Eigen::MatrixXd& GetLargeX() const { return m_X; }
-        const Eigen::VectorXd& GetY() const { return m_y; }
 
     private:
         // Data points

@@ -316,10 +316,10 @@ y_{i} \leftarrow s \cdot \frac{y_{i} - \mu}{\sigma} \:\: \text{for} \:\: i = 1, 
 <h2 id="usage">Usage</h2>
 <h3 id="instantiation-and-data-specification">Instantiation and Data Specification</h3>
 <p>A GPR object is instantiated with data specification in its constructor:</p>
-<pre><code class="cpp">GaussianProcessRegression(const Eigen::MatrixXd&amp; X,
-                          const Eigen::VectorXd&amp; y,
-                          const KernelType       kernel_type = KernelType::ArdMatern52,
-                          const bool             use_data_normalization = true);
+<pre><code class="cpp">GaussianProcessRegressor(const Eigen::MatrixXd&amp; X,
+                         const Eigen::VectorXd&amp; y,
+                         const KernelType       kernel_type = KernelType::ArdMatern52,
+                         const bool             use_data_normalization = true);
 </code></pre>
 
 <h3 id="hyperparameter-selection">Hyperparameter Selection</h3>

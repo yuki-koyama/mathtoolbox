@@ -256,8 +256,8 @@ y_i = f_i + \delta,
 <script type="math/tex"> \sigma_n^{2} </script> (the noise variance) is considered as one of the hyperparamters of this model.</p>
 <h3 id="output">Output</h3>
 <p>Given the data and the <em>Gaussian process</em> assumption, GPR can calculate the most likely value <script type="math/tex"> f_{*} </script> and its variance <script type="math/tex"> \text{Var}(f_{*}) </script> for an arbitrary location <script type="math/tex"> \mathbf{x}_{*} </script>.</p>
-<p>The variance roughly indicates how uncertain the estimation is. For example, when this value is large, the estimated value may not be very trustful (this often occurs in regions with less data points).</p>
-<p>Note that, as the predicted value follows a Gaussian, its 95%-confidence interval can be obtained by <script type="math/tex"> [ f_{*} - 1.96 \sqrt{\text{Var}(f_{*})}, f_{*} + 1.96 \sqrt{\text{Var}(f_{*})} ] </script>.</p>
+<p>The variance indicates how uncertain the estimation is. For example, when this value is large, the estimated value may not be very trustful (this often occurs in regions with less data points).</p>
+<p>As the predicted value follows a Gaussian, its 95%-confidence interval can be obtained by <script type="math/tex"> [ f_{*} - 1.96 \sqrt{\text{Var}(f_{*})}, f_{*} + 1.96 \sqrt{\text{Var}(f_{*})} ] </script>.</p>
 <h2 id="math">Math</h2>
 <h3 id="covariance-function">Covariance Function</h3>
 <p>The automatic relevance determination (ARD) Matern 5/2 kernel is the default choice:</p>
@@ -272,7 +272,12 @@ k(\mathbf{x}_p, \mathbf{x}_q ; \sigma_f^{2}, \boldsymbol{\ell}) = \sigma_f^{2} \
 r^{2}(\mathbf{x}_{p}, \mathbf{x}_{q}; \boldsymbol{\ell}) = (\mathbf{x}_p - \mathbf{x}_q)^{T} \text{diag}(\boldsymbol{\ell})^{-2} (\mathbf{x}_p - \mathbf{x}_q)
 </script>
 </p>
-<p>and <script type="math/tex"> \sigma_f^{2} </script> (the signal variance) and <script type="math/tex"> \boldsymbol{\ell} </script> (the characteristic length-scales) are its hyperparameters.</p>
+<p>and <script type="math/tex"> \sigma_f^{2} </script> (the signal variance) and <script type="math/tex"> \boldsymbol{\ell} </script> (the characteristic length-scales) are its hyperparameters. That is,</p>
+<p>
+<script type="math/tex; mode=display">
+\boldsymbol{\theta}_\text{kernel} = \begin{bmatrix} \sigma_f^{2} \\ \boldsymbol{\ell} \end{bmatrix} \in \mathbb{R}^{D + 1}.
+</script>
+</p>
 <h3 id="mean-function">Mean Function</h3>
 <p>A constant-value function is used:</p>
 <p>
@@ -298,7 +303,7 @@ y_{i} \leftarrow s \cdot \frac{y_{i} - \mu}{\sigma} \:\: \text{for} \:\: i = 1, 
 <p>Let <script type="math/tex"> \boldsymbol{\theta} </script> be a concatenation of hyperparameters; that is,</p>
 <p>
 <script type="math/tex; mode=display">
-\boldsymbol{\theta} = \begin{bmatrix} \sigma_{f}^{2} \\ \sigma_{n}^{2} \\ \boldsymbol{\ell} \end{bmatrix} \in \mathbb{R}^{D + 2}.
+\boldsymbol{\theta} = \begin{bmatrix} \boldsymbol{\theta}_\text{kernel} \\ \sigma_{n}^{2} \end{bmatrix} \in \mathbb{R}^{D + 2}.
 </script>
 </p>
 <p>In this approach, these hyperparameters are determined by solving the following numerical optimization problem:</p>
@@ -313,20 +318,18 @@ y_{i} \leftarrow s \cdot \frac{y_{i} - \mu}{\sigma} \:\: \text{for} \:\: i = 1, 
 <p>A GPR object is instantiated with data specification in its constructor:</p>
 <pre><code class="cpp">GaussianProcessRegression(const Eigen::MatrixXd&amp; X,
                           const Eigen::VectorXd&amp; y,
-                          const KernelType       kernel_type = KernelType::ArdMatern52);
+                          const KernelType       kernel_type = KernelType::ArdMatern52,
+                          const bool             use_data_normalization = true);
 </code></pre>
 
 <h3 id="hyperparameter-selection">Hyperparameter Selection</h3>
 <p>Hyperparameters are set by either</p>
-<pre><code class="cpp">void SetHyperparameters(double sigma_squared_f,
-                        double sigma_squared_n,
-                        const Eigen::VectorXd&amp; length_scales);
+<pre><code class="cpp">void SetHyperparams(const Eigen::VectorXd&amp; kernel_hyperparams, const double m_sigma_squared_n);
 </code></pre>
 
 <p>or</p>
-<pre><code class="cpp">void PerformMaximumLikelihood(double sigma_squared_f_initial,
-                              double sigma_squared_n_initial,
-                              const Eigen::VectorXd&amp; length_scales_initial);
+<pre><code class="cpp">void PerformMaximumLikelihood(const Eigen::VectorXd&amp; kernel_hyperparams_initial,
+                              const double           sigma_squared_n_initial);
 </code></pre>
 
 <h3 id="prediction">Prediction</h3>

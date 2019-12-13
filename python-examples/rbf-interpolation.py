@@ -53,7 +53,7 @@ values = vec_func(x_samples)
 # Prepare a figure object
 fig = plt.figure(figsize=FIG_SIZE, dpi=DPI, constrained_layout=True)
 
-# Begin to draw the top plot
+# Begin to draw the plot
 ax = fig.add_subplot(1, 1, 1)
 ax.set_ylim(Y_RANGE)
 

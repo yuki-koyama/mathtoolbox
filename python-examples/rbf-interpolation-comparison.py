@@ -63,7 +63,7 @@ for index, condition in enumerate(conditions):
     vec_func = np.vectorize(lambda x: interpolator.calc_value(np.array([x])))
     values = vec_func(x_samples)
 
-    # Begin to draw the top plot
+    # Begin to draw the plot
     ax = fig.add_subplot(1, 2, index + 1)
     ax.set_ylim(Y_RANGE)
 

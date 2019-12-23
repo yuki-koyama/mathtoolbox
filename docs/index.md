@@ -134,7 +134,7 @@ Classical multi-dimensional scaling (`classical-mds`) is applied to pixel RGB va
 ## Projects Using mathtoolbox
 
 - SelPh <https://github.com/yuki-koyama/selph> (for `classical-mds`)
-- Sequential Line Search <https://github.com/yuki-koyama/sequential-line-search> (for `acquisition-functions`, `kernel-functions`, and `probability-distributions`)
+- Sequential Line Search <https://github.com/yuki-koyama/sequential-line-search> (for `acquisition-functions`, `kernel-functions`, `log-determinant`, and `probability-distributions`)
 
 ## Contributing
 

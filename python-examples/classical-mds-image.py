@@ -7,7 +7,8 @@ from PIL import Image
 from scipy.spatial.distance import pdist, squareform
 
 # Load an image
-image = Image.open(os.path.dirname(__file__) + "/assets/autumn-leaves.jpg")
+asset_dir_path = os.path.dirname(os.path.abspath(__file__)) + "/assets"
+image = Image.open(asset_dir_path + "/autumn-leaves.jpg")
 resized_image = image.resize((30, 20), Image.BILINEAR)
 
 # Generate a color array

@@ -89,6 +89,7 @@ if(MATHTOOLBOX_BUILD_EXAMPLES)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/matrix-inversion)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/probability-distributions)
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/rbf-interpolation)
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/examples/som)
 endif()
 
 ######################################################################
@@ -107,6 +108,7 @@ if(MATHTOOLBOX_BUILD_EXAMPLES)
 	add_test(NAME matrix-inversion-test COMMAND $<TARGET_FILE:matrix-inversion-test>)
 	add_test(NAME probability-distributions-test COMMAND $<TARGET_FILE:probability-distributions-test>)
 	add_test(NAME rbf-interpolation-test COMMAND $<TARGET_FILE:rbf-interpolation-test>)
+	add_test(NAME som-test COMMAND $<TARGET_FILE:som-test>)
 
 	if(MATHTOOLBOX_PYTHON_BINDINGS)
 		add_test(NAME python-classical-mds-test COMMAND ${CMAKE_COMMAND} -E env PYTHONPATH=$<TARGET_FILE_DIR:pymathtoolbox> ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/python-examples/classical-mds.py)

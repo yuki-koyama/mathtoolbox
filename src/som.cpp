@@ -1,4 +1,32 @@
+#include <iostream>
 #include <mathtoolbox/som.hpp>
+
+namespace
+{
+    Eigen::VectorXi FindBestMatchingUnits(const Eigen::MatrixXd& X, const Eigen::MatrixXd& Y)
+    {
+        assert(X.rows() == Y.rows());
+
+        const int num_data  = X.cols();
+        const int num_nodes = Y.cols();
+
+        Eigen::VectorXi node_indices(num_data);
+
+        for (int i = 0; i < num_data; ++i)
+        {
+            Eigen::VectorXd squared_norms(num_nodes);
+
+            for (int j = 0; j < num_nodes; ++j)
+            {
+                squared_norms(j) = (X.col(i) - Y.col(j)).squaredNorm();
+            }
+
+            squared_norms.minCoeff(&(node_indices(i)));
+        }
+
+        return node_indices;
+    }
+} // namespace
 
 mathtoolbox::Som::Som(const Eigen::MatrixXd& m_data,
                       const int              latent_num_dims,
@@ -12,6 +40,10 @@ mathtoolbox::Som::Som(const Eigen::MatrixXd& m_data,
     }
 
     this->PerformInitialization();
+
+    const Eigen::VectorXi best_matching_units = FindBestMatchingUnits(m_X, m_Y);
+
+    std::cout << best_matching_units << std::endl;
 }
 
 void mathtoolbox::Som::NormalizeData()

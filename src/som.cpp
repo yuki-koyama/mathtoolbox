@@ -3,6 +3,20 @@
 
 namespace
 {
+    int GetNumNodes(const int resolution, const int latent_num_dims)
+    {
+        assert(latent_num_dims == 1 || latent_num_dims == 2);
+
+        if (latent_num_dims == 1)
+        {
+            return resolution;
+        }
+        else
+        {
+            return resolution * resolution;
+        }
+    }
+
     /// \details The computational complexity is O(#data * #nodes)
     Eigen::VectorXi FindBestMatchingUnits(const Eigen::MatrixXd& X, const Eigen::MatrixXd& Y)
     {
@@ -28,18 +42,46 @@ namespace
         return node_indices;
     }
 
-    int GetNumNodes(const int resolution, const int latent_num_dims)
+    /// \return Posititons in the latent space [0, 1]^{#dims x #nodes}
+    Eigen::MatrixXd GetLatentSpacePositions(const int resolution, const int latent_num_dims)
     {
         assert(latent_num_dims == 1 || latent_num_dims == 2);
+        assert(resolution >= 2);
+
+        const int num_nodes = GetNumNodes(resolution, latent_num_dims);
+
+        Eigen::MatrixXd positions(latent_num_dims, num_nodes);
 
         if (latent_num_dims == 1)
         {
-            return resolution;
+            for (int x_index = 0; x_index < num_nodes; ++x_index)
+            {
+                positions(0, x_index) = static_cast<double>(x_index) / static_cast<double>(resolution - 1);
+            }
         }
         else
         {
-            return resolution * resolution;
+            for (int y_index = 0; y_index < resolution; ++y_index)
+            {
+                for (int x_index = 0; x_index < resolution; ++x_index)
+                {
+                    const int index = y_index * resolution + x_index;
+
+                    const double x_offset = static_cast<double>(x_index) / static_cast<double>(resolution - 1);
+                    const double y_offset = static_cast<double>(y_index) / static_cast<double>(resolution - 1);
+
+                    positions.col(index) = Eigen::Vector2d(x_offset, y_offset);
+                }
+            }
         }
+
+        return positions;
+    }
+
+    Eigen::MatrixXd CalculateNeighborhoodMatrix(const int resolution, const int latent_num_dims)
+    {
+        // TODO: Implement this function
+        assert(false);
     }
 } // namespace
 
@@ -55,6 +97,8 @@ mathtoolbox::Som::Som(const Eigen::MatrixXd& data,
     }
 
     this->PerformInitialization();
+
+    const Eigen::MatrixXd latent_node_positions = GetLatentSpacePositions(m_resolution, m_latent_num_dims);
 
     const Eigen::VectorXi best_matching_units = FindBestMatchingUnits(m_X, m_Y);
 

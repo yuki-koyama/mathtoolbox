@@ -3,6 +3,7 @@
 
 namespace
 {
+    /// \details The computational complexity is O(#data * #nodes)
     Eigen::VectorXi FindBestMatchingUnits(const Eigen::MatrixXd& X, const Eigen::MatrixXd& Y)
     {
         assert(X.rows() == Y.rows());
@@ -28,11 +29,11 @@ namespace
     }
 } // namespace
 
-mathtoolbox::Som::Som(const Eigen::MatrixXd& m_data,
+mathtoolbox::Som::Som(const Eigen::MatrixXd& data,
                       const int              latent_num_dims,
                       const int              resolution,
                       const bool             normalize_data)
-    : m_latent_num_dims(latent_num_dims), m_resolution(resolution), m_X(m_data)
+    : m_latent_num_dims(latent_num_dims), m_resolution(resolution), m_X(data)
 {
     if (normalize_data)
     {

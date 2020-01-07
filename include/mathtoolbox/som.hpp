@@ -22,6 +22,9 @@ namespace mathtoolbox
         const int m_latent_num_dims;
         const int m_resolution;
 
+        /// \brief Grid node positions in the latent space.
+        const Eigen::MatrixXd m_latent_node_positions;
+
         int m_iter_count;
 
         /// \brief Observed data points.

@@ -127,7 +127,11 @@ mathtoolbox::Som::Som(const Eigen::MatrixXd& data,
                       const int              latent_num_dims,
                       const int              resolution,
                       const bool             normalize_data)
-    : m_latent_num_dims(latent_num_dims), m_resolution(resolution), m_iter_count(0), m_X(data)
+    : m_latent_num_dims(latent_num_dims),
+      m_resolution(resolution),
+      m_latent_node_positions(GetLatentSpacePositions(resolution, latent_num_dims)),
+      m_iter_count(0),
+      m_X(data)
 {
     if (normalize_data)
     {
@@ -146,14 +150,13 @@ mathtoolbox::Som::Som(const Eigen::MatrixXd& data,
 
 void mathtoolbox::Som::Step()
 {
-    const Eigen::MatrixXd latent_node_positions = GetLatentSpacePositions(m_resolution, m_latent_num_dims);
-    const int             num_nodes             = GetNumNodes(m_resolution, m_latent_num_dims);
+    const int num_nodes = GetNumNodes(m_resolution, m_latent_num_dims);
 
     const Eigen::VectorXi best_matching_units = FindBestMatchingUnits(m_X, m_Y);
 
     const Eigen::SparseMatrix<double> B = ConvertBestMatchingUnitsIntoMat(best_matching_units, num_nodes);
 
-    const Eigen::MatrixXd H = CalcNeighborhoodMat(latent_node_positions, m_iter_count);
+    const Eigen::MatrixXd H = CalcNeighborhoodMat(m_latent_node_positions, m_iter_count);
 
     const Eigen::MatrixXd BX = B * m_X.transpose();
 

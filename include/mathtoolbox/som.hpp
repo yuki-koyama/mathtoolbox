@@ -33,6 +33,8 @@ namespace mathtoolbox
         void NormalizeData();
 
         /// \brief Perform initialization.
+        ///
+        /// \details Currently, only the random initialization strategy is implemented.
         void PerformInitialization();
     };
 } // namespace mathtoolbox

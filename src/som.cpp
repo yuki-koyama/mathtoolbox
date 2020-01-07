@@ -27,6 +27,20 @@ namespace
 
         return node_indices;
     }
+
+    int GetNumNodes(const int resolution, const int latent_num_dims)
+    {
+        assert(latent_num_dims == 1 || latent_num_dims == 2);
+
+        if (latent_num_dims == 1)
+        {
+            return resolution;
+        }
+        else
+        {
+            return resolution * resolution;
+        }
+    }
 } // namespace
 
 mathtoolbox::Som::Som(const Eigen::MatrixXd& data,
@@ -55,6 +69,8 @@ void mathtoolbox::Som::NormalizeData()
 
 void mathtoolbox::Som::PerformInitialization()
 {
-    // TODO: Implement this function
-    assert(false);
+    const int num_data_dims = m_X.rows();
+    const int num_nodes     = GetNumNodes(m_resolution, m_latent_num_dims);
+
+    m_Y = Eigen::MatrixXd::Random(num_data_dims, num_nodes);
 }

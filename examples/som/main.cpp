@@ -8,7 +8,7 @@ int main()
     constexpr int  resolution      = 10;
     constexpr bool normalize_data  = false;
 
-    Eigen::MatrixXd data(num_data_dims, num_points);
+    Eigen::MatrixXd data = Eigen::MatrixXd::Random(num_data_dims, num_points);
 
     mathtoolbox::Som som(data, num_latent_dims, resolution, normalize_data);
 

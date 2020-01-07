@@ -1,3 +1,4 @@
+#include <Eigen/SparseCore>
 #include <iostream>
 #include <mathtoolbox/som.hpp>
 
@@ -42,6 +43,21 @@ namespace
         return node_indices;
     }
 
+    Eigen::SparseMatrix<double> ConvertBestMatchingUnitsIntoMat(const Eigen::VectorXi& best_matching_units,
+                                                                const int              num_nodes)
+    {
+        const int num_data = best_matching_units.size();
+
+        Eigen::SparseMatrix<double> B(num_nodes, num_data);
+
+        for (int data_index = 0; data_index < num_data; ++data_index)
+        {
+            B.insert(best_matching_units(data_index), data_index) = 1.0;
+        }
+
+        return B;
+    }
+
     /// \return Posititons in the latent space [0, 1]^{#dims x #nodes}
     Eigen::MatrixXd GetLatentSpacePositions(const int resolution, const int latent_num_dims)
     {
@@ -78,10 +94,32 @@ namespace
         return positions;
     }
 
-    Eigen::MatrixXd CalculateNeighborhoodMatrix(const int resolution, const int latent_num_dims)
+    Eigen::MatrixXd CalcNeighborhoodMat(const Eigen::MatrixXd& latent_node_positions, int iter_count)
     {
-        // TODO: Implement this function
-        assert(false);
+        const double init_var = 0.5;
+        const double min_var  = 0.1;
+
+        constexpr double tau     = 20.0;
+        constexpr double inv_tau = 1.0 / tau;
+
+        const int    num_nodes = latent_node_positions.cols();
+        const double var       = std::max(init_var * std::exp(-inv_tau * iter_count), min_var);
+
+        Eigen::MatrixXd H(num_nodes, num_nodes);
+
+        for (int i = 0; i < num_nodes; ++i)
+        {
+            for (int j = i; j < num_nodes; ++j)
+            {
+                const double squared_dist = (latent_node_positions.col(i) - latent_node_positions.col(j)).squaredNorm();
+                const double value        = std::exp(-(1.0 / 2.0 * var) * squared_dist);
+
+                H(i, j) = value;
+                H(j, i) = value;
+            }
+        }
+
+        return H;
     }
 } // namespace
 
@@ -89,7 +127,7 @@ mathtoolbox::Som::Som(const Eigen::MatrixXd& data,
                       const int              latent_num_dims,
                       const int              resolution,
                       const bool             normalize_data)
-    : m_latent_num_dims(latent_num_dims), m_resolution(resolution), m_X(data)
+    : m_latent_num_dims(latent_num_dims), m_resolution(resolution), m_iter_count(0), m_X(data)
 {
     if (normalize_data)
     {
@@ -98,11 +136,30 @@ mathtoolbox::Som::Som(const Eigen::MatrixXd& data,
 
     this->PerformInitialization();
 
+    constexpr int max_iter_count = 1;
+
+    for (int i = 0; i < max_iter_count; ++i)
+    {
+        this->Step();
+    }
+}
+
+void mathtoolbox::Som::Step()
+{
     const Eigen::MatrixXd latent_node_positions = GetLatentSpacePositions(m_resolution, m_latent_num_dims);
+    const int             num_nodes             = GetNumNodes(m_resolution, m_latent_num_dims);
 
     const Eigen::VectorXi best_matching_units = FindBestMatchingUnits(m_X, m_Y);
 
-    std::cout << best_matching_units << std::endl;
+    const Eigen::SparseMatrix<double> B = ConvertBestMatchingUnitsIntoMat(best_matching_units, num_nodes);
+
+    const Eigen::MatrixXd H = CalcNeighborhoodMat(latent_node_positions, m_iter_count);
+
+    const Eigen::MatrixXd BX = B * m_X.transpose();
+
+    std::cout << H * BX << std::endl;
+
+    ++m_iter_count;
 }
 
 void mathtoolbox::Som::NormalizeData()

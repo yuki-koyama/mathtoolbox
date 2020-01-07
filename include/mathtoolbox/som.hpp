@@ -16,9 +16,13 @@ namespace mathtoolbox
         const Eigen::MatrixXd& GetGrid() const { return m_Y; }
         const Eigen::MatrixXd& GetEmbedding() const { return m_Z; }
 
+        void Step();
+
     private:
         const int m_latent_num_dims;
         const int m_resolution;
+
+        int m_iter_count;
 
         /// \brief Observed data points.
         Eigen::MatrixXd m_X;

@@ -140,10 +140,12 @@ mathtoolbox::Som::Som(const Eigen::MatrixXd& data,
 
     this->PerformInitialization();
 
-    constexpr int max_iter_count = 1;
+    constexpr int max_iter_count = 5;
 
     for (int i = 0; i < max_iter_count; ++i)
     {
+        std::cout << "--" << std::endl;
+        std::cout << m_Y.format(Eigen::IOFormat(2)) << std::endl;
         this->Step();
     }
 }
@@ -152,16 +154,30 @@ void mathtoolbox::Som::Step()
 {
     const int num_nodes = GetNumNodes(m_resolution, m_latent_num_dims);
 
-    const Eigen::VectorXi best_matching_units = FindBestMatchingUnits(m_X, m_Y);
+    // #nodes * #data
+    const Eigen::SparseMatrix<double> B = ConvertBestMatchingUnitsIntoMat(FindBestMatchingUnits(m_X, m_Y), num_nodes);
 
-    const Eigen::SparseMatrix<double> B = ConvertBestMatchingUnitsIntoMat(best_matching_units, num_nodes);
-
+    // #nodes * #nodes
     const Eigen::MatrixXd H = CalcNeighborhoodMat(m_latent_node_positions, m_iter_count);
 
+    // #nodes * #data_dims
     const Eigen::MatrixXd BX = B * m_X.transpose();
 
-    std::cout << H * BX << std::endl;
+    // #nodes * #data
+    const Eigen::MatrixXd R = H * B;
 
+    // #nodes * #nodes
+    Eigen::VectorXd G_inv_diag(num_nodes);
+    for (int i = 0; i < num_nodes; ++i)
+    {
+        G_inv_diag(i) = 1.0 / R.row(i).sum();
+    }
+    const auto G_inv = Eigen::DiagonalMatrix<double, Eigen::Dynamic>(G_inv_diag);
+
+    // Update Y (the positions of the grid nodes in the data space)
+    m_Y = (G_inv * H * (B * m_X.transpose())).transpose();
+
+    // Update the iteration count
     ++m_iter_count;
 }
 

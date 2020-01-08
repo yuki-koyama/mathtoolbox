@@ -12,7 +12,7 @@ namespace mathtoolbox
             const int              latent_num_dims      = 2,
             const int              resolution           = 10,
             const double           init_var             = 0.50,
-            const double           min_var              = 0.10,
+            const double           min_var              = 0.01,
             const double           var_decreasing_speed = 20.0,
             const bool             normalize_data       = true);
 

@@ -89,7 +89,7 @@ PYBIND11_MODULE(pymathtoolbox, m)
              py::arg("latent_num_dims")      = 2,
              py::arg("resolution")           = 10,
              py::arg("init_var")             = 0.50,
-             py::arg("min_var")              = 0.10,
+             py::arg("min_var")              = 0.01,
              py::arg("var_decreasing_speed") = 50.0,
              py::arg("normalize_data")       = true)
         .def("get_latent_space_node_positions", &mt::Som::GetLatentSpaceNodePositions)

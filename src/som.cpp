@@ -1,5 +1,4 @@
 #include <Eigen/SparseCore>
-#include <iostream>
 #include <mathtoolbox/som.hpp>
 
 namespace
@@ -141,15 +140,6 @@ mathtoolbox::Som::Som(const Eigen::MatrixXd& data,
     }
 
     this->PerformInitialization();
-
-    constexpr int max_iter_count = 5;
-
-    for (int i = 0; i < max_iter_count; ++i)
-    {
-        std::cout << "--" << std::endl;
-        std::cout << m_Y.format(Eigen::IOFormat(2)) << std::endl;
-        this->Step();
-    }
 }
 
 void mathtoolbox::Som::Step()

@@ -80,9 +80,9 @@ PYBIND11_MODULE(pymathtoolbox, m)
     py::class_<mt::Som>(m, "Som")
         .def(py::init<const Eigen::MatrixXd&, const int, const int, const bool>(),
              py::arg("data"),
-             py::arg("latent_num_dim") = 2,
-             py::arg("resolution")     = 10,
-             py::arg("normalize_data") = true)
+             py::arg("latent_num_dims") = 2,
+             py::arg("resolution")      = 10,
+             py::arg("normalize_data")  = true)
         .def("get_latent_node_positions", &mt::Som::GetLatentNodePositions)
         .def("get_data_node_positions", &mt::Som::GetDataNodePositions)
         .def("step", &mt::Som::Step);

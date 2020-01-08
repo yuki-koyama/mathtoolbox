@@ -94,10 +94,12 @@ namespace
         return positions;
     }
 
-    Eigen::MatrixXd CalcNeighborhoodMat(const Eigen::MatrixXd& latent_node_positions, int iter_count)
+    Eigen::MatrixXd CalcNeighborhoodMat(const Eigen::MatrixXd& latent_node_positions, const int iter_count)
     {
-        const double init_var = 0.5;
-        const double min_var  = 0.1;
+        constexpr double latent_space_size = 1.0;
+
+        constexpr double init_var = 0.5 * latent_space_size;
+        constexpr double min_var  = 0.1 * latent_space_size;
 
         constexpr double tau     = 20.0;
         constexpr double inv_tau = 1.0 / tau;
@@ -159,9 +161,6 @@ void mathtoolbox::Som::Step()
 
     // #nodes * #nodes
     const Eigen::MatrixXd H = CalcNeighborhoodMat(m_latent_node_positions, m_iter_count);
-
-    // #nodes * #data_dims
-    const Eigen::MatrixXd BX = B * m_X.transpose();
 
     // #nodes * #data
     const Eigen::MatrixXd R = H * B;

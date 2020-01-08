@@ -13,6 +13,7 @@ nav:
     - 'gaussian-process-regression.md'
   - 'Dimensionality Reduction and Low-Dimensional Embedding':
     - 'classical-mds.md'
+    - 'som.md'
   - 'Numerical Optimization':
     - 'backtracking-line-search.md'
     - 'bayesian-optimization.md'

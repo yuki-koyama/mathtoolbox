@@ -20,6 +20,7 @@ Mathematical tools (interpolation, dimensionality reduction, optimization, etc.)
 ### Dimensionality Reduction and Low-Dimensional Embedding
 
 - [`classical-mds`: Classical multi-dimensional scaling (MDS)](https://yuki-koyama.github.io/mathtoolbox/classical-mds/)
+- [`som`: Self-organizing map (SOM)](https://yuki-koyama.github.io/mathtoolbox/som/)
 
 ### Numerical Optimization
 

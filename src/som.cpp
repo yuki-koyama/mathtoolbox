@@ -93,18 +93,14 @@ namespace
         return positions;
     }
 
-    Eigen::MatrixXd CalcNeighborhoodMat(const Eigen::MatrixXd& latent_node_positions, const int iter_count)
+    Eigen::MatrixXd CalcNeighborhoodMat(const Eigen::MatrixXd& latent_node_positions,
+                                        const int              iter_count,
+                                        const double           init_var,
+                                        const double           min_var,
+                                        const double           var_decreasing_speed)
     {
-        constexpr double latent_space_size = 1.0;
-
-        constexpr double init_var = 0.5 * latent_space_size;
-        constexpr double min_var  = 0.1 * latent_space_size;
-
-        constexpr double tau     = 20.0;
-        constexpr double inv_tau = 1.0 / tau;
-
         const int    num_nodes = latent_node_positions.cols();
-        const double var       = std::max(init_var * std::exp(-inv_tau * iter_count), min_var);
+        const double var       = std::max(init_var * std::exp(-iter_count / var_decreasing_speed), min_var);
 
         Eigen::MatrixXd H(num_nodes, num_nodes);
 
@@ -113,7 +109,7 @@ namespace
             for (int j = i; j < num_nodes; ++j)
             {
                 const double squared_dist = (latent_node_positions.col(i) - latent_node_positions.col(j)).squaredNorm();
-                const double value        = std::exp(-(1.0 / 2.0 * var) * squared_dist);
+                const double value        = std::exp(-(1.0 / (2.0 * var)) * squared_dist);
 
                 H(i, j) = value;
                 H(j, i) = value;
@@ -127,9 +123,15 @@ namespace
 mathtoolbox::Som::Som(const Eigen::MatrixXd& data,
                       const int              latent_num_dims,
                       const int              resolution,
+                      const double           init_var,
+                      const double           min_var,
+                      const double           var_decreasing_speed,
                       const bool             normalize_data)
     : m_latent_num_dims(latent_num_dims),
       m_resolution(resolution),
+      m_init_var(init_var),
+      m_min_var(min_var),
+      m_var_decreasing_speed(var_decreasing_speed),
       m_latent_node_positions(GetLatentSpacePositions(resolution, latent_num_dims)),
       m_iter_count(0),
       m_X(data)
@@ -144,13 +146,16 @@ mathtoolbox::Som::Som(const Eigen::MatrixXd& data,
 
 void mathtoolbox::Som::Step()
 {
-    const int num_nodes = GetNumNodes(m_resolution, m_latent_num_dims);
+    const int             num_nodes           = GetNumNodes(m_resolution, m_latent_num_dims);
+    const int             num_data            = m_X.cols();
+    const Eigen::VectorXi best_matching_units = FindBestMatchingUnits(m_X, m_Y);
 
     // #nodes * #data
-    const Eigen::SparseMatrix<double> B = ConvertBestMatchingUnitsIntoMat(FindBestMatchingUnits(m_X, m_Y), num_nodes);
+    const Eigen::SparseMatrix<double> B = ConvertBestMatchingUnitsIntoMat(best_matching_units, num_nodes);
 
     // #nodes * #nodes
-    const Eigen::MatrixXd H = CalcNeighborhoodMat(m_latent_node_positions, m_iter_count);
+    const Eigen::MatrixXd H =
+        CalcNeighborhoodMat(m_latent_node_positions, m_iter_count, m_init_var, m_min_var, m_var_decreasing_speed);
 
     // #nodes * #data
     const Eigen::MatrixXd R = H * B;
@@ -166,6 +171,12 @@ void mathtoolbox::Som::Step()
     // Update Y (the positions of the grid nodes in the data space)
     m_Y = (G_inv * H * (B * m_X.transpose())).transpose();
 
+    // Update Z (the positions of the data points in the latent space)
+    for (int i = 0; i < num_data; ++i)
+    {
+        m_Z.col(i) = m_Y.col(best_matching_units(i));
+    }
+
     // Update the iteration count
     ++m_iter_count;
 }
@@ -179,7 +190,9 @@ void mathtoolbox::Som::NormalizeData()
 void mathtoolbox::Som::PerformInitialization()
 {
     const int num_data_dims = m_X.rows();
+    const int num_data      = m_X.cols();
     const int num_nodes     = GetNumNodes(m_resolution, m_latent_num_dims);
 
     m_Y = Eigen::MatrixXd::Random(num_data_dims, num_nodes);
+    m_Z = Eigen::MatrixXd::Random(num_data_dims, num_data);
 }

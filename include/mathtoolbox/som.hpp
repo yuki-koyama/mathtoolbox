@@ -9,19 +9,26 @@ namespace mathtoolbox
     {
     public:
         Som(const Eigen::MatrixXd& data,
-            const int              latent_num_dims = 2,
-            const int              resolution      = 10,
-            const bool             normalize_data  = true);
+            const int              latent_num_dims      = 2,
+            const int              resolution           = 10,
+            const double           init_var             = 0.50,
+            const double           min_var              = 0.10,
+            const double           var_decreasing_speed = 20.0,
+            const bool             normalize_data       = true);
 
-        const Eigen::MatrixXd& GetLatentNodePositions() const { return m_latent_node_positions; }
-        const Eigen::MatrixXd& GetDataNodePositions() const { return m_Y; }
-        const Eigen::MatrixXd& GetEmbedding() const { return m_Z; }
+        const Eigen::MatrixXd& GetLatentSpaceNodePositions() const { return m_latent_node_positions; }
+        const Eigen::MatrixXd& GetDataSpaceNodePositions() const { return m_Y; }
+        const Eigen::MatrixXd& GetLatentSpaceDataPositions() const { return m_Z; }
 
         void Step();
 
     private:
         const int m_latent_num_dims;
         const int m_resolution;
+
+        const double m_init_var;
+        const double m_min_var;
+        const double m_var_decreasing_speed;
 
         /// \brief Grid node positions in the latent space.
         const Eigen::MatrixXd m_latent_node_positions;

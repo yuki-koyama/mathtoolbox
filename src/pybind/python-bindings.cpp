@@ -3,6 +3,7 @@
 #include <mathtoolbox/bayesian-optimization.hpp>
 #include <mathtoolbox/classical-mds.hpp>
 #include <mathtoolbox/rbf-interpolation.hpp>
+#include <mathtoolbox/som.hpp>
 #include <pybind11/eigen.h>
 #include <pybind11/functional.h>
 #include <pybind11/pybind11.h>
@@ -22,11 +23,7 @@ PYBIND11_MODULE(pymathtoolbox, m)
 
     m.def("set_seed", &SetSeed, py::arg("seed"));
 
-    m.def("compute_classical_mds",
-          &mt::ComputeClassicalMds,
-          "A function which computes classical MDS",
-          py::arg("D"),
-          py::arg("dim"));
+    // bayesian-optimization
 
     py::class_<mt::optimization::BayesianOptimizer>(m, "BayesianOptimizer")
         .def(py::init<const std::function<double(const Eigen::VectorXd&)>&,
@@ -42,6 +39,16 @@ PYBIND11_MODULE(pymathtoolbox, m)
         .def("predict_stdev", &mt::optimization::BayesianOptimizer::PredictStdev)
         .def("calc_acquisition_value", &mt::optimization::BayesianOptimizer::CalcAcquisitionValue)
         .def("get_data", &mt::optimization::BayesianOptimizer::GetData);
+
+    // classical-mds
+
+    m.def("compute_classical_mds",
+          &mt::ComputeClassicalMds,
+          "A function which computes classical MDS",
+          py::arg("D"),
+          py::arg("dim"));
+
+    // rbf-interpolation
 
     py::class_<mt::GaussianRbfKernel>(m, "GaussianRbfKernel")
         .def(py::init<double>(), py::arg("theta"))
@@ -67,4 +74,16 @@ PYBIND11_MODULE(pymathtoolbox, m)
              py::arg("use_regularization") = false,
              py::arg("lambda")             = 0.001)
         .def("calc_value", &mt::RbfInterpolator::CalcValue, py::arg("x"));
+
+    // som
+
+    py::class_<mt::Som>(m, "Som")
+        .def(py::init<const Eigen::MatrixXd&, const int, const int, const bool>(),
+             py::arg("data"),
+             py::arg("latent_num_dim") = 2,
+             py::arg("resolution")     = 10,
+             py::arg("normalize_data") = true)
+        .def("get_latent_node_positions", &mt::Som::GetLatentNodePositions)
+        .def("get_data_node_positions", &mt::Som::GetDataNodePositions)
+        .def("step", &mt::Som::Step);
 }

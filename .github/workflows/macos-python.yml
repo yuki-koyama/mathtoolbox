@@ -34,3 +34,4 @@ jobs:
         python ./python-examples/rbf-interpolation-comparison.py
         python ./python-examples/rbf-interpolation-exact.py
         python ./python-examples/rbf-interpolation.py
+        python ./python-examples/som-image.py

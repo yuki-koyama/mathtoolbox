@@ -13,7 +13,8 @@ namespace mathtoolbox
             const int              resolution      = 10,
             const bool             normalize_data  = true);
 
-        const Eigen::MatrixXd& GetGrid() const { return m_Y; }
+        const Eigen::MatrixXd& GetLatentNodePositions() const { return m_latent_node_positions; }
+        const Eigen::MatrixXd& GetDataNodePositions() const { return m_Y; }
         const Eigen::MatrixXd& GetEmbedding() const { return m_Z; }
 
         void Step();

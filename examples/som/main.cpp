@@ -15,11 +15,11 @@ int main()
 
     for (int i = 0; i < 50; ++i)
     {
-        auto temp = som.GetGrid();
+        auto temp = som.GetDataNodePositions();
 
         som.Step();
 
-        std::cout << "#iter: " << i + 1 << ", update: " << (temp - som.GetGrid()).norm() << std::endl;
+        std::cout << "#iter: " << i + 1 << ", update: " << (temp - som.GetDataNodePositions()).norm() << std::endl;
     }
 
     return 0;

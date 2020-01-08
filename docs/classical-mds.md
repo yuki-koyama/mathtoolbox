@@ -64,7 +64,7 @@ where `dim` is the target dimensionality for embedding.
 
 ## Example
 
-The following is an example of applying the algorithm to the pixel RGB colors of a target image and embedding them into a two-dimensional space.
+The following is an example of applying the algorithm to the pixel RGB values of a target image and embedding them into a two-dimensional space.
 ![](./classical-mds/classical-mds-image-out.jpg)
 
 ## Useful Resources

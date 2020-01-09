@@ -112,6 +112,10 @@
                     
     <a class="" href="classical-mds/">classical-mds</a>
                 </li>
+                <li class="">
+                    
+    <a class="" href="som/">som</a>
+                </li>
     </ul>
 	    </li>
           
@@ -172,6 +176,10 @@
                 <li class="">
                     
     <a class="" href="constants/">constants</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="data-normalization/">data-normalization</a>
                 </li>
                 <li class="">
                     
@@ -236,6 +244,7 @@
 <h3 id="dimensionality-reduction-and-low-dimensional-embedding">Dimensionality Reduction and Low-Dimensional Embedding</h3>
 <ul>
 <li><a href="https://yuki-koyama.github.io/mathtoolbox/classical-mds/"><code>classical-mds</code>: Classical multi-dimensional scaling (MDS)</a></li>
+<li><a href="https://yuki-koyama.github.io/mathtoolbox/som/"><code>som</code>: Self-organizing map (SOM)</a></li>
 </ul>
 <h3 id="numerical-optimization">Numerical Optimization</h3>
 <ul>
@@ -255,6 +264,7 @@
 <ul>
 <li><a href="https://yuki-koyama.github.io/mathtoolbox/acquisition-functions/"><code>acquisition-functions</code>: Acquisition functions</a></li>
 <li><a href="https://yuki-koyama.github.io/mathtoolbox/constants/"><code>constants</code>: Constants</a></li>
+<li><a href="https://yuki-koyama.github.io/mathtoolbox/data-normalization/"><code>data-normalization</code>: Data normalization</a></li>
 <li><a href="https://yuki-koyama.github.io/mathtoolbox/kernel-functions/"><code>kernel-functions</code>: Kernel functions</a></li>
 <li><a href="https://yuki-koyama.github.io/mathtoolbox/probability-distributions/"><code>probability-distributions</code>: Probability distributions</a></li>
 </ul>
@@ -322,10 +332,12 @@ make
 <h3 id="examples_1">Examples</h3>
 <p>See <a href="https://github.com/yuki-koyama/mathtoolbox/tree/master/python-examples">python-examples</a>.</p>
 <h2 id="gallery">Gallery</h2>
-<p>Bayesian optimization (<code>bayesian-optimization</code>) solves a one-dimensional optimization problem using only a small number of function-evaluation queries.</p>
+<p><strong>Bayesian optimization</strong> (<code>bayesian-optimization</code>) solves a one-dimensional optimization problem using only a small number of function-evaluation queries.</p>
 <p><img alt="" src="bayesian-optimization/1d.gif" /></p>
-<p>Classical multi-dimensional scaling (<code>classical-mds</code>) is applied to pixel RGB values of a target image to embed them into a two-dimensional space.</p>
+<p><strong>Classical multi-dimensional scaling</strong> (<code>classical-mds</code>) is applied to pixel RGB values of a target image to embed them into a two-dimensional space.</p>
 <p><img alt="" src="classical-mds/classical-mds-image-out.jpg" /></p>
+<p><strong>Self-organizing map</strong> (<code>som</code>) is also applicable to pixel RGB values of a target image to learn a two-dimensional color manifold.</p>
+<p><img alt="" src="som/som-image.jpg" /></p>
 <h2 id="projects-using-mathtoolbox">Projects Using mathtoolbox</h2>
 <ul>
 <li>SelPh <a href="https://github.com/yuki-koyama/selph">https://github.com/yuki-koyama/selph</a> (for <code>classical-mds</code>)</li>
@@ -386,5 +398,5 @@ make
 
 <!--
 MkDocs version : 1.0.4
-Build Date UTC : 2019-12-23 04:10:28
+Build Date UTC : 2020-01-09 13:33:31
 -->

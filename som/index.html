@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>acquisition-functions - mathtoolbox</title>
+  <title>som - mathtoolbox</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
@@ -17,8 +17,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "acquisition-functions";
-    var mkdocs_page_input_path = "acquisition-functions.md";
+    var mkdocs_page_name = "som";
+    var mkdocs_page_input_path = "som.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -86,9 +86,29 @@
                     
     <a class="" href="../classical-mds/">classical-mds</a>
                 </li>
-                <li class="">
+                <li class=" current">
                     
-    <a class="" href="../som/">som</a>
+    <a class="current" href="./">som</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#som">som</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#header">Header</a></li>
+        
+            <li><a class="toctree-l4" href="#internal-dependencies">Internal Dependencies</a></li>
+        
+            <li><a class="toctree-l4" href="#math">Math</a></li>
+        
+            <li><a class="toctree-l4" href="#examples">Examples</a></li>
+        
+            <li><a class="toctree-l4" href="#useful-resources">Useful Resources</a></li>
+        
+        </ul>
+    
+
+    </ul>
                 </li>
     </ul>
 	    </li>
@@ -143,25 +163,9 @@
 		
     <span class="caption-text">Utilities</span>
     <ul class="subnav">
-                <li class=" current">
+                <li class="">
                     
-    <a class="current" href="./">acquisition-functions</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l3"><a href="#acquisition-functions">acquisition-functions</a></li>
-    
-        <ul>
-        
-            <li><a class="toctree-l4" href="#header">Header</a></li>
-        
-            <li><a class="toctree-l4" href="#overview">Overview</a></li>
-        
-            <li><a class="toctree-l4" href="#useful-resources">Useful Resources</a></li>
-        
-        </ul>
-    
-
-    </ul>
+    <a class="" href="../acquisition-functions/">acquisition-functions</a>
                 </li>
                 <li class="">
                     
@@ -204,14 +208,14 @@
     
       
         
-          <li>Utilities &raquo;</li>
+          <li>Dimensionality Reduction and Low-Dimensional Embedding &raquo;</li>
         
       
     
-    <li>acquisition-functions</li>
+    <li>som</li>
     <li class="wy-breadcrumbs-aside">
       
-        <a href="https://github.com/yuki-koyama/mathtoolbox/edit/master/docs/acquisition-functions.md"
+        <a href="https://github.com/yuki-koyama/mathtoolbox/edit/master/docs/som.md"
           class="icon icon-github"> Edit on GitHub</a>
       
     </li>
@@ -221,21 +225,39 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="acquisition-functions">acquisition-functions</h1>
-<p>Acquisition functions for Bayesian optimization</p>
+                <h1 id="som">som</h1>
+<p>Self-organizing map (SOM) for dimensionality reduction and low-dimensional embedding. This technique is useful for understanding high-dimensional data via visualization.</p>
 <h2 id="header">Header</h2>
-<pre><code class="cpp">#include &lt;mathtoolbox/acquisition-functions.hpp&gt;
+<pre><code class="cpp">#include &lt;mathtoolbox/som.hpp&gt;
 </code></pre>
 
-<h2 id="overview">Overview</h2>
-<p>The following acquisition functions (and their derivatives with respect to the data point) are supported:</p>
+<h2 id="internal-dependencies">Internal Dependencies</h2>
 <ul>
-<li>Expected improvement (EI)</li>
+<li><a href="../data-normalization">data-normalization</a></li>
 </ul>
+<h2 id="math">Math</h2>
+<h3 id="update">Update</h3>
+<p>This library implements a batch-style SOM algorithm rather than online-style ones.</p>
+<h3 id="neighborhood-function">Neighborhood Function</h3>
+<p>This library uses a Gaussian function with a decreasing variance:</p>
+<p>
+<script type="math/tex; mode=display">
+\sigma^{2}(t) = \max \left[ \sigma^{2}_{0} \exp \left(- \frac{t}{s} \right), \sigma^{2}_{\min} \right],
+</script>
+</p>
+<p>where <script type="math/tex">t</script> is the iteration count, <script type="math/tex">s</script> is a user-specified parameter for controlling the speed of decrease, and <script type="math/tex">\sigma^{2}_{0}</script> and <script type="math/tex">\sigma^{2}_{\min}</script> are user-specified initial and minimum variances, respectively.</p>
+<h3 id="data-normalization">Data Normalization</h3>
+<p>This library offers an option to perform data normalization, which is recommended to use in general.</p>
+<h2 id="examples">Examples</h2>
+<p>The following is an example of applying the algorithm to the pixel RGB values of a target image and learning its 2D color manifold.
+<img alt="" src="som-image.jpg" /></p>
+<p>The above map was generated through 30 iterations. The learning process is visualized as below.
+<video width="100%" src="./som-image.mp4" controls autoplay loop type="video/mp4">(Your browser doesn't support video playing.)</video></p>
+<p>Self-organizing map is often assumed to be two-dimensional, but it is also possible to use other dimensionalities for the latent space. The below is an example of learning a one-dimensional map.</p>
+<p><img alt="" src="som-image-1d.jpg" /></p>
 <h2 id="useful-resources">Useful Resources</h2>
 <ul>
-<li>Jasper Snoek, Hugo Larochelle, and Ryan P. Adams. 2012. Practical Bayesian optimization of machine learning algorithms. In Proc. NIPS '12, pp.2951--2959.</li>
-<li>Yuki Koyama, Issei Sato, Daisuke Sakamoto, and Takeo Igarashi. 2017. Sequential line search for efficient visual design optimization by crowds. ACM Trans. Graph. 36, 4, pp.48:1--48:11 (2017). DOI: <a href="https://doi.org/10.1145/3072959.3073598">https://doi.org/10.1145/3072959.3073598</a></li>
+<li>Chuong H. Nguyen, Tobias Ritschel, and Hans-Peter Seidel. 2015. Data-Driven Color Manifolds. ACM Trans. Graph. 34, 2, 20:1--20:9 (March 2015). DOI: <a href="https://doi.org/10.1145/2699645">https://doi.org/10.1145/2699645</a></li>
 </ul>
               
             </div>
@@ -244,10 +266,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../constants/" class="btn btn-neutral float-right" title="constants">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../backtracking-line-search/" class="btn btn-neutral float-right" title="backtracking-line-search">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../matrix-inversion/" class="btn btn-neutral" title="matrix-inversion"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../classical-mds/" class="btn btn-neutral" title="classical-mds"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -275,10 +297,10 @@
           <a href="https://github.com/yuki-koyama/mathtoolbox/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../matrix-inversion/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../classical-mds/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../constants/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../backtracking-line-search/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

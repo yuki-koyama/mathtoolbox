@@ -8,6 +8,10 @@ Self-organizing map (SOM) for dimensionality reduction and low-dimensional embed
 #include <mathtoolbox/som.hpp>
 ```
 
+## Internal Dependencies
+
+- [data-normalization](../data-normalization)
+
 ## Math
 
 ### Update
@@ -24,7 +28,15 @@ $$
 
 where $t$ is the iteration count, $s$ is a user-specified parameter for controlling the speed of decrease, and $\sigma^{2}_{0}$ and $\sigma^{2}_{\min}$ are user-specified initial and minimum variances, respectively.
 
-## Example
+### Data Normalization
+
+This library offers an option to perform data normalization, which is recommended in general. The implementation is based on simple standardization for each dimension $d$:
+
+$$
+X_{i}^{(d)} \leftarrow \frac{X_{i}^{(d)} - \text{E}[X^{(d)}]}{\sigma(X^{(d)})}.
+$$
+
+## Examples
 
 The following is an example of applying the algorithm to the pixel RGB values of a target image and learning its 2D color manifold.
 ![](./som/som-image.jpg)

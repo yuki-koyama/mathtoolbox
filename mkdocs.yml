@@ -27,6 +27,7 @@ nav:
   - 'Utilities':
     - 'acquisition-functions.md'
     - 'constants.md'
+    - 'data-normalization.md'
     - 'kernel-functions.md'
     - 'probability-distributions.md'
 repo_name: GitHub

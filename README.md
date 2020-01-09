@@ -40,6 +40,7 @@ Mathematical tools (interpolation, dimensionality reduction, optimization, etc.)
 
 - [`acquisition-functions`: Acquisition functions](https://yuki-koyama.github.io/mathtoolbox/acquisition-functions/)
 - [`constants`: Constants](https://yuki-koyama.github.io/mathtoolbox/constants/)
+- [`data-normalization`: Data normalization](https://yuki-koyama.github.io/mathtoolbox/data-normalization/)
 - [`kernel-functions`: Kernel functions](https://yuki-koyama.github.io/mathtoolbox/kernel-functions/)
 - [`probability-distributions`: Probability distributions](https://yuki-koyama.github.io/mathtoolbox/probability-distributions/)
 

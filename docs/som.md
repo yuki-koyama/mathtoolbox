@@ -30,11 +30,7 @@ where $t$ is the iteration count, $s$ is a user-specified parameter for controll
 
 ### Data Normalization
 
-This library offers an option to perform data normalization, which is recommended in general. The implementation is based on simple standardization for each dimension $d$:
-
-$$
-X_{i}^{(d)} \leftarrow \frac{X_{i}^{(d)} - \text{E}[X^{(d)}]}{\sigma(X^{(d)})}.
-$$
+This library offers an option to perform data normalization, which is recommended to use in general.
 
 ## Examples
 

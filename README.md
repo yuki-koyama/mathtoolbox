@@ -20,6 +20,7 @@ Mathematical tools (interpolation, dimensionality reduction, optimization, etc.)
 ### Dimensionality Reduction and Low-Dimensional Embedding
 
 - [`classical-mds`: Classical multi-dimensional scaling (MDS)](https://yuki-koyama.github.io/mathtoolbox/classical-mds/)
+- [`som`: Self-organizing map (SOM)](https://yuki-koyama.github.io/mathtoolbox/som/)
 
 ### Numerical Optimization
 
@@ -39,6 +40,7 @@ Mathematical tools (interpolation, dimensionality reduction, optimization, etc.)
 
 - [`acquisition-functions`: Acquisition functions](https://yuki-koyama.github.io/mathtoolbox/acquisition-functions/)
 - [`constants`: Constants](https://yuki-koyama.github.io/mathtoolbox/constants/)
+- [`data-normalization`: Data normalization](https://yuki-koyama.github.io/mathtoolbox/data-normalization/)
 - [`kernel-functions`: Kernel functions](https://yuki-koyama.github.io/mathtoolbox/kernel-functions/)
 - [`probability-distributions`: Probability distributions](https://yuki-koyama.github.io/mathtoolbox/probability-distributions/)
 
@@ -123,13 +125,17 @@ See [python-examples](https://github.com/yuki-koyama/mathtoolbox/tree/master/pyt
 
 ## Gallery
 
-Bayesian optimization (`bayesian-optimization`) solves a one-dimensional optimization problem using only a small number of function-evaluation queries.
+__Bayesian optimization__ (`bayesian-optimization`) solves a one-dimensional optimization problem using only a small number of function-evaluation queries.
 
 ![](docs/bayesian-optimization/1d.gif)
 
-Classical multi-dimensional scaling (`classical-mds`) is applied to pixel RGB values of a target image to embed them into a two-dimensional space.
+__Classical multi-dimensional scaling__ (`classical-mds`) is applied to pixel RGB values of a target image to embed them into a two-dimensional space.
 
 ![](docs/classical-mds/classical-mds-image-out.jpg)
+
+__Self-organizing map__ (`som`) is also applicable to pixel RGB values of a target image to learn a two-dimensional color manifold.
+
+![](docs/som/som-image.jpg)
 
 ## Projects Using mathtoolbox
 

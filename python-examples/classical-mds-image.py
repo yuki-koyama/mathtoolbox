@@ -22,7 +22,7 @@ D = squareform(pdist(colors))
 X = pymathtoolbox.compute_classical_mds(D=D, dim=2)
 
 # Define constants for plot
-FIG_SIZE = (8, 4)
+FIG_SIZE = (8, 3)
 IMAGE_FORMAT = "png"
 DPI = 200
 
@@ -43,9 +43,10 @@ ax.set_yticks([])
 ax.imshow(image)
 
 ax = fig.add_subplot(1, 2, 2)
-ax.set_title("Pixel Colors Embedded into 2D")
+ax.set_title("Pixel Colors Embedded into a 2D Space")
 ax.set_xticklabels([])
 ax.set_yticklabels([])
+ax.set_aspect("equal", adjustable="datalim")
 num_pixels = colors.shape[0]
 for i in range(num_pixels):
     ax.plot(X[0][i], X[1][i], color=colors[i], marker=".")

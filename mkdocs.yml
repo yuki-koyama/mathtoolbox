@@ -13,6 +13,7 @@ nav:
     - 'gaussian-process-regression.md'
   - 'Dimensionality Reduction and Low-Dimensional Embedding':
     - 'classical-mds.md'
+    - 'som.md'
   - 'Numerical Optimization':
     - 'backtracking-line-search.md'
     - 'bayesian-optimization.md'
@@ -26,6 +27,7 @@ nav:
   - 'Utilities':
     - 'acquisition-functions.md'
     - 'constants.md'
+    - 'data-normalization.md'
     - 'kernel-functions.md'
     - 'probability-distributions.md'
 repo_name: GitHub

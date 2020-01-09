@@ -37,7 +37,7 @@ som = pymathtoolbox.Som(data=colors.transpose(),
                         init_var=0.50,
                         min_var=5e-04,
                         var_decreasing_speed=10.0,
-                        normalize_data=False)
+                        normalize_data=True)
 
 for i in range(250):
 

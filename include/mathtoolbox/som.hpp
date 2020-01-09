@@ -2,9 +2,12 @@
 #define MATHTOOLBOX_SOM_HPP
 
 #include <Eigen/Core>
+#include <memory>
 
 namespace mathtoolbox
 {
+    class DataNormalizer;
+
     class Som
     {
     public:
@@ -30,6 +33,8 @@ namespace mathtoolbox
         const double m_min_var;
         const double m_var_decreasing_speed;
 
+        const bool m_normalize_data;
+
         /// \brief Grid node positions in the latent space.
         const Eigen::MatrixXd m_latent_node_positions;
 
@@ -43,6 +48,8 @@ namespace mathtoolbox
 
         /// \brief Embeded data points.
         Eigen::MatrixXd m_Z;
+
+        std::shared_ptr<const DataNormalizer> m_data_normalizer;
 
         /// \brief Perform normalization for the current data.
         void NormalizeData();

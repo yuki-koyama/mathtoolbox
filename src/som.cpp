@@ -132,11 +132,13 @@ mathtoolbox::Som::Som(const Eigen::MatrixXd& data,
       m_init_var(init_var),
       m_min_var(min_var),
       m_var_decreasing_speed(var_decreasing_speed),
+      m_normalize_data(normalize_data),
       m_latent_node_positions(GetLatentSpacePositions(resolution, latent_num_dims)),
       m_iter_count(0),
-      m_X(data)
+      m_X(data),
+      m_data_normalizer(nullptr)
 {
-    if (normalize_data)
+    if (m_normalize_data)
     {
         this->NormalizeData();
     }

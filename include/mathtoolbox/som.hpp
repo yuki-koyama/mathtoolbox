@@ -20,8 +20,9 @@ namespace mathtoolbox
             const bool             normalize_data       = true);
 
         const Eigen::MatrixXd& GetLatentSpaceNodePositions() const { return m_latent_node_positions; }
-        const Eigen::MatrixXd& GetDataSpaceNodePositions() const { return m_Y; }
         const Eigen::MatrixXd& GetLatentSpaceDataPositions() const { return m_Z; }
+
+        Eigen::MatrixXd GetDataSpaceNodePositions() const;
 
         void Step();
 

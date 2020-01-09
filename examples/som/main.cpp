@@ -10,7 +10,7 @@ int main()
     constexpr double init_var             = 0.20;
     constexpr double min_var              = 0.01;
     constexpr double var_decreasing_speed = 20.0;
-    constexpr bool   normalize_data       = false;
+    constexpr bool   normalize_data       = true;
 
     Eigen::MatrixXd data = Eigen::MatrixXd::Random(num_data_dims, num_points);
 
@@ -18,7 +18,7 @@ int main()
 
     for (int i = 0; i < 50; ++i)
     {
-        auto temp = som.GetDataSpaceNodePositions();
+        const auto temp = som.GetDataSpaceNodePositions();
 
         som.Step();
 

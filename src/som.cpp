@@ -1,5 +1,6 @@
 #include <Eigen/SparseCore>
 #include <mathtoolbox/som.hpp>
+#include <mathtoolbox/data-normalization.hpp>
 
 namespace
 {
@@ -146,6 +147,11 @@ mathtoolbox::Som::Som(const Eigen::MatrixXd& data,
     this->PerformInitialization();
 }
 
+Eigen::MatrixXd mathtoolbox::Som::GetDataSpaceNodePositions() const
+{
+    return m_normalize_data ? m_data_normalizer->Denormalize(m_Y) : m_Y;
+}
+
 void mathtoolbox::Som::Step()
 {
     const int             num_nodes           = GetNumNodes(m_resolution, m_latent_num_dims);
@@ -185,8 +191,11 @@ void mathtoolbox::Som::Step()
 
 void mathtoolbox::Som::NormalizeData()
 {
-    // TODO: Implement this function
-    assert(false);
+    // Instantiate a data normalizer object
+    m_data_normalizer = std::make_shared<const DataNormalizer>(m_X);
+
+    // Replace X with its normalized version
+    m_X = m_data_normalizer->GetNormalizedDataPoints();
 }
 
 void mathtoolbox::Som::PerformInitialization()

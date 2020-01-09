@@ -10,28 +10,64 @@ namespace mathtoolbox
     public:
         DataNormalizer(const Eigen::MatrixXd& data_points) : m_original_data_points(data_points)
         {
-            const int num_dims = m_original_data_points.rows();
+            const int num_dims        = m_original_data_points.rows();
+            const int num_data_points = m_original_data_points.cols();
 
-            // TODO
-            m_mean = Eigen::VectorXd::Ones(num_dims);
-            m_var  = Eigen::VectorXd::Ones(num_dims);
+            assert(num_dims > 0);
+            assert(num_data_points > 0);
 
-            // TODO
-            m_normalized_data_points = m_original_data_points;
+            m_mean  = Eigen::VectorXd(num_dims);
+            m_stdev = Eigen::VectorXd(num_dims);
+
+            for (int dim = 0; dim < num_dims; ++dim)
+            {
+                const Eigen::VectorXd one_dim_data = m_original_data_points.row(dim);
+
+                m_mean(dim) = one_dim_data.mean();
+                m_stdev(dim) =
+                    std::sqrt((one_dim_data - Eigen::VectorXd::Constant(num_data_points, m_mean(dim))).squaredNorm() /
+                              static_cast<double>(num_data_points));
+            }
+
+            m_normalized_data_points = Normalize(m_original_data_points);
         }
 
         const Eigen::MatrixXd& GetNormalizedDataPoints() const { return m_normalized_data_points; }
 
         Eigen::MatrixXd Normalize(const Eigen::MatrixXd& data_points) const
         {
-            // TODO
-            return data_points;
+            const int num_dims        = data_points.rows();
+            const int num_data_points = data_points.cols();
+
+            Eigen::MatrixXd normalized_data_points(num_dims, num_data_points);
+            for (int dim = 0; dim < num_dims; ++dim)
+            {
+                constexpr double epsilon = 1e-32;
+                const double     scale   = 1.0 / std::max(m_stdev(dim), epsilon);
+                const auto       offset  = Eigen::VectorXd::Constant(num_data_points, m_mean(dim));
+
+                normalized_data_points.row(dim) = scale * (data_points.row(dim) - offset.transpose());
+            }
+
+            return normalized_data_points;
         }
 
         Eigen::MatrixXd Denormalize(const Eigen::MatrixXd& normalized_data_points) const
         {
-            // TODO
-            return normalized_data_points;
+            const int num_dims        = normalized_data_points.rows();
+            const int num_data_points = normalized_data_points.cols();
+
+            Eigen::MatrixXd data_points(num_dims, num_data_points);
+            for (int dim = 0; dim < num_dims; ++dim)
+            {
+                constexpr double epsilon = 1e-32;
+                const double     scale   = std::max(m_stdev(dim), epsilon);
+                const auto       offset  = Eigen::VectorXd::Constant(num_data_points, m_mean(dim));
+
+                data_points.row(dim) = scale * normalized_data_points.row(dim) + offset.transpose();
+            }
+
+            return data_points;
         }
 
     private:
@@ -39,7 +75,7 @@ namespace mathtoolbox
 
         Eigen::MatrixXd m_normalized_data_points;
         Eigen::VectorXd m_mean;
-        Eigen::VectorXd m_var;
+        Eigen::VectorXd m_stdev;
     };
 } // namespace mathtoolbox
 

@@ -1,6 +1,6 @@
 #include <Eigen/SparseCore>
-#include <mathtoolbox/som.hpp>
 #include <mathtoolbox/data-normalization.hpp>
+#include <mathtoolbox/som.hpp>
 
 namespace
 {

@@ -8,6 +8,7 @@ namespace mathtoolbox
     class DataNormalizer
     {
     public:
+        /// \param data_points An n-by-m matrix representing m data points lying in an n-dimensional space.
         DataNormalizer(const Eigen::MatrixXd& data_points) : m_original_data_points(data_points)
         {
             const int num_dims        = m_original_data_points.rows();
@@ -32,8 +33,10 @@ namespace mathtoolbox
             m_normalized_data_points = Normalize(m_original_data_points);
         }
 
+        /// \brief Get the normalized data points.
         const Eigen::MatrixXd& GetNormalizedDataPoints() const { return m_normalized_data_points; }
 
+        /// \brief Normalize a new set of data points by the same transformation as the originally provided data points.
         Eigen::MatrixXd Normalize(const Eigen::MatrixXd& data_points) const
         {
             const int num_dims        = data_points.rows();
@@ -52,6 +55,7 @@ namespace mathtoolbox
             return normalized_data_points;
         }
 
+        /// \brief Denormalize a new set of data points that is represented as the normalized form.
         Eigen::MatrixXd Denormalize(const Eigen::MatrixXd& normalized_data_points) const
         {
             const int num_dims        = normalized_data_points.rows();

@@ -40,6 +40,9 @@ namespace mathtoolbox
             unsigned        num_iterations;
         };
 
+        /// \brief Run optimization with the specified setting
+        ///
+        /// \details This is a utility function to run various optimization types in a consitent interface.
         inline Result RunOptimization(const Setting& input)
         {
             const auto f = (input.type == Type::Min) ? input.f : [&input](const Eigen::VectorXd& x) -> double {

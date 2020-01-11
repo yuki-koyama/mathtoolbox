@@ -11,6 +11,9 @@ namespace mathtoolbox
     class Som
     {
     public:
+        /// \param data An n-by-m matrix representing m data points lying in an n-dimensional space.
+        ///
+        /// \param latent_num_dims The dimensionality of the latent (map) space. It should be either 1 or 2.
         Som(const Eigen::MatrixXd& data,
             const int              latent_num_dims      = 2,
             const int              resolution           = 10,

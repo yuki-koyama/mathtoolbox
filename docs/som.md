@@ -29,7 +29,7 @@ This library implements a batch-style SOM algorithm rather than online-style one
 Let $\mathbf{X} \in \mathbb{R}^{D \times N}$ be the data matrix (each column represents a data point) and $\mathbf{Y} \in \mathbb{R}^{D \times K}$ be the map matrix (each column represents coordinates of a node). The batch-style update is written as
 
 $$
-\mathbf{Y} = ( \mathbf{G}^{-1} \mathbf{H} \mathbf{B} \matbf{X}^{T} )^{T}.
+\mathbf{Y} = ( \mathbf{G}^{-1} \mathbf{H} \mathbf{B} \mathbf{X}^{T} )^{T}.
 $$
 
 See the source code for the definitions of $\mathbf{G}$, $\mathbf{H}$, and $\mathbf{B}$.

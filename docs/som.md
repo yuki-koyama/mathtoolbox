@@ -14,9 +14,25 @@ Self-organizing map (SOM) for dimensionality reduction and low-dimensional embed
 
 ## Math
 
+### Terms
+
+In this library, the following terms are used:
+
+- __Data space:__ The space that the data points exist. It is typically high-dimensional.
+- __Latent space:__ The space that the map is constructed. It is typically (and in this library restricted to) one- or two-dimensional.
+- __Node:__ The element of the map. It has fixed coordinates in the latent space and also has coordinates in the data space that will be learned by the SOM algorithm.
+
 ### Update
 
-This library implements a batch-style SOM algorithm rather than online-style ones.
+This library implements a batch-style SOM algorithm rather than online-style ones. That is, for each update step, all the data points are handled equally and contribute to the update of the node coordinates simultaneously.
+
+Let $\mathbf{X} \in \mathbb{R}^{D \times N}$ be the data matrix (each column represents a data point) and $\mathbf{Y} \in \mathbb{R}^{D \times K}$ be the map matrix (each column represents coordinates of a node). The batch-style update is written as
+
+$$
+\mathbf{Y} = ( \mathbf{G}^{-1} \mathbf{H} \mathbf{B} \matbf{X}^{T} )^{T}.
+$$
+
+See the source code for the definitions of $\mathbf{G}$, $\mathbf{H}$, and $\mathbf{B}$.
 
 ### Neighborhood Function
 

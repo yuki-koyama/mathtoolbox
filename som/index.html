@@ -236,8 +236,22 @@
 <li><a href="../data-normalization">data-normalization</a></li>
 </ul>
 <h2 id="math">Math</h2>
+<h3 id="terms">Terms</h3>
+<p>In this library, the following terms are used:</p>
+<ul>
+<li><strong>Data space:</strong> The space that the data points exist. It is typically high-dimensional.</li>
+<li><strong>Latent space:</strong> The space that the map is constructed. It is typically (and in this library restricted to) one- or two-dimensional.</li>
+<li><strong>Node:</strong> The element of the map. It has fixed coordinates in the latent space and also has coordinates in the data space that will be learned by the SOM algorithm.</li>
+</ul>
 <h3 id="update">Update</h3>
-<p>This library implements a batch-style SOM algorithm rather than online-style ones.</p>
+<p>This library implements a batch-style SOM algorithm rather than online-style ones. That is, for each update step, all the data points are handled equally and contribute to the update of the node coordinates simultaneously.</p>
+<p>Let <script type="math/tex">\mathbf{X} \in \mathbb{R}^{D \times N}</script> be the data matrix (each column represents a data point) and <script type="math/tex">\mathbf{Y} \in \mathbb{R}^{D \times K}</script> be the map matrix (each column represents coordinates of a node). The batch-style update is written as</p>
+<p>
+<script type="math/tex; mode=display">
+\mathbf{Y} = ( \mathbf{G}^{-1} \mathbf{H} \mathbf{B} \mathbf{X}^{T} )^{T}.
+</script>
+</p>
+<p>See the source code for the definitions of <script type="math/tex">\mathbf{G}</script>, <script type="math/tex">\mathbf{H}</script>, and <script type="math/tex">\mathbf{B}</script>.</p>
 <h3 id="neighborhood-function">Neighborhood Function</h3>
 <p>This library uses a Gaussian function with a decreasing variance:</p>
 <p>

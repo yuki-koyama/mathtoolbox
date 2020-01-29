@@ -345,12 +345,12 @@ y_{i} \leftarrow s \cdot \frac{y_{i} - \mu}{\sigma} \:\: \text{for} \:\: i = 1, 
 
 <h3 id="hyperparameter-selection">Hyperparameter Selection</h3>
 <p>Hyperparameters are set by either</p>
-<pre><code class="cpp">void SetHyperparams(const Eigen::VectorXd&amp; kernel_hyperparams, const double m_sigma_squared_n);
+<pre><code class="cpp">void SetHyperparams(const Eigen::VectorXd&amp; kernel_hyperparams, const double noise_hyperparam);
 </code></pre>
 
 <p>or</p>
 <pre><code class="cpp">void PerformMaximumLikelihood(const Eigen::VectorXd&amp; kernel_hyperparams_initial,
-                              const double           sigma_squared_n_initial);
+                              const double           noise_hyperparam_initial);
 </code></pre>
 
 <h3 id="prediction">Prediction</h3>

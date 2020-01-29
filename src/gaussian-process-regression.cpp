@@ -33,14 +33,14 @@ namespace
     }
 
     MatrixXd CalcLargeKY(const MatrixXd&            X,
-                         const double               sigma_squared_n,
+                         const double               noise_hyperparam,
                          const VectorXd&            kernel_hyperparams,
                          const mathtoolbox::Kernel& kernel)
     {
         const int      N   = X.cols();
         const MatrixXd K_f = CalcLargeKF(X, kernel_hyperparams, kernel);
 
-        return K_f + sigma_squared_n * MatrixXd::Identity(N, N);
+        return K_f + noise_hyperparam * MatrixXd::Identity(N, N);
     }
 
     MatrixXd CalcLargeKYDerivKernelHyperparamsI(const MatrixXd&                            X,
@@ -65,7 +65,7 @@ namespace
         return K_y_deriv_kernel_hyperparams_i;
     }
 
-    MatrixXd CalcLargeKDerivSigmaSquaredN(const MatrixXd& X, const double sigma_squared_n)
+    MatrixXd CalcLargeKDerivNoiseHyperparam(const MatrixXd& X, const double noise_hyperparam)
     {
         const int N = X.cols();
         return MatrixXd::Identity(N, N);
@@ -111,11 +111,11 @@ namespace
     double CalcLogLikelihood(const MatrixXd&            X,
                              const VectorXd&            y,
                              const VectorXd&            kernel_hyperparams,
-                             const double               sigma_squared_n,
+                             const double               noise_hyperparam,
                              const mathtoolbox::Kernel& kernel)
     {
         const int      N   = X.cols();
-        const MatrixXd K_y = CalcLargeKY(X, sigma_squared_n, kernel_hyperparams, kernel);
+        const MatrixXd K_y = CalcLargeKY(X, noise_hyperparam, kernel_hyperparams, kernel);
 
         const Eigen::LLT<MatrixXd> K_y_llt(K_y);
 
@@ -138,13 +138,13 @@ namespace
     VectorXd CalcLogLikelihoodDeriv(const MatrixXd&                            X,
                                     const VectorXd&                            y,
                                     const VectorXd&                            kernel_hyperparams,
-                                    const double                               sigma_squared_n,
+                                    const double                               noise_hyperparam,
                                     const mathtoolbox::Kernel&                 kernel,
                                     const mathtoolbox::KernelThetaIDerivative& kernel_deriv_theta_i)
     {
         const int num_kernel_hyperparams = kernel_hyperparams.size();
 
-        const MatrixXd             K_y       = CalcLargeKY(X, sigma_squared_n, kernel_hyperparams, kernel);
+        const MatrixXd             K_y       = CalcLargeKY(X, noise_hyperparam, kernel_hyperparams, kernel);
         const Eigen::LLT<MatrixXd> K_y_llt   = Eigen::LLT<MatrixXd>(K_y);
         const VectorXd             K_y_inv_y = K_y_llt.solve(y);
 
@@ -162,15 +162,15 @@ namespace
             return log_likelihood_deriv_kernel_hyperparams;
         }();
 
-        const double log_likeliehood_deriv_sigma_squared_n = [&]() {
+        const double log_likeliehood_deriv_noise_hyperparam = [&]() {
             // Equation 5.9 [Rasmussen and Williams 2006]
-            const MatrixXd K_deriv_sigma_squared_n = CalcLargeKDerivSigmaSquaredN(X, sigma_squared_n);
+            const MatrixXd K_deriv_sigma_squared_n = CalcLargeKDerivNoiseHyperparam(X, noise_hyperparam);
             const double   term1                   = +0.5 * K_y_inv_y.transpose() * K_deriv_sigma_squared_n * K_y_inv_y;
             const double   term2                   = -0.5 * K_y_llt.solve(K_deriv_sigma_squared_n).trace();
             return term1 + term2;
         }();
 
-        return Concat(log_likeliehood_deriv_kernel_hyperparams, log_likeliehood_deriv_sigma_squared_n);
+        return Concat(log_likeliehood_deriv_kernel_hyperparams, log_likeliehood_deriv_noise_hyperparam);
     }
 } // namespace
 
@@ -234,31 +234,31 @@ mathtoolbox::GaussianProcessRegressor::GaussianProcessRegressor(const MatrixXd& 
     // Set default hyperparameters
     const int        num_dims                   = X.rows();
     const VectorXd   default_kernel_hyperparams = Concat(0.10, VectorXd::Constant(num_dims, 0.10));
-    constexpr double default_noise_level        = 1e-05;
+    constexpr double default_noise_hyperparam   = 1e-05;
 
-    SetHyperparams(default_kernel_hyperparams, default_noise_level);
+    SetHyperparams(default_kernel_hyperparams, default_noise_hyperparam);
 }
 
 void mathtoolbox::GaussianProcessRegressor::SetHyperparams(const Eigen::VectorXd& kernel_hyperparams,
-                                                           const double           sigma_squared_n)
+                                                           const double           noise_hyperparam)
 {
     m_kernel_hyperparams = kernel_hyperparams;
-    m_sigma_squared_n    = sigma_squared_n;
+    m_noise_hyperparam   = noise_hyperparam;
 
-    m_K_y       = CalcLargeKY(m_X, m_sigma_squared_n, m_kernel_hyperparams, m_kernel);
+    m_K_y       = CalcLargeKY(m_X, m_noise_hyperparam, m_kernel_hyperparams, m_kernel);
     m_K_y_llt   = Eigen::LLT<MatrixXd>(m_K_y);
     m_K_y_inv_y = m_K_y_llt.solve(m_y);
 }
 
 void mathtoolbox::GaussianProcessRegressor::PerformMaximumLikelihood(const Eigen::VectorXd& kernel_hyperparams_initial,
-                                                                     const double           sigma_squared_n_initial)
+                                                                     const double           noise_hyperparam_initial)
 {
     const int num_dims               = m_X.rows();
     const int num_kernel_hyperparams = kernel_hyperparams_initial.size();
 
     assert(m_kernel_hyperparams.size() == num_kernel_hyperparams);
 
-    const VectorXd x_initial = Concat(kernel_hyperparams_initial, sigma_squared_n_initial);
+    const VectorXd x_initial = Concat(kernel_hyperparams_initial, noise_hyperparam_initial);
     const VectorXd upper     = VectorXd::Constant(num_kernel_hyperparams + 1, 1e+03);
     const VectorXd lower     = VectorXd::Constant(num_kernel_hyperparams + 1, 1e-06);
 
@@ -357,14 +357,14 @@ void mathtoolbox::GaussianProcessRegressor::PerformMaximumLikelihood(const Eigen
     const VectorXd x_optimal = decode_vector(result.x_star);
 
     m_kernel_hyperparams = x_optimal.segment(0, num_kernel_hyperparams);
-    m_sigma_squared_n    = x_optimal(num_kernel_hyperparams);
+    m_noise_hyperparam   = x_optimal(num_kernel_hyperparams);
 
     assert(m_kernel_hyperparams.size() == num_dims + 1);
     std::cout << "sigma_squared_f: " << m_kernel_hyperparams[0] << std::endl;
     std::cout << "length_scales  : " << m_kernel_hyperparams.segment(1, num_dims).transpose() << std::endl;
-    std::cout << "sigma_squared_n: " << m_sigma_squared_n << std::endl;
+    std::cout << "sigma_squared_n: " << m_noise_hyperparam << std::endl;
 
-    m_K_y       = CalcLargeKY(m_X, m_sigma_squared_n, m_kernel_hyperparams, m_kernel);
+    m_K_y       = CalcLargeKY(m_X, m_noise_hyperparam, m_kernel_hyperparams, m_kernel);
     m_K_y_llt   = Eigen::LLT<MatrixXd>(m_K_y);
     m_K_y_inv_y = m_K_y_llt.solve(m_y);
 }

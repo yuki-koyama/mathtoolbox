@@ -140,12 +140,12 @@ GaussianProcessRegressor(const Eigen::MatrixXd& X,
 
 Hyperparameters are set by either
 ```cpp
-void SetHyperparams(const Eigen::VectorXd& kernel_hyperparams, const double m_sigma_squared_n);
+void SetHyperparams(const Eigen::VectorXd& kernel_hyperparams, const double noise_hyperparam);
 ```
 or
 ```cpp
 void PerformMaximumLikelihood(const Eigen::VectorXd& kernel_hyperparams_initial,
-                              const double           sigma_squared_n_initial);
+                              const double           noise_hyperparam_initial);
 ```
 
 ### Prediction

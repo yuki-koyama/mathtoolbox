@@ -37,11 +37,11 @@ namespace mathtoolbox
         /// \brief Set hyperparameters directly
         ///
         /// \details Covariance matrix calculation will run within this method.
-        void SetHyperparams(const Eigen::VectorXd& kernel_hyperparams, const double m_sigma_squared_n);
+        void SetHyperparams(const Eigen::VectorXd& kernel_hyperparams, const double noise_hyperparam);
 
         /// \brief Perform maximum likelihood estimation of the hyperparameters
         void PerformMaximumLikelihood(const Eigen::VectorXd& kernel_hyperparams_initial,
-                                      const double           sigma_squared_n_initial);
+                                      const double           noise_hyperparam_initial);
 
     private:
         // Data points
@@ -60,7 +60,7 @@ namespace mathtoolbox
 
         // Hyperparameters
         Eigen::VectorXd m_kernel_hyperparams;
-        double          m_sigma_squared_n;
+        double          m_noise_hyperparam;
 
         // Kernel functions
         Kernel                   m_kernel;

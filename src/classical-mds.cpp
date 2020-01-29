@@ -41,16 +41,17 @@ Eigen::MatrixXd mathtoolbox::ComputeClassicalMds(const Eigen::MatrixXd& D, unsig
     assert(D.rows() == D.cols());
     assert(D.rows() >= dim);
 
-    const unsigned        n    = D.rows();
-    const Eigen::VectorXd ones = Eigen::VectorXd::Ones(n);
-    const Eigen::MatrixXd I    = Eigen::MatrixXd::Identity(n, n);
+    const auto n    = D.rows();
+    const auto ones = Eigen::VectorXd::Ones(n);
+    const auto I    = Eigen::MatrixXd::Identity(n, n);
 
-    const Eigen::MatrixXd H = I - (1.0 / static_cast<double>(n)) * ones * ones.transpose();
-    const Eigen::MatrixXd K = -0.5 * H * D.cwiseAbs2() * H;
+    const auto H = I - (1.0 / static_cast<double>(n)) * ones * ones.transpose();
+    const auto K = -0.5 * H * D.cwiseAbs2() * H;
 
     const Eigen::EigenSolver<Eigen::MatrixXd> solver(K);
-    Eigen::VectorXd                           S = solver.eigenvalues().real();
-    Eigen::MatrixXd                           V = solver.eigenvectors().real();
+
+    Eigen::VectorXd S = solver.eigenvalues().real();
+    Eigen::MatrixXd V = solver.eigenvectors().real();
 
     ExtractNLargestEigens(dim, S, V);
 

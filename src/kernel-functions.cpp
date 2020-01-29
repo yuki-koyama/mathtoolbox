@@ -207,8 +207,8 @@ mathtoolbox::GetArdMatern52KernelFirstArgDerivative(const VectorXd& x_a, const V
         2.0 * length_scales.array().square().inverse().matrix().asDiagonal() * diff;
     const VectorXd sqrt_of_5_r_squared_first_arg_derivative =
         0.5 * std::sqrt(5.0 / r_squared) * r_squared_first_arg_derivative;
-    const VectorXd exp_term_first_arg_derivative = -sqrt_of_5_r_squared_first_arg_derivative * exp_term;
-    const VectorXd scale_term_first_arg_derivative =
+    const auto exp_term_first_arg_derivative = -sqrt_of_5_r_squared_first_arg_derivative * exp_term;
+    const auto scale_term_first_arg_derivative =
         sqrt_of_5_r_squared_first_arg_derivative + (5.0 / 3.0) * r_squared_first_arg_derivative;
 
     return sigma_squared_f * (scale_term_first_arg_derivative * exp_term + scale_term * exp_term_first_arg_derivative);

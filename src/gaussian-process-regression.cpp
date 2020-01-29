@@ -315,7 +315,7 @@ void mathtoolbox::GaussianProcessRegressor::PerformMaximumLikelihood(const Eigen
         return grad;
     };
 
-    std::function<double(const VectorXd&)> f = [&](const VectorXd& x) -> double {
+    const auto f = [&](const VectorXd& x) -> double {
         const auto decoded_x = decode_vector(x);
 
         const VectorXd kernel_hyperparams = decoded_x.segment(0, x.size() - 1);
@@ -329,7 +329,7 @@ void mathtoolbox::GaussianProcessRegressor::PerformMaximumLikelihood(const Eigen
         return log_likelihood;
     };
 
-    std::function<VectorXd(const VectorXd&)> g = [&](const VectorXd& x) -> VectorXd {
+    const auto g = [&](const VectorXd& x) -> VectorXd {
         const auto decoded_x = decode_vector(x);
 
         const VectorXd kernel_hyperparams = decoded_x.segment(0, x.size() - 1);

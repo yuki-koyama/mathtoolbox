@@ -38,7 +38,7 @@ int main()
     const MatrixXd X = mathtoolbox::ComputeClassicalMds(D, 2);
 
     // Show the result
-    std::cout << X << std::endl;
+    std::cout << X.format(Eigen::IOFormat(3)) << std::endl;
 
     return 0;
 }

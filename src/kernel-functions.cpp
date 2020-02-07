@@ -131,15 +131,11 @@ mathtoolbox::GetArdMatern52KernelThetaDerivative(const VectorXd& x_a, const Vect
 
     derivative(0) = scale_term * exp_term;
 
-    for (int i = 0; i < dim; ++i)
-    {
-        const double diff          = x_a(i) - x_b(i);
-        const double diff_squared  = diff * diff;
-        const double theta_i_cubed = length_scales(i) * length_scales(i) * length_scales(i);
+    const auto diff_squared        = diff.array().square();
+    const auto length_scales_cubed = length_scales.array().cube();
 
-        derivative(i + 1) =
-            (5.0 / 3.0) * sigma_squared_f * diff_squared * exp_term * (1.0 + sqrt_of_5_r_squared) / theta_i_cubed;
-    }
+    derivative.segment(1, dim) = (5.0 / 3.0) * sigma_squared_f * exp_term * (1.0 + sqrt_of_5_r_squared) * diff_squared *
+                                 length_scales_cubed.inverse();
 
     return derivative;
 }

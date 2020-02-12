@@ -22,13 +22,13 @@ namespace mathtoolbox
     double GetGaussianProcessUpperConfidenceBound(const Eigen::VectorXd&                               x,
                                                   const std::function<double(const Eigen::VectorXd&)>& mu,
                                                   const std::function<double(const Eigen::VectorXd&)>& sigma,
-                                                  const double                                         hyperparama);
+                                                  const double                                         hyperparam);
 
     Eigen::VectorXd GetGaussianProcessUpperConfidenceBoundDerivative(
         const Eigen::VectorXd&                                        x,
         const std::function<double(const Eigen::VectorXd&)>&          mu,
         const std::function<double(const Eigen::VectorXd&)>&          sigma,
-        const double                                                  hyperparama,
+        const double                                                  hyperparam,
         const std::function<Eigen::VectorXd(const Eigen::VectorXd&)>& mu_derivative,
         const std::function<Eigen::VectorXd(const Eigen::VectorXd&)>& sigma_derivative);
 } // namespace mathtoolbox

@@ -56,18 +56,22 @@ VectorXd mathtoolbox::GetExpectedImprovementDerivative(const VectorXd&          
 double mathtoolbox::GetGaussianProcessUpperConfidenceBound(const VectorXd&                               x,
                                                            const std::function<double(const VectorXd&)>& mu,
                                                            const std::function<double(const VectorXd&)>& sigma,
-                                                           const double                                  hyperparama)
+                                                           const double                                  hyperparam)
 {
-    
+    assert(hyperparam >= 0);
+
+    return mu(x) + hyperparam * sigma(x);
 }
 
 VectorXd mathtoolbox::GetGaussianProcessUpperConfidenceBoundDerivative(
     const VectorXd&                                 x,
     const std::function<double(const VectorXd&)>&   mu,
     const std::function<double(const VectorXd&)>&   sigma,
-    const double                                    hyperparama,
+    const double                                    hyperparam,
     const std::function<VectorXd(const VectorXd&)>& mu_derivative,
     const std::function<VectorXd(const VectorXd&)>& sigma_derivative)
 {
+    assert(hyperparam >= 0);
 
+    return mu_derivative(x) + hyperparam * sigma_derivative(x);
 }

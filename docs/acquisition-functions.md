@@ -13,6 +13,7 @@ Acquisition functions for Bayesian optimization
 The following acquisition functions (and their derivatives with respect to the data point) are supported:
 
 - Expected improvement (EI)
+- Gaussian process upper confidence bound (GP-UCB)
 
 ## Useful Resources
 

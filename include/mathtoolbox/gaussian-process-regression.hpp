@@ -43,6 +43,12 @@ namespace mathtoolbox
         void PerformMaximumLikelihood(const Eigen::VectorXd& kernel_hyperparams_initial,
                                       const double           noise_hyperparam_initial);
 
+        /// \brief Get the input data points
+        const Eigen::MatrixXd& GetDataPoints() const { return m_X; }
+
+        /// \brief Get the input data values
+        const Eigen::VectorXd& GetDataValues() const { return m_y; }
+
     private:
         // Data points
         Eigen::MatrixXd m_X;

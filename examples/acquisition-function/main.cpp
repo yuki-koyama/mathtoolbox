@@ -1,14 +1,14 @@
 #include <Eigen/Core>
 #include <iostream>
-#include <mathtoolbox/gaussian-process-regression.hpp>
 #include <mathtoolbox/acquisition-functions.hpp>
+#include <mathtoolbox/gaussian-process-regression.hpp>
 #include <mathtoolbox/probability-distributions.hpp>
 #include <timer.hpp>
 
-using Eigen::MatrixXd;
 using Eigen::Matrix2d;
-using Eigen::VectorXd;
+using Eigen::MatrixXd;
 using Eigen::Vector2d;
+using Eigen::VectorXd;
 
 double CalcFunc(const Vector2d& x)
 {
@@ -18,16 +18,16 @@ double CalcFunc(const Vector2d& x)
 int main(int argc, char** argv)
 {
     // Define the scene setting
-    constexpr int    number_of_samples = 50;
+    constexpr int    num_samples     = 10;
     constexpr double noise_intensity = 1e-04;
 
-    // Generate (and export) scattered data
-    MatrixXd X(2, number_of_samples);
-    VectorXd y(number_of_samples);
-    for (int i = 0; i < number_of_samples; ++i)
+    // Generate scattered data
+    MatrixXd X(2, num_samples);
+    VectorXd y(num_samples);
+    for (int i = 0; i < num_samples; ++i)
     {
         X.col(i) = Vector2d::Random();
-        y(i)    = CalcFunc(X.col(i)) + noise_intensity * (VectorXd::Random(1))(0);
+        y(i)     = CalcFunc(X.col(i)) + noise_intensity * (VectorXd::Random(1))(0);
     }
 
     // Define the kernel type
@@ -37,10 +37,66 @@ int main(int argc, char** argv)
     mathtoolbox::GaussianProcessRegressor regressor(X, y, kernel_type);
 
     // Perform hyperparameter estimation
-    const Eigen::Vector3d default_kernel_hyperparams{0.50, 0.50, 0.50};
+    const Eigen::Vector3d default_kernel_hyperparams(0.50, 0.50, 0.50);
+    regressor.PerformMaximumLikelihood(default_kernel_hyperparams, 1e-04);
+
+    // Calculate acquisition function values and their derivatives
+    for (int i = 0; i < 100; ++i)
     {
-        timer::Timer t("maximum likelihood estimation");
-        regressor.PerformMaximumLikelihood(default_kernel_hyperparams, 1e-04);
+        constexpr int    num_dims = 2;
+        constexpr double epsilon  = 1e-06;
+
+        const VectorXd x_plus = [&]() {
+            int index;
+            y.maxCoeff(&index);
+            return X.col(index);
+        }();
+
+        const VectorXd x = Vector2d::Random();
+
+        const VectorXd acquisition_deriv = mathtoolbox::GetExpectedImprovementDerivative(
+            x,
+            [&](const VectorXd& x) { return regressor.PredictMean(x); },
+            [&](const VectorXd& x) { return regressor.PredictStdev(x); },
+            x_plus,
+            [&](const VectorXd& x) { return regressor.PredictMeanDeriv(x); },
+            [&](const VectorXd& x) { return regressor.PredictStdevDeriv(x); });
+
+        VectorXd acquisition_numerical_deriv(num_dims);
+        for (int d = 0; d < num_dims; ++d)
+        {
+            VectorXd delta = VectorXd::Zero(num_dims);
+            delta(d)       = epsilon;
+
+            const double ei_plus = mathtoolbox::GetExpectedImprovement(
+                x + delta,
+                [&](const VectorXd& x) { return regressor.PredictMean(x); },
+                [&](const VectorXd& x) { return regressor.PredictStdev(x); },
+                x_plus);
+
+            const double ei_minus = mathtoolbox::GetExpectedImprovement(
+                x - delta,
+                [&](const VectorXd& x) { return regressor.PredictMean(x); },
+                [&](const VectorXd& x) { return regressor.PredictStdev(x); },
+                x_plus);
+
+            acquisition_numerical_deriv(d) = ei_plus - ei_minus;
+        }
+        acquisition_numerical_deriv /= 2.0 * epsilon;
+
+        const auto scale     = acquisition_deriv.norm();
+        const auto abs_error = (acquisition_deriv - acquisition_numerical_deriv).norm();
+        const auto rel_error = abs_error / scale;
+
+        if (scale > 1e-06 && rel_error > 1e-02)
+        {
+            std::cout << "point location: " << x.transpose() << std::endl;
+            std::cout << "analytic      : " << acquisition_deriv.transpose() << std::endl;
+            std::cout << "numerical     : " << acquisition_numerical_deriv.transpose() << std::endl;
+            std::cout << "error         : " << abs_error << std::endl;
+
+            exit(1);
+        }
     }
 
     return 0;

@@ -40,7 +40,7 @@ int main(int argc, char** argv)
     const Eigen::Vector3d default_kernel_hyperparams(0.50, 0.50, 0.50);
     regressor.PerformMaximumLikelihood(default_kernel_hyperparams, 1e-04);
 
-    // Calculate acquisition function values and their derivatives
+    // Calculate EI values and their derivatives
     for (int i = 0; i < 100; ++i)
     {
         constexpr int    num_dims = 2;
@@ -68,19 +68,74 @@ int main(int argc, char** argv)
             VectorXd delta = VectorXd::Zero(num_dims);
             delta(d)       = epsilon;
 
-            const double ei_plus = mathtoolbox::GetExpectedImprovement(
+            const double value_plus = mathtoolbox::GetExpectedImprovement(
                 x + delta,
                 [&](const VectorXd& x) { return regressor.PredictMean(x); },
                 [&](const VectorXd& x) { return regressor.PredictStdev(x); },
                 x_plus);
 
-            const double ei_minus = mathtoolbox::GetExpectedImprovement(
+            const double value_minus = mathtoolbox::GetExpectedImprovement(
                 x - delta,
                 [&](const VectorXd& x) { return regressor.PredictMean(x); },
                 [&](const VectorXd& x) { return regressor.PredictStdev(x); },
                 x_plus);
 
-            acquisition_numerical_deriv(d) = ei_plus - ei_minus;
+            acquisition_numerical_deriv(d) = value_plus - value_minus;
+        }
+        acquisition_numerical_deriv /= 2.0 * epsilon;
+
+        const auto scale     = acquisition_deriv.norm();
+        const auto abs_error = (acquisition_deriv - acquisition_numerical_deriv).norm();
+        const auto rel_error = abs_error / scale;
+
+        if (scale > 1e-06 && rel_error > 1e-02)
+        {
+            std::cout << "point location: " << x.transpose() << std::endl;
+            std::cout << "analytic      : " << acquisition_deriv.transpose() << std::endl;
+            std::cout << "numerical     : " << acquisition_numerical_deriv.transpose() << std::endl;
+            std::cout << "error         : " << abs_error << std::endl;
+
+            exit(1);
+        }
+    }
+
+    // Calculate GP-UCB values and their derivatives
+    for (int i = 0; i < 100; ++i)
+    {
+        constexpr int    num_dims = 2;
+        constexpr double epsilon  = 1e-06;
+
+        const double hyperparam = 1.0 + (Eigen::VectorXd::Random(1))(0);
+
+        const VectorXd x = Vector2d::Random();
+
+        const VectorXd acquisition_deriv = mathtoolbox::GetGaussianProcessUpperConfidenceBoundDerivative(
+            x,
+            [&](const VectorXd& x) { return regressor.PredictMean(x); },
+            [&](const VectorXd& x) { return regressor.PredictStdev(x); },
+            hyperparam,
+            [&](const VectorXd& x) { return regressor.PredictMeanDeriv(x); },
+            [&](const VectorXd& x) { return regressor.PredictStdevDeriv(x); });
+
+        VectorXd acquisition_numerical_deriv(num_dims);
+        for (int d = 0; d < num_dims; ++d)
+        {
+            VectorXd delta = VectorXd::Zero(num_dims);
+            delta(d)       = epsilon;
+
+            const double value_plus = mathtoolbox::GetGaussianProcessUpperConfidenceBound(
+                x + delta,
+                [&](const VectorXd& x) { return regressor.PredictMean(x); },
+                [&](const VectorXd& x) { return regressor.PredictStdev(x); },
+                hyperparam);
+
+            const double value_minus = mathtoolbox::GetGaussianProcessUpperConfidenceBound(
+                x - delta,
+                [&](const VectorXd& x) { return regressor.PredictMean(x); },
+                [&](const VectorXd& x) { return regressor.PredictStdev(x); },
+                hyperparam);
+
+            acquisition_numerical_deriv(d) = value_plus - value_minus;
         }
         acquisition_numerical_deriv /= 2.0 * epsilon;
 

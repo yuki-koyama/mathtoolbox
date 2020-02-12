@@ -18,6 +18,19 @@ namespace mathtoolbox
                                      const Eigen::VectorXd&                                        x_best,
                                      const std::function<Eigen::VectorXd(const Eigen::VectorXd&)>& mu_derivative,
                                      const std::function<Eigen::VectorXd(const Eigen::VectorXd&)>& sigma_derivative);
+
+    double GetGaussianProcessUpperConfidenceBound(const Eigen::VectorXd&                               x,
+                                                  const std::function<double(const Eigen::VectorXd&)>& mu,
+                                                  const std::function<double(const Eigen::VectorXd&)>& sigma,
+                                                  const double                                         hyperparama);
+
+    Eigen::VectorXd GetGaussianProcessUpperConfidenceBoundDerivative(
+        const Eigen::VectorXd&                                        x,
+        const std::function<double(const Eigen::VectorXd&)>&          mu,
+        const std::function<double(const Eigen::VectorXd&)>&          sigma,
+        const double                                                  hyperparama,
+        const std::function<Eigen::VectorXd(const Eigen::VectorXd&)>& mu_derivative,
+        const std::function<Eigen::VectorXd(const Eigen::VectorXd&)>& sigma_derivative);
 } // namespace mathtoolbox
 
 #endif // MATHTOOLBOX_ACQUISITION_FUNCTIONS_HPP

@@ -272,10 +272,10 @@
 </p>
 <h3 id="usage">Usage</h3>
 <p>This technique can be calculated by the following function:</p>
-<pre><code class="cpp">Eigen::MatrixXd ComputeClassicalMds(const Eigen::MatrixXd&amp; D, unsigned dim);
+<pre><code class="cpp">Eigen::MatrixXd ComputeClassicalMds(const Eigen::MatrixXd&amp; D, const unsigned target_dim);
 </code></pre>
 
-<p>where <code>dim</code> is the target dimensionality for embedding.</p>
+<p>where <code>target_dim</code> is the target dimensionality for embedding.</p>
 <h2 id="example">Example</h2>
 <p>The following is an example of applying the algorithm to the pixel RGB values of a target image and embedding them into a two-dimensional space.
 <img alt="" src="classical-mds-image-out.jpg" /></p>

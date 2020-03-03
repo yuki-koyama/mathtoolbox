@@ -58,9 +58,9 @@ $$
 
 This technique can be calculated by the following function:
 ```cpp
-Eigen::MatrixXd ComputeClassicalMds(const Eigen::MatrixXd& D, unsigned dim);
+Eigen::MatrixXd ComputeClassicalMds(const Eigen::MatrixXd& D, const unsigned target_dim);
 ```
-where `dim` is the target dimensionality for embedding.
+where `target_dim` is the target dimensionality for embedding.
 
 ## Example
 

@@ -36,10 +36,10 @@ inline void ExtractNLargestEigens(unsigned n, Eigen::VectorXd& S, Eigen::MatrixX
     }
 }
 
-Eigen::MatrixXd mathtoolbox::ComputeClassicalMds(const Eigen::MatrixXd& D, unsigned dim)
+Eigen::MatrixXd mathtoolbox::ComputeClassicalMds(const Eigen::MatrixXd& D, const unsigned target_dim)
 {
     assert(D.rows() == D.cols());
-    assert(D.rows() >= dim);
+    assert(D.rows() >= target_dim);
 
     const auto n    = D.rows();
     const auto ones = Eigen::VectorXd::Ones(n);
@@ -53,7 +53,7 @@ Eigen::MatrixXd mathtoolbox::ComputeClassicalMds(const Eigen::MatrixXd& D, unsig
     Eigen::VectorXd S = solver.eigenvalues().real();
     Eigen::MatrixXd V = solver.eigenvectors().real();
 
-    ExtractNLargestEigens(dim, S, V);
+    ExtractNLargestEigens(target_dim, S, V);
 
     const Eigen::MatrixXd X = Eigen::DiagonalMatrix<double, Eigen::Dynamic>(S.cwiseSqrt()) * V.transpose();
 

@@ -6,11 +6,14 @@
 
 namespace mathtoolbox
 {
-    /// \brief This function computes low-dimensional embedding by using classical multi-dimensional scaling (MDS)
-    /// \param D Distance (dissimilarity) matrix and a target dimension for embedding
-    /// \param dim Target dimension
+    /// \brief Compute low-dimensional embedding by using classical multi-dimensional scaling (MDS)
+    ///
+    /// \param D Distance (dissimilarity) matrix
+    ///
+    /// \param target_dim Target dimensionality
+    ///
     /// \return Coordinate matrix whose i-th column corresponds to the embedded coordinates of the i-th entry
-    Eigen::MatrixXd ComputeClassicalMds(const Eigen::MatrixXd& D, unsigned dim);
+    Eigen::MatrixXd ComputeClassicalMds(const Eigen::MatrixXd& D, const unsigned taregt_dim);
 } // namespace mathtoolbox
 
 #endif // MATHTOOLBOX_CLASSICAL_MDS_HPP

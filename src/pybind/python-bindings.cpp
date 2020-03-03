@@ -44,9 +44,9 @@ PYBIND11_MODULE(pymathtoolbox, m)
 
     m.def("compute_classical_mds",
           &mt::ComputeClassicalMds,
-          "A function which computes classical MDS",
+          "Compute low-dimensional embedding by using classical multi-dimensional scaling (MDS)",
           py::arg("D"),
-          py::arg("dim"));
+          py::arg("target_dim"));
 
     // rbf-interpolation
 

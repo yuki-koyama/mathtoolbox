@@ -19,7 +19,7 @@ colors = colors.reshape(colors.shape[0] * colors.shape[1], 3) / 255.0
 D = squareform(pdist(colors))
 
 # Compute metric MDS (embedding into a 2-dimensional space)
-X = pymathtoolbox.compute_classical_mds(D=D, dim=2)
+X = pymathtoolbox.compute_classical_mds(D=D, target_dim=2)
 
 # Define constants for plot
 FIG_SIZE = (8, 3)

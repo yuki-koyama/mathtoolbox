@@ -19,15 +19,15 @@ namespace
 
 int main()
 {
-    // Generate scattered data (in this case, 500 data points in a 2-dimensional space)
     constexpr int    number_of_samples = 500;
     constexpr double noise_intensity   = 0.1;
-    Eigen::MatrixXd  X(2, number_of_samples);
-    Eigen::VectorXd  y(number_of_samples);
+
+    // Generate scattered data (in this case, 500 data points in a 2-dimensional space)
+    Eigen::MatrixXd X = Eigen::MatrixXd::Random(2, number_of_samples);
+    Eigen::VectorXd y(number_of_samples);
     for (int i = 0; i < number_of_samples; ++i)
     {
-        X.col(i) = Vector2d(uniform_dist(engine), uniform_dist(engine));
-        y(i)     = CalcFunction(X.col(i)) + noise_intensity * uniform_dist(engine);
+        y(i) = CalcFunction(X.col(i)) + noise_intensity * uniform_dist(engine);
     }
 
     // Define interpolation settings
@@ -48,8 +48,8 @@ int main()
     std::cout << "x(0),x(1),y" << std::endl;
     for (int i = 0; i < number_of_test_samples; ++i)
     {
-        const Vector2d x = Vector2d(uniform_dist(engine), uniform_dist(engine));
-        const double   y = rbf_interpolator.CalcValue(x);
+        const auto   x = Vector2d::Random();
+        const double y = rbf_interpolator.CalcValue(x);
 
         std::cout << x(0) << "," << x(1) << "," << y << std::endl;
     }

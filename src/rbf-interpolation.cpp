@@ -49,7 +49,7 @@ double mathtoolbox::RbfInterpolator::CalcValue(const VectorXd& x) const
     const int dim = m_w.rows();
 
     // Calculate the distance for each data point via broadcasting
-    const auto norms = (m_X.colwise() - x).colwise().norm();
+    const Eigen::VectorXd norms = (m_X.colwise() - x).colwise().norm();
 
     // Calculate the RBF value associated with each data point
     // TODO: This part can be further optimized for performance by vectorization

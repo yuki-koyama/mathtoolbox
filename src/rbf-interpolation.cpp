@@ -44,15 +44,25 @@ void mathtoolbox::RbfInterpolator::CalcWeights(const bool use_regularization, co
 
 double mathtoolbox::RbfInterpolator::CalcValue(const VectorXd& x) const
 {
+    assert(x.rows() == m_X.rows());
+
     const int dim = m_w.rows();
 
-    double result = 0.0;
+    // Calculate the distance for each data point via broadcasting
+    const auto norms = (m_X.colwise() - x).colwise().norm();
+
+    // Calculate the RBF value associated with each data point
+    // TODO: This part can be further optimized for performance by vectorization
+    Eigen::VectorXd rbf_values{dim};
     for (int i = 0; i < dim; ++i)
     {
-        result += m_w(i) * CalcRbfValue(x, m_X.col(i));
+        rbf_values(i) = m_rbf_kernel(norms(i));
     }
 
-    return result;
+    // Calculate the weighted sum using dot product
+    const double value = m_w.dot(rbf_values);
+
+    return value;
 }
 
 double mathtoolbox::RbfInterpolator::CalcRbfValue(const VectorXd& xi, const VectorXd& xj) const

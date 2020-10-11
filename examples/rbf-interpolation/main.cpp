@@ -65,8 +65,6 @@ void PerformTest()
     {
         std::cout << X_test(0, i) << "," << X_test(1, i) << "," << y_test(i) << std::endl;
     }
-
-    return 0;
 }
 
 int main()

@@ -9,12 +9,14 @@
 
 namespace mathtoolbox
 {
+    /// \brief An abstract class for helping define custom kernel functor classes
     class AbstractRbfKernel
     {
     public:
         AbstractRbfKernel() {}
         virtual ~AbstractRbfKernel(){};
 
+        /// \brief Perform RBF evaluation
         virtual double operator()(const double r) const = 0;
     };
 

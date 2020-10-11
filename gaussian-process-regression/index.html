@@ -7,13 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
+  
   <link rel="shortcut icon" href="../img/favicon.ico">
   <title>gaussian-process-regression - mathtoolbox</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
-  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -24,7 +25,7 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
   
   <script>
@@ -45,6 +46,7 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
         <a href=".." class="icon icon-home"> mathtoolbox</a>
         <div role="search">
@@ -55,142 +57,103 @@
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-	<ul class="current">
-	  
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="..">Introduction</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Scattered Data Interpolation and Function Approximation</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../rbf-interpolation/">rbf-interpolation</a>
-                </li>
-                <li class=" current">
-                    
-    <a class="current" href="./">gaussian-process-regression</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l3"><a href="#gaussian-process-regression">gaussian-process-regression</a></li>
-    
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Introduction</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Scattered Data Interpolation and Function Approximation</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../rbf-interpolation/">rbf-interpolation</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">gaussian-process-regression</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#header">Header</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#internal-dependencies">Internal Dependencies</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
         <ul>
-        
-            <li><a class="toctree-l4" href="#header">Header</a></li>
-        
-            <li><a class="toctree-l4" href="#internal-dependencies">Internal Dependencies</a></li>
-        
-            <li><a class="toctree-l4" href="#overview">Overview</a></li>
-        
-            <li><a class="toctree-l4" href="#math">Math</a></li>
-        
-            <li><a class="toctree-l4" href="#usage">Usage</a></li>
-        
-            <li><a class="toctree-l4" href="#useful-resources">Useful Resources</a></li>
-        
+    <li class="toctree-l3"><a class="reference internal" href="#input">Input</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#output">Output</a>
+    </li>
         </ul>
-    
-
-    </ul>
-                </li>
-    </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Dimensionality Reduction and Low-Dimensional Embedding</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../classical-mds/">classical-mds</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../som/">som</a>
-                </li>
-    </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Numerical Optimization</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../backtracking-line-search/">backtracking-line-search</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../bayesian-optimization/">bayesian-optimization</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../bfgs/">bfgs</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../gradient-descent/">gradient-descent</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../l-bfgs/">l-bfgs</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../strong-wolfe-conditions-line-search/">strong-wolfe-conditions-line-search</a>
-                </li>
-    </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Linear Algebra</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../log-determinant/">log-determinant</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../matrix-inversion/">matrix-inversion</a>
-                </li>
-    </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Utilities</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../acquisition-functions/">acquisition-functions</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../constants/">constants</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../data-normalization/">data-normalization</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../kernel-functions/">kernel-functions</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../probability-distributions/">probability-distributions</a>
-                </li>
-    </ul>
-	    </li>
-          
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#math">Math</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#covariance-function">Covariance Function</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mean-function">Mean Function</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#data-normalization">Data Normalization</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#selecting-hyperparameters">Selecting Hyperparameters</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#maximum-likelihood-estimation">Maximum Likelihood Estimation</a>
+    </li>
         </ul>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#instantiation-and-data-specification">Instantiation and Data Specification</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hyperparameter-selection">Hyperparameter Selection</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#prediction">Prediction</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#useful-resources">Useful Resources</a>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Dimensionality Reduction and Low-Dimensional Embedding</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../classical-mds/">classical-mds</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../som/">som</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Numerical Optimization</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../backtracking-line-search/">backtracking-line-search</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../bayesian-optimization/">bayesian-optimization</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../bfgs/">bfgs</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../gradient-descent/">gradient-descent</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../l-bfgs/">l-bfgs</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../strong-wolfe-conditions-line-search/">strong-wolfe-conditions-line-search</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Linear Algebra</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../log-determinant/">log-determinant</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../matrix-inversion/">matrix-inversion</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Utilities</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../acquisition-functions/">acquisition-functions</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../constants/">constants</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../data-normalization/">data-normalization</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../kernel-functions/">kernel-functions</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../probability-distributions/">probability-distributions</a>
+                    </li>
+                </ul>
       </div>
-      &nbsp;
+    </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -222,6 +185,7 @@
       
     </li>
   </ul>
+  
   <hr/>
 </div>
           <div role="main">
@@ -231,9 +195,8 @@
 <p>Gaussian process regression (GPR) for scattered data interpolation and function approximation.</p>
 <p><img alt="" src="examples.png" /></p>
 <h2 id="header">Header</h2>
-<pre><code class="cpp">#include &lt;mathtoolbox/gaussian-process-regression.hpp&gt;
+<pre><code class="language-cpp">#include &lt;mathtoolbox/gaussian-process-regression.hpp&gt;
 </code></pre>
-
 <h2 id="internal-dependencies">Internal Dependencies</h2>
 <ul>
 <li><a href="../constants">constants</a></li>
@@ -337,31 +300,26 @@ y_{i} \leftarrow s \cdot \frac{y_{i} - \mu}{\sigma} \:\: \text{for} \:\: i = 1, 
 <h2 id="usage">Usage</h2>
 <h3 id="instantiation-and-data-specification">Instantiation and Data Specification</h3>
 <p>A GPR object is instantiated with data specification in its constructor:</p>
-<pre><code class="cpp">GaussianProcessRegressor(const Eigen::MatrixXd&amp; X,
+<pre><code class="language-cpp">GaussianProcessRegressor(const Eigen::MatrixXd&amp; X,
                          const Eigen::VectorXd&amp; y,
                          const KernelType       kernel_type = KernelType::ArdMatern52,
                          const bool             use_data_normalization = true);
 </code></pre>
-
 <h3 id="hyperparameter-selection">Hyperparameter Selection</h3>
 <p>Hyperparameters are set by either</p>
-<pre><code class="cpp">void SetHyperparams(const Eigen::VectorXd&amp; kernel_hyperparams, const double noise_hyperparam);
+<pre><code class="language-cpp">void SetHyperparams(const Eigen::VectorXd&amp; kernel_hyperparams, const double noise_hyperparam);
 </code></pre>
-
 <p>or</p>
-<pre><code class="cpp">void PerformMaximumLikelihood(const Eigen::VectorXd&amp; kernel_hyperparams_initial,
+<pre><code class="language-cpp">void PerformMaximumLikelihood(const Eigen::VectorXd&amp; kernel_hyperparams_initial,
                               const double           noise_hyperparam_initial);
 </code></pre>
-
 <h3 id="prediction">Prediction</h3>
 <p>Once a GPR object is instantiated and its hyperparameters are set, it is ready for prediction. For an unknown location <script type="math/tex"> \mathbf{x} </script>, the GPR object predicts the most likely value <script type="math/tex"> f </script> by the following method:</p>
-<pre><code class="cpp">double PredictMean(const Eigen::VectorXd&amp; x) const;
+<pre><code class="language-cpp">double PredictMean(const Eigen::VectorXd&amp; x) const;
 </code></pre>
-
 <p>It also predicts the standard deviation <script type="math/tex"> \sqrt{\text{Var}(f)} </script> by the following method:</p>
-<pre><code class="cpp">double PredictStdev(const Eigen::VectorXd&amp; x) const;
+<pre><code class="language-cpp">double PredictStdev(const Eigen::VectorXd&amp; x) const;
 </code></pre>
-
 <h2 id="useful-resources">Useful Resources</h2>
 <ul>
 <li>Mark Ebden. 2015. Gaussian Processes: A Quick Introduction. <a href="https://arxiv.org/abs/1505.02965">arXiv:1505.02965</a>.</li>
@@ -389,7 +347,7 @@ y_{i} \leftarrow s \cdot \frac{y_{i} - \mu}{\sigma} \:\: \text{for} \:\: i = 1, 
     
   </div>
 
-  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
       
         </div>
@@ -399,7 +357,7 @@ y_{i} \leftarrow s \cdot \frac{y_{i} - \mu}{\sigma} \:\: \text{for} \:\: i = 1, 
 
   </div>
 
-  <div class="rst-versions" role="note" style="cursor: pointer">
+  <div class="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
           <a href="https://github.com/yuki-koyama/mathtoolbox/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
@@ -416,6 +374,11 @@ y_{i} \leftarrow s \cdot \frac{y_{i} - \mu}{\sigma} \:\: \text{for} \:\: i = 1, 
     <script src="../js/theme.js" defer></script>
       <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
       <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
 
 </body>
 </html>

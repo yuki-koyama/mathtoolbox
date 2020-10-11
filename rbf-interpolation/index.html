@@ -7,13 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
+  
   <link rel="shortcut icon" href="../img/favicon.ico">
   <title>rbf-interpolation - mathtoolbox</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
-  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -24,7 +25,7 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
   
   <script>
@@ -45,6 +46,7 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
         <a href=".." class="icon icon-home"> mathtoolbox</a>
         <div role="search">
@@ -55,138 +57,81 @@
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-	<ul class="current">
-	  
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="..">Introduction</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Scattered Data Interpolation and Function Approximation</span>
-    <ul class="subnav">
-                <li class=" current">
-                    
-    <a class="current" href="./">rbf-interpolation</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l3"><a href="#rbf-interpolation">rbf-interpolation</a></li>
-    
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Introduction</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Scattered Data Interpolation and Function Approximation</span></p>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">rbf-interpolation</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#header">Header</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#math">Math</a>
         <ul>
-        
-            <li><a class="toctree-l4" href="#header">Header</a></li>
-        
-            <li><a class="toctree-l4" href="#math">Math</a></li>
-        
-            <li><a class="toctree-l4" href="#usage">Usage</a></li>
-        
-            <li><a class="toctree-l4" href="#useful-resources">Useful Resources</a></li>
-        
+    <li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pre-computation">Pre-Computation</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#pre-computation-with-regularization">Pre-Computation with Regularization</a>
+    </li>
         </ul>
-    
-
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#time-complexity">Time Complexity</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#useful-resources">Useful Resources</a>
+    </li>
     </ul>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../gaussian-process-regression/">gaussian-process-regression</a>
-                </li>
-    </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Dimensionality Reduction and Low-Dimensional Embedding</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../classical-mds/">classical-mds</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../som/">som</a>
-                </li>
-    </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Numerical Optimization</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../backtracking-line-search/">backtracking-line-search</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../bayesian-optimization/">bayesian-optimization</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../bfgs/">bfgs</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../gradient-descent/">gradient-descent</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../l-bfgs/">l-bfgs</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../strong-wolfe-conditions-line-search/">strong-wolfe-conditions-line-search</a>
-                </li>
-    </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Linear Algebra</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../log-determinant/">log-determinant</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../matrix-inversion/">matrix-inversion</a>
-                </li>
-    </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Utilities</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../acquisition-functions/">acquisition-functions</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../constants/">constants</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../data-normalization/">data-normalization</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../kernel-functions/">kernel-functions</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../probability-distributions/">probability-distributions</a>
-                </li>
-    </ul>
-	    </li>
-          
-        </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../gaussian-process-regression/">gaussian-process-regression</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Dimensionality Reduction and Low-Dimensional Embedding</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../classical-mds/">classical-mds</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../som/">som</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Numerical Optimization</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../backtracking-line-search/">backtracking-line-search</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../bayesian-optimization/">bayesian-optimization</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../bfgs/">bfgs</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../gradient-descent/">gradient-descent</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../l-bfgs/">l-bfgs</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../strong-wolfe-conditions-line-search/">strong-wolfe-conditions-line-search</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Linear Algebra</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../log-determinant/">log-determinant</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../matrix-inversion/">matrix-inversion</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Utilities</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../acquisition-functions/">acquisition-functions</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../constants/">constants</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../data-normalization/">data-normalization</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../kernel-functions/">kernel-functions</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../probability-distributions/">probability-distributions</a>
+                    </li>
+                </ul>
       </div>
-      &nbsp;
+    </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -218,6 +163,7 @@
       
     </li>
   </ul>
+  
   <hr/>
 </div>
           <div role="main">
@@ -227,9 +173,8 @@
 <p>Radial basis function (RBF) network for scattered data interpolation and function approximation.</p>
 <p><img alt="" src="result.png" /></p>
 <h2 id="header">Header</h2>
-<pre><code class="cpp">#include &lt;mathtoolbox/rbf-interpolation.hpp&gt;
+<pre><code class="language-cpp">#include &lt;mathtoolbox/rbf-interpolation.hpp&gt;
 </code></pre>
-
 <h2 id="math">Math</h2>
 <h3 id="overview">Overview</h3>
 <p>Given input data:</p>
@@ -244,15 +189,15 @@
 y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} \|),
 </script>
 </p>
-<p>where <script type="math/tex"> \phi : \mathbb{R}_{> 0} \rightarrow \mathbb{R} </script> is a user-selected RBF and <script type="math/tex"> w_1, \cdots, w_n </script> are weights that are calculated in pre-computation.</p>
-<h3 id="pre-computation">Pre-Computation</h3>
-<p>The weight values need to be calculated in pre-computation. Let</p>
+<p>where <script type="math/tex"> \phi : \mathbb{R}_{> 0} \rightarrow \mathbb{R} </script> is a user-selected RBF, and</p>
 <p>
 <script type="math/tex; mode=display">
 \mathbf{w} = \begin{bmatrix} w_1 & \cdots & w_n \end{bmatrix}^T \in \mathbb{R}^{n}
 </script>
 </p>
-<p>and</p>
+<p>are the weights that are calculated in pre-computation.</p>
+<h3 id="pre-computation">Pre-Computation</h3>
+<p>The weight values need to be calculated in pre-computation. Let</p>
 <p>
 <script type="math/tex; mode=display">
 \mathbf{\Phi} =
@@ -315,9 +260,8 @@ y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} 
 </ul>
 <p>If no kernel is passed to the constructor, <code>ThinPlateSplineRbfKernel</code> (i.e., <script type="math/tex"> \phi(x) = x^2 \log(x) </script>) is chosen by default.</p>
 <p>Then, set the target scattered data by the method:</p>
-<pre><code class="cpp">void SetData(const Eigen::MatrixXd&amp; X, const Eigen::VectorXd&amp; y);
+<pre><code class="language-cpp">void SetData(const Eigen::MatrixXd&amp; X, const Eigen::VectorXd&amp; y);
 </code></pre>
-
 <p>where</p>
 <p>
 <script type="math/tex; mode=display">
@@ -332,18 +276,19 @@ y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} 
 </p>
 <p>represents their values.</p>
 <p>Next, calculate the weight values by the method:</p>
-<pre><code class="cpp">void ComputeWeights(const bool   use_regularization = false,
+<pre><code class="language-cpp">void ComputeWeights(const bool   use_regularization = false,
                     const double lambda             = 0.001);
 </code></pre>
-
 <p>When <code>use_regularization</code> is set <code>true</code>, the weights are calculated in the manner of scattered data <em>approximation</em>, rather than scattered data interpolation. When the data is noisy, approximation is usually a better choice.</p>
 <p>Once the above procedures are performed, the instance is ready to calculate interpolated values. This is performed by the method</p>
-<pre><code class="cpp">double CalcValue(const Eigen::VectorXd&amp; x) const;
+<pre><code class="language-cpp">double CalcValue(const Eigen::VectorXd&amp; x) const;
 </code></pre>
-
+<h2 id="time-complexity">Time Complexity</h2>
+<p>The pre-computation needs to solve a linear system, which takes more than <script type="math/tex">O(n^{2})</script>. An interpolated value calculation takes <script type="math/tex">O(n)</script>. See [Carr et al. 2001] for details.</p>
 <h2 id="useful-resources">Useful Resources</h2>
 <ul>
-<li>Ken Anjyo, J. P. Lewis, and Frédéric Pighin. 2014. Scattered data interpolation for computer graphics. In ACM SIGGRAPH 2014 Courses (SIGGRAPH '14). ACM, New York, NY, USA, Article 27, 69 pages. DOI: <a href="https://doi.org/10.1145/2614028.2615425">https://doi.org/10.1145/2614028.2615425</a></li>
+<li>Ken Anjyo, J. P. Lewis, and Frédéric Pighin. 2014. Scattered data interpolation for computer graphics. In ACM SIGGRAPH 2014 Courses (SIGGRAPH '14). Article 27, 69 pages. DOI: <a href="https://doi.org/10.1145/2614028.2615425">https://doi.org/10.1145/2614028.2615425</a></li>
+<li>J. C. Carr, R. K. Beatson, J. B. Cherrie, T. J. Mitchell, W. R. Fright, B. C. McCallum, and T. R. Evans. 2001. Reconstruction and representation of 3D objects with radial basis functions. In Proc. SIGGRAPH '01. 67–76. DOI: <a href="https://doi.org/10.1145/383259.383266">https://doi.org/10.1145/383259.383266</a></li>
 </ul>
               
             </div>
@@ -367,7 +312,7 @@ y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} 
     
   </div>
 
-  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
       
         </div>
@@ -377,7 +322,7 @@ y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} 
 
   </div>
 
-  <div class="rst-versions" role="note" style="cursor: pointer">
+  <div class="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
           <a href="https://github.com/yuki-koyama/mathtoolbox/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
@@ -394,6 +339,11 @@ y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} 
     <script src="../js/theme.js" defer></script>
       <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
       <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
 
 </body>
 </html>

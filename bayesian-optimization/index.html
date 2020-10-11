@@ -7,13 +7,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   
+  
   <link rel="shortcut icon" href="../img/favicon.ico">
   <title>bayesian-optimization - mathtoolbox</title>
-  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
-  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -24,7 +25,7 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
   
   <script>
@@ -45,6 +46,7 @@
 
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
       <div class="wy-side-nav-search">
         <a href=".." class="icon icon-home"> mathtoolbox</a>
         <div role="search">
@@ -55,140 +57,87 @@
       </div>
 
       <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-	<ul class="current">
-	  
-          
-            <li class="toctree-l1">
-		
-    <a class="" href="..">Introduction</a>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Scattered Data Interpolation and Function Approximation</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../rbf-interpolation/">rbf-interpolation</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../gaussian-process-regression/">gaussian-process-regression</a>
-                </li>
-    </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Dimensionality Reduction and Low-Dimensional Embedding</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../classical-mds/">classical-mds</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../som/">som</a>
-                </li>
-    </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Numerical Optimization</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../backtracking-line-search/">backtracking-line-search</a>
-                </li>
-                <li class=" current">
-                    
-    <a class="current" href="./">bayesian-optimization</a>
-    <ul class="subnav">
-            
-    <li class="toctree-l3"><a href="#bayesian-optimization">bayesian-optimization</a></li>
-    
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Introduction</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Scattered Data Interpolation and Function Approximation</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../rbf-interpolation/">rbf-interpolation</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../gaussian-process-regression/">gaussian-process-regression</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Dimensionality Reduction and Low-Dimensional Embedding</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../classical-mds/">classical-mds</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../som/">som</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Numerical Optimization</span></p>
+                <ul class="current">
+                    <li class="toctree-l1"><a class="reference internal" href="../backtracking-line-search/">backtracking-line-search</a>
+                    </li>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">bayesian-optimization</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#header">Header</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#internal-dependencies">Internal Dependencies</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#math-and-algorithm">Math and Algorithm</a>
         <ul>
-        
-            <li><a class="toctree-l4" href="#header">Header</a></li>
-        
-            <li><a class="toctree-l4" href="#internal-dependencies">Internal Dependencies</a></li>
-        
-            <li><a class="toctree-l4" href="#math-and-algorithm">Math and Algorithm</a></li>
-        
-            <li><a class="toctree-l4" href="#examples">Examples</a></li>
-        
-            <li><a class="toctree-l4" href="#useful-resources">Useful Resources</a></li>
-        
+    <li class="toctree-l3"><a class="reference internal" href="#problem-formulation">Problem Formulation</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#surrogate-function-representation">Surrogate Function Representation</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#acquisition-functions">Acquisition Functions</a>
+    </li>
         </ul>
-    
-
-    </ul>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../bfgs/">bfgs</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../gradient-descent/">gradient-descent</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../l-bfgs/">l-bfgs</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../strong-wolfe-conditions-line-search/">strong-wolfe-conditions-line-search</a>
-                </li>
-    </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Linear Algebra</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../log-determinant/">log-determinant</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../matrix-inversion/">matrix-inversion</a>
-                </li>
-    </ul>
-	    </li>
-          
-            <li class="toctree-l1">
-		
-    <span class="caption-text">Utilities</span>
-    <ul class="subnav">
-                <li class="">
-                    
-    <a class="" href="../acquisition-functions/">acquisition-functions</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../constants/">constants</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../data-normalization/">data-normalization</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../kernel-functions/">kernel-functions</a>
-                </li>
-                <li class="">
-                    
-    <a class="" href="../probability-distributions/">probability-distributions</a>
-                </li>
-    </ul>
-	    </li>
-          
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#optimizing-a-one-dimensional-function">Optimizing a One-Dimensional Function</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#performance">Performance</a>
+    </li>
         </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#useful-resources">Useful Resources</a>
+    </li>
+    </ul>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../bfgs/">bfgs</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../gradient-descent/">gradient-descent</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../l-bfgs/">l-bfgs</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../strong-wolfe-conditions-line-search/">strong-wolfe-conditions-line-search</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Linear Algebra</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../log-determinant/">log-determinant</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../matrix-inversion/">matrix-inversion</a>
+                    </li>
+                </ul>
+                <p class="caption"><span class="caption-text">Utilities</span></p>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../acquisition-functions/">acquisition-functions</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../constants/">constants</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../data-normalization/">data-normalization</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../kernel-functions/">kernel-functions</a>
+                    </li>
+                    <li class="toctree-l1"><a class="reference internal" href="../probability-distributions/">probability-distributions</a>
+                    </li>
+                </ul>
       </div>
-      &nbsp;
+    </div>
     </nav>
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
@@ -220,6 +169,7 @@
       
     </li>
   </ul>
+  
   <hr/>
 </div>
           <div role="main">
@@ -229,9 +179,8 @@
 <p>Bayesian optimization (BO) is a black-box global optimization algorithm. During the iterative process, this algorithm determines the next sampling point based on Bayesian inference of the latent function.</p>
 <p>BO is likely to find a reasonable solution with fewer function evaluations than other optimization algorithms. Thus, it is suitable for problems with expensive-to-evaluate objective functions.</p>
 <h2 id="header">Header</h2>
-<pre><code class="cpp">#include &lt;mathtoolbox/bayesian-optimization.hpp&gt;
+<pre><code class="language-cpp">#include &lt;mathtoolbox/bayesian-optimization.hpp&gt;
 </code></pre>
-
 <h2 id="internal-dependencies">Internal Dependencies</h2>
 <ul>
 <li><a href="../acquisition-functions">acquisition-functions</a></li>
@@ -266,7 +215,7 @@ where <script type="math/tex">\mathbf{x} \in \mathbb{R}^{n}</script> represents 
 </script>
 50 times with random initial solutions. As a baseline, it also shows a result by the same setting except for using random uniform sampling instead of BO.</p>
 <p><img alt="" src="bo-vs-rand.png" /></p>
-<pre><code class="cpp">// Define the target problem
+<pre><code class="language-cpp">// Define the target problem
 const int  num_dims    = 5;
 const auto f           = [](const Eigen::VectorXd&amp; x) { return - x.squaredNorm(); };
 const auto lower_bound = Eigen::VectorXd::Constant(num_dims, -1.0);
@@ -281,7 +230,6 @@ for (int i = 0; i &lt; 50; ++i) { optimizer.Step(); }
 // Retrieve the found solution
 const Eigen::VectorXd x_star = optimizer.GetCurrentSolution();
 </code></pre>
-
 <h2 id="useful-resources">Useful Resources</h2>
 <ul>
 <li>Yuki Koyama, Issei Sato, Daisuke Sakamoto, and Takeo Igarashi. 2017. Sequential line search for efficient visual design optimization by crowds. ACM Trans. Graph. 36, 4, pp.48:1--48:11 (2017). DOI: <a href="https://doi.org/10.1145/3072959.3073598">https://doi.org/10.1145/3072959.3073598</a></li>
@@ -310,7 +258,7 @@ const Eigen::VectorXd x_star = optimizer.GetCurrentSolution();
     
   </div>
 
-  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
 </footer>
       
         </div>
@@ -320,7 +268,7 @@ const Eigen::VectorXd x_star = optimizer.GetCurrentSolution();
 
   </div>
 
-  <div class="rst-versions" role="note" style="cursor: pointer">
+  <div class="rst-versions" role="note" aria-label="versions">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
           <a href="https://github.com/yuki-koyama/mathtoolbox/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
@@ -337,6 +285,11 @@ const Eigen::VectorXd x_star = optimizer.GetCurrentSolution();
     <script src="../js/theme.js" defer></script>
       <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" defer></script>
       <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
 
 </body>
 </html>

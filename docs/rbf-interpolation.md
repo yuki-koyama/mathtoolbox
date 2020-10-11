@@ -26,17 +26,17 @@ $$
 y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} \|),
 $$
 
-where $ \phi : \mathbb{R}_{> 0} \rightarrow \mathbb{R} $ is a user-selected RBF and $ w_1, \cdots, w_n $ are weights that are calculated in pre-computation.
-
-### Pre-Computation
-
-The weight values need to be calculated in pre-computation. Let
+where $ \phi : \mathbb{R}_{> 0} \rightarrow \mathbb{R} $ is a user-selected RBF, and
 
 $$
 \mathbf{w} = \begin{bmatrix} w_1 & \cdots & w_n \end{bmatrix}^T \in \mathbb{R}^{n}
 $$
 
-and
+are the weights that are calculated in pre-computation.
+
+### Pre-Computation
+
+The weight values need to be calculated in pre-computation. Let
 
 $$
 \mathbf{\Phi} =
@@ -137,6 +137,11 @@ Once the above procedures are performed, the instance is ready to calculate inte
 double CalcValue(const Eigen::VectorXd& x) const;
 ```
 
+## Time Complexity
+
+The pre-computation needs to solve a linear system, which takes more than $O(n^{2})$. An interpolated value calculation takes $O(n)$. See [Carr et al. 2001] for details.
+
 ## Useful Resources
 
-- Ken Anjyo, J. P. Lewis, and Frédéric Pighin. 2014. Scattered data interpolation for computer graphics. In ACM SIGGRAPH 2014 Courses (SIGGRAPH '14). ACM, New York, NY, USA, Article 27, 69 pages. DOI: <https://doi.org/10.1145/2614028.2615425>
+- Ken Anjyo, J. P. Lewis, and Frédéric Pighin. 2014. Scattered data interpolation for computer graphics. In ACM SIGGRAPH 2014 Courses (SIGGRAPH '14). Article 27, 69 pages. DOI: <https://doi.org/10.1145/2614028.2615425>
+- J. C. Carr, R. K. Beatson, J. B. Cherrie, T. J. Mitchell, W. R. Fright, B. C. McCallum, and T. R. Evans. 2001. Reconstruction and representation of 3D objects with radial basis functions. In Proc. SIGGRAPH '01. 67–76. DOI: <https://doi.org/10.1145/383259.383266>

@@ -57,6 +57,7 @@ Mathematical tools (interpolation, dimensionality reduction, optimization, etc.)
 ### Examples
 
 - optimization-test-function <https://github.com/yuki-koyama/optimization-test-functions> (included as gitsubmodule)
+- timer <https://github.com/yuki-koyama/timer> (included as gitsubmodule)
 
 ## Use as a C++ Library
 

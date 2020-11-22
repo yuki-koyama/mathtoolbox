@@ -74,6 +74,12 @@ namespace mathtoolbox
             return data_points;
         }
 
+        /// \brief Get internal parameters about the means.
+        const Eigen::VectorXd& GetMean() const { return m_mean; }
+
+        /// \brief Get internal parameters about the standard deviations.
+        const Eigen::VectorXd& GetStdev() const { return m_stdev; }
+
     private:
         const Eigen::MatrixXd m_original_data_points;
 

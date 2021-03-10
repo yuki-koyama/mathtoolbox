@@ -140,9 +140,12 @@ __Self-organizing map__ (`som`) is also applicable to pixel RGB values of a targ
 
 ## Projects Using mathtoolbox
 
-- SelPh [CHI 2016] <https://github.com/yuki-koyama/selph> (for `classical-mds`)
-- Sequential Line Search [SIGGRAPH 2017] <https://github.com/yuki-koyama/sequential-line-search> (for `acquisition-functions`, `data-normalization`, `kernel-functions`, `log-determinant`, and `probability-distributions`)
-- Sequential Gallery [SIGGRAPH 2020] (for `acquisition-functions` and `probability-distributions`)
+- SelPh [CHI 2016] <https://github.com/yuki-koyama/selph>
+  - `classical-mds`
+- Sequential Line Search [SIGGRAPH 2017] <https://github.com/yuki-koyama/sequential-line-search>
+  - `acquisition-functions`, `data-normalization`, `kernel-functions`, `log-determinant`, and `probability-distributions`
+- Sequential Gallery [SIGGRAPH 2020] <https://github.com/yuki-koyama/sequential-gallery> 
+  - `acquisition-functions` and `probability-distributions`
 
 ## Contributing
 

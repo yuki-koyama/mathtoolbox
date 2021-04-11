@@ -146,6 +146,8 @@ __Self-organizing map__ (`som`) is also applicable to pixel RGB values of a targ
   - `acquisition-functions`, `data-normalization`, `kernel-functions`, `log-determinant`, and `probability-distributions`
 - Sequential Gallery [SIGGRAPH 2020] <https://github.com/yuki-koyama/sequential-gallery> 
   - `acquisition-functions` and `probability-distributions`
+- elasty <https://github.com/yuki-koyama/elasty>
+  - `l-bfgs`
 
 ## Contributing
 

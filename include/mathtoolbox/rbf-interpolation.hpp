@@ -94,17 +94,19 @@ namespace mathtoolbox
         double CalcValue(const Eigen::VectorXd& x) const;
 
     private:
-        // RBF kernel
+        /// \brief The RBF kernel
         const std::function<double(double)> m_rbf_kernel;
 
-        // Data points
+        /// \brief Data locations
         Eigen::MatrixXd m_X;
+
+        /// \brief Data values
         Eigen::VectorXd m_y;
 
-        // Weights
+        /// \brief Weights for the RBF kernel values
         Eigen::VectorXd m_w;
 
-        // Returns f(||xj - xi||)
+        /// \details This function returns f(||xj - xi||)
         double CalcRbfValue(const Eigen::VectorXd& xi, const Eigen::VectorXd& xj) const;
     };
 } // namespace mathtoolbox

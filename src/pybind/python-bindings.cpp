@@ -62,10 +62,6 @@ PYBIND11_MODULE(pymathtoolbox, m)
         .def(py::init<>())
         .def("__call__", &mt::LinearRbfKernel::operator(), py::arg("r"));
 
-    py::class_<mt::InverseQuadraticRbfKernel>(m, "InverseQuadraticRbfKernel")
-        .def(py::init<double>(), py::arg("theta"))
-        .def("__call__", &mt::InverseQuadraticRbfKernel::operator(), py::arg("r"));
-
     py::class_<mt::RbfInterpolator>(m, "RbfInterpolator")
         .def(py::init<std::function<double(double)>>(), py::arg("rbf_kernel") = mt::ThinPlateSplineRbfKernel())
         .def("set_data", &mt::RbfInterpolator::SetData, py::arg("X"), py::arg("y"))

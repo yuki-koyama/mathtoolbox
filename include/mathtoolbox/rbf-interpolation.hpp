@@ -35,6 +35,15 @@ namespace mathtoolbox
         const double m_theta;
     };
 
+    /// \details This kernel is also known as the polyharmonic kernel with k = 1
+    class LinearRbfKernel final : AbstractRbfKernel
+    {
+    public:
+        LinearRbfKernel() {}
+
+        double operator()(const double r) const override { return std::abs(r); }
+    };
+
     /// \details This kernel is also known as the polyharmonic kernel with k = 2
     class ThinPlateSplineRbfKernel final : public AbstractRbfKernel
     {
@@ -47,15 +56,6 @@ namespace mathtoolbox
             const double value = r * r * std::log(r);
             return std::isnan(value) ? 0.0 : value;
         }
-    };
-
-    /// \details This kernel is also known as the polyharmonic kernel with k = 1
-    class LinearRbfKernel final : AbstractRbfKernel
-    {
-    public:
-        LinearRbfKernel() {}
-
-        double operator()(const double r) const override { return std::abs(r); }
     };
 
     class RbfInterpolator

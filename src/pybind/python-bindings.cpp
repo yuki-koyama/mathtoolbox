@@ -54,13 +54,13 @@ PYBIND11_MODULE(pymathtoolbox, m)
         .def(py::init<double>(), py::arg("theta"))
         .def("__call__", &mt::GaussianRbfKernel::operator(), py::arg("r"));
 
-    py::class_<mt::ThinPlateSplineRbfKernel>(m, "ThinPlateSplineRbfKernel")
-        .def(py::init<>())
-        .def("__call__", &mt::ThinPlateSplineRbfKernel::operator(), py::arg("r"));
-
     py::class_<mt::LinearRbfKernel>(m, "LinearRbfKernel")
         .def(py::init<>())
         .def("__call__", &mt::LinearRbfKernel::operator(), py::arg("r"));
+
+    py::class_<mt::ThinPlateSplineRbfKernel>(m, "ThinPlateSplineRbfKernel")
+        .def(py::init<>())
+        .def("__call__", &mt::ThinPlateSplineRbfKernel::operator(), py::arg("r"));
 
     py::class_<mt::RbfInterpolator>(m, "RbfInterpolator")
         .def(py::init<std::function<double(double)>>(), py::arg("rbf_kernel") = mt::ThinPlateSplineRbfKernel())

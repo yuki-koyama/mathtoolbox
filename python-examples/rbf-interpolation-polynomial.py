@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Define constants
-FIG_SIZE = (12, 4)
+FIG_SIZE = (8, 4)
 Y_RANGE = (-0.5, 3.0)
 IMAGE_FORMAT = "png"
 DPI = 200
@@ -33,15 +33,13 @@ conditions = [
     },
 ]
 regularization_weight = 1e-08
-# rbf_kernel = pymathtoolbox.ThinPlateSplineRbfKernel()
-rbf_kernel = pymathtoolbox.GaussianRbfKernel(10.0)
 
 for index, condition in enumerate(conditions):
     use_polynomial_term = condition["use_polynomial_term"]
 
     rbf_kernels = [
-        (pymathtoolbox.GaussianRbfKernel(10.0), "Gaussian Kernel"),
-        (pymathtoolbox.ThinPlateSplineRbfKernel(), "Thin Plate Spline Kernel"),
+        (pymathtoolbox.GaussianRbfKernel(10.0), "Gaussian"),
+        (pymathtoolbox.ThinPlateSplineRbfKernel(), "thin plate spline"),
     ]
 
     # Begin to draw the plot
@@ -66,7 +64,7 @@ for index, condition in enumerate(conditions):
         # Plot the interpolated values
         ax.plot(x_samples,
                 values,
-                label="Interpolated values ({})".format(rbf_kernel[1]),
+                label="Interpolation ({})".format(rbf_kernel[1]),
                 color=sns.color_palette()[1 + i])
 
     # Plot the observed sampling points
@@ -79,7 +77,7 @@ for index, condition in enumerate(conditions):
             color=sns.color_palette()[0])
 
     # Show legends
-    ax.legend()
+    ax.legend(loc="upper left")
 
     # Set title
     title = "RBF Interpolation " + ("with" if use_polynomial_term else

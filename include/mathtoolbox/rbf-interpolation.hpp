@@ -35,6 +35,7 @@ namespace mathtoolbox
         const double m_theta;
     };
 
+    /// \details This kernel is also known as the polyharmonic kernel with k = 2
     class ThinPlateSplineRbfKernel final : public AbstractRbfKernel
     {
     public:
@@ -48,6 +49,7 @@ namespace mathtoolbox
         }
     };
 
+    /// \details This kernel is also known as the polyharmonic kernel with k = 1
     class LinearRbfKernel final : AbstractRbfKernel
     {
     public:

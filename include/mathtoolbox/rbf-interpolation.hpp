@@ -78,7 +78,8 @@ namespace mathtoolbox
     class RbfInterpolator
     {
     public:
-        RbfInterpolator(const std::function<double(const double)>& rbf_kernel = ThinPlateSplineRbfKernel());
+        RbfInterpolator(const std::function<double(const double)>& rbf_kernel          = ThinPlateSplineRbfKernel(),
+                        const bool                                 use_polynomial_term = true);
 
         /// \brief Set data points and their values
         void SetData(const Eigen::MatrixXd& X, const Eigen::VectorXd& y);
@@ -97,6 +98,9 @@ namespace mathtoolbox
         /// \brief The RBF kernel
         const std::function<double(double)> m_rbf_kernel;
 
+        /// \brief The polynomial term setting
+        const bool m_use_polynomial_term;
+
         /// \brief Data locations
         Eigen::MatrixXd m_X;
 
@@ -106,6 +110,8 @@ namespace mathtoolbox
         /// \brief Weights for the RBF kernel values
         Eigen::VectorXd m_w;
 
+        /// \brief Weights for the polynomial terms
+        Eigen::VectorXd m_v;
     };
 } // namespace mathtoolbox
 

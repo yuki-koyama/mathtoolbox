@@ -67,7 +67,9 @@ PYBIND11_MODULE(pymathtoolbox, m)
         .def("__call__", &mt::CubicRbfKernel::operator(), py::arg("r"));
 
     py::class_<mt::RbfInterpolator>(m, "RbfInterpolator")
-        .def(py::init<std::function<double(double)>>(), py::arg("rbf_kernel") = mt::ThinPlateSplineRbfKernel())
+        .def(py::init<std::function<double(double)>, const bool>(),
+             py::arg("rbf_kernel")          = mt::ThinPlateSplineRbfKernel(),
+             py::arg("use_polynomial_term") = true)
         .def("set_data", &mt::RbfInterpolator::SetData, py::arg("X"), py::arg("y"))
         .def("calc_weights",
              &mt::RbfInterpolator::CalcWeights,

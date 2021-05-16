@@ -13,9 +13,10 @@ mathtoolbox::RbfInterpolator::RbfInterpolator(const std::function<double(const d
 {
 }
 
-void mathtoolbox::RbfInterpolator::SetData(const Eigen::MatrixXd& X, const Eigen::VectorXd& y)
+void mathtoolbox::RbfInterpolator::SetData(const MatrixXd& X, const VectorXd& y)
 {
     assert(y.rows() == X.cols());
+
     this->m_X = X;
     this->m_y = y;
 }
@@ -24,12 +25,12 @@ void mathtoolbox::RbfInterpolator::CalcWeights(const bool use_regularization, co
 {
     const int dim = m_y.rows();
 
-    MatrixXd Phi = MatrixXd::Zero(dim, dim);
+    MatrixXd Phi{dim, dim};
     for (int i = 0; i < dim; ++i)
     {
         for (int j = i; j < dim; ++j)
         {
-            const double value = CalcRbfValue(m_X.col(i), m_X.col(j));
+            const double value = m_rbf_kernel((m_X.col(i) - m_X.col(j)).norm());
 
             Phi(i, j) = value;
             Phi(j, i) = value;
@@ -53,7 +54,7 @@ double mathtoolbox::RbfInterpolator::CalcValue(const VectorXd& x) const
 
     // Calculate the RBF value associated with each data point
     // TODO: This part can be further optimized for performance by vectorization
-    Eigen::VectorXd rbf_values{dim};
+    VectorXd rbf_values{dim};
     for (int i = 0; i < dim; ++i)
     {
         rbf_values(i) = m_rbf_kernel(norms(i));
@@ -63,11 +64,4 @@ double mathtoolbox::RbfInterpolator::CalcValue(const VectorXd& x) const
     const double value = m_w.dot(rbf_values);
 
     return value;
-}
-
-double mathtoolbox::RbfInterpolator::CalcRbfValue(const VectorXd& xi, const VectorXd& xj) const
-{
-    assert(xi.rows() == xj.rows());
-
-    return m_rbf_kernel((xj - xi).norm());
 }

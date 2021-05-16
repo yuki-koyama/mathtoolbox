@@ -106,8 +106,6 @@ namespace mathtoolbox
         /// \brief Weights for the RBF kernel values
         Eigen::VectorXd m_w;
 
-        /// \details This function returns f(||xj - xi||)
-        double CalcRbfValue(const Eigen::VectorXd& xi, const Eigen::VectorXd& xj) const;
     };
 } // namespace mathtoolbox
 

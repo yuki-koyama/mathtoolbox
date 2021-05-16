@@ -62,6 +62,10 @@ PYBIND11_MODULE(pymathtoolbox, m)
         .def(py::init<>())
         .def("__call__", &mt::ThinPlateSplineRbfKernel::operator(), py::arg("r"));
 
+    py::class_<mt::CubicRbfKernel>(m, "CubicRbfKernel")
+        .def(py::init<>())
+        .def("__call__", &mt::CubicRbfKernel::operator(), py::arg("r"));
+
     py::class_<mt::RbfInterpolator>(m, "RbfInterpolator")
         .def(py::init<std::function<double(double)>>(), py::arg("rbf_kernel") = mt::ThinPlateSplineRbfKernel())
         .def("set_data", &mt::RbfInterpolator::SetData, py::arg("X"), py::arg("y"))

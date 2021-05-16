@@ -58,6 +58,19 @@ namespace mathtoolbox
         }
     };
 
+    /// \details This kernel is also known as the polyharmonic kernel with k = 3
+    class CubicRbfKernel final : public AbstractRbfKernel
+    {
+    public:
+        CubicRbfKernel() {}
+
+        double operator()(const double r) const override
+        {
+            assert(r >= 0.0);
+            return r * r * r;
+        }
+    };
+
     class RbfInterpolator
     {
     public:

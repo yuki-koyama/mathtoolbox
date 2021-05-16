@@ -41,7 +41,11 @@ namespace mathtoolbox
     public:
         LinearRbfKernel() {}
 
-        double operator()(const double r) const override { return std::abs(r); }
+        double operator()(const double r) const override
+        {
+            assert(r >= 0.0);
+            return r;
+        }
     };
 
     /// \details This kernel is also known as the polyharmonic kernel with k = 2

@@ -94,18 +94,34 @@ $$
 (\mathbf{\Phi}^T \mathbf{\Phi} + \lambda \mathbf{I}) \mathbf{w} = \mathbf{\Phi}^T \mathbf{y}.
 $$
 
+### Adding Polynomial Term (and Polyharmonic Spline)
+
+The above techniques can be extended by adding a polynomial term; that is,
+
+$$
+y = f(\mathbf{x}) = \sum_{i = 1}^{n} w_{i} \phi( \| \mathbf{x} - \mathbf{x}_{i} \|) + v_{0} + v_{1} x_{1} + \cdots + v_{m} x_{m}.
+$$
+
+This extension is also referred to as *polyharmonic spline* when it is used with *polyharmonic RBF kernels* (e.g., the linear kernel, the thin plate spline kernel, and the cubic kernel).
+
+This extension offers several nice properties; for example, this makes the extrapolation behavior much more reasonable as shown below. See [Anjyo et al. 2014] for details.
+
+![](rbf-interpolation/polynomial.png)
+
+This extension is recommended to always use and enabled by default.
+
 ## Usage
 
 First, instantiate the class `RbfInterpolator`. In its constructor, an arbitrary RBF kernel (in the form of `std::function<double(double)>`) can be specified.
 
 The followings are pre-implemented as function objects and can be easily specified:
 
-- `GaussianRbfKernel`
-- `ThinPlateSplineRbfKernel`
-- `InverseQuadraticRbfKernel`
-- `LinearRbfKernel`
+- `GaussianRbfKernel`: $\phi(x) = \exp(- \epsilon x^{2})$
+- `LinearRbfKernel`: $\phi(x) = x$
+- `ThinPlateSplineRbfKernel`: $\phi(x) = x^{2} \log(x)$
+- `CubicRbfKernel`: $\phi(x) = x^{3}$
 
-If no kernel is passed to the constructor, `ThinPlateSplineRbfKernel` (i.e., $ \phi(x) = x^2 \log(x) $) is chosen by default.
+If no kernel is passed to the constructor, `ThinPlateSplineRbfKernel` is chosen by default.
 
 Then, set the target scattered data by the method:
 ```cpp
@@ -145,3 +161,4 @@ The pre-computation needs to solve a linear system, which takes more than $O(n^{
 
 - Ken Anjyo, J. P. Lewis, and Frédéric Pighin. 2014. Scattered data interpolation for computer graphics. In ACM SIGGRAPH 2014 Courses (SIGGRAPH '14). Article 27, 69 pages. DOI: <https://doi.org/10.1145/2614028.2615425>
 - J. C. Carr, R. K. Beatson, J. B. Cherrie, T. J. Mitchell, W. R. Fright, B. C. McCallum, and T. R. Evans. 2001. Reconstruction and representation of 3D objects with radial basis functions. In Proc. SIGGRAPH '01. 67–76. DOI: <https://doi.org/10.1145/383259.383266>
+- Polyharmonic spline. <https://en.wikipedia.org/wiki/Polyharmonic_spline>

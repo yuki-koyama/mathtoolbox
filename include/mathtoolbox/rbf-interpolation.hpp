@@ -35,6 +35,20 @@ namespace mathtoolbox
         const double m_theta;
     };
 
+    /// \details This kernel is also known as the polyharmonic kernel with k = 1
+    class LinearRbfKernel final : AbstractRbfKernel
+    {
+    public:
+        LinearRbfKernel() {}
+
+        double operator()(const double r) const override
+        {
+            assert(r >= 0.0);
+            return r;
+        }
+    };
+
+    /// \details This kernel is also known as the polyharmonic kernel with k = 2
     class ThinPlateSplineRbfKernel final : public AbstractRbfKernel
     {
     public:
@@ -48,29 +62,24 @@ namespace mathtoolbox
         }
     };
 
-    class LinearRbfKernel final : AbstractRbfKernel
+    /// \details This kernel is also known as the polyharmonic kernel with k = 3
+    class CubicRbfKernel final : public AbstractRbfKernel
     {
     public:
-        LinearRbfKernel() {}
+        CubicRbfKernel() {}
 
-        double operator()(const double r) const override { return std::abs(r); }
-    };
-
-    class InverseQuadraticRbfKernel final : public AbstractRbfKernel
-    {
-    public:
-        InverseQuadraticRbfKernel(const double theta = 1.0) : m_theta(theta) {}
-
-        double operator()(const double r) const override { return 1.0 / std::sqrt(r * r + m_theta * m_theta); }
-
-    private:
-        const double m_theta;
+        double operator()(const double r) const override
+        {
+            assert(r >= 0.0);
+            return r * r * r;
+        }
     };
 
     class RbfInterpolator
     {
     public:
-        RbfInterpolator(const std::function<double(const double)>& rbf_kernel = ThinPlateSplineRbfKernel());
+        RbfInterpolator(const std::function<double(const double)>& rbf_kernel          = ThinPlateSplineRbfKernel(),
+                        const bool                                 use_polynomial_term = true);
 
         /// \brief Set data points and their values
         void SetData(const Eigen::MatrixXd& X, const Eigen::VectorXd& y);
@@ -86,18 +95,23 @@ namespace mathtoolbox
         double CalcValue(const Eigen::VectorXd& x) const;
 
     private:
-        // RBF kernel
+        /// \brief The RBF kernel
         const std::function<double(double)> m_rbf_kernel;
 
-        // Data points
+        /// \brief The polynomial term setting
+        const bool m_use_polynomial_term;
+
+        /// \brief Data locations
         Eigen::MatrixXd m_X;
+
+        /// \brief Data values
         Eigen::VectorXd m_y;
 
-        // Weights
+        /// \brief Weights for the RBF kernel values
         Eigen::VectorXd m_w;
 
-        // Returns f(||xj - xi||)
-        double CalcRbfValue(const Eigen::VectorXd& xi, const Eigen::VectorXd& xj) const;
+        /// \brief Weights for the polynomial terms
+        Eigen::VectorXd m_v;
     };
 } // namespace mathtoolbox
 

@@ -53,7 +53,7 @@ class CMakeBuild(build_ext):
 
 setup(
     name="pymathtoolbox",
-    version="1.0.dev0",
+    version="0.3",
     author="Yuki Koyama",
     author_email="yuki@koyama.xyz",
     description=

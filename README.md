@@ -101,7 +101,7 @@ sudo apt install libeigen3-dev
 
 ## Use as a Python Library
 
-pymathtoolbox is a (sub)set of Python bindings of mathtoolbox. Tested on Python `3.6`, `3.7`, and `3.8`.
+pymathtoolbox is a (sub)set of Python bindings of mathtoolbox. Tested on Python `3.8` and `3.9`.
 
 It can be installed via PyPI:
 ```
@@ -144,7 +144,7 @@ __Self-organizing map__ (`som`) is also applicable to pixel RGB values of a targ
   - `classical-mds`
 - Sequential Line Search [SIGGRAPH 2017] <https://github.com/yuki-koyama/sequential-line-search>
   - `acquisition-functions`, `data-normalization`, `kernel-functions`, `log-determinant`, and `probability-distributions`
-- Sequential Gallery [SIGGRAPH 2020] <https://github.com/yuki-koyama/sequential-gallery> 
+- Sequential Gallery [SIGGRAPH 2020] <https://github.com/yuki-koyama/sequential-gallery>
   - `acquisition-functions` and `probability-distributions`
 - elasty <https://github.com/yuki-koyama/elasty>
   - `l-bfgs`

@@ -15,8 +15,8 @@ int main()
     mathtoolbox::optimization::Setting setting;
     setting.algorithm          = mathtoolbox::optimization::Algorithm::LBfgs;
     setting.x_init             = Eigen::VectorXd::Random(dimensions);
-    setting.f                  = [](const Eigen::VectorXd& x) { return otf::GetValue(x, type); };
-    setting.g                  = [](const Eigen::VectorXd& x) { return otf::GetGrad(x, type); };
+    setting.f                  = [&type](const Eigen::VectorXd& x) { return otf::GetValue(x, type); };
+    setting.g                  = [&type](const Eigen::VectorXd& x) { return otf::GetGrad(x, type); };
     setting.type               = mathtoolbox::optimization::Type::Min;
     setting.max_num_iterations = 1000;
 

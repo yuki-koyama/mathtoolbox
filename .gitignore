@@ -5,3 +5,8 @@
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+.cache
+.vscode
+build/
+compile_commands.json

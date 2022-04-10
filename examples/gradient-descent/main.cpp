@@ -13,8 +13,8 @@ int main()
     std::srand(static_cast<unsigned>(std::time(nullptr)));
 
     const Eigen::VectorXd x_init = Eigen::VectorXd::Random(num_dims);
-    const auto            f      = [](const Eigen::VectorXd& x) { return otf::GetValue(x, type); };
-    const auto            g      = [](const Eigen::VectorXd& x) { return otf::GetGrad(x, type); };
+    const auto            f      = [&type](const Eigen::VectorXd& x) { return otf::GetValue(x, type); };
+    const auto            g      = [&type](const Eigen::VectorXd& x) { return otf::GetGrad(x, type); };
 
     const Eigen::VectorXd lower_bound; // Empty vector indicates no lower bound constraint
     const Eigen::VectorXd upper_bound; // Empty vector indicates no upper bound constraint

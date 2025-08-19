@@ -115,7 +115,7 @@ macOS
 brew install cmake eigen
 ```
 
-Ubuntu 16.04/18.04
+Ubuntu 22.04
 ```
 sudo apt install cmake libeigen3-dev
 ```

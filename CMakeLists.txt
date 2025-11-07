@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(mathtoolbox CXX)
+project(MathToolbox VERSION 0.3.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 11)
 if(MATHTOOLBOX_PYTHON_BINDINGS)
@@ -46,7 +46,12 @@ file(GLOB sources ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 
 add_library(mathtoolbox STATIC ${headers} ${sources})
 target_link_libraries(mathtoolbox PUBLIC Eigen3::Eigen)
-target_include_directories(mathtoolbox PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(mathtoolbox PUBLIC
+        "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
+        "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
+
+install(DIRECTORY include/
+        DESTINATION include)
 
 ######################################################################
 # Python bindings
@@ -65,8 +70,42 @@ endif()
 # Installation
 ######################################################################
 
-install(FILES ${headers} DESTINATION include/mathtoolbox)
-install(TARGETS mathtoolbox ARCHIVE DESTINATION lib)
+include(GNUInstallDirs)
+install(
+        TARGETS mathtoolbox
+        EXPORT ${PROJECT_NAME}Targets
+        ARCHIVE PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+        INCLUDES DESTINATION include
+)
+
+install(EXPORT ${PROJECT_NAME}Targets
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake
+        NAMESPACE MathToolbox::
+)
+
+include(CMakePackageConfigHelpers)
+set(LIB_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR})
+configure_package_config_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_NAME}Config.cmake.in
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+        INSTALL_DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake
+        PATH_VARS LIB_INSTALL_DIR
+)
+
+write_basic_package_version_file(
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+        COMPATIBILITY AnyNewerVersion
+)
+
+install(FILES   "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake)
+
+######################################################################
+# Package
+######################################################################
+
+include(CPack)
 
 ######################################################################
 # Example demos

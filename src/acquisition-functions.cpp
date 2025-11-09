@@ -1,4 +1,5 @@
 #include <cmath>
+#include <cassert>
 #include <mathtoolbox/acquisition-functions.hpp>
 #include <mathtoolbox/probability-distributions.hpp>
 

@@ -1,9 +1,10 @@
 #ifndef MATHTOOLBOX_BACKTRACKING_LINE_SEARCH_HPP
 #define MATHTOOLBOX_BACKTRACKING_LINE_SEARCH_HPP
 
-#include <Eigen/Core>
+#include <caasert>
 #include <functional>
 #include <iostream>
+#include <Eigen/Core>
 
 namespace mathtoolbox
 {

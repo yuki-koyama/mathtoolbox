@@ -1,7 +1,7 @@
 #ifndef MATHTOOLBOX_RBF_INTERPOLATION_HPP
 #define MATHTOOLBOX_RBF_INTERPOLATION_HPP
 
-#include <caasert>
+#include <cassert>
 #include <cmath>
 #include <functional>
 #include <memory>

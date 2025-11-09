@@ -1,7 +1,7 @@
 #ifndef MATHTOOLBOX_BACKTRACKING_LINE_SEARCH_HPP
 #define MATHTOOLBOX_BACKTRACKING_LINE_SEARCH_HPP
 
-#include <caasert>
+#include <cassert>
 #include <functional>
 #include <iostream>
 #include <Eigen/Core>

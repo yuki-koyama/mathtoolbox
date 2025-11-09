@@ -1,10 +1,11 @@
+#include <cassert>
 #include <iostream>
+#include <tuple>
 #include <mathtoolbox/constants.hpp>
 #include <mathtoolbox/gaussian-process-regression.hpp>
 #include <mathtoolbox/kernel-functions.hpp>
 #include <mathtoolbox/log-determinant.hpp>
 #include <mathtoolbox/numerical-optimization.hpp>
-#include <tuple>
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;

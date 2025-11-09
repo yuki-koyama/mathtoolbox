@@ -1,3 +1,4 @@
+#include <cassert>
 #include <cmath>
 #include <mathtoolbox/constants.hpp>
 #include <mathtoolbox/probability-distributions.hpp>

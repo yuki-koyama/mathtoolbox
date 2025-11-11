@@ -1,12 +1,13 @@
 #include <Eigen/Core>
 #include <cmath>
+#include <cassert>
 #include <fstream>
 #include <iostream>
-#include <mathtoolbox/gaussian-process-regression.hpp>
 #include <random>
 #include <string>
-#include <timer.hpp>
 #include <vector>
+#include <timer.hpp>
+#include <mathtoolbox/gaussian-process-regression.hpp>
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;

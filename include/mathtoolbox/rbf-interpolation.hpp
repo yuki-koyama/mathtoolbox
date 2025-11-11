@@ -1,11 +1,12 @@
 #ifndef MATHTOOLBOX_RBF_INTERPOLATION_HPP
 #define MATHTOOLBOX_RBF_INTERPOLATION_HPP
 
-#include <Eigen/Core>
+#include <cassert>
 #include <cmath>
 #include <functional>
 #include <memory>
 #include <vector>
+#include <Eigen/Core>
 
 namespace mathtoolbox
 {

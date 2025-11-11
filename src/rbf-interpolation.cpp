@@ -1,4 +1,5 @@
 #include <Eigen/LU>
+#include <cassert>
 #include <cmath>
 #include <mathtoolbox/rbf-interpolation.hpp>
 

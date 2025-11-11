@@ -2,6 +2,7 @@
 #include <Eigen/Core>
 #include <Eigen/LU>
 #include <cmath>
+#include <cassert>
 #include <iostream>
 #include <mathtoolbox/log-determinant.hpp>
 

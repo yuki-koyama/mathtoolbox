@@ -1,11 +1,12 @@
+#include <cassert>
 #include <algorithm>
 #include <iostream>
 #include <limits>
+#include <vector>
 #include <mathtoolbox/acquisition-functions.hpp>
 #include <mathtoolbox/bayesian-optimization.hpp>
 #include <mathtoolbox/gaussian-process-regression.hpp>
 #include <mathtoolbox/gradient-descent.hpp>
-#include <vector>
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;

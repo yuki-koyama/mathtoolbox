@@ -26,7 +26,6 @@ jobs:
     - name: install-test-dependencies
       run: |
         pip install matplotlib pillow seaborn scipy
-        sudo apt-get install fonts-linuxlibertine
     - name: test
       run: |
         python ./python-examples/bayesian-optimization.py

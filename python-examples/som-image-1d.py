@@ -18,7 +18,6 @@ DPI = 200
 # Set plot style
 sns.set()
 sns.set_context()
-plt.rcParams['font.sans-serif'] = ["Linux Biolinum O", "Linux Biolinum"]
 
 # Load an image
 asset_dir_path = os.path.dirname(os.path.abspath(__file__)) + "/assets"

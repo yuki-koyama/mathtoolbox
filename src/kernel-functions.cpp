@@ -1,4 +1,5 @@
 #include <cmath>
+#include <cassert>
 #include <mathtoolbox/kernel-functions.hpp>
 
 using Eigen::VectorXd;

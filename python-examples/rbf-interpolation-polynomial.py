@@ -1,7 +1,5 @@
 import pymathtoolbox
 import numpy as np
-import random
-import math
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -18,7 +16,6 @@ small_y = np.array([1.0, 1.6, 0.8, 1.5])
 # Set up the plot design
 sns.set()
 sns.set_context()
-plt.rcParams['font.sans-serif'] = ["Linux Biolinum O", "Linux Biolinum"]
 
 # Prepare a figure object
 fig = plt.figure(figsize=FIG_SIZE, dpi=DPI)

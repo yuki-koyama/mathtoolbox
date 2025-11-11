@@ -1,3 +1,4 @@
+#include <cassert>
 #include <Eigen/LU>
 #include <mathtoolbox/matrix-inversion.hpp>
 

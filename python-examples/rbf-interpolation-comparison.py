@@ -31,7 +31,6 @@ for i in range(NUM_SAMPLES):
 # Set up the plot design
 sns.set()
 sns.set_context()
-plt.rcParams['font.sans-serif'] = ["Linux Biolinum O", "Linux Biolinum"]
 
 # Prepare a figure object
 fig = plt.figure(figsize=FIG_SIZE, dpi=DPI)

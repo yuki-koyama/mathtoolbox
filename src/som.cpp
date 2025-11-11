@@ -1,3 +1,4 @@
+#include <cassert>
 #include <Eigen/SparseCore>
 #include <mathtoolbox/data-normalization.hpp>
 #include <mathtoolbox/som.hpp>

@@ -1,10 +1,10 @@
 #ifndef MATHTOOLBOX_STRONG_WOLFE_CONDITIONS_LINE_SEARCH_HPP
 #define MATHTOOLBOX_STRONG_WOLFE_CONDITIONS_LINE_SEARCH_HPP
 
-#include <Eigen/Core>
 #include <cassert>
 #include <functional>
 #include <iostream>
+#include <Eigen/Core>
 
 #define MATHTOOLBOX_VERBOSE_LINE_SEARCH_WARNINGS
 

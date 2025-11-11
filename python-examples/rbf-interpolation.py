@@ -43,7 +43,6 @@ interpolator.calc_weights(use_regularization, regularization_weight)
 # Set up the plot design
 sns.set()
 sns.set_context()
-plt.rcParams['font.sans-serif'] = ["Linux Biolinum O", "Linux Biolinum"]
 
 # Calculate sequences of interpolated values
 x_samples = np.arange(0.0, 1.0, 0.001)

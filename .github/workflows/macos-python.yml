@@ -25,7 +25,6 @@ jobs:
     - name: install-test-dependencies
       run: |
         pip install matplotlib pillow seaborn scipy
-        brew tap homebrew/cask-fonts && brew install font-linux-biolinum
     - name: test
       run: |
         python ./python-examples/bayesian-optimization.py

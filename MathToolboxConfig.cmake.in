@@ -1,0 +1,7 @@
+@PACKAGE_INIT@
+
+include("${MathToolbox_DIR}/MathToolboxTargets.cmake")
+
+include(CMakeFindDependencyMacro)
+find_dependency(Eigen3 REQUIRED)
+check_required_components(MathToolbox)

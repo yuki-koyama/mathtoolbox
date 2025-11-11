@@ -34,7 +34,6 @@ optimizer = pymathtoolbox.BayesianOptimizer(objective_func, lower_bound,
 # Set up the plot design
 sns.set()
 sns.set_context()
-plt.rcParams['font.sans-serif'] = ["Linux Biolinum O", "Linux Biolinum"]
 
 for i in range(NUM_ITERS):
     # Proceed the optimization step
@@ -61,7 +60,7 @@ for i in range(NUM_ITERS):
     # Prepare a figure object
     fig = plt.figure(figsize=FIG_SIZE, dpi=DPI, constrained_layout=True)
     grid_spec = fig.add_gridspec(3, 1)
-    fig.suptitle("Bayesian Optimization [#iterations = {:02}]".format(i + 1))
+    fig.suptitle("Bayesian Optimization [#iter = {:02}]".format(i + 1))
 
     # Begin to draw the top plot
     ax = fig.add_subplot(grid_spec[0:2, 0])
